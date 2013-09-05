@@ -7,7 +7,8 @@
 
 /*-----------引入檔案區--------------*/
 include "header.php";
-$xoopsOption['template_main'] = "page.html";
+$xoopsOption['template_main'] = "tadbook3_page.html";
+include_once XOOPS_ROOT_PATH."/header.php";
 /*-----------function區--------------*/
 
 //觀看某一頁
@@ -99,6 +100,11 @@ $_REQUEST['op']=(empty($_REQUEST['op']))?"":$_REQUEST['op'];
 $tbsn = (!isset($_REQUEST['tbsn']))? "":intval($_REQUEST['tbsn']);
 $tbdsn = (!isset($_REQUEST['tbdsn']))? "":intval($_REQUEST['tbdsn']);
 
+$xoopsTpl->assign( "toolbar" , toolbar_bootstrap($interface_menu)) ;
+$xoopsTpl->assign( "bootstrap" , get_bootstrap()) ;
+$xoopsTpl->assign( "jquery" , get_jquery(true)) ;
+$xoopsTpl->assign( "isAdmin" , $isAdmin) ;
+
 switch($_REQUEST['op']){
 
 	case "check_passwd":
@@ -112,13 +118,6 @@ switch($_REQUEST['op']){
 }
 
 /*-----------秀出結果區--------------*/
-include XOOPS_ROOT_PATH."/header.php";
-$xoopsTpl->assign( "css" , "<link rel='stylesheet' type='text/css' media='screen' href='".XOOPS_URL."/modules/tad_book3/module.css' />\n<link rel='stylesheet' type='text/css' media='screen' href='".XOOPS_URL."/modules/tad_book3/reset.css' />") ;
-$xoopsTpl->assign( "toolbar" , toolbar($interface_menu)) ;
-$xoopsTpl->assign( "content" , $main) ;
-$xoopsTpl->assign( "xoops_showrblock" , 0) ;
-include_once XOOPS_ROOT_PATH.'/include/comment_view.php';
-
 include_once XOOPS_ROOT_PATH.'/footer.php';
 
 ?>

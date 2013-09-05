@@ -85,7 +85,7 @@ function tad_book3_docs_form($tbdsn="",$tbsn=""){
 	<td class='col' colspan=4>$editor</td></tr>
   <tr><td class='bar' colspan='4'>
   <input type='hidden' name='op' value='{$op}'>
-  <input type='submit' value='"._MA_SAVE."'></td></tr>
+  <input type='submit' value='"._TAD_SAVE."'></td></tr>
   </table>
   </form>";
 

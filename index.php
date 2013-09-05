@@ -7,7 +7,9 @@
 
 /*-----------引入檔案區--------------*/
 include "header.php";
-$xoopsOption['template_main'] = "tb3_index_tpl.html";
+$xoopsOption['template_main'] = "tadbook3_index.html";
+include_once XOOPS_ROOT_PATH."/header.php";
+
 /*-----------function區--------------*/
 
 //列出所有tad_book3資料
@@ -59,7 +61,7 @@ function list_docs($tbsn=""){
 	$sql = "select * from ".$xoopsDB->prefix("tad_book3")." where tbsn='$tbsn'";
 	$result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'],3, mysql_error());
 
-	$function_title=($show_function)?"<th>"._BP_FUNCTION."</th>":"";
+	$function_title=($show_function)?"<th>"._TAD_FUNCTION."</th>":"";
 
 	list($tbsn,$tbcsn,$sort,$title,$description,$author,$read_group,$passwd,$enable,$pic_name,$counter,$create_date)=$xoopsDB->fetchRow($result);
 
@@ -179,6 +181,11 @@ $_REQUEST['op']=(empty($_REQUEST['op']))?"":$_REQUEST['op'];
 $tbsn = (!isset($_REQUEST['tbsn']))? "":intval($_REQUEST['tbsn']);
 $tbdsn = (!isset($_REQUEST['tbdsn']))? "":intval($_REQUEST['tbdsn']);
 
+$xoopsTpl->assign( "toolbar" , toolbar_bootstrap($interface_menu)) ;
+$xoopsTpl->assign( "bootstrap" , get_bootstrap()) ;
+$xoopsTpl->assign( "jquery" , get_jquery(true)) ;
+$xoopsTpl->assign( "isAdmin" , $isAdmin) ;
+
 switch($_REQUEST['op']){
 
 	case "check_passwd":
@@ -222,12 +229,6 @@ switch($_REQUEST['op']){
 }
 
 /*-----------秀出結果區--------------*/
-include XOOPS_ROOT_PATH."/header.php";
-$xoopsTpl->assign( "css" , "<link rel='stylesheet' type='text/css' media='screen' href='".XOOPS_URL."/modules/tad_book3/module.css' />") ;
-$xoopsTpl->assign( "toolbar" , toolbar($interface_menu)) ;
-$xoopsTpl->assign( "content" , $main) ;
-$xoopsTpl->assign( "xoops_showrblock" , 0) ;
-//$xoopsTpl->assign( "canvas_right" , 0) ;
 include_once XOOPS_ROOT_PATH.'/footer.php';
 
 ?>

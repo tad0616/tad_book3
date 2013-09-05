@@ -204,7 +204,7 @@ function list_docs($tbsn=""){
 	$sql = "select * from ".$xoopsDB->prefix("tad_book3")." where tbsn='$tbsn'";
 	$result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'],3, mysql_error());
 
-	$function_title=($show_function)?"<th>"._BP_FUNCTION."</th>":"";
+	$function_title=($show_function)?"<th>"._TAD_FUNCTION."</th>":"";
 
 	list($tbsn,$tbcsn,$sort,$title,$description,$author,$read_group,$passwd,$enable,$pic_name,$counter,$create_date)=$xoopsDB->fetchRow($result);
 

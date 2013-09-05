@@ -5,23 +5,8 @@
 // $Id: function.php,v 1.1 2008/05/14 01:22:08 tad Exp $
 // ------------------------------------------------------------------------- //
 
-define("_TO_ADMIN_PAGE","Admin");
 //分頁物件用的語系
 define("_MD_TADBOOK3_HOMEPAGE","All Books");
-define("_BP_BACK_PAGE","Previous");
-define("_BP_NEXT_PAGE","Next");
-define("_BP_FIRST_PAGE","First");
-define("_BP_LAST_PAGE","End");
-define("_BP_GO_BACK_PAGE","Previous %s Page(s)");
-define("_BP_GO_NEXT_PAGE","Next %s Page(s)");
-define("_BP_TOOLBAR","(Total %s) Page %s：");
-define("_BP_DEL_CHK","Delete this Data?");
-define("_BP_FUNCTION","Function");
-define("_BP_EDIT","Edit");
-define("_BP_DEL","Delete");
-define("_BP_ADD","Add");
-define("_MA_SAVE","Save");
-define("_TAD_NEED_TADTOOLS","Need modules/tadtools. You can download tadtools from <a href='http://www.tad0616.net/modules/tad_uploader/index.php?of_cat_sn=50' target='_blank'>Tad's web</a>.");
 
 //index.php
 define("_MA_INPUT_BOOK_FORM","Edit Book");

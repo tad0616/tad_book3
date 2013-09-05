@@ -4,29 +4,15 @@
 // 製作日期：2008-07-05
 // $Id: function.php,v 1.1 2008/05/14 01:22:08 tad Exp $
 // ------------------------------------------------------------------------- //
+include_once "../../tadtools/language/{$xoopsConfig['language']}/admin_common.php";
+define("_TAD_NEED_TADTOOLS"," 需要 tadtools 模組，可至<a href='http://www.tad0616.net/modules/tad_uploader/index.php?of_cat_sn=50' target='_blank'>Tad教材網</a>下載。");
 
-define("_BACK_MODULES_PAGE","回模組首頁");
-//分頁物件用的語系
-define("_BP_BACK_PAGE","上一頁");
-define("_BP_NEXT_PAGE","下一頁");
-define("_BP_FIRST_PAGE","第一頁");
-define("_BP_LAST_PAGE","最後頁");
-define("_BP_GO_BACK_PAGE","前 %s 頁");
-define("_BP_GO_NEXT_PAGE","後 %s 頁");
-define("_BP_TOOLBAR","共 %s 頁，目前在第 %s 頁：");
-define("_BP_DEL_CHK","確定要刪除此資料？");
-define("_BP_FUNCTION","功能");
-define("_BP_EDIT","編輯");
-define("_BP_DEL","刪除");
-define("_BP_ADD","新增資料");
-define("_TAD_NEED_TADTOOLS"," 需要 modules/tadtools，可至<a href='http://www.tad0616.net/modules/tad_uploader/index.php?of_cat_sn=50' target='_blank'>Tad教材網</a>下載。");
 
 define("_MA_INPUT_FORM","輸入表單");
 define("_MA_TADBOOK3_NEW_PCSN","在左邊分類下新增分類：");
 define("_MA_INPUT_CATE_FORM","編輯分類");
 define("_MA_INPUT_BOOK_FORM","編輯書籍");
 define("_MA_INPUT_DOC_FORM","編輯文章");
-define("_MA_SAVE","儲存");
 define("_MI_TADBOOK3_ADMENU1", "書籍列表");
 define("_MI_TADBOOK3_ADMENU2", "分類管理");
 define("_MI_TADBOOK3_ADMENU3", "新增文章");

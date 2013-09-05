@@ -8,7 +8,8 @@
 /*-----------引入檔案區--------------*/
 include "header.php";
 include "post_function.php";
-$xoopsOption['template_main'] = "tb3_index_tpl.html";
+$xoopsOption['template_main'] = "tadbook3_post.html";
+include_once XOOPS_ROOT_PATH."/header.php";
 /*-----------function區--------------*/
 
 
@@ -17,6 +18,11 @@ $xoopsOption['template_main'] = "tb3_index_tpl.html";
 $_REQUEST['op']=(empty($_REQUEST['op']))?"":$_REQUEST['op'];
 $tbsn = (!isset($_REQUEST['tbsn']))? "":intval($_REQUEST['tbsn']);
 $tbdsn = (!isset($_REQUEST['tbdsn']))? "":intval($_REQUEST['tbdsn']);
+
+$xoopsTpl->assign( "toolbar" , toolbar_bootstrap($interface_menu)) ;
+$xoopsTpl->assign( "bootstrap" , get_bootstrap()) ;
+$xoopsTpl->assign( "jquery" , get_jquery(true)) ;
+$xoopsTpl->assign( "isAdmin" , $isAdmin) ;
 
 switch($_REQUEST['op']){
 	//更新資料
@@ -49,10 +55,6 @@ switch($_REQUEST['op']){
 }
 
 /*-----------秀出結果區--------------*/
-include XOOPS_ROOT_PATH."/header.php";
-$xoopsTpl->assign( "css" , "<link rel='stylesheet' type='text/css' media='screen' href='".XOOPS_URL."/modules/tad_book3/module.css' />") ;
-$xoopsTpl->assign( "toolbar" , toolbar($interface_menu)) ;
-$xoopsTpl->assign( "content" , $main) ;
 include_once XOOPS_ROOT_PATH.'/footer.php';
 
 ?>

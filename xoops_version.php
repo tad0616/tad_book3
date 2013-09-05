@@ -4,26 +4,37 @@
 // 製作日期：2008-07-05
 // $Id: function.php,v 1.1 2008/05/14 01:22:08 tad Exp $
 // ------------------------------------------------------------------------- //
+$modversion = array();
 
-//---基本設定---//
-//模組名稱
+//---模組基本資訊---//
 $modversion['name'] = _MI_TADBOOK3_NAME;
-//模組版次
-$modversion['version']	= '2.1';
-//模組作者
-$modversion['author'] = _MI_TADBOOK3_AUTHOR;
-//模組說明
+$modversion['version'] = 3;
 $modversion['description'] = _MI_TADBOOK3_DESC;
-//模組授權者
-$modversion['credits']	= _MI_TADBOOK3_CREDITS;
-//模組版權
-$modversion['license']		= "GPL see LICENSE";
-//模組是否為官方發佈1，非官方2
-$modversion['official']		= 2;
-//模組圖示
-$modversion['image']		= "images/logo.png";
-//模組目錄名稱
-$modversion['dirname']		= "tad_book3";
+$modversion['author'] = _MI_TADBOOK3_AUTHOR;
+$modversion['credits'] = _MI_TADBOOK3_CREDITS;
+$modversion['help'] = 'page=help';
+$modversion['license'] = 'GNU GPL 2.0';
+$modversion['license_url'] = 'www.gnu.org/licenses/gpl-2.0.html/';
+$modversion['image'] = "images/logo_{$xoopsConfig['language']}.png";
+$modversion['dirname'] = basename(dirname(__FILE__));
+
+//---模組狀態資訊---//
+$modversion['release_date'] = '2013/09/05';
+$modversion['module_website_url'] = 'http://tad0616.net/';
+$modversion['module_website_name'] = _MI_TAD_WEB;
+$modversion['module_status'] = 'release';
+$modversion['author_website_url'] = 'http://tad0616.net/';
+$modversion['author_website_name'] = _MI_TAD_WEB;
+$modversion['min_php']=5.2;
+$modversion['min_xoops']='2.5';
+
+//---paypal資訊---//
+$modversion ['paypal'] = array();
+$modversion ['paypal']['business'] = 'tad0616@gmail.com';
+$modversion ['paypal']['item_name'] = 'Donation : ' . _MI_TAD_WEB;
+$modversion ['paypal']['amount'] = 0;
+$modversion ['paypal']['currency_code'] = 'USD';
+
 
 //---資料表架構---//
 $modversion['sqlfile']['mysql'] = "sql/mysql.sql";
@@ -51,11 +62,27 @@ $modversion['hasMain'] = 1;
 $modversion['system_menu'] = 1;
 
 //---樣板設定---//
+$modversion['templates'] = array();
+$i=1;
+$modversion['templates'][$i]['file'] = 'tadbook3_index.html';
+$modversion['templates'][$i]['description'] = 'tadbook3_index.html';
 
-$modversion['templates'][1]['file'] = 'tb3_index_tpl.html';
-$modversion['templates'][1]['description'] = _MI_TADBOOK3_TEMPLATE_DESC1;
-$modversion['templates'][2]['file'] = 'page.html';
-$modversion['templates'][2]['description'] = _MI_TADBOOK3_TEMPLATE_DESC2;
+$i++;
+$modversion['templates'][$i]['file'] = 'tadbook3_page.html';
+$modversion['templates'][$i]['description'] = 'tadbook3_page.html';
+
+$i++;
+$modversion['templates'][$i]['file'] = 'tadbook3_post.html';
+$modversion['templates'][$i]['description'] = 'tadbook3_post.html';
+
+$i++;
+$modversion['templates'][$i]['file'] = 'tadbook3_adm_main.html';
+$modversion['templates'][$i]['description'] = 'tadbook3_adm_main.html';
+
+$i++;
+$modversion['templates'][$i]['file'] = 'tadbook3_adm_cate.html';
+$modversion['templates'][$i]['description'] = 'tadbook3_adm_cate.html';
+
 
 //---評論設定---//
 $modversion['hasComments'] = 1;

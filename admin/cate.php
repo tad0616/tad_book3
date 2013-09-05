@@ -6,8 +6,9 @@
 // ------------------------------------------------------------------------- //
 
 /*-----------引入檔案區--------------*/
-include "../../../include/cp_header.php";
-include "../function.php";
+$xoopsOption['template_main'] = "tadbook3_adm_cate.html";
+include_once "header.php";
+include_once "../function.php";
 
 /*-----------function區--------------*/
 //tad_book3_cate編輯表單
@@ -60,7 +61,7 @@ function tad_book3_cate_form($tbcsn=""){
   <tr><td class='bar' colspan='4'>
 	<input type='hidden' name='tbcsn' value='{$tbcsn}'>
   <input type='hidden' name='op' value='{$op}'>
-  <input type='submit' value='"._MA_SAVE."'></td></tr>
+  <input type='submit' value='"._TAD_SAVE."'></td></tr>
   </table>
   </form>";
 
@@ -100,8 +101,8 @@ function list_tad_book3_cate(){
 		<td>{$sort}</td>
 		<td>{$title}</td>
 		<td>{$description}</td>
-		<td><a href='{$_SERVER['PHP_SELF']}?op=tad_book3_cate_form&tbcsn=$tbcsn'>"._BP_EDIT."</a> |
-		<a href=\"javascript:delete_tad_book3_cate_func($tbcsn);\">"._BP_DEL."</a></td></tr>";
+		<td><a href='{$_SERVER['PHP_SELF']}?op=tad_book3_cate_form&tbcsn=$tbcsn'>"._TAD_EDIT."</a> |
+		<a href=\"javascript:delete_tad_book3_cate_func($tbcsn);\">"._TAD_DEL."</a></td></tr>";
 	}
 	
 	if(empty($data)){
@@ -112,7 +113,7 @@ function list_tad_book3_cate(){
 	$main="
 	<script>
 	function delete_tad_book3_cate_func(tbcsn){
-		var sure = window.confirm('"._BP_DEL_CHK."');
+		var sure = window.confirm('"._TAD_DEL_CONFIRM."');
 		if (!sure)	return;
 		location.href=\"{$_SERVER['PHP_SELF']}?op=delete_tad_book3_cate&tbcsn=\" + tbcsn;
 	}
@@ -122,13 +123,13 @@ function list_tad_book3_cate(){
 	<th>"._MA_TADBOOK3_SORT."</th>
 	<th>"._MA_TADBOOK3_CATE_TITLE."</th>
 	<th>"._MA_TADBOOK3_CATE_DESCRIPTION."</th>
-	<th>"._BP_FUNCTION."</th>
+	<th>"._TAD_FUNCTION."</th>
 	</tr>
 	<tbody>
 	$data
 	<tr>
 	<td colspan=6 class='bar'>
-	<a href='{$_SERVER['PHP_SELF']}?op=tad_book3_cate_form'><img src='".XOOPS_URL."/modules/{$MDIR}/images/add.gif' alt='"._BP_ADD."' align='right'></a></td></tr>
+	<a href='{$_SERVER['PHP_SELF']}?op=tad_book3_cate_form'><img src='".XOOPS_URL."/modules/{$MDIR}/images/add.gif' alt='"._TAD_ADD."' align='right'></a></td></tr>
 	</tbody>
 	</table>";
 	
@@ -206,10 +207,5 @@ switch($op){
 }
 
 /*-----------秀出結果區--------------*/
-xoops_cp_header();
-echo "<link rel='stylesheet' type='text/css' media='screen' href='../module.css' />";
-admin_toolbar(1);
-echo $main;
-xoops_cp_footer();
-
+include_once 'footer.php';
 ?>

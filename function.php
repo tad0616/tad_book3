@@ -9,6 +9,7 @@ if(!file_exists(XOOPS_ROOT_PATH."/modules/tadtools/tad_function.php")){
  redirect_header("http://www.tad0616.net/modules/tad_uploader/index.php?of_cat_sn=50",3, _TAD_NEED_TADTOOLS);
 }
 include_once XOOPS_ROOT_PATH."/modules/tadtools/tad_function.php";
+
 define("_TADBOOK3_BOOK_DIR",XOOPS_ROOT_PATH."/uploads/tad_book3");
 define("_TADBOOK3_BOOK_URL",XOOPS_URL."/uploads/tad_book3");
 
@@ -123,7 +124,7 @@ function tad_book3_form($tbsn=""){
 	<tr>
 	<td class='bar' colspan='6'>
   <input type='hidden' name='op' value='{$op}'>
-  <input type='submit' value='"._MA_SAVE."'></td>
+  <input type='submit' value='"._TAD_SAVE."'></td>
 	</tr>
   </table>
   </form>";

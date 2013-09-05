@@ -15,10 +15,15 @@ if($xoopsModuleConfig['use_pda']=='1'){
 
 include_once "function.php";
 
-$interface_menu[_MD_TADBOOK3_HOMEPAGE]="index.php";
+//判斷是否對該模組有管理權限
+$isAdmin=false;
 if ($xoopsUser) {
-  $module_id = $xoopsModule->getVar('mid');
-  $isAdmin=$xoopsUser->isAdmin($module_id);
+    $module_id = $xoopsModule->getVar('mid');
+    $isAdmin=$xoopsUser->isAdmin($module_id);
+}
+
+$interface_menu[_TAD_TO_MOD]="index.php";
+if ($xoopsUser) {
 
 	//管理員可以新增書籍
 	if($isAdmin){
@@ -55,9 +60,11 @@ if ($xoopsUser) {
 	}
 }
 
+
 if($isAdmin){
-  $interface_menu[_TO_ADMIN_PAGE]="admin/index.php";
+  $interface_menu[_TAD_TO_ADMIN]="admin/main.php";
 }
+
 
 
 ?>
