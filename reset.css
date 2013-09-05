@@ -1,0 +1,36 @@
+.page_content dl,.page_content dt,.page_content dd,.page_content ul,.page_content ol,.page_content li,.page_content table th,.page_content table td {
+	margin: 0;
+	padding: 0;
+}
+
+.page_content dl,.page_content dt,.page_content dd,.page_content ul,.page_content ol,.page_content li{
+	line-height:180%;
+}
+
+.page_content table {
+	border-collapse: collapse;
+	border-spacing: 0;
+  border:1px solid rgb(176,176,176);
+}
+.page_content table td ,.page_content table th{
+  padding: 1px 2px;
+  border:1px solid rgb(176,176,176);
+}
+
+
+.page_content ul ,.page_content ul li ,.page_content  li ul li{
+	list-style: disc outside none;
+}
+.page_content ol ,.page_content  ol li  ,.page_content  li ol li {
+	list-style: decimal outside none;
+}
+.page_content li {
+	margin-left: 2em;
+	color:rgb(20,20,20);
+}
+.page_content li ul,.page_content  li ol {
+	margin-bottom: 0;
+}
+.page_content table caption,.page_content table  th {
+	text-align: left;
+}
