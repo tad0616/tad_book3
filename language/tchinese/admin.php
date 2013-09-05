@@ -1,8 +1,6 @@
 <?php
 //  ------------------------------------------------------------------------ //
 // 本模組由 tad 製作
-// 製作日期：2008-07-05
-// $Id: function.php,v 1.1 2008/05/14 01:22:08 tad Exp $
 // ------------------------------------------------------------------------- //
 include_once "../../tadtools/language/{$xoopsConfig['language']}/admin_common.php";
 define("_TAD_NEED_TADTOOLS"," 需要 tadtools 模組，可至<a href='http://www.tad0616.net/modules/tad_uploader/index.php?of_cat_sn=50' target='_blank'>Tad教材網</a>下載。");
