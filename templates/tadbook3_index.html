@@ -92,7 +92,7 @@
         <div class="text-right">
           <a href="main.php?op=tad_book3_form&tbsn=<{$tbsn}>" class="btn btn-mini btn-warning"><{$smarty.const._TAD_EDIT}></a>
           <a href="javascript:delete_tad_book3_func(<{$tbsn}>);" class="btn btn-mini btn-danger"><{$smarty.const._TAD_DEL}></a>
-          <a href="../post.php?tbsn=<{$tbsn}>&op=tad_book3_docs_form" class="btn btn-mini btn-primary"><{$smarty.const._MA_TADBOOK3_ADD_DOC}></a>
+          <a href="<{$xoops_url}>/modules/tad_book3/post.php?tbsn=<{$tbsn}>&op=tad_book3_docs_form" class="btn btn-mini btn-primary"><{$smarty.const._MA_TADBOOK3_ADD_DOC}></a>
         </div>
       <{/if}>
     </div>
@@ -105,7 +105,7 @@
           <span class="doc_sort_<{$doc.doc_sort_level}>">
             <{$doc.doc_sort_main}>          
           </span>
-          <a href="../page.php?tbdsn=<{$doc.tbdsn}>"><{$doc.title}></a>
+          <a href="<{$xoops_url}>/modules/tad_book3/page.php?tbdsn=<{$doc.tbdsn}>"><{$doc.title}></a>
         </div>
         <div class="span4 text-right" style="font-size:10px;color:gray;">
           <{$doc.last_modify_date}>
@@ -116,7 +116,7 @@
         <{if $my}>
           <div class="span2">
             <a href="javascript:delete_tad_book3_docs_func(<{$doc.tbdsn}>);" class="btn btn-mini btn-danger"><{$smarty.const._TAD_DEL}></a>
-            <a href="../post.php?op=tad_book3_docs_form&tbdsn=<{$doc.tbdsn}>" class="btn btn-mini btn-warning"><{$smarty.const._TAD_EDIT}></a>
+            <a href="<{$xoops_url}>/modules/tad_book3/post.php?op=tad_book3_docs_form&tbdsn=<{$doc.tbdsn}>" class="btn btn-mini btn-warning"><{$smarty.const._TAD_EDIT}></a>
           </div>
         <{/if}>
         

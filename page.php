@@ -11,7 +11,7 @@ include_once XOOPS_ROOT_PATH."/header.php";
 
 //觀看某一頁
 function view_page($tbdsn=""){
-	global $xoopsDB,$xoopsModuleConfig;
+	global $xoopsDB,$xoopsModuleConfig,$xoopsTpl;
 	
 	add_counter($tbdsn);
 	
@@ -48,10 +48,7 @@ function view_page($tbdsn=""){
 	$p=(empty($prev[1]))?"":"<a href='page.php?tbdsn={$prev[0]}' style='text-decoration: none;'><img src='images/arrow_left.png' alt='prev' title='Prev' border='0' align='absmiddle' hspace=4>{$prev[1]}</a>";
 	$n=(empty($next[1]))?"":"<a href='page.php?tbdsn={$next[0]}' style='text-decoration: none;'>{$next[1]}<img src='images/arrow_right.png' alt='next' title='next' border='0' align='absmiddle' hspace=4></a>";
 	
-	$bar="<tr><td style='width:33%;' background='images/relink_bg.gif'>{$p}</td>
-	<td background='images/relink_bg.gif' style='text-align:center;'><select onChange=\"window.location.href='page.php?tbdsn='+this.value\">$doc_select</select></td>
-	<td background='images/relink_bg.gif' style='width:33%;text-align:right;'>{$n}</td></tr>";
-	
+
 	$doc_sort=mk_category($category,$page,$paragraph,$sort);
 	
 	$facebook_comments=facebook_comments($xoopsModuleConfig['facebook_comments_width'],'tad_book3','page.php','tbdsn',$tbdsn);
@@ -65,25 +62,17 @@ function view_page($tbdsn=""){
   $syntaxhighlighter_code=$syntaxhighlighter->render();
 
 
-	$main="
-	$syntaxhighlighter_code
-
-	<table cellspacing='0' cellpadding='4' style='width:100%;'>
-	$bar
-	<tr><td colspan=3>
-	<div class='page'>
-	<div class='page_title'><a href='index.php?op=list_docs&tbsn=$tbsn'>{$book['title']}</a></div>
-	<div class='page_content'>
-	<h{$doc_sort['level']}>{$doc_sort['main']} $title</h{$doc_sort['level']}>
-	$content
-	</div>
-	</div>
-	</td></tr>
-	$bar
-	</table>
-  $facebook_comments";
-
-	return $main;
+	$xoopsTpl->assign('syntaxhighlighter_code',$syntaxhighlighter_code);
+	$xoopsTpl->assign('tbsn',$tbsn);
+	$xoopsTpl->assign('book_title',$book['title']);
+	$xoopsTpl->assign('doc_sort_main',$doc_sort['main']);
+	$xoopsTpl->assign('title',$title);
+	$xoopsTpl->assign('doc_sort_level',$doc_sort['level']);
+	$xoopsTpl->assign('content',$content);
+	$xoopsTpl->assign('p',$p);
+	$xoopsTpl->assign('n',$n);
+	$xoopsTpl->assign('doc_select',$doc_select);
+	$xoopsTpl->assign('facebook_comments',$facebook_comments);
 }
 
 //更新頁面計數器
@@ -111,7 +100,7 @@ switch($_REQUEST['op']){
 
 
 	default:
-	$main=view_page($tbdsn);
+	view_page($tbdsn);
 	break;
 }
 

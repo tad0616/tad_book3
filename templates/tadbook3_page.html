@@ -1,6 +1,37 @@
 <{$bootstrap}>
 <{$jquery}>
 <{$toolbar}>
+<link rel="stylesheet" type="text/css" media="screen" href="module.css" />
+
+
+<{$syntaxhighlighter_code}>
+
+<table cellspacing="0" cellpadding="4" style="width:100%;">
+  <tr>
+  <td style="width:33%;" background="images/relink_bg.gif"><{$p}></td>
+	<td background="images/relink_bg.gif" style="text-align:center;"><select onChange="window.location.href='page.php?tbdsn='+this.value"><{$doc_select}></select></td>
+	<td background="images/relink_bg.gif" style="width:33%;text-align:right;"><{$n}></td>
+  </tr>
+  
+  <tr>
+    <td colspan=3>
+      <div class="page">
+        <div class="page_title"><a href="index.php?op=list_docs&tbsn=<{$tbsn}>"><{$book_title}></a></div>
+        <div class="page_content">
+        <h<{$doc_sort_level}>><{$doc_sort_main}> <{$title}></h<{$doc_sort_level}>>
+        <{$content}>
+        </div>
+      </div>
+    </td>
+  </tr>
+  
+  <tr>
+  <td style="width:33%;" background="images/relink_bg.gif"><{$p}></td>
+	<td background="images/relink_bg.gif" style="text-align:center;"><select onChange="window.location.href='page.php?tbdsn='+this.value"><{$doc_select}></select></td>
+	<td background="images/relink_bg.gif" style="width:33%;text-align:right;"><{$n}></td>
+  </tr>
+</table>
+<{$facebook_comments}>
 
 
 <p style="clear: both">
