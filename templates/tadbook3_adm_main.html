@@ -1,3 +1,171 @@
 <link rel="stylesheet" type="text/css" media="screen" href="<{$xoops_url}>/modules/tadtools/bootstrap/css/bootstrap.css" />
 <link rel="stylesheet" type="text/css" media="screen" href="<{$xoops_url}>/modules/tadtools/bootstrap/css/bootstrap-responsive.css" />
 <link rel="stylesheet" type="text/css" media="screen" href="<{$xoops_url}>/modules/tadtools/css/xoops_adm.css" />
+<link rel="stylesheet" type="text/css" media="screen" href="../module.css" />
+
+<{if $now_op=="tad_book3_form"}>
+  <div class="row-fluid">
+    <h2><{$smarty.const._MA_INPUT_BOOK_FORM}></h2>
+    <form action="<{$action}>" method="post" id="myForm" enctype="multipart/form-data">
+    
+    <div class="controls controls-row">
+      <label class="span2 text-right"><{$smarty.const._MA_TADBOOK3_TBCSN_MENU}></label>
+      <select name="tbcsn" size=1 class="span3">
+        <{$cate_select}>
+      </select>
+      <input type="text" name="new_tbcsn" class="span2" placeholder="<{$smarty.const._MA_TADBOOK3_NEW_PCSN}>">
+      
+      
+      <label class="span1 text-right"><{$smarty.const._MA_TADBOOK3_ENABLE}></label>
+      <label class="radio inline">
+        <input type="radio" name="enable" id="enable1" value="1" <{if $enable=="1"}>checked<{/if}>><{$smarty.const._MI_TADBOOK3_ENABLE}>
+      </label>
+      <label class="radio inline">
+        <input type="radio" name="enable" id="enable0" value="0" <{if $enable=="0"}>checked<{/if}>><{$smarty.const._MI_TADBOOK3_UNABLE}>
+      </label>
+    </div>
+    
+    <div class="controls controls-row">
+      <label class="span2 text-right"><{$smarty.const._MA_TADBOOK3_TITLE}></label>
+      <input type="text" name="title" value="<{$title}>" class="span5" placeholder="<{$smarty.const._MA_TADBOOK3_TITLE}>">
+      
+      <label class="span1 text-right"><{$smarty.const._MA_TADBOOK3_PIC_NAME}></label>
+      <input type="file" name="pic_name" class="span3" placeholder="<{$smarty.const._MA_TADBOOK3_PIC_NAME}>">
+    </div>
+    
+    <div class="controls controls-row">
+      <{$editor}>
+    </div>
+    
+    <div class="controls controls-row">
+      <div class="span4">
+        <label><{$smarty.const._MA_TADBOOK3_AUTHOR}></label>
+        <{$user_menu}>
+      </div>
+      <div class="span4">
+        <label><{$smarty.const._MA_TADBOOK3_READ_GROUP}></label>
+        <{$group_menu}>
+      </div>
+      <div class="span4">
+
+        <div>
+          <label class="span3"><{$smarty.const._MA_TADBOOK3_PASSWD}></label>
+          <input type="text" name="passwd" class="span8" value="<{$passwd}>">
+        </div>
+        
+        <div class="text-center">
+          <input type="hidden" name="sort"  value="<{$sort}>">
+          <input type="hidden" name="tbsn" value="<{$tbsn}>">
+          <input type="hidden" name="op" value="<{$op}>">
+          <button type="submit" class="btn btn-primary"><{$smarty.const._TAD_SAVE}></button>
+        </div>
+      </div>
+    </div>
+
+
+
+    </form>
+  </div>
+<{elseif $now_op=="list_docs"}>
+  <script>
+    function delete_tad_book3_docs_func(tbdsn){
+      var sure = window.confirm('<{$smarty.const._TAD_DEL_CONFIRM}>');
+      if (!sure)	return;
+      location.href="main.php?op=delete_tad_book3_docs&tbdsn=" + tbdsn;
+    }
+  </script>
+  
+
+  
+  <div class="row-fluid">
+    <div class="span2 text-center"><{$book}></div>
+    <div class="span7">
+      <h3>
+        <span class="label label-success"><{$cate}></span>
+        <a href="main.php?op=list_docs&tbsn=<{$tbsn}>"><{$title}></a>
+      </h3>
+      <div style="font-size:12px;"><{$smarty.const._MA_TADBOOK3_CREATE_DATE}> <{$create_date}></div>
+      <div class="well"><{$description}></div>
+      <div class="text-right">
+        <a href="main.php?op=tad_book3_form&tbsn=<{$tbsn}>" class="btn btn-mini btn-warning"><{$smarty.const._TAD_EDIT}></a>
+        <a href="javascript:delete_tad_book3_func(<{$tbsn}>);" class="btn btn-mini btn-danger"><{$smarty.const._TAD_DEL}></a>
+        <a href="../post.php?tbsn=<{$tbsn}>&op=tad_book3_docs_form" class="btn btn-mini btn-primary"><{$smarty.const._MA_TADBOOK3_ADD_DOC}></a>
+      </div>
+    </div>
+    <div class="span3">
+      <table class="table table-striped table-bordered table-condensed" style="font-size:12px;">
+      <tr><th><{$smarty.const._MA_TADBOOK3_SORT}></th><td><{$sort}></td></tr>
+      <tr><th><{$smarty.const._MA_TADBOOK3_READ_GROUP}></th><td><{$read_group}></td></tr>
+      <tr><th><{$smarty.const._MA_TADBOOK3_AUTHOR}></th><td><{$author}></td></tr>
+      <tr><th><{$smarty.const._MA_TADBOOK3_PASSWD}></th><td><{$passwd}></td></tr>
+      <tr><th><{$smarty.const._MA_TADBOOK3_ENABLE}></th><td><{$enable_txt}></td></tr>
+      <tr><th><{$smarty.const._MA_TADBOOK3_COUNTER}></th><td><{$counter}></td></tr>
+      </table>
+    </div>
+  </div>
+  
+  <div class="well">  
+    <{foreach from=$docs item=doc}>
+      <div class="row-fluid">
+        <div class="span6">
+          <span class="doc_sort_<{$doc.doc_sort_level}>">
+            <{$doc.doc_sort_main}>          
+          </span>
+          <a href="../page.php?tbdsn=<{$doc.tbdsn}>"><{$doc.title}></a>
+        </div>
+        <div class="span2">
+        (<{$doc.last_modify_date}>)
+        </div>
+        
+        <div class="span2">
+          <{$smarty.const._MA_TADBOOK3_COUNT}>
+          <{$doc.count}>
+        </div>
+
+        <div class="span2">
+          <a href="javascript:delete_tad_book3_docs_func(<{$doc.tbdsn}>);" class="btn btn-mini btn-danger"><{$smarty.const._TAD_DEL}></a>
+          <a href="../post.php?op=tad_book3_docs_form&tbdsn=<{$doc.tbdsn}>" class="btn btn-mini btn-warning"><{$smarty.const._TAD_EDIT}></a>
+        </div>
+      </div>  
+    <{/foreach}>
+  </div>
+    
+<{else}>
+
+  <{$jquery}>
+
+  <div id="save_msg"></div>
+
+  <script language="JavaScript">
+  $().ready(function(){
+    $("#books_sort").sortable({ 
+      opacity: 0.6, 
+      cursor: "move", 
+      update: function() {
+        var order = $(this).sortable("serialize") + "&action=updateRecordsListings";
+        $.post("save_book_sort.php", order, function(theResponse){
+          $("#save_msg").html(theResponse);
+        });
+      }
+    });
+  });
+  </script>
+
+  <script>
+  function delete_tad_book3_func(tbsn){
+    var sure = window.confirm("<{$smarty.const._TAD_DEL_CONFIRM}>");
+    if (!sure)	return;
+    location.href="main.php?op=delete_tad_book3&tbsn=" + tbsn;
+  }
+  </script>
+
+  <{foreach from=$cate item=cate}>
+    <h1 style="color:#A0A0A0;margin-top:20px;font-size:24px;"><{$cate.cate_title}></h1>
+    <div style='margin-left:20px;' id='books_sort'>
+      
+    <{foreach from=$cate.books item=book}>
+      <{$book.book}>
+    <{/foreach}>
+    </div><div style='clear:both;'></div>
+  <{/foreach}>
+<{/if}>

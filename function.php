@@ -11,10 +11,156 @@ include_once XOOPS_ROOT_PATH."/modules/tadtools/tad_function.php";
 define("_TADBOOK3_BOOK_DIR",XOOPS_ROOT_PATH."/uploads/tad_book3");
 define("_TADBOOK3_BOOK_URL",XOOPS_URL."/uploads/tad_book3");
 
+//秀出所有分類及書籍
+function list_all_cate_book(){
+	global $xoopsDB,$xoopsTpl,$xoopsUser;
+
+  if($xoopsUser){
+    $uid=$xoopsUser->uid();
+  }else{
+    $uid=0;
+  }  
+  
+  
+	$sql = "select a.`tbsn`, a.`tbcsn`, a.`sort`, a.`title`, a.`description`, a.`author`, a.`read_group`, a.`passwd`, a.`enable`, a.`pic_name`, a.`counter`, a.`create_date`
+,b.`of_tbsn`, b.`sort` as cate_sort, b.`title` as cate_title , b.`description` from ".$xoopsDB->prefix("tad_book3")." as a left join ".$xoopsDB->prefix("tad_book3_cate")." as b on a.tbcsn=b.tbcsn order by cate_sort,a.sort";
+
+
+	$result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'],3, mysql_error());
+	while($data=$xoopsDB->fetchArray($result)){
+	  foreach($data as $k=>$v){
+			$$k=$v;
+		}
+    $authors=explode(',',$author);
+    if(!in_array($uid,$authors) and $enable!='1')continue;
+
+		if(!in_array($uid,$authors) and !chk_power($read_group))continue;
+
+		$pic=(empty($pic_name))?XOOPS_URL."/modules/tad_book3/images/blank.png":_TADBOOK3_BOOK_URL."/{$pic_name}";
+    
+		$description=strip_tags($description);
+    
+		
+
+    $tool=in_array($uid,$authors)?"
+    <div style='width:auto;font-size:12px;font-weight:normal;'>
+		<a href='{$_SERVER['PHP_SELF']}?op=tad_book3_form&tbsn=$tbsn' class='btn btn-mini btn-warning'>"._TAD_EDIT."</a>
+		<a href=\"javascript:delete_tad_book3_func($tbsn);\" class='btn btn-mini btn-danger'>"._TAD_DEL."</a>
+		<a href='../post.php?tbsn=$tbsn&op=tad_book3_docs_form' class='btn btn-mini btn-primary'>"._MA_TADBOOK3_ADD_DOC."</a>
+		</div>":"";
+
+		if(empty($cate_title))$cate_title=_MI_TADBOOK3_NOT_CLASSIFIED;
+		
+		$data_arr[$cate_title][]=book_shadow($tbsn,$pic,$title,$description,"{$_SERVER['PHP_SELF']}?op=list_docs&tbsn=$tbsn",$tool);
+
+	}
+
+  $i=0;
+  $cate="";
+  foreach($data_arr as $cate_title=>$book_arr){
+    $cate[$i]['cate_title']=$cate_title;
+
+    $j=0;
+    $books="";
+	  foreach($book_arr as $book){
+			$books[$j]['book']=$book;
+      $j++;
+		}
+    $cate[$i]['books']=$books;
+    $i++;
+	}
+  
+	$xoopsTpl->assign('jquery',get_jquery(true));
+	$xoopsTpl->assign('cate',$cate);
+}
+
+
+//列出某書資料
+function list_docs($tbsn=""){
+	global $xoopsDB,$xoopsUser,$xoopsModule,$xoopsTpl;
+  
+  if($xoopsUser){
+    $uid=$xoopsUser->uid();
+  }else{
+    $uid=0;
+  }  
+  
+  $xoopsTpl->assign('now_op','list_docs');
+  
+	$all_cate=all_cate();
+
+	$sql = "select * from ".$xoopsDB->prefix("tad_book3")." where tbsn='$tbsn'";
+	$result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'],3, mysql_error());
+
+
+	list($tbsn,$tbcsn,$sort,$title,$description,$author,$read_group,$passwd,$enable,$pic_name,$counter,$create_date)=$xoopsDB->fetchRow($result);
+	if(!chk_power($read_group)){
+		header("location:index.php");
+		exit;
+	}
+  $enable_txt=($enable=='1')?_MI_TADBOOK3_ENABLE:_MI_TADBOOK3_UNABLE;
+
+  $read_group=txt_to_group_name($read_group,_MA_TADBOOK3_ALL_OPEN);
+  
+  //共同編輯者
+  $author_arr=explode(",",$author);
+  $my=in_array($uid,$author_arr);
+  $xoopsTpl->assign('my',$my);
+  foreach($author_arr as $uid){
+    $uidname=XoopsUser::getUnameFromId($uid,1);
+    $uidname=(empty($uidname))?XoopsUser::getUnameFromId($uid,0):$uidname;
+    $uid_name[]=$uidname;
+  }
+  $author=implode(" , ",$uid_name);
+  $uid_name="";
+  
+  $create_date=date("Y-m-d H:i:s",xoops_getUserTimestamp(strtotime($create_date)));
+  
+  $cate=(empty($all_cate[$tbcsn]))?_MI_TADBOOK3_NOT_CLASSIFIED:$all_cate[$tbcsn];
+  
+  $pic=(empty($pic_name))?XOOPS_URL."/modules/tad_book3/images/blank.png":_TADBOOK3_BOOK_URL."/{$pic_name}";
+  
+  $book=book_shadow($tbsn,$pic,"",$description,"{$_SERVER['PHP_SELF']}?op=list_docs&tbsn=$tbsn");
+
+
+  $xoopsTpl->assign('book',$book);
+  $xoopsTpl->assign('tbsn',$tbsn);
+  $xoopsTpl->assign('cate',$cate);
+  $xoopsTpl->assign('title',$title);
+  $xoopsTpl->assign('description',$description);
+  $xoopsTpl->assign('sort',$sort);
+  $xoopsTpl->assign('read_group',$read_group);
+  $xoopsTpl->assign('author',$author);
+  $xoopsTpl->assign('passwd',$passwd);
+  $xoopsTpl->assign('enable_txt',$enable_txt);
+  $xoopsTpl->assign('counter',$counter);
+  $xoopsTpl->assign('create_date',$create_date);
+  
+  $i=0;
+  $docs="";
+	$sql = "select * from ".$xoopsDB->prefix("tad_book3_docs")." where tbsn='{$tbsn}' order by category,page,paragraph,sort";
+	$result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'],3, mysql_error());
+	while(list($tbdsn,$tbsn,$category,$page,$paragraph,$sort,$title,$content,$add_date,$last_modify_date,$uid,$count,$enable)=$xoopsDB->fetchRow($result)){
+	  $doc_sort=mk_category($category,$page,$paragraph,$sort);
+	  $last_modify_date=date("Y-m-d H:i:s",xoops_getUserTimestamp($last_modify_date));
+    
+    $docs[$i]['tbdsn']=$tbdsn;
+    $docs[$i]['last_modify_date']=$last_modify_date;
+    $docs[$i]['doc_sort_level']=$doc_sort['level'];
+    $docs[$i]['doc_sort_main']=$doc_sort['main'];
+    $docs[$i]['title']=$title;
+    $docs[$i]['count']=$count;
+    $i++;
+	}
+  
+  $xoopsTpl->assign('docs',$docs);
+}
+
+
 
 //tad_book3編輯表單
 function tad_book3_form($tbsn=""){
-	global $xoopsDB,$xoopsUser;
+	global $xoopsDB,$xoopsUser,$xoopsTpl;
 	include_once(XOOPS_ROOT_PATH."/class/xoopsformloader.php");
 
 	//抓取預設值
@@ -80,56 +226,19 @@ function tad_book3_form($tbsn=""){
 	$group_menu=$SelectGroup->render();
 
 	$op=(empty($tbsn))?"insert_tad_book3":"update_tad_book3";
-	//$op="replace_tad_book3";
-	$main="
 
-  <form action='{$_SERVER['PHP_SELF']}' method='post' id='myForm' enctype='multipart/form-data'>
-  <table class='form_tbl'>
-
-	<input type='hidden' name='tbsn' value='{$tbsn}'>
-	<tr><td class='title'>"._MA_TADBOOK3_TBCSN_MENU."</td>
-	<td class='col' colspan='6'><select name='tbcsn' size=1>
-		$cate_select
-	</select>
-  "._MA_TADBOOK3_NEW_PCSN."
-  <input type='text' name='new_tbcsn' style='width:150px;'>
-  "._MA_TADBOOK3_SORT."
-  <input type='text' name='sort' size='3' value='{$sort}'></td>
-	</tr>
-	<tr>
-	<td class='title'>"._MA_TADBOOK3_TITLE."</td>
-	<td class='col'><input type='text' name='title' style='width:200px;' value='{$title}'></td>
-	<td class='title'>"._MA_TADBOOK3_PIC_NAME."</td>
-	<td class='col' colspan='3'><input type='file' name='pic_name' style='width:150px;'></td>
-	</tr>
-
-	<tr>
-	<td class='col' colspan=6>$editor</td></tr>
-
-	<tr><td class='title' rowspan=2>"._MA_TADBOOK3_AUTHOR."</td>
-	<td class='col' rowspan=2>$user_menu</td>
-	<td class='title' rowspan=2>"._MA_TADBOOK3_READ_GROUP."</td>
-	<td class='col' rowspan=2>$group_menu</td>
-	<td class='title'>"._MA_TADBOOK3_ENABLE."</td>
-	<td class='col'>
-	<input type='radio' name='enable' value='1' ".chk($enable,'1','1').">"._MI_TADBOOK3_ENABLE."
-	<input type='radio' name='enable' value='0' ".chk($enable,'0').">"._MI_TADBOOK3_UNABLE."</td>
-	</tr>
-	<tr>
-	<td class='title'>"._MA_TADBOOK3_PASSWD."</td>
-	<td class='col'><input type='text' name='passwd' size='10' value='{$passwd}'></td>
-	</tr>
-	<tr>
-	<td class='bar' colspan='6'>
-  <input type='hidden' name='op' value='{$op}'>
-  <input type='submit' value='"._TAD_SAVE."'></td>
-	</tr>
-  </table>
-  </form>";
-
-	$main=div_3d(_MA_INPUT_BOOK_FORM,$main);
-
-	return $main;
+	$xoopsTpl->assign('action',$_SERVER['PHP_SELF']);
+	$xoopsTpl->assign('tbsn',$tbsn);
+	$xoopsTpl->assign('cate_select',$cate_select);
+	$xoopsTpl->assign('sort',$sort);
+	$xoopsTpl->assign('title',$title);
+	$xoopsTpl->assign('editor',$editor);
+	$xoopsTpl->assign('user_menu',$user_menu);
+	$xoopsTpl->assign('group_menu',$group_menu);
+	$xoopsTpl->assign('enable',$enable);
+	$xoopsTpl->assign('passwd',$passwd);
+	$xoopsTpl->assign('op',$op);
+	$xoopsTpl->assign('now_op','tad_book3_form');
 }
 
 
@@ -281,21 +390,30 @@ function book_shadow($tbsn="",$pic="",$title="",$description="",$link="",$tool="
   $title=$myts->htmlSpecialChars($title);
   
   
-  $book_title=(empty($title))?"":"<div style='text-align:center;'>
-			{$url}{$title}{$url2}
-		</div>";
+  $book_title=(empty($title))?"":"<div style='text-align:center;'>{$url}{$title}{$url2}</div>";
+  
+  $data="
+	<div style='width:145px;height:250px;float:left;padding:0px;border:0px;margin-right:10px;' id='tr_{$tbsn}'>
+    
+    <a href='{$link}'><img src='{$pic}' alt='{$description}' title='{$description}' class='img-polaroid'></a>
+    {$tool}
+    {$book_title}
+	</div>	
+	";
 		
-
+/*
 	$data="
 	<div style='width:145px;height:250px;float:left;padding:0px;border:0px;margin-right:10px;' id='tr_{$tbsn}'>
 	$tool
-	<div id='tb3_shadow'><div>
-  <a href='$link'><img src='{$pic}'  alt='$description' title='$description' /></a>
-  </div></div>
-	$book_title
-	</div>
-	
+	<div id='tb3_shadow'>
+    <div>
+      <a href='{$link}'><img src='{$pic}' alt='{$description}' title='{$description}'></a>
+    </div>
+  </div>
+	{$book_title}
+	</div>	
 	";
+  */
 	return $data;
 }
 
