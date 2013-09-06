@@ -1,36 +1,49 @@
 <{$bootstrap}>
 <{$jquery}>
 <{$toolbar}>
+<{$syntaxhighlighter_code}>
 
 <h2><{$smarty.const._MA_INPUT_DOC_FORM}></h2>
 
-<{$syntaxhighlighter_code}>
 <form action="<{$action}>" method="post" id="myForm" enctype="multipart/form-data">
-<table class="form_tbl" style="width:100%">
 
-<tr><td class="title"><{$smarty.const._MA_TADBOOK3_TITLE}></td>
-<td class="col"><select name="tbsn" class="span12"><{$book_select}></select></td>
-<td class="title"><{$smarty.const._MA_TADBOOK3_ENABLE}></td>
-<td class="col">
-<input type="radio" name="enable" value="1" <{if $enable=="1"}>checked<{/if}>><{$smarty.const._MI_TADBOOK3_ENABLE}>
-<input type="radio" name="enable" value="0" <{if $enable=="0"}>checked<{/if}>><{$smarty.const._MI_TADBOOK3_UNABLE}></td>
-</tr>
-<tr>
-<td class="title"><{$smarty.const._MA_TADBOOK3_DOC_TITLE}></td>
-<td class="col"><input type="text" name="title" size="40" value="<{$title}>" class="span12"></td>
-<td class="title"><{$smarty.const._MA_TADBOOK3_CATEGORY}></td>
-<td class="col">
-<select name="category" size=1 class="span2"><{$category_menu_category}></select>-
-<select name="page" size=1 class="span2"><{$category_menu_page}></select>-
-<select name="paragraph" size=1 class="span2"><{$category_menu_paragraph}></select>-
-<select name="sort" size=1 class="span2"><{$category_menu_sort}></select></td>
-</tr>
-<tr>
-<td class="col" colspan=4><{$editor}></td></tr>
-<tr><td class="bar" colspan="4">
+  <div class="controls controls-row">
+    <label class="span1 text-right"><{$smarty.const._MA_TADBOOK3_TITLE}></label>
+    <select name="tbsn" class="span6"><{$book_select}></select>
+          
+    <label class="span1 text-right"><{$smarty.const._MA_TADBOOK3_ENABLE}></label>
+    <label class="radio inline">
+      <input type="radio" name="enable" id="enable1" value="1" <{if $enable=="1"}>checked<{/if}>><{$smarty.const._MI_TADBOOK3_ENABLE}>
+    </label>
+    <label class="radio inline">
+      <input type="radio" name="enable" id="enable0" value="0" <{if $enable=="0"}>checked<{/if}>><{$smarty.const._MI_TADBOOK3_UNABLE}>
+    </label>
+      
+      
+  </div>
 
-<input type="hidden" name="tbdsn" value="<{$tbdsn}>">
-<input type="hidden" name="op" value="<{$op}>">
-<input type="submit" value="<{$smarty.const._TAD_SAVE}>"></td></tr>
-</table>
+
+  <div class="controls controls-row">
+    <label class="span1 text-right"><{$smarty.const._MA_TADBOOK3_DOC_TITLE}></label>
+    <input type="text" name="title" value="<{$title}>" class="span6" placeholder="<{$smarty.const._MA_TADBOOK3_DOC_TITLE}>">
+    <label class="span1 text-right"><{$smarty.const._MA_TADBOOK3_CATEGORY}></label>
+
+    <select name="category" size=1 class="span1"><{$category_menu_category}></select>
+    <select name="page" size=1 class="span1"><{$category_menu_page}></select>
+    <select name="paragraph" size=1 class="span1"><{$category_menu_paragraph}></select>
+    <select name="sort" size=1 class="span1"><{$category_menu_sort}></select>
+  </div>
+  
+  
+  <div class="controls controls-row">
+    <{$editor}>
+  </div>
+
+  <div class="text-center">
+    <input type="hidden" name="tbdsn" value="<{$tbdsn}>">
+    <input type="hidden" name="op" value="<{$op}>">
+    <button type="submit" class="btn btn-primary"><{$smarty.const._TAD_SAVE}></button>
+  </div>
+
+
 </form>
