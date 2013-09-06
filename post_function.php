@@ -5,7 +5,7 @@
 
 //tad_book3_docs½s¿èªí³æ
 function tad_book3_docs_form($tbdsn="",$tbsn=""){
-	global $xoopsDB,$xoopsUser,$xoopsModule;
+	global $xoopsDB,$xoopsUser,$xoopsModule,$xoopsTpl;
 	include_once(XOOPS_ROOT_PATH."/class/xoopsformloader.php");
 	
 	if ($xoopsUser) {
@@ -57,39 +57,20 @@ function tad_book3_docs_form($tbdsn="",$tbsn=""){
 	$op=(empty($tbdsn))?"insert_tad_book3_docs":"update_tad_book3_docs";
 	//$op="replace_tad_book3_docs";
 	$main="
-	$syntaxhighlighter_code
-  <form action='{$_SERVER['PHP_SELF']}' method='post' id='myForm' enctype='multipart/form-data'>
-  <table class='form_tbl' style='width:100%'>
+	$";
 
-	<input type='hidden' name='tbdsn' value='{$tbdsn}'>
-	<tr><td class='title'>"._MA_TADBOOK3_TITLE."</td>
-	<td class='col'><select name='tbsn' class='span12'>".book_select($tbsn)."</select></td>
-<td class='title'>"._MA_TADBOOK3_ENABLE."</td>
-	<td class='col'>
-	<input type='radio' name='enable' value='1' ".chk($enable,'1','1').">"._MI_TADBOOK3_ENABLE."
-	<input type='radio' name='enable' value='0' ".chk($enable,'0').">"._MI_TADBOOK3_UNABLE."</td>
-	</tr>
-	<tr>
-	<td class='title'>"._MA_TADBOOK3_DOC_TITLE."</td>
-	<td class='col'><input type='text' name='title' size='40' value='{$title}' class='span12'></td>
-	<td class='title'>"._MA_TADBOOK3_CATEGORY."</td>
-	<td class='col'>
-	<select name='category' size=1 class='span2'>".category_menu($category)."</select>-
-	<select name='page' size=1 class='span2'>".category_menu($page)."</select>-
-	<select name='paragraph' size=1 class='span2'>".category_menu($paragraph)."</select>-
-	<select name='sort' size=1 class='span2'>".category_menu($sort)."</select></td>
-	</tr>
-	<tr>
-	<td class='col' colspan=4>$editor</td></tr>
-  <tr><td class='bar' colspan='4'>
-  <input type='hidden' name='op' value='{$op}'>
-  <input type='submit' value='"._TAD_SAVE."'></td></tr>
-  </table>
-  </form>";
-
-	$main=div_3d(_MA_INPUT_DOC_FORM,$main,"raised","width:100%");
-
-	return $main;
+	$xoopsTpl->assign('action',$_SERVER['PHP_SELF']);
+	$xoopsTpl->assign('syntaxhighlighter_code',$syntaxhighlighter_code);
+	$xoopsTpl->assign('tbdsn',$tbdsn);
+	$xoopsTpl->assign('book_select',book_select($tbsn));
+	$xoopsTpl->assign('enable',$enable);
+	$xoopsTpl->assign('title',$title);
+	$xoopsTpl->assign('category_menu_category',category_menu($category));
+	$xoopsTpl->assign('category_menu_page',category_menu($page));
+	$xoopsTpl->assign('category_menu_paragraph',category_menu($paragraph));
+	$xoopsTpl->assign('category_menu_sort',category_menu($sort));
+	$xoopsTpl->assign('editor',$editor);
+	$xoopsTpl->assign('op',$op);
 }
 
 

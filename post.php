@@ -37,7 +37,7 @@ switch($_REQUEST['op']){
 
 	//輸入表格
 	case "tad_book3_docs_form";
-	$main=tad_book3_docs_form($tbdsn,$tbsn);
+	tad_book3_docs_form($tbdsn,$tbsn);
 	break;
 
 	//刪除資料
@@ -48,7 +48,7 @@ switch($_REQUEST['op']){
 
 	//預設動作
 	default:
-	$main=tad_book3_docs_form($tbdsn,$tbsn);
+	tad_book3_docs_form($tbdsn,$tbsn);
 	break;
 }
 
