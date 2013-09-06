@@ -8,7 +8,7 @@
 <form action="<{$action}>" method="post" id="myForm" enctype="multipart/form-data">
 <table class="form_tbl" style="width:100%">
 
-<tr><td class="title"><{$smarty.const._MA_TADBOOK3_TITLE}>td>
+<tr><td class="title"><{$smarty.const._MA_TADBOOK3_TITLE}></td>
 <td class="col"><select name="tbsn" class="span12"><{$book_select}></select></td>
 <td class="title"><{$smarty.const._MA_TADBOOK3_ENABLE}></td>
 <td class="col">
@@ -26,7 +26,7 @@
 <select name="sort" size=1 class="span2"><{$category_menu_sort}></select></td>
 </tr>
 <tr>
-<td class="col" colspan=4>$editor</td></tr>
+<td class="col" colspan=4><{$editor}></td></tr>
 <tr><td class="bar" colspan="4">
 
 <input type="hidden" name="tbdsn" value="<{$tbdsn}>">
