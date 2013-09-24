@@ -196,7 +196,7 @@ function get_pre_next($tbsn="",$now_sn=""){
 
 
 //列出所有tad_book3資料
-function list_docs($tbsn=""){
+function list_docs_m($tbsn=""){
 	global $xoopsDB,$xoopsModule;
 	add_book_counter($tbsn);
 
@@ -430,7 +430,7 @@ switch($_REQUEST['op']){
 	if(!empty($tbdsn)){
 		$main=view_page($tbdsn);
 	}elseif(!empty($tbsn)){
-		$main=list_docs($tbsn);
+		$main=list_docs_m($tbsn);
 	}else{
 		$main=show_allbook();
 	}
