@@ -8,9 +8,6 @@ define("_MA_TADBOOK3_NEW_PCSN","在左邊分類下新增分類：");
 define("_MA_INPUT_CATE_FORM","編輯分類");
 define("_MA_INPUT_BOOK_FORM","編輯書籍");
 define("_MA_INPUT_DOC_FORM","編輯文章");
-define("_MI_TADBOOK3_ADMENU1", "書籍列表");
-define("_MI_TADBOOK3_ADMENU2", "分類管理");
-define("_MI_TADBOOK3_ADMENU3", "新增文章");
 
 //index.php
 define("_MA_TADBOOK3_TBSN","書籍編號");
@@ -29,8 +26,8 @@ define("_MA_TADBOOK3_BOOK_INFO","其他資訊");
 define("_MA_TADBOOK3_ALL_OPEN","全部開放");
 define("_MA_TADBOOK3_ADD_DOC","新增文章");
 define("_MA_TADBOOK3_BOOK_CONTENT","「%s」目錄");
-define("_MI_TADBOOK3_ENABLE", "顯示");
-define("_MI_TADBOOK3_UNABLE", "關閉");
+define("_MD_TADBOOK3_ENABLE", "顯示");
+define("_MD_TADBOOK3_UNABLE", "關閉");
 
 //cate.php
 define("_MA_TADBOOK3_TBCSN","分類編號");

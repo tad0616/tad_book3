@@ -32,7 +32,7 @@ function show_allbook(){
 
 		if(empty($cate_title))$cate_title=_MI_TADBOOK3_NOT_CLASSIFIED;
 
-		
+
 		$data_arr[$cate_title][]="
 					<li class='gallery-item'>
 						<a href='{$_SERVER['PHP_SELF']}?tbsn={$tbsn}'><img src='$pic'/>
@@ -57,7 +57,7 @@ function show_allbook(){
 			float: left;
 			width:100%;
 		}
-		.gallery-entries{ 
+		.gallery-entries{
 			list-style:none;
 			padding:0;
 			/*float: left;*/
@@ -188,7 +188,7 @@ function get_pre_next($tbsn="",$now_sn=""){
   $main['back']['title']=$pre_title;
   $main['next']['tbdsn']=$next;
   $main['next']['title']=$next_title;
-  
+
   return $main;
 }
 
@@ -213,7 +213,7 @@ function list_docs_m($tbsn=""){
 		exit;
 	}
 
-	$enable_txt=($enable=='1')?_MI_TADBOOK3_ENABLE:_MI_TADBOOK3_UNABLE;
+	$enable_txt=($enable=='1')?_MD_TADBOOK3_ENABLE:_MD_TADBOOK3_UNABLE;
 	$pic=(empty($pic_name))?XOOPS_URL."/modules/tad_book3/images/blank.png":_TADBOOK3_BOOK_URL."/{$pic_name}";
 
 	$create_date=date("Y-m-d H:i:s",xoops_getUserTimestamp(strtotime($create_date)));
@@ -322,7 +322,7 @@ function view_page($tbdsn=""){
 
 	//高亮度語法
   /*if(!file_exists(TADTOOLS_PATH."/syntaxhighlighter.php")){
-   redirect_header("index.php",3, _MA_NEED_TADTOOLS);
+   redirect_header("index.php",3, _MD_NEED_TADTOOLS);
   }
   include_once TADTOOLS_PATH."/syntaxhighlighter.php";
   $syntaxhighlighter= new syntaxhighlighter();

@@ -6,54 +6,54 @@
 
 <{if $now_op=="tad_book3_form"}>
   <div class="row-fluid">
-    <h2><{$smarty.const._MA_INPUT_BOOK_FORM}></h2>
+    <h2><{$smarty.const._MD_INPUT_BOOK_FORM}></h2>
     <form action="<{$action}>" method="post" id="myForm" enctype="multipart/form-data">
-    
+
     <div class="controls controls-row">
-      <label class="span2 text-right"><{$smarty.const._MA_TADBOOK3_TBCSN_MENU}></label>
+      <label class="span2 text-right"><{$smarty.const._MD_TADBOOK3_TBCSN_MENU}></label>
       <select name="tbcsn" size=1 class="span3">
         <{$cate_select}>
       </select>
-      <input type="text" name="new_tbcsn" class="span2" placeholder="<{$smarty.const._MA_TADBOOK3_NEW_PCSN}>">
-      
-      
-      <label class="span1 text-right"><{$smarty.const._MA_TADBOOK3_ENABLE}></label>
+      <input type="text" name="new_tbcsn" class="span2" placeholder="<{$smarty.const._MD_TADBOOK3_NEW_PCSN}>">
+
+
+      <label class="span1 text-right"><{$smarty.const._MD_TADBOOK3_ENABLE}></label>
       <label class="radio inline">
-        <input type="radio" name="enable" id="enable1" value="1" <{if $enable=="1"}>checked<{/if}>><{$smarty.const._MI_TADBOOK3_ENABLE}>
+        <input type="radio" name="enable" id="enable1" value="1" <{if $enable=="1"}>checked<{/if}>><{$smarty.const._MD_TADBOOK3_ENABLE}>
       </label>
       <label class="radio inline">
-        <input type="radio" name="enable" id="enable0" value="0" <{if $enable=="0"}>checked<{/if}>><{$smarty.const._MI_TADBOOK3_UNABLE}>
+        <input type="radio" name="enable" id="enable0" value="0" <{if $enable=="0"}>checked<{/if}>><{$smarty.const._MD_TADBOOK3_UNABLE}>
       </label>
     </div>
-    
+
     <div class="controls controls-row">
-      <label class="span2 text-right"><{$smarty.const._MA_TADBOOK3_TITLE}></label>
-      <input type="text" name="title" value="<{$title}>" class="span5" placeholder="<{$smarty.const._MA_TADBOOK3_TITLE}>">
-      
-      <label class="span1 text-right"><{$smarty.const._MA_TADBOOK3_PIC_NAME}></label>
-      <input type="file" name="pic_name" class="span3" placeholder="<{$smarty.const._MA_TADBOOK3_PIC_NAME}>">
+      <label class="span2 text-right"><{$smarty.const._MD_TADBOOK3_TITLE}></label>
+      <input type="text" name="title" value="<{$title}>" class="span5" placeholder="<{$smarty.const._MD_TADBOOK3_TITLE}>">
+
+      <label class="span1 text-right"><{$smarty.const._MD_TADBOOK3_PIC_NAME}></label>
+      <input type="file" name="pic_name" class="span3" placeholder="<{$smarty.const._MD_TADBOOK3_PIC_NAME}>">
     </div>
-    
+
     <div class="controls controls-row">
       <{$editor}>
     </div>
-    
+
     <div class="controls controls-row">
       <div class="span4">
-        <label><{$smarty.const._MA_TADBOOK3_AUTHOR}></label>
+        <label><{$smarty.const._MD_TADBOOK3_AUTHOR}></label>
         <{$user_menu}>
       </div>
       <div class="span4">
-        <label><{$smarty.const._MA_TADBOOK3_READ_GROUP}></label>
+        <label><{$smarty.const._MD_TADBOOK3_READ_GROUP}></label>
         <{$group_menu}>
       </div>
       <div class="span4">
 
         <div>
-          <label class="span3"><{$smarty.const._MA_TADBOOK3_PASSWD}></label>
+          <label class="span3"><{$smarty.const._MD_TADBOOK3_PASSWD}></label>
           <input type="text" name="passwd" class="span8" value="<{$passwd}>">
         </div>
-        
+
         <div class="text-center">
           <input type="hidden" name="sort"  value="<{$sort}>">
           <input type="hidden" name="tbsn" value="<{$tbsn}>">
@@ -77,7 +77,7 @@
     }
   </script>
   <{/if}>
-  
+
   <div class="row-fluid">
     <div class="span3 text-center"><{$book}></div>
     <div class="span9">
@@ -85,25 +85,25 @@
         <span class="label label-success"><{$cate}></span>
         <a href="main.php?op=list_docs&tbsn=<{$tbsn}>"><{$title}></a>
       </h3>
-      <div style="font-size:11px;"><{$smarty.const._MA_TADBOOK3_CREATE_DATE}> <{$create_date}></div>
-      
+      <div style="font-size:11px;"><{$smarty.const._MD_TADBOOK3_CREATE_DATE}> <{$create_date}></div>
+
       <{if $description}><div class="well"><{$description}></div><{/if}>
       <{if $my}>
         <div class="text-right">
           <a href="main.php?op=tad_book3_form&tbsn=<{$tbsn}>" class="btn btn-mini btn-warning"><{$smarty.const._TAD_EDIT}></a>
           <a href="javascript:delete_tad_book3_func(<{$tbsn}>);" class="btn btn-mini btn-danger"><{$smarty.const._TAD_DEL}></a>
-          <a href="<{$xoops_url}>/modules/tad_book3/post.php?tbsn=<{$tbsn}>&op=tad_book3_docs_form" class="btn btn-mini btn-primary"><{$smarty.const._MA_TADBOOK3_ADD_DOC}></a>
+          <a href="<{$xoops_url}>/modules/tad_book3/post.php?tbsn=<{$tbsn}>&op=tad_book3_docs_form" class="btn btn-mini btn-primary"><{$smarty.const._MD_TADBOOK3_ADD_DOC}></a>
         </div>
       <{/if}>
     </div>
   </div>
-  
-  <div class="well">  
+
+  <div class="well">
     <{foreach from=$docs item=doc}>
       <div class="row-fluid">
         <div class="<{if $my}>span6<{else}>span8<{/if}>">
           <span class="doc_sort_<{$doc.doc_sort_level}>">
-            <{$doc.doc_sort_main}>          
+            <{$doc.doc_sort_main}>
           </span>
           <a href="<{$xoops_url}>/modules/tad_book3/page.php?tbdsn=<{$doc.tbdsn}>"><{$doc.title}></a>
         </div>
@@ -112,18 +112,18 @@
 
           <i class="icon-user"></i> <{$doc.count}>
         </div>
-        
+
         <{if $my}>
           <div class="span2">
             <a href="javascript:delete_tad_book3_docs_func(<{$doc.tbdsn}>);" class="btn btn-mini btn-danger"><{$smarty.const._TAD_DEL}></a>
             <a href="<{$xoops_url}>/modules/tad_book3/post.php?op=tad_book3_docs_form&tbdsn=<{$doc.tbdsn}>" class="btn btn-mini btn-warning"><{$smarty.const._TAD_EDIT}></a>
           </div>
         <{/if}>
-        
-      </div>  
+
+      </div>
     <{/foreach}>
   </div>
-    
+
 <{else}>
 
   <{$jquery}>
@@ -132,9 +132,9 @@
 
   <script language="JavaScript">
   $().ready(function(){
-    $("#books_sort").sortable({ 
-      opacity: 0.6, 
-      cursor: "move", 
+    $("#books_sort").sortable({
+      opacity: 0.6,
+      cursor: "move",
       update: function() {
         var order = $(this).sortable("serialize") + "&action=updateRecordsListings";
         $.post("save_book_sort.php", order, function(theResponse){
@@ -156,7 +156,7 @@
   <{foreach from=$cate item=cate}>
     <h1 style="color:#A0A0A0;margin-top:20px;font-size:24px;"><{$cate.cate_title}></h1>
     <div style='margin-left:20px;' id='books_sort'>
-      
+
     <{foreach from=$cate.books item=book}>
       <{$book.book}>
     <{/foreach}>

@@ -3,38 +3,38 @@
 <{$toolbar}>
 <{$syntaxhighlighter_code}>
 
-<h2><{$smarty.const._MA_INPUT_DOC_FORM}></h2>
+<h2><{$smarty.const._MD_INPUT_DOC_FORM}></h2>
 
 <form action="<{$action}>" method="post" id="myForm" enctype="multipart/form-data">
 
   <div class="controls controls-row">
-    <label class="span1 text-right"><{$smarty.const._MA_TADBOOK3_TITLE}></label>
+    <label class="span1 text-right"><{$smarty.const._MD_TADBOOK3_TITLE}></label>
     <select name="tbsn" class="span6"><{$book_select}></select>
-          
-    <label class="span1 text-right"><{$smarty.const._MA_TADBOOK3_ENABLE}></label>
+
+    <label class="span1 text-right"><{$smarty.const._MD_TADBOOK3_ENABLE}></label>
     <label class="radio inline">
-      <input type="radio" name="enable" id="enable1" value="1" <{if $enable=="1"}>checked<{/if}>><{$smarty.const._MI_TADBOOK3_ENABLE}>
+      <input type="radio" name="enable" id="enable1" value="1" <{if $enable=="1"}>checked<{/if}>><{$smarty.const._MD_TADBOOK3_ENABLE}>
     </label>
     <label class="radio inline">
-      <input type="radio" name="enable" id="enable0" value="0" <{if $enable=="0"}>checked<{/if}>><{$smarty.const._MI_TADBOOK3_UNABLE}>
+      <input type="radio" name="enable" id="enable0" value="0" <{if $enable=="0"}>checked<{/if}>><{$smarty.const._MD_TADBOOK3_UNABLE}>
     </label>
-      
-      
+
+
   </div>
 
 
   <div class="controls controls-row">
-    <label class="span1 text-right"><{$smarty.const._MA_TADBOOK3_DOC_TITLE}></label>
-    <input type="text" name="title" value="<{$title}>" class="span6" placeholder="<{$smarty.const._MA_TADBOOK3_DOC_TITLE}>">
-    <label class="span1 text-right"><{$smarty.const._MA_TADBOOK3_CATEGORY}></label>
+    <label class="span1 text-right"><{$smarty.const._MD_TADBOOK3_DOC_TITLE}></label>
+    <input type="text" name="title" value="<{$title}>" class="span6" placeholder="<{$smarty.const._MD_TADBOOK3_DOC_TITLE}>">
+    <label class="span1 text-right"><{$smarty.const._MD_TADBOOK3_CATEGORY}></label>
 
     <select name="category" size=1 class="span1"><{$category_menu_category}></select>
     <select name="page" size=1 class="span1"><{$category_menu_page}></select>
     <select name="paragraph" size=1 class="span1"><{$category_menu_paragraph}></select>
     <select name="sort" size=1 class="span1"><{$category_menu_sort}></select>
   </div>
-  
-  
+
+
   <div class="controls controls-row">
     <{$editor}>
   </div>

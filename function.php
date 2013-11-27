@@ -1,8 +1,8 @@
 <?php
 //  ------------------------------------------------------------------------ //
-// •ªº“≤’•— tad ªsß@
+// Êú¨Ê®°ÁµÑÁî± tad Ë£Ω‰Ωú
 // ------------------------------------------------------------------------- //
-//§ﬁ§JTadTools™∫®Á¶°Æw
+//ÂºïÂÖ•TadToolsÁöÑÂáΩÂºèÂ∫´
 if(!file_exists(XOOPS_ROOT_PATH."/modules/tadtools/tad_function.php")){
  redirect_header("http://www.tad0616.net/modules/tad_uploader/index.php?of_cat_sn=50",3, _TAD_NEED_TADTOOLS);
 }
@@ -11,7 +11,7 @@ include_once XOOPS_ROOT_PATH."/modules/tadtools/tad_function.php";
 define("_TADBOOK3_BOOK_DIR",XOOPS_ROOT_PATH."/uploads/tad_book3");
 define("_TADBOOK3_BOOK_URL",XOOPS_URL."/uploads/tad_book3");
 
-//®q•X©“¶≥§¿√˛§ŒÆ—ƒy
+//ÁßÄÂá∫ÊâÄÊúâÂàÜÈ°ûÂèäÊõ∏Á±ç
 function list_all_cate_book(){
 	global $xoopsDB,$xoopsTpl,$xoopsUser;
 
@@ -19,9 +19,9 @@ function list_all_cate_book(){
     $uid=$xoopsUser->uid();
   }else{
     $uid=0;
-  }  
-  
-  
+  }
+
+
 	$sql = "select a.`tbsn`, a.`tbcsn`, a.`sort`, a.`title`, a.`description`, a.`author`, a.`read_group`, a.`passwd`, a.`enable`, a.`pic_name`, a.`counter`, a.`create_date`
 ,b.`of_tbsn`, b.`sort` as cate_sort, b.`title` as cate_title , b.`description` from ".$xoopsDB->prefix("tad_book3")." as a left join ".$xoopsDB->prefix("tad_book3_cate")." as b on a.tbcsn=b.tbcsn order by cate_sort,a.sort";
 
@@ -37,20 +37,20 @@ function list_all_cate_book(){
 		if(!in_array($uid,$authors) and !chk_power($read_group))continue;
 
 		$pic=(empty($pic_name))?XOOPS_URL."/modules/tad_book3/images/blank.png":_TADBOOK3_BOOK_URL."/{$pic_name}";
-    
+
 		$description=strip_tags($description);
-    
-		
+
+
 
     $tool=in_array($uid,$authors)?"
     <div style='width:auto;font-size:12px;font-weight:normal;'>
 		<a href='{$_SERVER['PHP_SELF']}?op=tad_book3_form&tbsn=$tbsn' class='btn btn-mini btn-warning'>"._TAD_EDIT."</a>
 		<a href=\"javascript:delete_tad_book3_func($tbsn);\" class='btn btn-mini btn-danger'>"._TAD_DEL."</a>
-		<a href='../post.php?tbsn=$tbsn&op=tad_book3_docs_form' class='btn btn-mini btn-primary'>"._MA_TADBOOK3_ADD_DOC."</a>
+		<a href='../post.php?tbsn=$tbsn&op=tad_book3_docs_form' class='btn btn-mini btn-primary'>"._MD_TADBOOK3_ADD_DOC."</a>
 		</div>":"";
 
 		if(empty($cate_title))$cate_title=_MI_TADBOOK3_NOT_CLASSIFIED;
-		
+
 		$data_arr[$cate_title][]=book_shadow($tbsn,$pic,$title,$description,"{$_SERVER['PHP_SELF']}?op=list_docs&tbsn=$tbsn",$tool);
 
 	}
@@ -69,24 +69,24 @@ function list_all_cate_book(){
     $cate[$i]['books']=$books;
     $i++;
 	}
-  
+
 	$xoopsTpl->assign('jquery',get_jquery(true));
 	$xoopsTpl->assign('cate',$cate);
 }
 
 
-//¶C•X¨YÆ—∏ÍÆ∆
+//ÂàóÂá∫ÊüêÊõ∏Ë≥áÊñô
 function list_docs($tbsn=""){
 	global $xoopsDB,$xoopsUser,$xoopsModule,$xoopsTpl;
-  
+
   if($xoopsUser){
     $uid=$xoopsUser->uid();
   }else{
     $uid=0;
-  }  
-  
+  }
+
   $xoopsTpl->assign('now_op','list_docs');
-  
+
 	$all_cate=all_cate();
 
 	$sql = "select * from ".$xoopsDB->prefix("tad_book3")." where tbsn='$tbsn'";
@@ -98,11 +98,11 @@ function list_docs($tbsn=""){
 		header("location:index.php");
 		exit;
 	}
-  $enable_txt=($enable=='1')?_MI_TADBOOK3_ENABLE:_MI_TADBOOK3_UNABLE;
+  $enable_txt=($enable=='1')?_MD_TADBOOK3_ENABLE:_MD_TADBOOK3_UNABLE;
 
-  $read_group=txt_to_group_name($read_group,_MA_TADBOOK3_ALL_OPEN);
-  
-  //¶@¶PΩsøË™Ã
+  $read_group=txt_to_group_name($read_group,_MD_TADBOOK3_ALL_OPEN);
+
+  //ÂÖ±ÂêåÁ∑®ËºØËÄÖ
   $author_arr=explode(",",$author);
   $my=in_array($uid,$author_arr);
   $xoopsTpl->assign('my',$my);
@@ -113,13 +113,13 @@ function list_docs($tbsn=""){
   }
   $author=implode(" , ",$uid_name);
   $uid_name="";
-  
+
   $create_date=date("Y-m-d H:i:s",xoops_getUserTimestamp(strtotime($create_date)));
-  
+
   $cate=(empty($all_cate[$tbcsn]))?_MI_TADBOOK3_NOT_CLASSIFIED:$all_cate[$tbcsn];
-  
+
   $pic=(empty($pic_name))?XOOPS_URL."/modules/tad_book3/images/blank.png":_TADBOOK3_BOOK_URL."/{$pic_name}";
-  
+
   $book=book_shadow($tbsn,$pic,"",$description,"{$_SERVER['PHP_SELF']}?op=list_docs&tbsn=$tbsn");
 
 
@@ -135,7 +135,7 @@ function list_docs($tbsn=""){
   $xoopsTpl->assign('enable_txt',$enable_txt);
   $xoopsTpl->assign('counter',$counter);
   $xoopsTpl->assign('create_date',$create_date);
-  
+
   $i=0;
   $docs="";
 	$sql = "select * from ".$xoopsDB->prefix("tad_book3_docs")." where tbsn='{$tbsn}' order by category,page,paragraph,sort";
@@ -143,7 +143,7 @@ function list_docs($tbsn=""){
 	while(list($tbdsn,$tbsn,$category,$page,$paragraph,$sort,$title,$content,$add_date,$last_modify_date,$uid,$count,$enable)=$xoopsDB->fetchRow($result)){
 	  $doc_sort=mk_category($category,$page,$paragraph,$sort);
 	  $last_modify_date=date("Y-m-d H:i:s",xoops_getUserTimestamp($last_modify_date));
-    
+
     $docs[$i]['tbdsn']=$tbdsn;
     $docs[$i]['last_modify_date']=$last_modify_date;
     $docs[$i]['doc_sort_level']=$doc_sort['level'];
@@ -152,25 +152,25 @@ function list_docs($tbsn=""){
     $docs[$i]['count']=$count;
     $i++;
 	}
-  
+
   $xoopsTpl->assign('docs',$docs);
 }
 
 
 
-//tad_book3ΩsøË™Ì≥Ê
+//tad_book3Á∑®ËºØË°®ÂñÆ
 function tad_book3_form($tbsn=""){
 	global $xoopsDB,$xoopsUser,$xoopsTpl;
 	include_once(XOOPS_ROOT_PATH."/class/xoopsformloader.php");
 
-	//ßÏ®˙πw≥]≠»
+	//ÊäìÂèñÈ†êË®≠ÂÄº
 	if(!empty($tbsn)){
 		$DBV=get_tad_book3($tbsn);
 	}else{
 		$DBV=array();
 	}
 
-	//πw≥]≠»≥]©w
+	//È†êË®≠ÂÄºË®≠ÂÆö
 
 	$tbsn=(!isset($DBV['tbsn']))?"":$DBV['tbsn'];
 	$tbcsn=(!isset($DBV['tbcsn']))?"":$DBV['tbcsn'];
@@ -188,7 +188,7 @@ function tad_book3_form($tbsn=""){
 
 
 	if(!file_exists(XOOPS_ROOT_PATH."/modules/tadtools/fck.php")){
-    redirect_header("index.php",3, _MA_NEED_TADTOOLS);
+    redirect_header("index.php",3, _MD_NEED_TADTOOLS);
   }
   include_once XOOPS_ROOT_PATH."/modules/tadtools/fck.php";
   $fck=new FCKEditor264("tad_book3","description",$description);
@@ -222,7 +222,7 @@ function tad_book3_form($tbsn=""){
 
   $group_arr=(empty($read_group))?array(""):explode(",",$read_group);
   $SelectGroup=new XoopsFormSelectGroup("", "read_group", false,$group_arr, 5, true);
-  $SelectGroup->addOption("", _MA_TADBOOK3_ALL_OPEN, false);
+  $SelectGroup->addOption("", _MD_TADBOOK3_ALL_OPEN, false);
 	$group_menu=$SelectGroup->render();
 
 	$op=(empty($tbsn))?"insert_tad_book3":"update_tad_book3";
@@ -242,18 +242,18 @@ function tad_book3_form($tbsn=""){
 }
 
 
-//∑sºW∏ÍÆ∆®Ïtad_book3§§
+//Êñ∞Â¢ûË≥áÊñôÂà∞tad_book3‰∏≠
 function insert_tad_book3(){
 	global $xoopsDB;
-	
+
 
 	if(!empty($_POST['new_tbcsn'])){
     $tbcsn=add_tad_book3_cate();
 	}else{
 		$tbcsn=$_POST['tbcsn'];
 	}
-	
-	
+
+
 	if(!empty($_POST['author_str'])){
     $author=$_POST['author_str'];
   }else{
@@ -268,7 +268,7 @@ function insert_tad_book3(){
     $now=date("Y-m-d H:i:s" , xoops_getUserTimestamp(time()));
 	$sql = "insert into ".$xoopsDB->prefix("tad_book3")." (`tbcsn`,`sort`,`title`,`description`,`author`,`read_group`,`passwd`,`enable`,`pic_name`,`counter`,`create_date`) values('{$tbcsn}','{$_POST['sort']}','{$_POST['title']}','{$_POST['description']}','{$author}','{$read_group}','{$_POST['passwd']}','{$_POST['enable']}','{$_POST['pic_name']}','{$_POST['counter']}','{$now}')";
 	$xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'],3, mysql_error());
-	//®˙±o≥Ã´·∑sºW∏ÍÆ∆™∫¨y§ÙΩs∏π
+	//ÂèñÂæóÊúÄÂæåÊñ∞Â¢ûË≥áÊñôÁöÑÊµÅÊ∞¥Á∑®Ëôü
 	$tbsn=$xoopsDB->getInsertId();
 
 	if(!empty($_FILES['pic_name']['name'])){
@@ -280,7 +280,7 @@ function insert_tad_book3(){
 }
 
 
-//∑sºW∏ÍÆ∆®Ïtad_book3_cate§§
+//Êñ∞Â¢ûË≥áÊñôÂà∞tad_book3_cate‰∏≠
 function add_tad_book3_cate(){
 	global $xoopsDB,$xoopsModuleConfig;
 	if(empty($_POST['new_tbcsn']))return;
@@ -289,13 +289,13 @@ function add_tad_book3_cate(){
 	$sort=get_max_sort();
 	$sql = "insert into ".$xoopsDB->prefix("tad_book3_cate")." (`of_tbsn`,`sort`,`title`) values('0','{$sort}','{$title}')";
 	$xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'],3, mysql_error());
-	//®˙±o≥Ã´·∑sºW∏ÍÆ∆™∫¨y§ÙΩs∏π
+	//ÂèñÂæóÊúÄÂæåÊñ∞Â¢ûË≥áÊñôÁöÑÊµÅÊ∞¥Á∑®Ëôü
 	$tbcsn=$xoopsDB->getInsertId();
 	return $tbcsn;
 }
 
 
-//¶€∞ ®˙±o∑s±∆ß«
+//Ëá™ÂãïÂèñÂæóÊñ∞ÊéíÂ∫è
 function get_max_sort(){
 	global $xoopsDB,$xoopsModule;
 	$sql = "select max(sort) from ".$xoopsDB->prefix("tad_book3_cate")." where of_tbsn=''";
@@ -305,7 +305,7 @@ function get_max_sort(){
 }
 
 
-//ßÛ∑stad_book3¨Y§@µß∏ÍÆ∆
+//Êõ¥Êñ∞tad_book3Êüê‰∏ÄÁ≠ÜË≥áÊñô
 function update_tad_book3($tbsn=""){
 	global $xoopsDB;
 
@@ -314,8 +314,8 @@ function update_tad_book3($tbsn=""){
 	}else{
 		$tbcsn=$_POST['tbcsn'];
 	}
-	
-	
+
+
 	if(!empty($_POST['author_str'])){
     $author=$_POST['author_str'];
   }else{
@@ -337,7 +337,7 @@ function update_tad_book3($tbsn=""){
 }
 
 
-//¶€∞ ®˙±o∑s±∆ß«
+//Ëá™ÂãïÂèñÂæóÊñ∞ÊéíÂ∫è
 function get_max_doc_sort($tbcsn=""){
 	global $xoopsDB,$xoopsModule;
 	$sql = "select max(sort) from ".$xoopsDB->prefix("tad_book3")." where tbcsn='{$tbcsn}'";
@@ -349,7 +349,7 @@ function get_max_doc_sort($tbcsn=""){
 
 
 
-//¡Yπœ§W∂«
+//Á∏ÆÂúñ‰∏äÂÇ≥
 function mk_thumb($tbsn="",$col_name="",$width=100){
 	global $xoopsDB;
 	include_once XOOPS_ROOT_PATH."/modules/tadtools/upload/class.upload.php";
@@ -380,7 +380,7 @@ function mk_thumb($tbsn="",$col_name="",$width=100){
 }
 
 
-//book≥±ºv
+//bookÈô∞ÂΩ±
 function book_shadow($tbsn="",$pic="",$title="",$description="",$link="",$tool=""){
 	$url=(empty($link))?"":"<a href='$link'>";
   $url2=(empty($link))?"":"</a>";
@@ -388,19 +388,19 @@ function book_shadow($tbsn="",$pic="",$title="",$description="",$link="",$tool="
   $myts =& MyTextSanitizer::getInstance();
   $description=$myts->htmlSpecialChars($description);
   $title=$myts->htmlSpecialChars($title);
-  
-  
+
+
   $book_title=(empty($title))?"":"<div style='text-align:center;'>{$url}{$title}{$url2}</div>";
-  
+
   $data="
 	<div style='width:145px;height:250px;float:left;padding:0px;border:0px;margin-right:10px;' id='tr_{$tbsn}'>
-    
+
     <a href='{$link}'><img src='{$pic}' alt='{$description}' title='{$description}' class='img-polaroid'></a>
     {$tool}
     {$book_title}
-	</div>	
+	</div>
 	";
-		
+
 /*
 	$data="
 	<div style='width:145px;height:250px;float:left;padding:0px;border:0px;margin-right:10px;' id='tr_{$tbsn}'>
@@ -411,7 +411,7 @@ function book_shadow($tbsn="",$pic="",$title="",$description="",$link="",$tool="
     </div>
   </div>
 	{$book_title}
-	</div>	
+	</div>
 	";
   */
 	return $data;
@@ -419,7 +419,7 @@ function book_shadow($tbsn="",$pic="",$title="",$description="",$link="",$tool="
 
 
 
-//¿À¨d§Â≥π±KΩX
+//Ê™¢Êü•ÊñáÁ´†ÂØÜÁ¢º
 function check_passwd($tbsn=""){
 	global $xoopsDB;
 	$sql = "select passwd from ".$xoopsDB->prefix("tad_book3")." where tbsn='$tbsn'";
@@ -433,7 +433,7 @@ function check_passwd($tbsn=""){
 }
 
 
-//•H¨y§Ù∏π®˙±o¨Yµßtad_book3∏ÍÆ∆
+//‰ª•ÊµÅÊ∞¥ËôüÂèñÂæóÊüêÁ≠Ütad_book3Ë≥áÊñô
 function get_tad_book3($tbsn=""){
 	global $xoopsDB;
 	if(empty($tbsn))return;
@@ -443,7 +443,7 @@ function get_tad_book3($tbsn=""){
 	return $data;
 }
 
-//®˙±o©“¶≥§¿√˛
+//ÂèñÂæóÊâÄÊúâÂàÜÈ°û
 function all_cate(){
 	global $xoopsDB,$xoopsModule;
 	$sql = "select tbcsn,title from ".$xoopsDB->prefix("tad_book3_cate")." order by sort";
@@ -454,7 +454,7 @@ function all_cate(){
 	return $main;
 }
 
-//§¿√˛øÔ≥Ê
+//ÂàÜÈ°ûÈÅ∏ÂñÆ
 function cate_select($cate_sn=""){
 	$all_cate=all_cate();
 	foreach($all_cate as $tbcsn=>$title){
@@ -464,7 +464,7 @@ function cate_select($cate_sn=""){
 	return $main;
 }
 
-//®˙±o©“¶≥Æ—¶W
+//ÂèñÂæóÊâÄÊúâÊõ∏Âêç
 function all_books(){
 	global $xoopsDB,$xoopsModule;
 	$sql = "select tbsn,title from ".$xoopsDB->prefix("tad_book3")." order by sort";
@@ -475,7 +475,7 @@ function all_books(){
 	return $main;
 }
 
-//Æ—¶WøÔ≥Ê
+//Êõ∏ÂêçÈÅ∏ÂñÆ
 function book_select($book_sn=""){
 	$all_books=all_books();
 	foreach($all_books as $tbsn=>$title){
@@ -486,7 +486,7 @@ function book_select($book_sn=""){
 }
 
 
-//≤£•Õ≥π∏`øÔ≥Ê
+//Áî¢ÁîüÁ´†ÁØÄÈÅ∏ÂñÆ
 function category_menu($num=""){
   $opt="";
 	for($i=0;$i<=50;$i++){
@@ -496,7 +496,7 @@ function category_menu($num=""){
 	return $opt;
 }
 
-//®˙±o´e´·§Â≥π
+//ÂèñÂæóÂâçÂæåÊñáÁ´†
 function near_docs($tbsn="",$doc_sn=""){
 	global $xoopsDB;
 	$sql = "select tbdsn,title,category,page,paragraph,sort from ".$xoopsDB->prefix("tad_book3_docs")." where tbsn='$tbsn' order by category,page,paragraph,sort";
@@ -519,10 +519,10 @@ function near_docs($tbsn="",$doc_sn=""){
 }
 
 
-//§Â≥πøÔ≥Ê
+//ÊñáÁ´†ÈÅ∏ÂñÆ
 function doc_select($tbsn="",$doc_sn=""){
 	global $xoopsDB,$xoopsUser;
-	
+
 	if(empty($xoopsUser)){
     $andenable=" and `enable`='1'";
     $now_uid=0;
@@ -530,7 +530,7 @@ function doc_select($tbsn="",$doc_sn=""){
     $andenable="";
     $now_uid=$xoopsUser->uid();
   }
-  
+
 	$sql = "select tbdsn,title,category,page,paragraph,sort,enable,uid from ".$xoopsDB->prefix("tad_book3_docs")." where tbsn='$tbsn' $andenable order by category,page,paragraph,sort";
 	$result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'],3, mysql_error());
 	while(list($tbdsn,$title,$category,$page,$paragraph,$sort,$enable,$uid)=$xoopsDB->fetchRow($result)){
@@ -543,7 +543,7 @@ function doc_select($tbsn="",$doc_sn=""){
         continue;
       }else{
         $style=" style='color:gray;'";
-        $stat="["._MI_TADBOOK3_UNABLE."] ";
+        $stat="["._MD_TADBOOK3_UNABLE."] ";
       }
     }else{
       $style=" style='color:black;'";
@@ -553,7 +553,7 @@ function doc_select($tbsn="",$doc_sn=""){
 	return $main;
 }
 
-//≥π∏`ÆÊ¶°§∆
+//Á´†ÁØÄÊ†ºÂºèÂåñ
 function mk_category($category="",$page="",$paragraph="",$sort=""){
 	if(!empty($sort)){
 		$main="{$category}-${page}-{$paragraph}-{$sort}";
@@ -576,7 +576,7 @@ function mk_category($category="",$page="",$paragraph="",$sort=""){
 	return $all;
 }
 
-//®˙±o©“¶≥∏s≤’
+//ÂèñÂæóÊâÄÊúâÁæ§ÁµÑ
 function get_all_groups(){
 	global $xoopsDB;
 	$sql = "select groupid,name from ".$xoopsDB->prefix("groups")."";
@@ -587,7 +587,7 @@ function get_all_groups(){
 	return $data;
 }
 
-//ß‚¶r¶Í¥´¶®∏s≤’
+//ÊääÂ≠ó‰∏≤ÊèõÊàêÁæ§ÁµÑ
 function txt_to_group_name($enable_group="",$default_txt="",$syb="<br />"){
 	$groups_array=get_all_groups();
 	if(empty($enable_group)){
@@ -602,12 +602,12 @@ function txt_to_group_name($enable_group="",$default_txt="",$syb="<br />"){
 	return $g_txt;
 }
 
-//ßP¬_•ª§Â¨Oß_§π≥\∏”•Œ§·§ß©“ƒ›∏s≤’∆[¨›
+//Âà§Êñ∑Êú¨ÊñáÊòØÂê¶ÂÖÅË®±Ë©≤Áî®Êà∂‰πãÊâÄÂ±¨Áæ§ÁµÑËßÄÁúã
 function chk_power($enable_group=""){
 	global $xoopsDB,$xoopsUser;
 	if(empty($enable_group))return true;
-	
-	//®˙±o•ÿ´e®œ•Œ™Ã™∫©“ƒ›∏s≤’
+
+	//ÂèñÂæóÁõÆÂâç‰ΩøÁî®ËÄÖÁöÑÊâÄÂ±¨Áæ§ÁµÑ
 	if($xoopsUser){
 		$User_Groups=$xoopsUser->getGroups();
 	}else{
@@ -624,12 +624,12 @@ function chk_power($enable_group=""){
 }
 
 
-//ßP¬_•ª§Â¨Oß_§π≥\∏”•Œ§·ΩsøË
+//Âà§Êñ∑Êú¨ÊñáÊòØÂê¶ÂÖÅË®±Ë©≤Áî®Êà∂Á∑®ËºØ
 function chk_edit_power($uid_txt=""){
 	global $xoopsDB,$xoopsUser;
 	if(empty($uid_txt))return false;
 
-	//®˙±o•ÿ´e®œ•Œ™Ã™∫©“ƒ›∏s≤’
+	//ÂèñÂæóÁõÆÂâç‰ΩøÁî®ËÄÖÁöÑÊâÄÂ±¨Áæ§ÁµÑ
 	if($xoopsUser){
 		$user_id=$xoopsUser->getVar('uid');
 	}else{
@@ -646,8 +646,8 @@ function chk_edit_power($uid_txt=""){
 }
 
 
-/********************* πw≥]®Áº∆ *********************/
-//∂Í®§§Â¶rÆÿ
+/********************* È†êË®≠ÂáΩÊï∏ *********************/
+//ÂúìËßíÊñáÂ≠óÊ°Ü
 function div_3d($title="",$main="",$kind="raised",$style=""){
 	$main="<table style='width:auto;{$style}'><tr><td>
 	<div class='{$kind}'>

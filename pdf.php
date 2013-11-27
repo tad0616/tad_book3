@@ -69,7 +69,7 @@ function view_page($tbdsn=""){
 
 	//高亮度語法
   if(!file_exists(TADTOOLS_PATH."/syntaxhighlighter.php")){
-   redirect_header("index.php",3, _MA_NEED_TADTOOLS);
+   redirect_header("index.php",3, _MD_NEED_TADTOOLS);
   }
   include_once TADTOOLS_PATH."/syntaxhighlighter.php";
   $syntaxhighlighter= new syntaxhighlighter();

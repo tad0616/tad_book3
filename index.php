@@ -1,16 +1,16 @@
 <?php
 //  ------------------------------------------------------------------------ //
-// ¥»¼Ò²Õ¥Ñ tad »s§@
+// æœ¬æ¨¡çµ„ç”± tad è£½ä½œ
 // ------------------------------------------------------------------------- //
 
-/*-----------¤Þ¤JÀÉ®×°Ï--------------*/
+/*-----------å¼•å…¥æª”æ¡ˆå€--------------*/
 include "header.php";
 $xoopsOption['template_main'] = "tadbook3_index.html";
 include_once XOOPS_ROOT_PATH."/header.php";
 
-/*-----------function°Ï--------------*/
+/*-----------functionå€--------------*/
 
-//¦C¥X©Ò¦³tad_book3¸ê®Æ
+//åˆ—å‡ºæ‰€æœ‰tad_book3è³‡æ–™
 function list_all_book($tbcsn="",$border=true){
 	global $xoopsDB,$xoopsModule;
 
@@ -26,7 +26,7 @@ function list_all_book($tbcsn="",$border=true){
 	while(list($tbsn,$tbcsn,$sort,$title,$description,$author,$read_group,$passwd,$enable,$pic_name,$counter,$create_date)=$xoopsDB->fetchRow($result)){
 		if(!chk_power($read_group))continue;
 
-		$enable_txt=($enable=='1')?_MI_TADBOOK3_ENABLE:_MI_TADBOOK3_UNABLE;
+		$enable_txt=($enable=='1')?_MD_TADBOOK3_ENABLE:_MD_TADBOOK3_UNABLE;
 		$pic=(empty($pic_name))?XOOPS_URL."/modules/tad_book3/images/blank.png":_TADBOOK3_BOOK_URL."/{$pic_name}";
 		if(function_exists('strip_tags')){
 			$description=strip_tags($description);
@@ -50,14 +50,14 @@ function list_all_book($tbcsn="",$border=true){
 }
 
 
-//§ó·s®ÑÄy­p¼Æ¾¹
+//æ›´æ–°æ›¸ç±è¨ˆæ•¸å™¨
 function add_book_counter($tbsn=""){
 	global $xoopsDB;
 	$sql = "update ".$xoopsDB->prefix("tad_book3")." set  `counter` = `counter`+1 where tbsn='$tbsn'";
 	$xoopsDB->queryF($sql) or redirect_header($_SERVER['PHP_SELF'],3, mysql_error());
 }
 
-/*-----------°õ¦æ°Ê§@§PÂ_°Ï----------*/
+/*-----------åŸ·è¡Œå‹•ä½œåˆ¤æ–·å€----------*/
 $_REQUEST['op']=(empty($_REQUEST['op']))?"":$_REQUEST['op'];
 $tbsn = (!isset($_REQUEST['tbsn']))? "":intval($_REQUEST['tbsn']);
 $tbdsn = (!isset($_REQUEST['tbdsn']))? "":intval($_REQUEST['tbdsn']);
@@ -72,7 +72,7 @@ switch($_REQUEST['op']){
 	case "check_passwd":
 	check_passwd($tbsn);
 	break;
-	
+
 	case "list_docs":
 	$main=list_docs($tbsn);
 	break;
@@ -83,13 +83,13 @@ switch($_REQUEST['op']){
 
 
 
-	//·s¼W¸ê®Æ
+	//æ–°å¢žè³‡æ–™
 	case "insert_tad_book3":
 	insert_tad_book3();
 	header("location: {$_SERVER['PHP_SELF']}");
 	break;
 
-	//¿é¤Jªí®æ
+	//è¼¸å…¥è¡¨æ ¼
 	case "tad_book3_form";
 	$main=tad_book3_form($tbsn);
 	break;
@@ -109,7 +109,7 @@ switch($_REQUEST['op']){
 	break;
 }
 
-/*-----------¨q¥Xµ²ªG°Ï--------------*/
+/*-----------ç§€å‡ºçµæžœå€--------------*/
 include_once XOOPS_ROOT_PATH.'/footer.php';
 
 ?>

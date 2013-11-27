@@ -45,7 +45,7 @@ function tad_book3_docs_form($tbdsn="",$tbsn=""){
 
 
   if(!file_exists(XOOPS_ROOT_PATH."/modules/tadtools/fck.php")){
-      redirect_header("index.php",3, _MA_NEED_TADTOOLS);
+      redirect_header("index.php",3, _MD_NEED_TADTOOLS);
   }
 
 	include_once XOOPS_ROOT_PATH."/modules/tadtools/fck.php";

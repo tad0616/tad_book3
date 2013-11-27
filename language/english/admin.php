@@ -11,9 +11,6 @@ define("_MA_TADBOOK3_NEW_PCSN","Creat a new sub-category from the category on le
 define("_MA_INPUT_CATE_FORM","Edit Category");
 define("_MA_INPUT_BOOK_FORM","Edit Book");
 define("_MA_INPUT_DOC_FORM","Edit Article");
-define("_MI_TADBOOK3_ADMENU1", "Book List");
-define("_MI_TADBOOK3_ADMENU2", "Categories");
-define("_MI_TADBOOK3_ADMENU3", "Add Article");
 
 //index.php
 define("_MA_TADBOOK3_TBSN","Serial Number");
@@ -32,8 +29,8 @@ define("_MA_TADBOOK3_BOOK_INFO","Information");
 define("_MA_TADBOOK3_ALL_OPEN","All");
 define("_MA_TADBOOK3_ADD_DOC","Add Article");
 define("_MA_TADBOOK3_BOOK_CONTENT","Index of 「%s」");
-define("_MI_TADBOOK3_ENABLE", "Activate");
-define("_MI_TADBOOK3_UNABLE", "Closed");
+define("_MD_TADBOOK3_ENABLE", "Activate");
+define("_MD_TADBOOK3_UNABLE", "Closed");
 
 //cate.php
 define("_MA_TADBOOK3_TBCSN","Serial Number");
