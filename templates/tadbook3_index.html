@@ -73,7 +73,7 @@
     function delete_tad_book3_docs_func(tbdsn){
       var sure = window.confirm('<{$smarty.const._TAD_DEL_CONFIRM}>');
       if (!sure)	return;
-      location.href="main.php?op=delete_tad_book3_docs&tbdsn=" + tbdsn;
+      location.href="admin/main.php?op=delete_tad_book3_docs&tbdsn=" + tbdsn;
     }
   </script>
   <{/if}>
@@ -83,14 +83,14 @@
     <div class="span9">
       <h3>
         <span class="label label-success"><{$cate}></span>
-        <a href="main.php?op=list_docs&tbsn=<{$tbsn}>"><{$title}></a>
+        <a href="admin/main.php?op=list_docs&tbsn=<{$tbsn}>"><{$title}></a>
       </h3>
       <div style="font-size:11px;"><{$smarty.const._MD_TADBOOK3_CREATE_DATE}> <{$create_date}></div>
 
       <{if $description}><div class="well"><{$description}></div><{/if}>
       <{if $my}>
         <div class="text-right">
-          <a href="main.php?op=tad_book3_form&tbsn=<{$tbsn}>" class="btn btn-mini btn-warning"><{$smarty.const._TAD_EDIT}></a>
+          <a href="admin/main.php?op=tad_book3_form&tbsn=<{$tbsn}>" class="btn btn-mini btn-warning"><{$smarty.const._TAD_EDIT}></a>
           <a href="javascript:delete_tad_book3_func(<{$tbsn}>);" class="btn btn-mini btn-danger"><{$smarty.const._TAD_DEL}></a>
           <a href="<{$xoops_url}>/modules/tad_book3/post.php?tbsn=<{$tbsn}>&op=tad_book3_docs_form" class="btn btn-mini btn-primary"><{$smarty.const._MD_TADBOOK3_ADD_DOC}></a>
         </div>
@@ -149,7 +149,7 @@
   function delete_tad_book3_func(tbsn){
     var sure = window.confirm("<{$smarty.const._TAD_DEL_CONFIRM}>");
     if (!sure)	return;
-    location.href="main.php?op=delete_tad_book3&tbsn=" + tbsn;
+    location.href="admin/main.php?op=delete_tad_book3&tbsn=" + tbsn;
   }
   </script>
 

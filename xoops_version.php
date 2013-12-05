@@ -9,7 +9,7 @@ $modversion['name'] = _MI_TADBOOK3_NAME;
 $modversion['version'] = 3;
 $modversion['description'] = _MI_TADBOOK3_DESC;
 $modversion['author'] = _MI_TADBOOK3_AUTHOR;
-$modversion['credits'] = _MI_TADBOOK3_CREDITS;
+$modversion['credits'] = "geek01";
 $modversion['help'] = 'page=help';
 $modversion['license'] = 'GNU GPL 2.0';
 $modversion['license_url'] = 'www.gnu.org/licenses/gpl-2.0.html/';
@@ -17,7 +17,7 @@ $modversion['image'] = "images/logo_{$xoopsConfig['language']}.png";
 $modversion['dirname'] = basename(dirname(__FILE__));
 
 //---¼Ò²Õª¬ºA¸ê°T---//
-$modversion['release_date'] = '2013/09/05';
+$modversion['release_date'] = '2013/12/05';
 $modversion['module_website_url'] = 'http://tad0616.net/';
 $modversion['module_website_name'] = _MI_TAD_WEB;
 $modversion['module_status'] = 'release';

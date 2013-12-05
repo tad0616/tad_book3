@@ -1,55 +1,55 @@
 <?php
 //  ------------------------------------------------------------------------ //
-// æœ¬æ¨¡çµ„ç”± tad è£½ä½œ
+// ¥»¼Ò²Õ¥Ñ tad »s§@
 // ------------------------------------------------------------------------- //
 include_once "../../tadtools/language/{$xoopsConfig['language']}/admin_common.php";
-define("_TAD_NEED_TADTOOLS"," éœ€è¦ tadtools æ¨¡çµ„ï¼Œå¯è‡³<a href='http://www.tad0616.net/modules/tad_uploader/index.php?of_cat_sn=50' target='_blank'>Tadæ•™æç¶²</a>ä¸‹è¼‰ã€‚");
+define("_TAD_NEED_TADTOOLS"," »İ­n tadtools ¼Ò²Õ¡A¥i¦Ü<a href='http://www.tad0616.net/modules/tad_uploader/index.php?of_cat_sn=50' target='_blank'>Tad±Ğ§÷ºô</a>¤U¸ü¡C");
 
 
-define("_MA_INPUT_FORM","è¼¸å…¥è¡¨å–®");
-define("_MA_TADBOOK3_NEW_PCSN","åœ¨å·¦é‚Šåˆ†é¡ä¸‹æ–°å¢åˆ†é¡ï¼š");
-define("_MA_INPUT_CATE_FORM","ç·¨è¼¯åˆ†é¡");
-define("_MA_INPUT_BOOK_FORM","ç·¨è¼¯æ›¸ç±");
-define("_MA_INPUT_DOC_FORM","ç·¨è¼¯æ–‡ç« ");
+define("_MA_INPUT_FORM","¿é¤Jªí³æ");
+define("_MA_TADBOOK3_NEW_PCSN","¦b¥ªÃä¤ÀÃş¤U·s¼W¤ÀÃş¡G");
+define("_MA_INPUT_CATE_FORM","½s¿è¤ÀÃş");
+define("_MA_INPUT_BOOK_FORM","½s¿è®ÑÄy");
+define("_MA_INPUT_DOC_FORM","½s¿è¤å³¹");
 
 //index.php
-define("_MA_TADBOOK3_TBSN","æ›¸ç±ç·¨è™Ÿ");
-define("_MA_TADBOOK3_SORT","æ’åº");
-define("_MA_TADBOOK3_TITLE","æ›¸å");
-define("_MA_TADBOOK3_DESCRIPTION","æ›¸ç±æè¿°");
-define("_MA_TADBOOK3_AUTHOR","å¯ç·¨å¯«äºº");
-define("_MA_TADBOOK3_READ_GROUP","å¯é–±è®€ç¾¤çµ„");
-define("_MA_TADBOOK3_PASSWD","å¯†ç¢¼");
-define("_MA_TADBOOK3_ENABLE","ç‹€æ…‹");
-define("_MA_TADBOOK3_PIC_NAME","å°é¢");
-define("_MA_TADBOOK3_COUNTER","äººæ°£");
-define("_MA_TADBOOK3_CREATE_DATE","å»ºç«‹æ—¥æœŸ");
-define("_MA_TADBOOK3_TBCSN_MENU","æ›¸ç±åˆ†é¡");
-define("_MA_TADBOOK3_BOOK_INFO","å…¶ä»–è³‡è¨Š");
-define("_MA_TADBOOK3_ALL_OPEN","å…¨éƒ¨é–‹æ”¾");
-define("_MA_TADBOOK3_ADD_DOC","æ–°å¢æ–‡ç« ");
-define("_MA_TADBOOK3_BOOK_CONTENT","ã€Œ%sã€ç›®éŒ„");
-define("_MD_TADBOOK3_ENABLE", "é¡¯ç¤º");
-define("_MD_TADBOOK3_UNABLE", "é—œé–‰");
+define("_MA_TADBOOK3_TBSN","®ÑÄy½s¸¹");
+define("_MA_TADBOOK3_SORT","±Æ§Ç");
+define("_MA_TADBOOK3_TITLE","®Ñ¦W");
+define("_MA_TADBOOK3_DESCRIPTION","®ÑÄy´y­z");
+define("_MA_TADBOOK3_AUTHOR","¥i½s¼g¤H");
+define("_MA_TADBOOK3_READ_GROUP","¥i¾\Åª¸s²Õ");
+define("_MA_TADBOOK3_PASSWD","±K½X");
+define("_MA_TADBOOK3_ENABLE","ª¬ºA");
+define("_MA_TADBOOK3_PIC_NAME","«Ê­±");
+define("_MA_TADBOOK3_COUNTER","¤H®ğ");
+define("_MA_TADBOOK3_CREATE_DATE","«Ø¥ß¤é´Á");
+define("_MA_TADBOOK3_TBCSN_MENU","®ÑÄy¤ÀÃş");
+define("_MA_TADBOOK3_BOOK_INFO","¨ä¥L¸ê°T");
+define("_MA_TADBOOK3_ALL_OPEN","¥ş³¡¶}©ñ");
+define("_MA_TADBOOK3_ADD_DOC","·s¼W¤å³¹");
+define("_MA_TADBOOK3_BOOK_CONTENT","¡u%s¡v¥Ø¿ı");
+define("_MD_TADBOOK3_ENABLE", "Åã¥Ü");
+define("_MD_TADBOOK3_UNABLE", "Ãö³¬");
 
 //cate.php
-define("_MA_TADBOOK3_TBCSN","åˆ†é¡ç·¨è™Ÿ");
-define("_MA_TADBOOK3_OF_TBSN","æ‰€å±¬åˆ†é¡");
-define("_MA_TADBOOK3_CATE_TITLE","åˆ†é¡æ¨™é¡Œ");
-define("_MA_TADBOOK3_CATE_DESCRIPTION","åˆ†é¡èªªæ˜");
+define("_MA_TADBOOK3_TBCSN","¤ÀÃş½s¸¹");
+define("_MA_TADBOOK3_OF_TBSN","©ÒÄİ¤ÀÃş");
+define("_MA_TADBOOK3_CATE_TITLE","¤ÀÃş¼ĞÃD");
+define("_MA_TADBOOK3_CATE_DESCRIPTION","¤ÀÃş»¡©ú");
 
 //add.php
-define("_MA_TADBOOK3_TBDSN","æ–‡ç« ç·¨è™Ÿ");
-define("_MA_TADBOOK3_CATEGORY","ç« ç¯€");
-define("_MA_TADBOOK3_PAGE","ç¯€");
-define("_MA_TADBOOK3_PARAGRAPH","å°ç¯€");
-define("_MA_TADBOOK3_DOC_TITLE","æ¨™é¡Œ");
-define("_MA_TADBOOK3_DOC_CONTENT","æ–‡ç« å…§å®¹");
-define("_MA_TADBOOK3_ADD_DATE","å»ºç«‹æ—¥æœŸ");
-define("_MA_TADBOOK3_LAST_MODIFY_DATE","æœ€å¾Œä¿®æ”¹æ—¥æœŸ");
-define("_MA_TADBOOK3_UID","ç™¼ä½ˆè€…");
-define("_MA_TADBOOK3_COUNT","äººæ°£");
-define("_MI_TADBOOK3_NOT_CLASSIFIED", "æœªåˆ†é¡");
-define("_MI_TADBOOK3_ADD_BOOK", "æ–°å¢æ›¸ç±");
+define("_MA_TADBOOK3_TBDSN","¤å³¹½s¸¹");
+define("_MA_TADBOOK3_CATEGORY","³¹¸`");
+define("_MA_TADBOOK3_PAGE","¸`");
+define("_MA_TADBOOK3_PARAGRAPH","¤p¸`");
+define("_MA_TADBOOK3_DOC_TITLE","¼ĞÃD");
+define("_MA_TADBOOK3_DOC_CONTENT","¤å³¹¤º®e");
+define("_MA_TADBOOK3_ADD_DATE","«Ø¥ß¤é´Á");
+define("_MA_TADBOOK3_LAST_MODIFY_DATE","³Ì«á­×§ï¤é´Á");
+define("_MA_TADBOOK3_UID","µo§GªÌ");
+define("_MA_TADBOOK3_COUNT","¤H®ğ");
+define("_MI_TADBOOK3_NOT_CLASSIFIED", "¥¼¤ÀÃş");
+define("_MI_TADBOOK3_ADD_BOOK", "·s¼W®ÑÄy");
 
 ?>

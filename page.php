@@ -12,9 +12,9 @@ include_once XOOPS_ROOT_PATH."/header.php";
 //觀看某一頁
 function view_page($tbdsn=""){
 	global $xoopsDB,$xoopsModuleConfig,$xoopsTpl;
-	
+
 	add_counter($tbdsn);
-	
+
 	$sql = "select * from ".$xoopsDB->prefix("tad_book3_docs")." where tbdsn='$tbdsn'";
 	$result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'],3, mysql_error());
 	list($tbdsn,$tbsn,$category,$page,$paragraph,$sort,$title,$content,$add_date,$last_modify_date,$uid,$count,$enable)=$xoopsDB->fetchRow($result);
@@ -24,7 +24,7 @@ function view_page($tbdsn=""){
 		header("location:index.php");
 		exit;
 	}
-	
+
 
 	if(!empty($book['passwd']) and $_SESSION['passwd']!=$book['passwd']){
 		$data.="
@@ -38,21 +38,21 @@ function view_page($tbdsn=""){
 		return $data;
 		exit;
 	}
-	
-	
+
+
 	$doc_select=doc_select($tbsn,$tbdsn);
 	$near_docs=near_docs($tbsn,$tbdsn);
 	$prev=explode(";",$near_docs['prev']);
 	$next=explode(";",$near_docs['next']);
-	
+
 	$p=(empty($prev[1]))?"":"<a href='page.php?tbdsn={$prev[0]}' style='text-decoration: none;'><img src='images/arrow_left.png' alt='prev' title='Prev' border='0' align='absmiddle' hspace=4>{$prev[1]}</a>";
 	$n=(empty($next[1]))?"":"<a href='page.php?tbdsn={$next[0]}' style='text-decoration: none;'>{$next[1]}<img src='images/arrow_right.png' alt='next' title='next' border='0' align='absmiddle' hspace=4></a>";
-	
+
 
 	$doc_sort=mk_category($category,$page,$paragraph,$sort);
-	
+
 	$facebook_comments=facebook_comments($xoopsModuleConfig['facebook_comments_width'],'tad_book3','page.php','tbdsn',$tbdsn);
-	
+
 	//高亮度語法
   if(!file_exists(TADTOOLS_PATH."/syntaxhighlighter.php")){
    redirect_header("index.php",3, _MD_NEED_TADTOOLS);
@@ -61,7 +61,7 @@ function view_page($tbdsn=""){
   $syntaxhighlighter= new syntaxhighlighter();
   $syntaxhighlighter_code=$syntaxhighlighter->render();
 
-
+  $push_url=push_url(true,"float:left;");
 	$xoopsTpl->assign('syntaxhighlighter_code',$syntaxhighlighter_code);
 	$xoopsTpl->assign('tbsn',$tbsn);
 	$xoopsTpl->assign('book_title',$book['title']);
@@ -73,6 +73,7 @@ function view_page($tbdsn=""){
 	$xoopsTpl->assign('n',$n);
 	$xoopsTpl->assign('doc_select',$doc_select);
 	$xoopsTpl->assign('facebook_comments',$facebook_comments);
+	$xoopsTpl->assign('push_url',$push_url);
 }
 
 //更新頁面計數器

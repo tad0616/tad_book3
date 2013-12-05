@@ -27,8 +27,8 @@ if ($xoopsUser) {
 	if($isAdmin){
     $interface_menu[_MI_TADBOOK3_ADD_BOOK]="index.php?op=tad_book3_form";
 	}
-	
-	
+
+
 	if(!empty($_GET['tbdsn']) or !empty($_GET['tbsn'])){
 		if(!empty($_GET['tbdsn'])){
 			$sql = "select a.tbsn,a.title,b.author,a.category,a.page,a.paragraph,a.sort from ".$xoopsDB->prefix("tad_book3_docs")." as a left join ".$xoopsDB->prefix("tad_book3")." as b on a.tbsn=b.tbsn where a.tbdsn='{$_GET['tbdsn']}'";
@@ -44,9 +44,10 @@ if ($xoopsUser) {
 			}
 			$category=mk_category($category,$page,$paragraph,$sort);
 			$pdfurl=XOOPS_URL."/modules/tad_book3/pdf.php?tbdsn={$_GET['tbdsn']}&-O=Portrait&-s=A4&-D="._CHARSET."&--filename=BOOK{$_GET['tbdsn']}-{$category['main']}.pdf";
-			$interface_menu['PDF']="http://pdfmyurl.com/?url=$pdfurl";
-			
-			
+			//$interface_menu['PDF']="http://pdfmyurl.com/?url=$pdfurl";
+      //$interface_menu['PDF2']=XOOPS_URL."/modules/tad_book3/tcpdf.php?tbdsn={$_GET['tbdsn']}&filename=BOOK{$_GET['tbdsn']}-{$category['main']}.pdf";
+
+
 		}elseif(!empty($_GET['tbsn'])){
 		  $sql = "select tbsn,author from ".$xoopsDB->prefix("tad_book3")." where tbsn='{$_GET['tbsn']}'";
 			$result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'],3, mysql_error());
