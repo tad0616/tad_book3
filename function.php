@@ -135,6 +135,7 @@ function list_docs($tbsn=""){
   $xoopsTpl->assign('enable_txt',$enable_txt);
   $xoopsTpl->assign('counter',$counter);
   $xoopsTpl->assign('create_date',$create_date);
+  $xoopsTpl->assign('push_url',push_url());
 
   $i=0;
   $docs="";

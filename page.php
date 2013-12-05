@@ -61,7 +61,6 @@ function view_page($tbdsn=""){
   $syntaxhighlighter= new syntaxhighlighter();
   $syntaxhighlighter_code=$syntaxhighlighter->render();
 
-  $push_url=push_url(true,"float:left;");
 	$xoopsTpl->assign('syntaxhighlighter_code',$syntaxhighlighter_code);
 	$xoopsTpl->assign('tbsn',$tbsn);
 	$xoopsTpl->assign('book_title',$book['title']);
@@ -73,7 +72,7 @@ function view_page($tbdsn=""){
 	$xoopsTpl->assign('n',$n);
 	$xoopsTpl->assign('doc_select',$doc_select);
 	$xoopsTpl->assign('facebook_comments',$facebook_comments);
-	$xoopsTpl->assign('push_url',$push_url);
+	$xoopsTpl->assign('push_url',push_url());
 }
 
 //更新頁面計數器
