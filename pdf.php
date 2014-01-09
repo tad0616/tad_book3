@@ -71,8 +71,8 @@ function view_page($tbdsn=""){
 
 
   $main="$syntaxhighlighter_code
-  <div id='page'>
-    <div id='page_title'>{$book['title']}</div>
+  <div class='page'>
+    <div class='page_title'>{$book['title']}</div>
     $content
   </div>
   ";
