@@ -11,7 +11,7 @@ if(!chk_power($tadbook['read_group'])){
 }
 
 if(!empty($tadbook['passwd']) and $_SESSION['passwd']!=$tadbook['passwd']){
-  $data.=_MI_TADBOOK3_INPUT_PASSWD;
+  $data.=_MD_TADBOOK3_INPUT_PASSWD;
   return $data;
   exit;
 }

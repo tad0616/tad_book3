@@ -1,3 +1,83 @@
 <link rel="stylesheet" type="text/css" media="screen" href="<{$xoops_url}>/modules/tadtools/bootstrap/css/bootstrap.css" />
 <link rel="stylesheet" type="text/css" media="screen" href="<{$xoops_url}>/modules/tadtools/bootstrap/css/bootstrap-responsive.css" />
 <link rel="stylesheet" type="text/css" media="screen" href="<{$xoops_url}>/modules/tadtools/css/xoops_adm.css" />
+<{if $data}>
+  <{$jquery}>
+  <script type="text/javascript">
+  $(document).ready(function(){
+      $("#sort").sortable({ opacity: 0.6, cursor: "move", update: function() {
+          var order = $(this).sortable("serialize") + "&action=updateRecordsListings";
+          $.post("save_sort.php", order, function(theResponse){
+              $("#save_msg").html(theResponse);
+          });
+      }
+      });
+  });
+
+  function delete_tad_book3_cate_func(tbcsn){
+    var sure = window.confirm("<{$smarty.const._TAD_DEL_CONFIRM}>");
+    if (!sure)  return;
+    location.href="cate.php?op=delete_tad_book3_cate&tbcsn=" + tbcsn;
+  }
+  </script>
+
+
+  <table class="table table-striped table-bordered table-hover">
+  <tr>
+    <th><{$smarty.const._MA_TADBOOK3_SORT}></th>
+    <th><{$smarty.const._MA_TADBOOK3_CATE_TITLE}></th>
+    <th><{$smarty.const._MA_TADBOOK3_CATE_DESCRIPTION}></th>
+    <th><{$smarty.const._TAD_FUNCTION}></th>
+  </tr>
+  <tbody id="sort">
+  <{foreach from=$data item=cate}>
+    <tr id="tr_<{$cate.tbcsn}>">
+      <td><img src="<{$xoops_url}>/modules/tadtools/treeTable/images/updown_s.png" style="cursor: s-resize;margin:0px 4px;" alt="" title=""><{$cate.sort}></td>
+      <td><{$cate.title}></td>
+      <td><{$cate.description}></td>
+      <td>
+        <a href="cate.php?op=tad_book3_cate_form&tbcsn=<{$cate.tbcsn}>" class="btn btn-mini btn-warning"><{$smarty.const._TAD_EDIT}></a>
+        <a href="javascript:delete_tad_book3_cate_func(<{$cate.tbcsn}>);" class="btn btn-mini btn-danger"><{$smarty.const._TAD_DEL}></a>
+      </td>
+    </tr>
+  <{/foreach}>
+  <tr>
+  </tbody>
+  </table>
+
+  <div id="save_msg"></div>
+
+  <div class="text-right">
+    <a href="cate.php?op=tad_book3_cate_form" class="btn btn-primary"><{$smarty.const._TAD_ADD}></a>
+  </div>
+
+<{elseif $op=="tad_book3_cate_form"}>
+  <form action="cate.php" method="post" id="myForm" enctype="multipart/form-data">
+
+    <div class="row-fluid">
+      <label class="span2 text-right">
+        <{$smarty.const._MA_TADBOOK3_CATE_TITLE}>
+      </label>
+      <div class="span10">
+        <input type="text" name="title" class="span12" value="<{$title}>">
+      </div>
+    </div>
+
+    <div class="row-fluid">
+      <label class="span2 text-right">
+        <{$smarty.const._MA_TADBOOK3_CATE_DESCRIPTION}>
+      </label>
+      <div class="span10">
+        <{$editor}>
+      </div>
+    </div>
+
+    <div class="row-fluid text-center">
+      <input type="hidden" name="sort" value="<{$sort}>">
+      <input type="hidden" name="tbcsn" value="<{$tbcsn}>">
+      <input type="hidden" name="op" value="<{$next_op}>">
+      <button type="submit" class="btn btn-primary"><{$smarty.const._TAD_SAVE}></button>
+    </div>
+
+  </form>
+<{/if}>

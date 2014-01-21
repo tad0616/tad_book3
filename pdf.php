@@ -52,7 +52,7 @@ function view_page($tbdsn=""){
 
 
   if(!empty($book['passwd']) and $_SESSION['passwd']!=$book['passwd']){
-    $data.=_MI_TADBOOK3_INPUT_PASSWD;
+    $data.=_MD_TADBOOK3_INPUT_PASSWD;
     return $data;
     exit;
   }

@@ -28,10 +28,12 @@ $html ='<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
   </style>
   </head>
   <body>';
+
 $html.=view_page($tbdsn);
 $html.='
   </body>
 </html>';
+//die($html);
 
 require_once('class/tcpdf/tcpdf.php');
 $pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
@@ -63,7 +65,7 @@ function view_page($tbdsn=""){
 
 
   if(!empty($book['passwd']) and $_SESSION['passwd']!=$book['passwd']){
-    $data.=_MI_TADBOOK3_INPUT_PASSWD;
+    $data.=_MD_TADBOOK3_INPUT_PASSWD;
     return $data;
     exit;
   }

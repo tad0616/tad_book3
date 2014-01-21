@@ -7,35 +7,55 @@
 
 <form action="<{$action}>" method="post" id="myForm" enctype="multipart/form-data">
 
-  <div class="controls controls-row">
-    <label class="span1 text-right"><{$smarty.const._MD_TADBOOK3_TITLE}></label>
-    <select name="tbsn" class="span6"><{$book_select}></select>
+  <div class="row-fluid">
+    <label class="span1 text-right">
+      <{$smarty.const._MD_TADBOOK3_TITLE}>
+    </label>
+    <div class="span6">
+      <select name="tbsn" class="span12">
+        <{$book_select}>
+      </select>
+    </div>
 
-    <label class="span1 text-right"><{$smarty.const._MD_TADBOOK3_ENABLE}></label>
-    <label class="radio inline">
-      <input type="radio" name="enable" id="enable1" value="1" <{if $enable=="1"}>checked<{/if}>><{$smarty.const._MD_TADBOOK3_ENABLE}>
+    <label class="span1 text-right">
+      <{$smarty.const._MD_TADBOOK3_STATUS}>
     </label>
-    <label class="radio inline">
-      <input type="radio" name="enable" id="enable0" value="0" <{if $enable=="0"}>checked<{/if}>><{$smarty.const._MD_TADBOOK3_UNABLE}>
-    </label>
+
+    <div class="span4">
+      <label class="radio inline">
+        <input type="radio" name="enable" id="enable1" value="1" <{if $enable=="1"}>checked<{/if}>><{$smarty.const._MD_TADBOOK3_ENABLE}>
+      </label>
+      <label class="radio inline">
+        <input type="radio" name="enable" id="enable0" value="0" <{if $enable=="0"}>checked<{/if}>><{$smarty.const._MD_TADBOOK3_UNABLE}>
+      </label>
+    </div>
 
 
   </div>
 
 
-  <div class="controls controls-row">
-    <label class="span1 text-right"><{$smarty.const._MD_TADBOOK3_DOC_TITLE}></label>
-    <input type="text" name="title" value="<{$title}>" class="span6" placeholder="<{$smarty.const._MD_TADBOOK3_DOC_TITLE}>">
-    <label class="span1 text-right"><{$smarty.const._MD_TADBOOK3_CATEGORY}></label>
+  <div class="row-fluid">
+    <label class="span1 text-right">
+      <{$smarty.const._MD_TADBOOK3_DOC_TITLE}>
+    </label>
+    <div class="span6">
+      <input type="text" name="title" value="<{$title}>" class="span12" placeholder="<{$smarty.const._MD_TADBOOK3_DOC_TITLE}>">
+    </div>
 
-    <select name="category" size=1 class="span1"><{$category_menu_category}></select>
-    <select name="page" size=1 class="span1"><{$category_menu_page}></select>
-    <select name="paragraph" size=1 class="span1"><{$category_menu_paragraph}></select>
-    <select name="sort" size=1 class="span1"><{$category_menu_sort}></select>
+    <label class="span1 text-right">
+      <{$smarty.const._MD_TADBOOK3_CATEGORY}>
+    </label>
+
+    <div class="span4">
+      <select name="category" size=1 class="span3"><{$category_menu_category}></select>
+      <select name="page" size=1 class="span3"><{$category_menu_page}></select>
+      <select name="paragraph" size=1 class="span3"><{$category_menu_paragraph}></select>
+      <select name="sort" size=1 class="span3"><{$category_menu_sort}></select>
+    </div>
   </div>
 
 
-  <div class="controls controls-row">
+  <div class="row-fluid">
     <{$editor}>
   </div>
 

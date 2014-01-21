@@ -30,7 +30,7 @@ function show_allbook(){
 			$description=strip_tags($description);
 		}
 
-		if(empty($cate_title))$cate_title=_MI_TADBOOK3_NOT_CLASSIFIED;
+		if(empty($cate_title))$cate_title=_MD_TADBOOK3_NOT_CLASSIFIED;
 
 
 		$data_arr[$cate_title][]="
@@ -228,7 +228,7 @@ function list_docs_m($tbsn=""){
 		<form action='{$_SERVER['PHP_SELF']}' method='post' id='myForm' enctype='multipart/form-data' data-ajax='false'>
 		<input type='hidden' name='tbsn' value=$tbsn>
 		<input type='hidden' name='op' value='check_passwd'>
-		"._MI_TADBOOK3_INPUT_PASSWD."<input type='text' name='passwd'><button type='submit'>Submit</button>
+		"._MD_TADBOOK3_INPUT_PASSWD."<input type='text' name='passwd'><button type='submit'>Submit</button>
 		</form>
     ";
 		return $data;
@@ -295,7 +295,7 @@ function view_page($tbdsn=""){
 		<form action='{$_SERVER['PHP_SELF']}' method='post' id='myForm' enctype='multipart/form-data' data-ajax='false'>
 		<input type='hidden' name='tbsn' value=$tbsn>
 		<input type='hidden' name='op' value='check_passwd'>
-		"._MI_TADBOOK3_INPUT_PASSWD."<input type='text' name='passwd' size=20><button type='submit'>Submit</button>
+		"._MD_TADBOOK3_INPUT_PASSWD."<input type='text' name='passwd' size=20><button type='submit'>Submit</button>
 		</form>
 		";
 		return $data;

@@ -6,17 +6,19 @@
 //區塊主函式 (會自動偵測目前閱讀的書籍，並秀出該書目錄)
 function tad_book3_index(){
 	global $xoopsDB;
-	
-	if(empty($_GET['tbsn']) and !empty($_GET['tbdsn'])){
-    $sql = "select `tbsn` from ".$xoopsDB->prefix("tad_book3_docs")." where tbdsn='{$_GET['tbdsn']}'";
+	$global_tbsn=isset($_GET['tbsn'])?intval($_GET['tbsn']):"";
+  $global_tbdsn=isset($_GET['tbdsn'])?intval($_GET['tbdsn']):"";
+
+	if(empty($global_tbsn) and !empty($global_tbdsn)){
+    $sql = "select `tbsn` from ".$xoopsDB->prefix("tad_book3_docs")." where tbdsn='{$global_tbdsn}'";
 		$result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'],3, mysql_error());
 		list($tbsn)=$xoopsDB->fetchRow($result);
 	}else{
-    $tbsn=$_GET['tbsn'];
+    $tbsn=$global_tbsn;
 	}
-	
+
 	if(empty($tbsn))return;
-	
+
 
   if(!file_exists(XOOPS_ROOT_PATH."/modules/tadtools/dtree.php")){
     redirect_header("index.php",3, _MA_NEED_TADTOOLS);
@@ -26,9 +28,9 @@ function tad_book3_index(){
   $home['sn']=0;
   $home['title']=_MB_TADBOOK3_BOOK_CONTENT;
   $home['url']=XOOPS_URL."/modules/tad_book3/index.php?tbsn=$tbsn";
-  $dtree=new dtree("tad_book3_{$_GET['tbsn']}",$home,$book['title'],$book['father_sn'],$book['url']);
+  $dtree=new dtree("tad_book3_{$global_tbsn}",$home,$book['title'],$book['father_sn'],$book['url']);
   $block=$dtree->render();
-   
+
 	return $block;
 }
 
@@ -80,14 +82,14 @@ if(!function_exists("block_get_book_content")){
       $fsn["{$category}"]=$tbdsn;
     }elseif($doc_sort['level']==2){
       $fsn["{$category}-{$page}"]=$tbdsn;
-      $father_sn=$fsn["{$category}"];
+      $father_sn=isset($fsn["{$category}"])?$fsn["{$category}"]:"";
     }elseif($doc_sort['level']==3){
       $fsn["{$category}-{$page}-{$paragraph}"]=$tbdsn;
-      $father_sn=$fsn["{$category}-{$page}"];
+      $father_sn=isset($fsn["{$category}-{$page}"])?$fsn["{$category}-{$page}"]:"";
     }elseif($doc_sort['level']==4){
-      $father_sn=$fsn["{$category}-{$page}-{$paragraph}"];
+      $father_sn=isset($fsn["{$category}-{$page}-{$paragraph}"])?$fsn["{$category}-{$page}-{$paragraph}"]:"";
     }
-    
+
     if($father_sn=='')$father_sn=0;
 
 
@@ -126,7 +128,7 @@ if(!function_exists("block_category")){
   		$main="";
   		$level=0;
   	}
-  	
+
   	$all['main']=$main;
   	$all['level']=$level;
   	return $all;

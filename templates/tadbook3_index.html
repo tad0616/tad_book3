@@ -9,36 +9,54 @@
     <h2><{$smarty.const._MD_INPUT_BOOK_FORM}></h2>
     <form action="<{$action}>" method="post" id="myForm" enctype="multipart/form-data">
 
-    <div class="controls controls-row">
-      <label class="span2 text-right"><{$smarty.const._MD_TADBOOK3_TBCSN_MENU}></label>
-      <select name="tbcsn" size=1 class="span3">
-        <{$cate_select}>
-      </select>
-      <input type="text" name="new_tbcsn" class="span2" placeholder="<{$smarty.const._MD_TADBOOK3_NEW_PCSN}>">
+    <div class="row-fluid">
+      <label class="span2 text-right">
+        <{$smarty.const._MD_TADBOOK3_TBCSN_MENU}>
+      </label>
+      <div class="span3">
+        <select name="tbcsn" size=1 class="span12">
+          <{$cate_select}>
+        </select>
+      </div>
+      <div class="span2">
+        <input type="text" name="new_tbcsn" class="span12" placeholder="<{$smarty.const._MD_TADBOOK3_NEW_PCSN}>">
+      </div>
 
 
-      <label class="span1 text-right"><{$smarty.const._MD_TADBOOK3_ENABLE}></label>
-      <label class="radio inline">
-        <input type="radio" name="enable" id="enable1" value="1" <{if $enable=="1"}>checked<{/if}>><{$smarty.const._MD_TADBOOK3_ENABLE}>
+      <label class="span1 text-right">
+        <{$smarty.const._MD_TADBOOK3_STATUS}>
       </label>
-      <label class="radio inline">
-        <input type="radio" name="enable" id="enable0" value="0" <{if $enable=="0"}>checked<{/if}>><{$smarty.const._MD_TADBOOK3_UNABLE}>
-      </label>
+      <div class="span4">
+        <label class="radio inline">
+          <input type="radio" name="enable" id="enable1" value="1" <{if $enable=="1"}>checked<{/if}>><{$smarty.const._MD_TADBOOK3_ENABLE}>
+        </label>
+        <label class="radio inline">
+          <input type="radio" name="enable" id="enable0" value="0" <{if $enable=="0"}>checked<{/if}>><{$smarty.const._MD_TADBOOK3_UNABLE}>
+        </label>
+      </div>
     </div>
 
-    <div class="controls controls-row">
-      <label class="span2 text-right"><{$smarty.const._MD_TADBOOK3_TITLE}></label>
-      <input type="text" name="title" value="<{$title}>" class="span5" placeholder="<{$smarty.const._MD_TADBOOK3_TITLE}>">
+    <div class="row-fluid">
+      <label class="span2 text-right">
+        <{$smarty.const._MD_TADBOOK3_TITLE}>
+      </label>
+      <div class="span5">
+        <input type="text" name="title" value="<{$title}>" class="span12" placeholder="<{$smarty.const._MD_TADBOOK3_TITLE}>">
+      </div>
 
-      <label class="span1 text-right"><{$smarty.const._MD_TADBOOK3_PIC_NAME}></label>
-      <input type="file" name="pic_name" class="span3" placeholder="<{$smarty.const._MD_TADBOOK3_PIC_NAME}>">
+      <label class="span1 text-right">
+        <{$smarty.const._MD_TADBOOK3_PIC_NAME}>
+      </label>
+      <div class="span4">
+        <input type="file" name="pic_name" class="span12" placeholder="<{$smarty.const._MD_TADBOOK3_PIC_NAME}>">
+      </div>
     </div>
 
-    <div class="controls controls-row">
+    <div class="row-fluid">
       <{$editor}>
     </div>
 
-    <div class="controls controls-row">
+    <div class="row-fluid">
       <div class="span4">
         <label><{$smarty.const._MD_TADBOOK3_AUTHOR}></label>
         <{$user_menu}>
@@ -74,6 +92,12 @@
       var sure = window.confirm('<{$smarty.const._TAD_DEL_CONFIRM}>');
       if (!sure)	return;
       location.href="admin/main.php?op=delete_tad_book3_docs&tbdsn=" + tbdsn;
+    }
+
+    function delete_tad_book3_func(tbsn){
+      var sure = window.confirm("<{$smarty.const._TAD_DEL_CONFIRM}>");
+      if (!sure)  return;
+      location.href="admin/main.php?op=delete_tad_book3&tbsn=" + tbsn;
     }
   </script>
   <{/if}>
@@ -145,26 +169,24 @@
   <div id="save_msg"></div>
 
   <script language="JavaScript">
-  $().ready(function(){
-    $("#books_sort").sortable({
-      opacity: 0.6,
-      cursor: "move",
-      update: function() {
-        var order = $(this).sortable("serialize") + "&action=updateRecordsListings";
-        $.post("save_book_sort.php", order, function(theResponse){
-          $("#save_msg").html(theResponse);
-        });
-      }
+    $().ready(function(){
+      $("#books_sort").sortable({
+        opacity: 0.6,
+        cursor: "move",
+        update: function() {
+          var order = $(this).sortable("serialize") + "&action=updateRecordsListings";
+          $.post("save_book_sort.php", order, function(theResponse){
+            $("#save_msg").html(theResponse);
+          });
+        }
+      });
     });
-  });
-  </script>
 
-  <script>
-  function delete_tad_book3_func(tbsn){
-    var sure = window.confirm("<{$smarty.const._TAD_DEL_CONFIRM}>");
-    if (!sure)	return;
-    location.href="admin/main.php?op=delete_tad_book3&tbsn=" + tbsn;
-  }
+    function delete_tad_book3_func(tbsn){
+      var sure = window.confirm("<{$smarty.const._TAD_DEL_CONFIRM}>");
+      if (!sure)  return;
+      location.href="admin/main.php?op=delete_tad_book3&tbsn=" + tbsn;
+    }
   </script>
 
   <{foreach from=$cate item=cate}>
