@@ -209,7 +209,7 @@ function tad_book3_form($tbsn=""){
     $criteria->setSort('uname');
     $criteria->setOrder('ASC');
     $criteria->setLimit(1000);
-    $criteria->setStart(1);
+    $criteria->setStart(0);
 
     $select->addOptionArray($member_handler->getUserList($criteria));
     $user_menu=$select->render();

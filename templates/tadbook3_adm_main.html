@@ -85,7 +85,7 @@
         <a href="main.php?op=list_docs&tbsn=<{$tbsn}>"><{$title}></a>
       </h3>
       <div style="font-size:12px;"><{$smarty.const._MA_TADBOOK3_CREATE_DATE}> <{$create_date}></div>
-      <div class="well"><{$description}></div>
+      <div class="alert alert-info"><{$description}></div>
       <div class="text-right">
         <a href="main.php?op=tad_book3_form&tbsn=<{$tbsn}>" class="btn btn-mini btn-warning"><{$smarty.const._TAD_EDIT}></a>
         <a href="javascript:delete_tad_book3_func(<{$tbsn}>);" class="btn btn-mini btn-danger"><{$smarty.const._TAD_DEL}></a>
@@ -104,32 +104,33 @@
     </div>
   </div>
 
-  <div class="well">
-    <{foreach from=$docs item=doc}>
-      <div class="row-fluid">
-        <div class="span6">
-          <span class="doc_sort_<{$doc.doc_sort_level}>">
-            <{$doc.doc_sort_main}>
-          </span>
-          <a href="../page.php?tbdsn=<{$doc.tbdsn}>"><{$doc.title}></a>
-        </div>
-        <div class="span2">
-        (<{$doc.last_modify_date}>)
-        </div>
+  <{if $docs}>
+    <div class="well">
+      <{foreach from=$docs item=doc}>
+        <div class="row-fluid">
+          <div class="span6">
+            <span class="doc_sort_<{$doc.doc_sort_level}>">
+              <{$doc.doc_sort_main}>
+            </span>
+            <a href="../page.php?tbdsn=<{$doc.tbdsn}>"><{$doc.title}></a>
+          </div>
+          <div class="span2">
+          (<{$doc.last_modify_date}>)
+          </div>
 
-        <div class="span2">
-          <{$smarty.const._MA_TADBOOK3_COUNT}>
-          <{$doc.count}>
-        </div>
+          <div class="span2">
+            <{$smarty.const._MA_TADBOOK3_COUNT}>
+            <{$doc.count}>
+          </div>
 
-        <div class="span2">
-          <a href="javascript:delete_tad_book3_docs_func(<{$doc.tbdsn}>);" class="btn btn-mini btn-danger"><{$smarty.const._TAD_DEL}></a>
-          <a href="../post.php?op=tad_book3_docs_form&tbdsn=<{$doc.tbdsn}>" class="btn btn-mini btn-warning"><{$smarty.const._TAD_EDIT}></a>
+          <div class="span2">
+            <a href="javascript:delete_tad_book3_docs_func(<{$doc.tbdsn}>);" class="btn btn-mini btn-danger"><{$smarty.const._TAD_DEL}></a>
+            <a href="../post.php?op=tad_book3_docs_form&tbdsn=<{$doc.tbdsn}>" class="btn btn-mini btn-warning"><{$smarty.const._TAD_EDIT}></a>
+          </div>
         </div>
-      </div>
-    <{/foreach}>
-  </div>
-
+      <{/foreach}>
+    </div>
+  <{/if}>
 <{else}>
 
   <{$jquery}>
