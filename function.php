@@ -129,6 +129,7 @@ function list_docs($tbsn=""){
   $xoopsTpl->assign('read_group',$read_group);
   $xoopsTpl->assign('author',$author);
   $xoopsTpl->assign('passwd',$passwd);
+  $xoopsTpl->assign('enable',$enable);
   $xoopsTpl->assign('enable_txt',$enable_txt);
   $xoopsTpl->assign('counter',$counter);
   $xoopsTpl->assign('create_date',$create_date);
@@ -142,12 +143,17 @@ function list_docs($tbsn=""){
     $doc_sort=mk_category($category,$page,$paragraph,$sort);
     $last_modify_date=date("Y-m-d H:i:s",xoops_getUserTimestamp($last_modify_date));
 
+    if($enable!='1' and !$my)continue;
+    $enable_txt=($enable=='1')?"":"["._MD_TADBOOK3_UNABLE."] ";
+
     $docs[$i]['tbdsn']=$tbdsn;
     $docs[$i]['last_modify_date']=$last_modify_date;
     $docs[$i]['doc_sort_level']=$doc_sort['level'];
     $docs[$i]['doc_sort_main']=$doc_sort['main'];
     $docs[$i]['title']=$title;
     $docs[$i]['count']=$count;
+    $docs[$i]['enable']=$enable;
+    $docs[$i]['enable_txt']=$enable_txt;
     $i++;
   }
 

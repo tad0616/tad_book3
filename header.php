@@ -21,7 +21,7 @@ if ($xoopsUser) {
 }
 
 $interface_menu[_TAD_TO_MOD]="index.php";
-if ($xoopsUser) {
+
 
 	//管理員可以新增書籍
 	if($isAdmin){
@@ -34,14 +34,18 @@ if ($xoopsUser) {
 			$sql = "select a.tbsn,a.title,b.author,a.category,a.page,a.paragraph,a.sort from ".$xoopsDB->prefix("tad_book3_docs")." as a left join ".$xoopsDB->prefix("tad_book3")." as b on a.tbsn=b.tbsn where a.tbdsn='{$_GET['tbdsn']}'";
 			$result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'],3, mysql_error());
 			list($tbsn,$title,$author,$category,$page,$paragraph,$sort)=$xoopsDB->fetchRow($result);
+
+      $all_books=all_books();
+      $txt=sprintf(_MD_TADBOOK3_BOOK_CONTENT,$all_books[$tbsn]);
+      $interface_menu[$txt]="index.php?op=list_docs&tbsn={$tbsn}";
+
       if(chk_edit_power($author)){
-				$all_books=all_books();
 
 				$interface_menu[_MD_TADBOOK3_ADD_DOC]="post.php?op=tad_book3_docs_form&tbsn={$tbsn}";
-		  	$txt=sprintf(_MD_TADBOOK3_BOOK_CONTENT,$all_books[$tbsn]);
-				$interface_menu[$txt]="index.php?op=list_docs&tbsn={$tbsn}";
 				$interface_menu[_MD_TADBOOK3_MODIFY_DOC]="post.php?op=tad_book3_docs_form&tbsn={$tbsn}&tbdsn={$_GET['tbdsn']}";
 			}
+
+
 			$category=mk_category($category,$page,$paragraph,$sort);
 			$pdfurl=XOOPS_URL."/modules/tad_book3/pdf.php?tbdsn={$_GET['tbdsn']}&-O=Portrait&-s=A4&-D="._CHARSET."&--filename=BOOK{$_GET['tbdsn']}-{$category['main']}.pdf";
 			//$interface_menu['PDF']="http://pdfmyurl.com/?url=$pdfurl";
@@ -57,7 +61,7 @@ if ($xoopsUser) {
 			}
 		}
 	}
-}
+
 
 
 if($isAdmin){
