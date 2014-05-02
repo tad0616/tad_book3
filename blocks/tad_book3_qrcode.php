@@ -1,11 +1,11 @@
 <?php
 //°Ï¶ô¥D¨ç¦¡ (QR Code)
 function tad_book3_qrcode_show($options){
-  if(preg_match("/tad_book3\/index.php\?tbsn=/i", $_SERVER['REQUEST_URI'])){
+  if(strpos($_SERVER['REQUEST_URI'], "tad_book3/index.php?op=list_docs&tbsn=")!==false){
     $url=str_replace("index.php","pda.php",$_SERVER['REQUEST_URI']);
-  }elseif(preg_match("/tad_book3\/$/i", $_SERVER['REQUEST_URI'])){
-    $url=$_SERVER['REQUEST_URI']."pda.php";
-  }elseif(preg_match("/tad_book3\/page.php\?tbdsn=/i", $_SERVER['REQUEST_URI'])){
+  }elseif(strpos($_SERVER['REQUEST_URI'], "tad_book3/index.php")!==false){
+    $url=str_replace("index.php","pda.php",$_SERVER['REQUEST_URI']);
+  }elseif(strpos($_SERVER['REQUEST_URI'], "tad_book3/page.php?tbdsn=")!==false){
     $url=str_replace("page.php","pda.php",$_SERVER['REQUEST_URI']);
   }else{
     return ;
