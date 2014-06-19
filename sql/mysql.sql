@@ -37,7 +37,7 @@ CREATE TABLE tad_book3_docs (
   `content` text NOT NULL ,
   `add_date` varchar(255) NOT NULL default '' ,
   `last_modify_date` varchar(255) NOT NULL default '' ,
-  `uid` smallint(6) NOT NULL  default 0 ,
+  `uid` mediumint(8) NOT NULL  default 0 ,
   `count` smallint(6) NOT NULL  default 0 ,
   `enable` enum('1','0') NOT NULL default '1' ,
   PRIMARY KEY  (`tbdsn`),
