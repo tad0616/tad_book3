@@ -503,8 +503,9 @@ function category_menu($num=""){
 
 //取得前後文章
 function near_docs($tbsn="",$doc_sn=""){
-  global $xoopsDB;
-  $sql = "select tbdsn,title,category,page,paragraph,sort from ".$xoopsDB->prefix("tad_book3_docs")." where tbsn='$tbsn' order by category,page,paragraph,sort";
+  global $xoopsDB,$isAdmin;
+  $and_enable=$isAdmin?"":"and enable='1'";
+  $sql = "select tbdsn,title,category,page,paragraph,sort from ".$xoopsDB->prefix("tad_book3_docs")." where tbsn='$tbsn' $and_enable order by category,page,paragraph,sort";
   $result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'],3, mysql_error());
   $get_next=false;
   while(list($tbdsn,$title,$category,$page,$paragraph,$sort)=$xoopsDB->fetchRow($result)){

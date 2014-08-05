@@ -2,15 +2,36 @@
 
 function xoops_module_update_tad_book3(&$module, $old_version) {
     GLOBAL $xoopsDB;
-    
+
 		//if(!chk_chk1()) go_update1();
 		//if(!chk_chk2()) go_update2();
+    if(chk_uid()) go_update_uid();
 
 		$old_fckeditor=XOOPS_ROOT_PATH."/modules/tad_book3/fckeditor";
 		if(is_dir($old_fckeditor)){
 			delete_directory($old_fckeditor);
 		}
     return true;
+}
+
+
+//修正uid欄位
+function chk_uid(){
+  global $xoopsDB;
+  $sql="SELECT DATA_TYPE FROM INFORMATION_SCHEMA.COLUMNS
+  WHERE table_name = '".$xoopsDB->prefix("tad_book3_docs")."' AND COLUMN_NAME = 'uid'";
+  $result=$xoopsDB->query($sql);
+  list($type)=$xoopsDB->fetchRow($result);
+  if($type=='smallint')return true;
+  return false;
+}
+
+//執行更新
+function go_update_uid(){
+  global $xoopsDB;
+  $sql="ALTER TABLE `".$xoopsDB->prefix("tad_book3_docs")."` CHANGE `uid` `uid` mediumint(8) unsigned NOT NULL default 0";
+  $xoopsDB->queryF($sql) or redirect_header(XOOPS_URL,3,  mysql_error());
+  return true;
 }
 
 

@@ -52,10 +52,19 @@ function add_book_counter($tbsn=""){
   $xoopsDB->queryF($sql) or redirect_header($_SERVER['PHP_SELF'],3, mysql_error());
 }
 
+
+//更新狀態
+function change_enable($enable,$tbdsn){
+  global $xoopsDB;
+  $sql = "update ".$xoopsDB->prefix("tad_book3_docs")." set  `enable` = '{$enable}' where tbdsn='$tbdsn'";
+  $xoopsDB->queryF($sql) or redirect_header($_SERVER['PHP_SELF'],3, mysql_error());
+}
+
 /*-----------執行動作判斷區----------*/
 $_REQUEST['op']=(empty($_REQUEST['op']))?"":$_REQUEST['op'];
 $tbsn = (!isset($_REQUEST['tbsn']))? "":intval($_REQUEST['tbsn']);
 $tbdsn = (!isset($_REQUEST['tbdsn']))? "":intval($_REQUEST['tbdsn']);
+$enable = (!isset($_REQUEST['enable']))? "":intval($_REQUEST['enable']);
 
 $xoopsTpl->assign( "toolbar" , toolbar_bootstrap($interface_menu)) ;
 $xoopsTpl->assign( "bootstrap" , get_bootstrap()) ;
@@ -69,14 +78,17 @@ switch($_REQUEST['op']){
   break;
 
   case "list_docs":
-  $main=list_docs($tbsn);
+  list_docs($tbsn);
   break;
 
   case "list_all_book":
-  $main=list_all_book($tbcsn);
+  list_all_book($tbcsn);
   break;
 
-
+  case "change_enable":
+  change_enable($enable,$tbdsn);
+  header("location: {$_SERVER['PHP_SELF']}?op=list_docs&tbsn=$tbsn");
+  break;
 
   //新增資料
   case "insert_tad_book3":
@@ -86,7 +98,7 @@ switch($_REQUEST['op']){
 
   //輸入表格
   case "tad_book3_form";
-  $main=tad_book3_form($tbsn);
+  tad_book3_form($tbsn);
   break;
 
 
