@@ -107,6 +107,13 @@ switch($_REQUEST['op']){
   header("location: {$_SERVER['PHP_SELF']}");
   break;
 
+
+  //刪除文章
+  case "delete_tad_book3_docs";
+  delete_tad_book3_docs($tbdsn);
+  header("location: {$_SERVER['PHP_SELF']}");
+  break;
+
   default:
   if(!empty($tbsn)){
    list_docs($tbsn);

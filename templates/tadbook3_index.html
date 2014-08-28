@@ -91,13 +91,7 @@
     function delete_tad_book3_docs_func(tbdsn){
       var sure = window.confirm('<{$smarty.const._TAD_DEL_CONFIRM}>');
       if (!sure)	return;
-      location.href="admin/main.php?op=delete_tad_book3_docs&tbdsn=" + tbdsn;
-    }
-
-    function delete_tad_book3_func(tbsn){
-      var sure = window.confirm("<{$smarty.const._TAD_DEL_CONFIRM}>");
-      if (!sure)  return;
-      location.href="admin/main.php?op=delete_tad_book3&tbsn=" + tbsn;
+      location.href="index.php?op=delete_tad_book3_docs&tbdsn=" + tbdsn;
     }
   </script>
   <{/if}>

@@ -14,12 +14,6 @@ function delete_tad_book3($tbsn=""){
   $xoopsDB->queryF($sql) or redirect_header($_SERVER['PHP_SELF'],3, mysql_error());
 }
 
-//刪除tad_book3_docs某筆資料資料
-function delete_tad_book3_docs($tbdsn=""){
-  global $xoopsDB;
-  $sql = "delete from ".$xoopsDB->prefix("tad_book3_docs")." where tbdsn='$tbdsn'";
-  $xoopsDB->queryF($sql) or redirect_header($_SERVER['PHP_SELF'],3, mysql_error());
-}
 
 /*-----------執行動作判斷區----------*/
 $op = (!isset($_REQUEST['op']))? "main":$_REQUEST['op'];

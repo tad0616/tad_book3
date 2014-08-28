@@ -631,5 +631,11 @@ function chk_edit_power($uid_txt=""){
 
 
 /********************* 預設函數 *********************/
+//刪除tad_book3_docs某筆資料資料
+function delete_tad_book3_docs($tbdsn=""){
+  global $xoopsDB;
+  $sql = "delete from ".$xoopsDB->prefix("tad_book3_docs")." where tbdsn='$tbdsn'";
+  $xoopsDB->queryF($sql) or redirect_header($_SERVER['PHP_SELF'],3, mysql_error());
+}
 
 ?>
