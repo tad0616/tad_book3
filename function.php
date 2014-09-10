@@ -43,7 +43,7 @@ function list_all_cate_book(){
     <div style='width:auto;font-size:12px;font-weight:normal;'>
     <a href='{$_SERVER['PHP_SELF']}?op=tad_book3_form&tbsn=$tbsn' class='btn btn-mini btn-warning'>"._TAD_EDIT."</a>
     <a href=\"javascript:delete_tad_book3_func($tbsn);\" class='btn btn-mini btn-danger'>"._TAD_DEL."</a>
-    <a href='post.php?tbsn=$tbsn&op=tad_book3_docs_form' class='btn btn-mini btn-primary'>"._MD_TADBOOK3_ADD_DOC."</a>
+    <a href='".XOOPS_URL."/modules/tad_book3/post.php?tbsn=$tbsn&op=tad_book3_docs_form' class='btn btn-mini btn-primary'>"._MD_TADBOOK3_ADD_DOC."</a>
     </div>":"";
 
     if(empty($cate_title))$cate_title=_MD_TADBOOK3_NOT_CLASSIFIED;
