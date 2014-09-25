@@ -14,7 +14,7 @@ function tad_book3_random($options){
 	  $pic=(empty($pic_name))?XOOPS_URL."/modules/tad_book3/images/blank.png":XOOPS_URL."/uploads/tad_book3/{$pic_name}";
     $booktitle=($options[1]=="0")?"":"<a href='".XOOPS_URL."/modules/tad_book3/index.php?op=list_docs&tbsn=$tbsn'>$title</a> ($counter)";
 	  $block.="<div style='text-align:center;'>
-		<a href='".XOOPS_URL."/modules/tad_book3/index.php?op=list_docs&tbsn=$tbsn'><img src='{$pic}'></a><br>
+		<a href='".XOOPS_URL."/modules/tad_book3/index.php?op=list_docs&tbsn=$tbsn'><img src='{$pic}' alt='{$title}'></a><br>
 		$booktitle
 		</div>";
 	}

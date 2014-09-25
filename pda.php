@@ -35,7 +35,7 @@ function show_allbook(){
 
 		$data_arr[$cate_title][]="
 					<li class='gallery-item'>
-						<a href='{$_SERVER['PHP_SELF']}?tbsn={$tbsn}'><img src='$pic'/>
+						<a href='{$_SERVER['PHP_SELF']}?tbsn={$tbsn}'><img src='$pic' alt='{$title}' />
 						<h3>{$title}</h3>
 						</a>
 					</li>

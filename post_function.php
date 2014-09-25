@@ -7,25 +7,30 @@
 function tad_book3_docs_form($tbdsn="",$tbsn=""){
 	global $xoopsDB,$xoopsUser,$xoopsModule,$xoopsTpl;
 	include_once(XOOPS_ROOT_PATH."/class/xoopsformloader.php");
-	
+
 	if ($xoopsUser) {
     $module_id = $xoopsModule->getVar('mid');
     $isAdmin=$xoopsUser->isAdmin($module_id);
   }else{
     $isAdmin=false;
 	}
+
+	//抓取預設值
+	if(!empty($tbdsn)){
+		$DBV=get_tad_book3_docs($tbdsn);
+		$tbsn=$DBV['tbsn'];
+	}else{
+		$DBV=array();
+	}
+
 	if(!$isAdmin){
 		$book=get_tad_book3($tbsn);
+		//die('author:'.$book['author']);
 		if(!chk_edit_power($book['author'])){
 			header("location:index.php");
 		}
 	}
-	//抓取預設值
-	if(!empty($tbdsn)){
-		$DBV=get_tad_book3_docs($tbdsn);
-	}else{
-		$DBV=array();
-	}
+
 
 	//預設值設定
 
@@ -96,8 +101,8 @@ function insert_tad_book3_docs(){
 	$myts =& MyTextSanitizer::getInstance();
 	$_POST['title']=$myts->addSlashes($_POST['title']);
 	$_POST['content']=$myts->addSlashes($_POST['content']);
-	
-	
+
+
 	$uid=$xoopsUser->getVar('uid');
 	$sql = "insert into ".$xoopsDB->prefix("tad_book3_docs")." (`tbsn`,`category`,`page`,`paragraph`,`sort`,`title`,`content`,`add_date`,`last_modify_date`,`uid`,`count`,`enable`) values('{$_POST['tbsn']}','{$_POST['category']}','{$_POST['page']}','{$_POST['paragraph']}','{$_POST['sort']}','{$_POST['title']}','{$_POST['content']}','{$time}','{$time}','{$uid}','0','{$_POST['enable']}')";
 	$xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'],3, mysql_error());
@@ -114,7 +119,7 @@ function update_tad_book3_docs($tbdsn=""){
 	$myts =& MyTextSanitizer::getInstance();
 	$_POST['title']=$myts->addSlashes($_POST['title']);
 	$_POST['content']=$myts->addSlashes($_POST['content']);
-	
+
 	$sql = "update ".$xoopsDB->prefix("tad_book3_docs")." set  `tbsn` = '{$_POST['tbsn']}', `category` = '{$_POST['category']}', `page` = '{$_POST['page']}', `paragraph` = '{$_POST['paragraph']}', `sort` = '{$_POST['sort']}', `title` = '{$_POST['title']}', `content` = '{$_POST['content']}', `last_modify_date` = '{$time}', `enable` = '{$_POST['enable']}' where tbdsn='$tbdsn'";
 	$xoopsDB->queryF($sql) or redirect_header($_SERVER['PHP_SELF'],3, mysql_error());
 	return $tbdsn;
