@@ -9,7 +9,7 @@ define("_TADBOOK3_BOOK_DIR",XOOPS_ROOT_PATH."/uploads/tad_book3");
 define("_TADBOOK3_BOOK_URL",XOOPS_URL."/uploads/tad_book3");
 
 //秀出所有分類及書籍
-function list_all_cate_book(){
+function list_all_cate_book($isAdmin=""){
   global $xoopsDB,$xoopsTpl,$xoopsUser;
 
   if($xoopsUser){
@@ -29,6 +29,7 @@ function list_all_cate_book(){
       $$k=$v;
     }
     $authors=explode(',',$author);
+
     if(!in_array($uid,$authors) and $enable!='1')continue;
 
     if(!in_array($uid,$authors) and !chk_power($read_group))continue;
@@ -39,7 +40,7 @@ function list_all_cate_book(){
 
 
 
-    $tool=in_array($uid,$authors)?"
+    $tool=((!empty($uid) and in_array($uid,$authors)) or $isAdmin)?"
     <div style='width:auto;font-size:12px;font-weight:normal;'>
     <a href='{$_SERVER['PHP_SELF']}?op=tad_book3_form&tbsn=$tbsn' class='btn btn-mini btn-warning'>"._TAD_EDIT."</a>
     <a href=\"javascript:delete_tad_book3_func($tbsn);\" class='btn btn-mini btn-danger'>"._TAD_DEL."</a>
@@ -221,7 +222,7 @@ function tad_book3_form($tbsn=""){
     $user_menu=$select->render();
   }else{
     $user_menu="<textarea name='author_str' style='width:100%;'>$author</textarea>
-    <div>user uid, ex:\"1;27;103\"</div>";
+    <div>user uid, ex:\"1,27,103\"</div>";
   }
 
   $group_arr=(empty($read_group))?array(""):explode(",",$read_group);

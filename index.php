@@ -118,7 +118,7 @@ switch($_REQUEST['op']){
   if(!empty($tbsn)){
    list_docs($tbsn);
   }else{
-   list_all_cate_book();
+   list_all_cate_book($isAdmin);
   }
   break;
 }

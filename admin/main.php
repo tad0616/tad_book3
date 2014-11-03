@@ -61,7 +61,7 @@ switch($op){
 
   //預設動作
   default:
-  list_all_cate_book();
+  list_all_cate_book(true);
   break;
 }
 
