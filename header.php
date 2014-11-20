@@ -26,6 +26,7 @@ $interface_menu[_TAD_TO_MOD]="index.php";
 	//管理員可以新增書籍
 	if($isAdmin){
     $interface_menu[_MD_TADBOOK3_ADD_BOOK]="index.php?op=tad_book3_form";
+    $interface_menu[_MD_TADBOOK3_IMPORT]="index.php?op=import_form";
 	}
 
 
@@ -47,9 +48,7 @@ $interface_menu[_TAD_TO_MOD]="index.php";
 
 
 			$category=mk_category($category,$page,$paragraph,$sort);
-			$pdfurl=XOOPS_URL."/modules/tad_book3/pdf.php?tbdsn={$_GET['tbdsn']}&-O=Portrait&-s=A4&-D="._CHARSET."&--filename=BOOK{$_GET['tbdsn']}-{$category['main']}.pdf";
-			//$interface_menu['PDF']="http://pdfmyurl.com/?url=$pdfurl";
-      //$interface_menu['PDF2']=XOOPS_URL."/modules/tad_book3/tcpdf.php?tbdsn={$_GET['tbdsn']}&filename=BOOK{$_GET['tbdsn']}-{$category['main']}.pdf";
+
 
 
 		}elseif(!empty($_GET['tbsn'])){

@@ -3,7 +3,6 @@
 <{$toolbar}>
 <link rel="stylesheet" type="text/css" media="screen" href="module.css" />
 
-
 <{if $now_op=="tad_book3_form"}>
   <div class="row-fluid">
     <h2><{$smarty.const._MD_INPUT_BOOK_FORM}></h2>
@@ -80,6 +79,58 @@
         </div>
       </div>
     </div>
+    </form>
+  </div>
+<{elseif $now_op=="import_form"}>
+  <div class="row-fluid">
+    <h2><{$smarty.const._MD_INPUT_BOOK_FORM}></h2>
+    <div class="alert alert-info">
+      <{$upload_note}>
+    </div>
+    <form action="<{$action}>" method="post" id="myForm" enctype="multipart/form-data">
+
+    <div class="row-fluid">
+
+      <div class="span3">
+        <label>
+          <{$smarty.const._MD_TADBOOK3_TBCSN_MENU}>
+        </label>
+        <select name="tbcsn" size=1 class="span12">
+          <{$cate_select}>
+        </select>
+        <input type="text" name="new_tbcsn" class="span12" placeholder="<{$smarty.const._MD_TADBOOK3_NEW_PCSN}>">
+      </div>
+
+
+      <div class="span3">
+        <label><{$smarty.const._MD_TADBOOK3_AUTHOR}></label>
+        <{$user_menu}>
+      </div>
+      <div class="span3">
+        <label><{$smarty.const._MD_TADBOOK3_READ_GROUP}></label>
+        <{$group_menu}>
+      </div>
+      <div class="span3">
+
+        <label><{$smarty.const._MD_TADBOOK3_IMPORT1}></label>
+        <input type="file" name="book" class="span12">
+        <label><{$smarty.const._MD_TADBOOK3_IMPORT2}></label>
+        <input type="file" name="docs" class="span12">
+      </div>
+    </div>
+
+    <div class="row-fluid">
+      <div class="span12">
+        <label class="checkbox">
+          <input type="checkbox" name="abs_path" value="1" <{$checked}>>
+          <{$new_path}>
+        </label>
+
+        <input type="hidden" name="tbsn" value="<{$tbsn}>">
+        <input type="hidden" name="op" value="import_book">
+        <button type="submit" class="btn btn-primary"><{$smarty.const._MD_TADBOOK3_IMPORT}></button>
+      </div>
+    </div>
 
 
 
@@ -108,6 +159,7 @@
       <{if $description}><div class="alert alert-info"><{$description}></div><{/if}>
       <{if $my}>
         <div class="text-right">
+          <a href="admin/main.php?op=tad_book3_export&tbsn=<{$tbsn}>" class="btn btn-mini btn-info"><{$smarty.const._MD_TADBOOK3_EXPORT}></a>
           <a href="admin/main.php?op=tad_book3_form&tbsn=<{$tbsn}>" class="btn btn-mini btn-warning"><{$smarty.const._TAD_EDIT}></a>
           <a href="javascript:delete_tad_book3_func(<{$tbsn}>);" class="btn btn-mini btn-danger"><{$smarty.const._TAD_DEL}></a>
           <a href="<{$xoops_url}>/modules/tad_book3/post.php?tbsn=<{$tbsn}>&op=tad_book3_docs_form" class="btn btn-mini btn-primary"><{$smarty.const._MD_TADBOOK3_ADD_DOC}></a>

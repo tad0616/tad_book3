@@ -190,8 +190,6 @@ function tad_book3_form($tbsn=""){
   $counter=(!isset($DBV['counter']))?"":$DBV['counter'];
   $create_date=(!isset($DBV['create_date']))?"":$DBV['create_date'];
 
-
-
   if(!file_exists(XOOPS_ROOT_PATH."/modules/tadtools/fck.php")){
     redirect_header("index.php",3, _MD_NEED_TADTOOLS);
   }
@@ -270,7 +268,7 @@ function insert_tad_book3(){
   $_POST['description']=$myts->addSlashes($_POST['description']);
 
   $read_group=(in_array("",$_POST['read_group']))?"":implode(",",$_POST['read_group']);
-    $now=date("Y-m-d H:i:s" , xoops_getUserTimestamp(time()));
+  $now=date("Y-m-d H:i:s" , xoops_getUserTimestamp(time()));
   $sql = "insert into ".$xoopsDB->prefix("tad_book3")." (`tbcsn`,`sort`,`title`,`description`,`author`,`read_group`,`passwd`,`enable`,`pic_name`,`counter`,`create_date`) values('{$tbcsn}','{$_POST['sort']}','{$_POST['title']}','{$_POST['description']}','{$author}','{$read_group}','{$_POST['passwd']}','{$_POST['enable']}','{$_POST['pic_name']}','{$_POST['counter']}','{$now}')";
   $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'],3, mysql_error());
   //取得最後新增資料的流水編號

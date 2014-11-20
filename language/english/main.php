@@ -25,4 +25,12 @@ define("_MD_TADBOOK3_ADD_BOOK", "Add Book");
 define("_MD_TADBOOK3_MODIFY_DOC", "Edit");
 define("_MD_TADBOOK3_INPUT_PASSWD", "Password needed:");
 define("_MD_TADBOOK3_NOT_CLASSIFIED", "Not classified");
+define("_MD_TADBOOK3_EXPORT", "Export");
+define("_MD_TADBOOK3_DL_PDF", "Download PDF");
+define("_MD_TADBOOK3_IMPORT", "Import book");
+define("_MD_TADBOOK3_IMPORT1", "Upload 1_book.sql");
+define("_MD_TADBOOK3_IMPORT2", "Upload 2_docs.sql");
+define("_MD_TADBOOK3_UL_FILE", "Prease upload 'file' and 'image' folders to %s first.");
+define("_MD_TADBOOK3_ABS_PATH", "Does update file url to %s? ");
+
 ?>

@@ -6,17 +6,19 @@
 //區塊主函式 (把所有的書以文字列出)
 function tad_book3_list($options){
 	global $xoopsDB;
-	$block="<table>";
 	if(empty($options[0]))$options[0]="5";
 	if(empty($options[1]))$options[1]="create_date";
 	if(empty($options[2]))$options[2]="desc";
+	$i=0;
 	$sql = "select `tbsn`,`title`,`counter` from ".$xoopsDB->prefix("tad_book3")." where enable='1' order by {$options[1]} {$options[2]} limit 0,{$options[0]}";
 	$result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'],3, mysql_error());
 	while(list($tbsn,$title,$counter)=$xoopsDB->fetchRow($result)){
-	  $block.="<tr><td><img src='".XOOPS_URL."/modules/tad_book3/images/dot_started.gif' hspace=2 align='absmiddle' alt='dot started'></td>
-		<td><a href='".XOOPS_URL."/modules/tad_book3/index.php?op=list_docs&tbsn=$tbsn'>$title</a> ($counter)</td></tr>";
+	  $block[$i]['tbsn']=$tbsn;
+	  $block[$i]['title']=$title;
+	  $block[$i]['counter']=$counter;
+		$i++;
 	}
-	$block.="</table>";
+
 	return $block;
 }
 

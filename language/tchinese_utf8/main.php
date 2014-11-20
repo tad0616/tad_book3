@@ -25,4 +25,12 @@ define("_MD_TADBOOK3_ADD_BOOK", "新增書籍");
 define("_MD_TADBOOK3_MODIFY_DOC", "修改本文");
 define("_MD_TADBOOK3_INPUT_PASSWD", "本書需要密碼，請輸入密碼：");
 define("_MD_TADBOOK3_NOT_CLASSIFIED", "未分類");
+define("_MD_TADBOOK3_EXPORT", "匯出");
+define("_MD_TADBOOK3_DL_PDF", "下載PDF");
+define("_MD_TADBOOK3_IMPORT", "匯入書籍");
+define("_MD_TADBOOK3_IMPORT1", "匯入 1_book.sql");
+define("_MD_TADBOOK3_IMPORT2", "匯入 2_docs.sql");
+define("_MD_TADBOOK3_UL_FILE", "請先將「file」及「image」兩個資料夾，上傳至「%s」底下，並覆蓋之即可。");
+define("_MD_TADBOOK3_ABS_PATH", "圖片或檔案的路徑是否重設為本站網址（即 %s）？若網站放在子目錄下或者home的子網站，請設為「是」，選否會保持用相對路徑。");
+
 ?>
