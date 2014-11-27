@@ -404,19 +404,6 @@ function book_shadow($tbsn="",$pic="",$title="",$description="",$link="",$tool="
   </div>
   ";
 
-/*
-  $data="
-  <div style='width:145px;height:250px;float:left;padding:0px;border:0px;margin-right:10px;' id='tr_{$tbsn}'>
-  $tool
-  <div id='tb3_shadow'>
-    <div>
-      <a href='{$link}'><img src='{$pic}' alt='{$description}' title='{$description}'></a>
-    </div>
-  </div>
-  {$book_title}
-  </div>
-  ";
-  */
   return $data;
 }
 

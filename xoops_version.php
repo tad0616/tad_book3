@@ -63,20 +63,40 @@ $modversion['templates'][$i]['file'] = 'tadbook3_index.html';
 $modversion['templates'][$i]['description'] = 'tadbook3_index.html';
 
 $i++;
+$modversion['templates'][$i]['file'] = 'tadbook3_index_b3.html';
+$modversion['templates'][$i]['description'] = 'tadbook3_index_b3.html';
+
+$i++;
 $modversion['templates'][$i]['file'] = 'tadbook3_page.html';
 $modversion['templates'][$i]['description'] = 'tadbook3_page.html';
+
+$i++;
+$modversion['templates'][$i]['file'] = 'tadbook3_page_b3.html';
+$modversion['templates'][$i]['description'] = 'tadbook3_page_b3.html';
 
 $i++;
 $modversion['templates'][$i]['file'] = 'tadbook3_post.html';
 $modversion['templates'][$i]['description'] = 'tadbook3_post.html';
 
 $i++;
+$modversion['templates'][$i]['file'] = 'tadbook3_post_b3.html';
+$modversion['templates'][$i]['description'] = 'tadbook3_post_b3.html';
+
+$i++;
 $modversion['templates'][$i]['file'] = 'tadbook3_adm_main.html';
 $modversion['templates'][$i]['description'] = 'tadbook3_adm_main.html';
 
 $i++;
+$modversion['templates'][$i]['file'] = 'tadbook3_adm_main_b3.html';
+$modversion['templates'][$i]['description'] = 'tadbook3_adm_main_b3.html';
+
+$i++;
 $modversion['templates'][$i]['file'] = 'tadbook3_adm_cate.html';
 $modversion['templates'][$i]['description'] = 'tadbook3_adm_cate.html';
+
+$i++;
+$modversion['templates'][$i]['file'] = 'tadbook3_adm_cate_b3.html';
+$modversion['templates'][$i]['description'] = 'tadbook3_adm_cate_b3.html';
 
 
 //---µû½×³]©w---//

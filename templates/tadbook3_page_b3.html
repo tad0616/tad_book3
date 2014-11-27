@@ -1,0 +1,72 @@
+<{$bootstrap}>
+<{$jquery}>
+<{$toolbar}>
+<link rel="stylesheet" type="text/css" media="screen" href="reset.css" />
+<link rel="stylesheet" type="text/css" media="screen" href="module.css" />
+
+
+<{$syntaxhighlighter_code}>
+
+<div class="row" style="background-image: url(images/relink_bg.gif)">
+  <div class="col-md-4 text-left"><{$p}></div>
+  <div class="col-md-4 text-center">
+    <select onChange="window.location.href='page.php?tbdsn='+this.value">
+      <{$doc_select}>
+    </select>
+  </div>
+  <div class="col-md-4 text-right"><{$n}></div>
+</div>
+
+
+<div class="row ">
+  <div class="spa12 page">
+    <div class="page_title">
+      <a href="index.php?op=list_docs&tbsn=<{$tbsn}>"><{$book_title}></a>
+    </div>
+    <div class="page_content">
+    <h<{$doc_sort_level}>><{$doc_sort_main}> <{$title}></h<{$doc_sort_level}>>
+      <{$content}>
+    </div>
+  </div>
+</div>
+
+<div class="row" style="background-image: url(images/relink_bg.gif)">
+  <div class="col-md-4 text-left"><{$p}></div>
+  <div class="col-md-4 text-center">
+    <select onChange="window.location.href='page.php?tbdsn='+this.value">
+      <{$doc_select}>
+    </select>
+  </div>
+  <div class="col-md-4 text-right"><{$n}></div>
+</div>
+
+
+<div class="row">
+  <div class="col-md-6" style="text-align:left;vertical-align:bottom;">
+    <a href="<{$xoops_url}>/modules/tad_book3/tcpdf.php?tbdsn=<{$tbdsn}>&filename=BOOK<{$tbsn}>-<{$doc_sort_main}>.pdf"><img src="images/tcpdf.png"><{$smarty.const._MD_TADBOOK3_DL_PDF}></a>
+  </div>
+  <div class="col-md-6" style="text-align:right;vertical-align:bottom;">
+    <{$push_url}>
+  </div>
+</div>
+<{$facebook_comments}>
+
+
+<p style="clear: both">
+<div style="text-align: center; padding: 3px; margin: 3px;">
+  <{$commentsnav}>
+  <{$lang_notice}>
+</div>
+
+<div style="margin: 3px; padding: 3px;">
+<!-- start comments loop -->
+<{if $comment_mode == "flat"}>
+  <{include file="db:system_comments_flat.html"}>
+<{elseif $comment_mode == "thread"}>
+  <{include file="db:system_comments_thread.html"}>
+<{elseif $comment_mode == "nest"}>
+  <{include file="db:system_comments_nest.html"}>
+<{/if}>
+<!-- end comments loop -->
+</div>
+</p>
