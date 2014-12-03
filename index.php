@@ -1,48 +1,11 @@
 <?php
 /*-----------引入檔案區--------------*/
 include "header.php";
-$xoopsOption['template_main'] = "tadbook3_index_b3.html";
+
+$xoopsOption['template_main'] =($_SESSION['bootstrap']=='3')? "tadbook3_index_b3.html":"tadbook3_index.html";
+
 include_once XOOPS_ROOT_PATH."/header.php";
-
 /*-----------function區--------------*/
-
-//列出所有tad_book3資料
-function list_all_book($tbcsn="",$border=true){
-  global $xoopsDB,$xoopsModule;
-
-  $all_cate=all_cate();
-
-  $MDIR=$xoopsModule->getVar('dirname');
-  $sql = "select * from ".$xoopsDB->prefix("tad_book3")." where tbcsn='$tbcsn' and enable='1' order by sort";
-
-  $result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'],3, mysql_error());
-
-
-  $data="";
-  while(list($tbsn,$tbcsn,$sort,$title,$description,$author,$read_group,$passwd,$enable,$pic_name,$counter,$create_date)=$xoopsDB->fetchRow($result)){
-    if(!chk_power($read_group))continue;
-
-    $enable_txt=($enable=='1')?_MD_TADBOOK3_ENABLE:_MD_TADBOOK3_UNABLE;
-    $pic=(empty($pic_name))?XOOPS_URL."/modules/tad_book3/images/blank.png":_TADBOOK3_BOOK_URL."/{$pic_name}";
-    if(function_exists('strip_tags')){
-      $description=strip_tags($description);
-    }
-
-    $data.=book_shadow($tbsn,$pic,$title,$description,"{$_SERVER['PHP_SELF']}?tbsn=$tbsn");
-
-  }
-
-  if(empty($data))return;
-
-  $data.="<div style='clear:both;'></div>";
-
-  if(!$border){
-    return $data;
-  }
-
-
-  return $data;
-}
 
 
 //更新書籍計數器
@@ -110,7 +73,8 @@ function import_form($tbsn=""){
   if ($usercount < 1000) {
 
     $select = new XoopsFormSelect('', 'author',$author_arr, 5, true);
-    $select->setExtra("class='span12'");
+    $span=($_SESSION['bootstrap']=='3')?"form-control":"span12";
+    $select->setExtra("class='{$span}'");
     $member_handler =& xoops_gethandler('member');
     $criteria = new CriteriaCompo();
     $criteria->setSort('uname');
@@ -232,9 +196,6 @@ switch($_REQUEST['op']){
   list_docs($tbsn);
   break;
 
-  case "list_all_book":
-  list_all_book($tbcsn);
-  break;
 
   case "change_enable":
   change_enable($enable,$tbdsn);

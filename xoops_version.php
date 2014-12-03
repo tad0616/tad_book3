@@ -98,6 +98,14 @@ $i++;
 $modversion['templates'][$i]['file'] = 'tadbook3_adm_cate_b3.html';
 $modversion['templates'][$i]['description'] = 'tadbook3_adm_cate_b3.html';
 
+$i++;
+$modversion['templates'][$i]['file'] = 'tadbook3_book_shadow.html';
+$modversion['templates'][$i]['description'] = 'tadbook3_book_shadow.html';
+
+$i++;
+$modversion['templates'][$i]['file'] = 'tadbook3_book_shadow_b3.html';
+$modversion['templates'][$i]['description'] = 'tadbook3_book_shadow_b3.html';
+
 
 //---µû½×³]©w---//
 $modversion['hasComments'] = 1;

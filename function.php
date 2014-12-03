@@ -10,66 +10,102 @@ define("_TADBOOK3_BOOK_URL",XOOPS_URL."/uploads/tad_book3");
 
 //秀出所有分類及書籍
 function list_all_cate_book($isAdmin=""){
-  global $xoopsDB,$xoopsTpl,$xoopsUser;
+  global $xoopsDB,$xoopsTpl;
 
-  if($xoopsUser){
-    $uid=$xoopsUser->uid();
-  }else{
-    $uid=0;
-  }
-
-
-  $sql = "select a.`tbsn`, a.`tbcsn`, a.`sort`, a.`title`, a.`description`, a.`author`, a.`read_group`, a.`passwd`, a.`enable`, a.`pic_name`, a.`counter`, a.`create_date`
-,b.`of_tbsn`, b.`sort` as cate_sort, b.`title` as cate_title , b.`description` from ".$xoopsDB->prefix("tad_book3")." as a left join ".$xoopsDB->prefix("tad_book3_cate")." as b on a.tbcsn=b.tbcsn order by cate_sort,a.sort";
-
-
-  $result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'],3, mysql_error());
-  while($data=$xoopsDB->fetchArray($result)){
-    foreach($data as $k=>$v){
-      $$k=$v;
-    }
-    $authors=explode(',',$author);
-
-    if(!in_array($uid,$authors) and $enable!='1')continue;
-
-    if(!in_array($uid,$authors) and !chk_power($read_group))continue;
-
-    $pic=(empty($pic_name))?XOOPS_URL."/modules/tad_book3/images/blank.png":_TADBOOK3_BOOK_URL."/{$pic_name}";
-
-    $description=strip_tags($description);
-
-
-
-    $tool=((!empty($uid) and in_array($uid,$authors)) or $isAdmin)?"
-    <div style='width:auto;font-size:12px;font-weight:normal;'>
-    <a href='{$_SERVER['PHP_SELF']}?op=tad_book3_form&tbsn=$tbsn' class='btn btn-mini btn-warning'>"._TAD_EDIT."</a>
-    <a href=\"javascript:delete_tad_book3_func($tbsn);\" class='btn btn-mini btn-danger'>"._TAD_DEL."</a>
-    <a href='".XOOPS_URL."/modules/tad_book3/post.php?tbsn=$tbsn&op=tad_book3_docs_form' class='btn btn-mini btn-primary'>"._MD_TADBOOK3_ADD_DOC."</a>
-    </div>":"";
-
-    if(empty($cate_title))$cate_title=_MD_TADBOOK3_NOT_CLASSIFIED;
-
-    $data_arr[$cate_title][]=book_shadow($tbsn,$pic,$title,$description,"{$_SERVER['PHP_SELF']}?op=list_docs&tbsn=$tbsn",$tool);
-
-  }
 
   $i=0;
-  $cate="";
-  foreach($data_arr as $cate_title=>$book_arr){
-    $cate[$i]['cate_title']=$cate_title;
+  $sql="select * from  ".$xoopsDB->prefix("tad_book3_cate")." order by sort";
+  $result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'],3, mysql_error());
+  while($data=$xoopsDB->fetchArray($result)){
+    $cate[$i]=$data;
 
+    $sql="select * from  ".$xoopsDB->prefix("tad_book3")." where tbcsn='{$data['tbcsn']}' order by sort";
+    $result2 = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'],3, mysql_error());
     $j=0;
     $books="";
-    foreach($book_arr as $book){
-      $books[$j]['book']=$book;
+    while($data2=$xoopsDB->fetchArray($result2)){
+      $books[$j]=book_shadow($data2);
       $j++;
     }
     $cate[$i]['books']=$books;
     $i++;
   }
 
+
+
+//   $sql = "select a.`tbsn`, a.`tbcsn`, a.`sort`, a.`title`, a.`description`, a.`author`, a.`read_group`, a.`passwd`, a.`enable`, a.`pic_name`, a.`counter`, a.`create_date`
+// ,b.`of_tbsn`, b.`sort` as cate_sort, b.`title` as cate_title , b.`description` from ".$xoopsDB->prefix("tad_book3")." as a left join ".$xoopsDB->prefix("tad_book3_cate")." as b on a.tbcsn=b.tbcsn order by cate_sort,a.sort";
+
+
+//   $result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'],3, mysql_error());
+//   while($data=$xoopsDB->fetchArray($result)){
+//     foreach($data as $k=>$v){
+//       $$k=$v;
+//     }
+//     $authors=explode(',',$author);
+
+//     if(!in_array($uid,$authors) and $enable!='1')continue;
+
+//     if(!in_array($uid,$authors) and !chk_power($read_group))continue;
+
+//     $pic=(empty($pic_name))?XOOPS_URL."/modules/tad_book3/images/blank.png":_TADBOOK3_BOOK_URL."/{$pic_name}";
+
+//     $description=strip_tags($description);
+
+
+
+//     $tool=((!empty($uid) and in_array($uid,$authors)) or $isAdmin)?"
+//     <div style='width:auto;font-size:12px;font-weight:normal;'>
+//     <a href='{$_SERVER['PHP_SELF']}?op=tad_book3_form&tbsn=$tbsn' class='btn btn-mini btn-warning'>"._TAD_EDIT."</a>
+//     <a href=\"javascript:delete_tad_book3_func($tbsn);\" class='btn btn-mini btn-danger'>"._TAD_DEL."</a>
+//     <a href='".XOOPS_URL."/modules/tad_book3/post.php?tbsn=$tbsn&op=tad_book3_docs_form' class='btn btn-mini btn-primary'>"._MD_TADBOOK3_ADD_DOC."</a>
+//     </div>":"";
+
+//     if(empty($cate_title))$cate_title=_MD_TADBOOK3_NOT_CLASSIFIED;
+
+//     $data_arr[$cate_title][]=book_shadow($tbsn,$pic,$title,$description,"{$_SERVER['PHP_SELF']}?op=list_docs&tbsn=$tbsn",$tool);
+
+//   }
+
+//   $i=0;
+//   $cate="";
+//   foreach($data_arr as $cate_title=>$book_arr){
+//     $cate[$i]['cate_title']=$cate_title;
+
+//     $j=0;
+//     $books="";
+//     foreach($book_arr as $book){
+//       $books[$j]['book']=$book;
+//       $j++;
+//     }
+//     $cate[$i]['books']=$books;
+//     $i++;
+//   }
+
   $xoopsTpl->assign('jquery',get_jquery(true));
   $xoopsTpl->assign('cate',$cate);
+}
+
+
+//book陰影
+function book_shadow($books=array()){
+  global $xoopsUser;
+
+  if($xoopsUser){
+    $uid=$xoopsUser->uid();
+  }else{
+    $uid=0;
+  }
+  $authors=explode(',',$books['author']);
+  $tool=((!empty($uid) and in_array($uid,$authors)) or $isAdmin)?true:false;
+  $books['tool']=$tool;
+
+  $pic=(empty($books['pic_name']))?XOOPS_URL."/modules/tad_book3/images/blank.png":_TADBOOK3_BOOK_URL."/{$books['pic_name']}";
+  $books['pic']=$pic;
+  $description=strip_tags($description);
+  $books['description']=$description;
+
+  return $books;
 }
 
 
@@ -91,7 +127,11 @@ function list_docs($tbsn=""){
   $result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'],3, mysql_error());
 
 
-  list($tbsn,$tbcsn,$sort,$title,$description,$author,$read_group,$passwd,$enable,$pic_name,$counter,$create_date)=$xoopsDB->fetchRow($result);
+  $data=$xoopsDB->fetchArray($result);
+  foreach($data as $k=>$v){
+    $$k=$v;
+  }
+
   if(!chk_power($read_group)){
     header("location:index.php");
     exit;
@@ -116,9 +156,9 @@ function list_docs($tbsn=""){
 
   $cate=(empty($all_cate[$tbcsn]))?_MD_TADBOOK3_NOT_CLASSIFIED:$all_cate[$tbcsn];
 
-  $pic=(empty($pic_name))?XOOPS_URL."/modules/tad_book3/images/blank.png":_TADBOOK3_BOOK_URL."/{$pic_name}";
 
-  $book=book_shadow($tbsn,$pic,"",$description,"{$_SERVER['PHP_SELF']}?op=list_docs&tbsn=$tbsn");
+
+  $book=book_shadow($data);
 
 
   $xoopsTpl->assign('book',$book);
@@ -206,9 +246,12 @@ function tad_book3_form($tbsn=""){
   $member_handler =& xoops_gethandler('member');
   $usercount = $member_handler->getUserCount(new Criteria('level', 0, '>'));
 
+  $span=($_SESSION['bootstrap']=='3')?"form-control":"span12";
+
   if ($usercount < 1000) {
 
     $select = new XoopsFormSelect('', 'author',$author_arr, 5, true);
+    $select->setExtra("class='{$span}'");
     $member_handler =& xoops_gethandler('member');
     $criteria = new CriteriaCompo();
     $criteria->setSort('uname');
@@ -225,6 +268,7 @@ function tad_book3_form($tbsn=""){
 
   $group_arr=(empty($read_group))?array(""):explode(",",$read_group);
   $SelectGroup=new XoopsFormSelectGroup("", "read_group", false,$group_arr, 5, true);
+  $SelectGroup->setExtra("class='{$span}'");
   $SelectGroup->addOption("", _MD_TADBOOK3_ALL_OPEN, false);
   $group_menu=$SelectGroup->render();
 
@@ -383,29 +427,6 @@ function mk_thumb($tbsn="",$col_name="",$width=100){
 }
 
 
-//book陰影
-function book_shadow($tbsn="",$pic="",$title="",$description="",$link="",$tool=""){
-  $url=(empty($link))?"":"<a href='$link'>";
-  $url2=(empty($link))?"":"</a>";
-
-  $myts =& MyTextSanitizer::getInstance();
-  $description=$myts->htmlSpecialChars($description);
-  $title=$myts->htmlSpecialChars($title);
-
-
-  $book_title=(empty($title))?"":"<div style='text-align:center;'>{$url}{$title}{$url2}</div>";
-
-  $data="
-  <div style='width:145px;height:250px;float:left;padding:0px;border:0px;margin-right:10px;' id='tr_{$tbsn}'>
-
-    <a href='{$link}'><img src='{$pic}' alt='{$description}' title='{$description}' class='img-polaroid'></a>
-    {$tool}
-    {$book_title}
-  </div>
-  ";
-
-  return $data;
-}
 
 
 
