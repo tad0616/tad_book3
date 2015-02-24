@@ -119,6 +119,8 @@ function list_docs($tbsn=""){
     $uid=0;
   }
 
+  add_book_counter($tbsn);
+
   $xoopsTpl->assign('now_op','list_docs');
 
   $all_cate=all_cate();
