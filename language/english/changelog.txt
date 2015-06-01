@@ -1,57 +1,57 @@
-Tad Book3 3.31 正式版修正項目（2014-09-25 釋出）
-====================================================
-1.修改程式，使之符合無障礙網頁規範
+Tad Book3 3.31 official version of the amended project (2014-09-25 release)
+================================================== ==
+1. Modify the program so that it conforms with WCAG
 
 
-Tad Book3 3.3 正式版修正項目（2014-09-12 釋出）
-====================================================
-1.修改已關閉的頁面，使之在非管理員觀看時不會出現上下頁中。
-2.調整uid欄位為mediumint格式
-3.修正文章無法刪除功能
-4.修正後台無法新增文章的問題
-5.修正共同編輯者無法編輯他人文章的問題
+Tad Book3 3.3 official version of the amended project (2014-09-12 release)
+================================================== ==
+1. Modify the page has been turned off, so that when a non-administrator view does not appear up and down the page.
+2. Adjust the uid field is mediumint format
+3. Fix feature article can not be deleted
+4. Fixed the problem of background articles could not be added
+5. Fixed issue common editors can not edit the article to others
 
-Tad Book3 3.2 正式版修正項目（2014-05-02 釋出）
-====================================================
-1.修改頁面樣板，大圖會依據視窗大小自動縮放，使畫面不會破版。
-2.訪客也能看見目錄
-3.修正關閉頁面無法隱藏的bug
-4.修正QR code連不到正確頁面的bug
+Tad Book3 3.2 official version of the amended project (2014-05-02 release)
+================================================== ==
+1. Modify the page template, the bigger will be automatically scaled according to the window size, so that the screen will not break version.
+2. Visitors can also see the directory
+3. Fixed the bug can not hide Close
+4. Fixed QR code even less than the right of the page bug
 
-Tad Book3 3.1 正式版修正項目（2014-01-25釋出）
-====================================================
-1.修正當網站僅有一個使用者時，書籍編輯者無法選取的問題。
-2.修正當無內容文章時，直接隱藏不必要的樣板。
-3.取消EPUB按鈕及相關功能
-
-
-Tad Book3 3.0 正式版修正項目（2014-01-21釋出）
-====================================================
-1.精簡不必要函數及共用函數（需tadtools 2.06以上）
-2.精簡並修正語系
-3.完成後台分類編輯功能
-4.分類加上拖曳排序功能
-5.修正部份按鈕失效的問題
-6.修正pdf無法下載的問題
+Tad Book3 3.1 official version of the amended project (2014-01-25 release)
+================================================== ==
+1. Fixed When the site is only one user, the books editor of the problem can not be selected.
+2. Fix when no content articles, just hide unnecessary model.
+3. Cancel button and related functions EPUB
 
 
-Tad Book3 3 RC1版修正項目（2013-12-05釋出）
-====================================================
- 1.加入關閉主動進入pda模式之設定
- 2.針對bootstrap最佳化
- 3.修改為 XOOPS 2.5 模組架構
- 4.加入tcpdf
+Tad Book3 3.0 official version amended project (2014-01-21 release)
+================================================== ==
+1. streamline unnecessary functions and common function (need tadtools 2.06 above)
+2. streamline and revise language
+3. When you finish editing the background Categories
+The classification plus sorting boxes
+5. fixed part button failure problem
+6. Fixed the problem can not download pdf
 
-Tad Book3 2.0 RC1 版修正項目（2011-11-29釋出）
-====================================================
- 1.修正一堆bug
- 2.修改區塊連結不正確的問題
- 3.套用Tad Tools縮小模組體積，並增強功能。
- 4.加入頁面內容呈現優化，盡量讓編輯器畫面和最後呈現畫面一致。
- 5.加入高亮度語法支援。
- 6.下拉選單把隱藏的文章變色以茲辨識文章是否隱藏
- 7.修正隱藏書籍時，管理者也會找不到的情形
- 8.把目錄區塊改成樹狀目錄
- 9.加入手持裝置頁面
-10.加入QR Code區塊
-11.加上PDF輸出功能
+
+Tad Book3 3 RC1 version amended project (2013-12-05 release)
+================================================== ==
+ 1. Add Close initiative to enter the setting mode of pda
+ 2. For bootstrap Optimizer
+ 3. Modify the XOOPS 2.5 module architecture
+ 4. Add tcpdf
+
+Tad Book3 2.0 RC1 version amended project (2011-11-29 release)
+================================================== ==
+ 1. Fixed a bunch of bug
+ 2. Modify the block link is not the right questions
+ 3. Apply Tad Tools narrowing module size, and enhancements.
+ 4. Add the page content rendering optimization, try to make the editor screen and the final presentation consistent picture.
+ 5. Add high brightness syntax support.
+ 6. Pull down the menu to hide discoloration article to identify the article is hereby Hide
+ 7. Fixed hide books, the manager will not find the case
+ 8. Place the block into a directory tree
+ 9. Add the handheld device page
+10. Add QR Code Block
+11. PDF output capabilities plus
