@@ -1,58 +1,54 @@
 <?php
 //  ------------------------------------------------------------------------ //
-// ¥»¼Ò²Õ¥Ñ tad »s§@
+// æœ¬æ¨¡çµ„ç”± tad è£½ä½œ
 // ------------------------------------------------------------------------- //
 
-/*-----------¤Þ¤JÀÉ®×°Ï--------------*/
+/*-----------å¼•å…¥æª”æ¡ˆå€--------------*/
 include "header.php";
 include "post_function.php";
 $xoopsOption['template_main'] = "tadbook3_post.html";
-include_once XOOPS_ROOT_PATH."/header.php";
-/*-----------function°Ï--------------*/
+include_once XOOPS_ROOT_PATH . "/header.php";
+/*-----------functionå€--------------*/
 
+/*-----------åŸ·è¡Œå‹•ä½œåˆ¤æ–·å€----------*/
+$_REQUEST['op'] = (empty($_REQUEST['op'])) ? "" : $_REQUEST['op'];
+$tbsn           = (!isset($_REQUEST['tbsn'])) ? "" : intval($_REQUEST['tbsn']);
+$tbdsn          = (!isset($_REQUEST['tbdsn'])) ? "" : intval($_REQUEST['tbdsn']);
 
+$xoopsTpl->assign("toolbar", toolbar_bootstrap($interface_menu));
+$xoopsTpl->assign("bootstrap", get_bootstrap());
+$xoopsTpl->assign("jquery", get_jquery(true));
+$xoopsTpl->assign("isAdmin", $isAdmin);
 
-/*-----------°õ¦æ°Ê§@§PÂ_°Ï----------*/
-$_REQUEST['op']=(empty($_REQUEST['op']))?"":$_REQUEST['op'];
-$tbsn = (!isset($_REQUEST['tbsn']))? "":intval($_REQUEST['tbsn']);
-$tbdsn = (!isset($_REQUEST['tbdsn']))? "":intval($_REQUEST['tbdsn']);
+switch ($_REQUEST['op']) {
+    //æ›´æ–°è³‡æ–™
+    case "update_tad_book3_docs";
+        update_tad_book3_docs($tbdsn);
+        header("location: page.php?tbdsn={$tbdsn}");
+        break;
 
-$xoopsTpl->assign( "toolbar" , toolbar_bootstrap($interface_menu)) ;
-$xoopsTpl->assign( "bootstrap" , get_bootstrap()) ;
-$xoopsTpl->assign( "jquery" , get_jquery(true)) ;
-$xoopsTpl->assign( "isAdmin" , $isAdmin) ;
+    //æ–°å¢žè³‡æ–™
+    case "insert_tad_book3_docs":
+        $tbdsn = insert_tad_book3_docs();
+        header("location: page.php?tbdsn={$tbdsn}");
+        break;
 
-switch($_REQUEST['op']){
-	//§ó·s¸ê®Æ
-	case "update_tad_book3_docs";
-	update_tad_book3_docs($tbdsn);
-	header("location: page.php?tbdsn={$tbdsn}");
-	break;
+    //è¼¸å…¥è¡¨æ ¼
+    case "tad_book3_docs_form";
+        tad_book3_docs_form($tbdsn, $tbsn);
+        break;
 
-	//·s¼W¸ê®Æ
-	case "insert_tad_book3_docs":
-	$tbdsn=insert_tad_book3_docs();
-	header("location: page.php?tbdsn={$tbdsn}");
-	break;
+    //åˆªé™¤è³‡æ–™
+    case "delete_tad_book3_docs";
+        delete_tad_book3_docs($tbdsn);
+        header("location: {$_SERVER['PHP_SELF']}");
+        break;
 
-	//¿é¤Jªí®æ
-	case "tad_book3_docs_form";
-	tad_book3_docs_form($tbdsn,$tbsn);
-	break;
-
-	//§R°£¸ê®Æ
-	case "delete_tad_book3_docs";
-	delete_tad_book3_docs($tbdsn);
-	header("location: {$_SERVER['PHP_SELF']}");
-	break;
-
-	//¹w³]°Ê§@
-	default:
-	tad_book3_docs_form($tbdsn,$tbsn);
-	break;
+    //é è¨­å‹•ä½œ
+    default:
+        tad_book3_docs_form($tbdsn, $tbsn);
+        break;
 }
 
-/*-----------¨q¥Xµ²ªG°Ï--------------*/
-include_once XOOPS_ROOT_PATH.'/footer.php';
-
-?>
+/*-----------ç§€å‡ºçµæžœå€--------------*/
+include_once XOOPS_ROOT_PATH . '/footer.php';

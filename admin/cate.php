@@ -1,163 +1,164 @@
 <?php
-/*-----------¤Þ¤JÀÉ®×°Ï--------------*/
+/*-----------å¼•å…¥æª”æ¡ˆå€--------------*/
 $xoopsOption['template_main'] = "tadbook3_adm_cate.html";
 include_once "header.php";
 include_once "../function.php";
 
-/*-----------function°Ï--------------*/
-//tad_book3_cate½s¿èªí³æ
-function tad_book3_cate_form($tbcsn=""){
-  global $xoopsDB,$xoopsTpl;
-  include_once(XOOPS_ROOT_PATH."/class/xoopsformloader.php");
-  include_once(XOOPS_ROOT_PATH."/class/xoopseditor/xoopseditor.php");
+/*-----------functionå€--------------*/
+//tad_book3_cateç·¨è¼¯è¡¨å–®
+function tad_book3_cate_form($tbcsn = "")
+{
+    global $xoopsDB, $xoopsTpl;
+    include_once XOOPS_ROOT_PATH . "/class/xoopsformloader.php";
+    include_once XOOPS_ROOT_PATH . "/class/xoopseditor/xoopseditor.php";
 
-  //§ì¨ú¹w³]­È
-  if(!empty($tbcsn)){
-    $DBV=get_tad_book3_cate($tbcsn);
-  }else{
-    $DBV=array();
-  }
+    //æŠ“å–é è¨­å€¼
+    if (!empty($tbcsn)) {
+        $DBV = get_tad_book3_cate($tbcsn);
+    } else {
+        $DBV = array();
+    }
 
-  //¹w³]­È³]©w
+    //é è¨­å€¼è¨­å®š
 
-  $tbcsn=(!isset($DBV['tbcsn']))?"":$DBV['tbcsn'];
-  $of_tbsn=(!isset($DBV['of_tbsn']))?"":$DBV['of_tbsn'];
-  $sort=(!isset($DBV['sort']))?get_max_sort():$DBV['sort'];
-  $title=(!isset($DBV['title']))?"":$DBV['title'];
-  $description=(!isset($DBV['description']))?"":$DBV['description'];
+    $tbcsn       = (!isset($DBV['tbcsn'])) ? "" : $DBV['tbcsn'];
+    $of_tbsn     = (!isset($DBV['of_tbsn'])) ? "" : $DBV['of_tbsn'];
+    $sort        = (!isset($DBV['sort'])) ? get_max_sort() : $DBV['sort'];
+    $title       = (!isset($DBV['title'])) ? "" : $DBV['title'];
+    $description = (!isset($DBV['description'])) ? "" : $DBV['description'];
 
+    if (!file_exists(XOOPS_ROOT_PATH . "/modules/tadtools/fck.php")) {
+        redirect_header("index.php", 3, _MA_NEED_TADTOOLS);
+    }
+    include_once XOOPS_ROOT_PATH . "/modules/tadtools/fck.php";
+    $fck = new FCKEditor264("tad_book3", "description", $description);
+    $fck->setwidth(600);
+    $fck->setHeight(150);
+    $editor = $fck->render();
 
-  if(!file_exists(XOOPS_ROOT_PATH."/modules/tadtools/fck.php")){
-    redirect_header("index.php",3, _MA_NEED_TADTOOLS);
-  }
-  include_once XOOPS_ROOT_PATH."/modules/tadtools/fck.php";
-  $fck=new FCKEditor264("tad_book3","description",$description);
-  $fck->setwidth(600);
-  $fck->setHeight(150);
-  $editor=$fck->render();
+    $op = (empty($tbcsn)) ? "insert_tad_book3_cate" : "update_tad_book3_cate";
 
-  $op=(empty($tbcsn))?"insert_tad_book3_cate":"update_tad_book3_cate";
-
-  $xoopsTpl->assign('sort',$sort);
-  $xoopsTpl->assign('title',$title);
-  $xoopsTpl->assign('editor',$editor);
-  $xoopsTpl->assign('tbcsn',$tbcsn);
-  $xoopsTpl->assign('next_op',$op);
-  $xoopsTpl->assign('op','tad_book3_cate_form');
-
-}
-
-
-//·s¼W¸ê®Æ¨ìtad_book3_cate¤¤
-function insert_tad_book3_cate(){
-  global $xoopsDB;
-  $myts =& MyTextSanitizer::getInstance();
-  $_POST['title']=$myts->addSlashes($_POST['title']);
-  $_POST['description']=$myts->addSlashes($_POST['description']);
-  $sql = "insert into ".$xoopsDB->prefix("tad_book3_cate")." (`of_tbsn`,`sort`,`title`,`description`) values('{$_POST['of_tbsn']}','{$_POST['sort']}','{$_POST['title']}','{$_POST['description']}')";
-  $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'],3, mysql_error());
-  //¨ú±o³Ì«á·s¼W¸ê®Æªº¬y¤ô½s¸¹
-  $tbcsn=$xoopsDB->getInsertId();
-  return $tbcsn;
-}
-
-//¦C¥X©Ò¦³tad_book3_cate¸ê®Æ
-function list_tad_book3_cate(){
-  global $xoopsDB,$xoopsModule,$xoopsTpl;
-
-  $all_cate=all_cate();
-
-  $sql = "select * from ".$xoopsDB->prefix("tad_book3_cate")." order by sort";
-  $result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'],3, mysql_error());
-  $data="";
-  $i=0;
-  while(list($tbcsn,$of_tbsn,$sort,$title,$description)=$xoopsDB->fetchRow($result)){
-    $data[$i]['tbcsn']=$tbcsn;
-    $data[$i]['of_tbsn']=$of_tbsn;
-    $data[$i]['sort']=$sort;
-    $data[$i]['title']=$title;
-    $data[$i]['description']=$description;
-    $i++;
-  }
-
-  if(empty($data)){
-    header("location:{$_SERVER['PHP_SELF']}?op=tad_book3_cate_form");
-    exit;
-  }
-  $xoopsTpl->assign('data',$data);
-  $xoopsTpl->assign('jquery',get_jquery(true));
-
+    $xoopsTpl->assign('sort', $sort);
+    $xoopsTpl->assign('title', $title);
+    $xoopsTpl->assign('editor', $editor);
+    $xoopsTpl->assign('tbcsn', $tbcsn);
+    $xoopsTpl->assign('next_op', $op);
+    $xoopsTpl->assign('op', 'tad_book3_cate_form');
 
 }
 
-
-//¥H¬y¤ô¸¹¨ú±o¬Yµ§tad_book3_cate¸ê®Æ
-function get_tad_book3_cate($tbcsn=""){
-  global $xoopsDB;
-  if(empty($tbcsn))return;
-  $sql = "select * from ".$xoopsDB->prefix("tad_book3_cate")." where tbcsn='$tbcsn'";
-  $result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'],3, mysql_error());
-  $data=$xoopsDB->fetchArray($result);
-  return $data;
+//æ–°å¢žè³‡æ–™åˆ°tad_book3_cateä¸­
+function insert_tad_book3_cate()
+{
+    global $xoopsDB;
+    $myts                 = &MyTextSanitizer::getInstance();
+    $_POST['title']       = $myts->addSlashes($_POST['title']);
+    $_POST['description'] = $myts->addSlashes($_POST['description']);
+    $sql                  = "insert into " . $xoopsDB->prefix("tad_book3_cate") . " (`of_tbsn`,`sort`,`title`,`description`) values('{$_POST['of_tbsn']}','{$_POST['sort']}','{$_POST['title']}','{$_POST['description']}')";
+    $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error());
+    //å–å¾—æœ€å¾Œæ–°å¢žè³‡æ–™çš„æµæ°´ç·¨è™Ÿ
+    $tbcsn = $xoopsDB->getInsertId();
+    return $tbcsn;
 }
 
-//§ó·stad_book3_cate¬Y¤@µ§¸ê®Æ
-function update_tad_book3_cate($tbcsn=""){
-  global $xoopsDB;
-  $myts =& MyTextSanitizer::getInstance();
-  $_POST['title']=$myts->addSlashes($_POST['title']);
-  $_POST['description']=$myts->addSlashes($_POST['description']);
+//åˆ—å‡ºæ‰€æœ‰tad_book3_cateè³‡æ–™
+function list_tad_book3_cate()
+{
+    global $xoopsDB, $xoopsModule, $xoopsTpl;
 
-  $sql = "update ".$xoopsDB->prefix("tad_book3_cate")." set  `of_tbsn` = '{$_POST['of_tbsn']}', `sort` = '{$_POST['sort']}', `title` = '{$_POST['title']}', `description` = '{$_POST['description']}' where tbcsn='$tbcsn'";
-  $xoopsDB->queryF($sql) or redirect_header($_SERVER['PHP_SELF'],3, mysql_error());
-  return $tbcsn;
-}
+    $all_cate = all_cate();
 
-//§R°£tad_book3_cate¬Yµ§¸ê®Æ¸ê®Æ
-function delete_tad_book3_cate($tbcsn=""){
-  global $xoopsDB;
-  $sql = "delete from ".$xoopsDB->prefix("tad_book3_cate")." where tbcsn='$tbcsn'";
-  $xoopsDB->queryF($sql) or redirect_header($_SERVER['PHP_SELF'],3, mysql_error());
-}
+    $sql    = "select * from " . $xoopsDB->prefix("tad_book3_cate") . " order by sort";
+    $result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error());
+    $data   = "";
+    $i      = 0;
+    while (list($tbcsn, $of_tbsn, $sort, $title, $description) = $xoopsDB->fetchRow($result)) {
+        $data[$i]['tbcsn']       = $tbcsn;
+        $data[$i]['of_tbsn']     = $of_tbsn;
+        $data[$i]['sort']        = $sort;
+        $data[$i]['title']       = $title;
+        $data[$i]['description'] = $description;
+        $i++;
+    }
 
-
-/*-----------°õ¦æ°Ê§@§PÂ_°Ï----------*/
-$op = (!isset($_REQUEST['op']))? "":$_REQUEST['op'];
-$tbcsn = (!isset($_REQUEST['tbcsn']))? "":intval($_REQUEST['tbcsn']);
-
-switch($op){
-  //§ó·s¸ê®Æ
-  case "update_tad_book3_cate";
-  update_tad_book3_cate($tbcsn);
-  header("location: {$_SERVER['PHP_SELF']}");
-  break;
-
-  //·s¼W¸ê®Æ
-  case "insert_tad_book3_cate":
-  insert_tad_book3_cate();
-  header("location: {$_SERVER['PHP_SELF']}");
-  break;
-
-  //¿é¤Jªí®æ
-  case "tad_book3_cate_form";
-  tad_book3_cate_form($tbcsn);
-  break;
-
-  //§R°£¸ê®Æ
-  case "delete_tad_book3_cate";
-  delete_tad_book3_cate($tbcsn);
-  header("location: {$_SERVER['PHP_SELF']}");
-  break;
-
-  //¹w³]°Ê§@
-  default:
-  list_tad_book3_cate();
-  break;
-
-
+    if (empty($data)) {
+        header("location:{$_SERVER['PHP_SELF']}?op=tad_book3_cate_form");
+        exit;
+    }
+    $xoopsTpl->assign('data', $data);
+    $xoopsTpl->assign('jquery', get_jquery(true));
 
 }
 
-/*-----------¨q¥Xµ²ªG°Ï--------------*/
+//ä»¥æµæ°´è™Ÿå–å¾—æŸç­†tad_book3_cateè³‡æ–™
+function get_tad_book3_cate($tbcsn = "")
+{
+    global $xoopsDB;
+    if (empty($tbcsn)) {
+        return;
+    }
+
+    $sql    = "select * from " . $xoopsDB->prefix("tad_book3_cate") . " where tbcsn='$tbcsn'";
+    $result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error());
+    $data   = $xoopsDB->fetchArray($result);
+    return $data;
+}
+
+//æ›´æ–°tad_book3_cateæŸä¸€ç­†è³‡æ–™
+function update_tad_book3_cate($tbcsn = "")
+{
+    global $xoopsDB;
+    $myts                 = &MyTextSanitizer::getInstance();
+    $_POST['title']       = $myts->addSlashes($_POST['title']);
+    $_POST['description'] = $myts->addSlashes($_POST['description']);
+
+    $sql = "update " . $xoopsDB->prefix("tad_book3_cate") . " set  `of_tbsn` = '{$_POST['of_tbsn']}', `sort` = '{$_POST['sort']}', `title` = '{$_POST['title']}', `description` = '{$_POST['description']}' where tbcsn='$tbcsn'";
+    $xoopsDB->queryF($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error());
+    return $tbcsn;
+}
+
+//åˆªé™¤tad_book3_cateæŸç­†è³‡æ–™è³‡æ–™
+function delete_tad_book3_cate($tbcsn = "")
+{
+    global $xoopsDB;
+    $sql = "delete from " . $xoopsDB->prefix("tad_book3_cate") . " where tbcsn='$tbcsn'";
+    $xoopsDB->queryF($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error());
+}
+
+/*-----------åŸ·è¡Œå‹•ä½œåˆ¤æ–·å€----------*/
+$op    = (!isset($_REQUEST['op'])) ? "" : $_REQUEST['op'];
+$tbcsn = (!isset($_REQUEST['tbcsn'])) ? "" : intval($_REQUEST['tbcsn']);
+
+switch ($op) {
+    //æ›´æ–°è³‡æ–™
+    case "update_tad_book3_cate";
+        update_tad_book3_cate($tbcsn);
+        header("location: {$_SERVER['PHP_SELF']}");
+        break;
+
+    //æ–°å¢žè³‡æ–™
+    case "insert_tad_book3_cate":
+        insert_tad_book3_cate();
+        header("location: {$_SERVER['PHP_SELF']}");
+        break;
+
+    //è¼¸å…¥è¡¨æ ¼
+    case "tad_book3_cate_form";
+        tad_book3_cate_form($tbcsn);
+        break;
+
+    //åˆªé™¤è³‡æ–™
+    case "delete_tad_book3_cate";
+        delete_tad_book3_cate($tbcsn);
+        header("location: {$_SERVER['PHP_SELF']}");
+        break;
+
+    //é è¨­å‹•ä½œ
+    default:
+        list_tad_book3_cate();
+        break;
+
+}
+
+/*-----------ç§€å‡ºçµæžœå€--------------*/
 include_once 'footer.php';
-?>

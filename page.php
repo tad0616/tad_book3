@@ -1,107 +1,103 @@
 <?php
-/*-----------§ﬁ§J¿…Æ◊∞œ--------------*/
+/*-----------ÂºïÂÖ•Ê™îÊ°àÂçÄ--------------*/
 include "header.php";
-$xoopsOption['template_main'] =($_SESSION['bootstrap']=='3')? "tadbook3_page_b3.html":"tadbook3_page.html";
-include_once XOOPS_ROOT_PATH."/header.php";
-/*-----------function∞œ--------------*/
+$xoopsOption['template_main'] = ($_SESSION['bootstrap'] == '3') ? "tadbook3_page_b3.html" : "tadbook3_page.html";
+include_once XOOPS_ROOT_PATH . "/header.php";
+/*-----------functionÂçÄ--------------*/
 
-//∆[¨›¨Y§@≠∂
-function view_page($tbdsn=""){
-  global $xoopsDB,$xoopsModuleConfig,$xoopsTpl;
+//ËßÄÁúãÊüê‰∏ÄÈ†Å
+function view_page($tbdsn = "")
+{
+    global $xoopsDB, $xoopsModuleConfig, $xoopsTpl;
 
-  add_counter($tbdsn);
+    add_counter($tbdsn);
 
-  $sql = "select * from ".$xoopsDB->prefix("tad_book3_docs")." where tbdsn='$tbdsn'";
-  $result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'],3, mysql_error());
-  list($tbdsn,$tbsn,$category,$page,$paragraph,$sort,$title,$content,$add_date,$last_modify_date,$uid,$count,$enable)=$xoopsDB->fetchRow($result);
+    $sql                                                                                                                            = "select * from " . $xoopsDB->prefix("tad_book3_docs") . " where tbdsn='$tbdsn'";
+    $result                                                                                                                         = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error());
+    list($tbdsn, $tbsn, $category, $page, $paragraph, $sort, $title, $content, $add_date, $last_modify_date, $uid, $count, $enable) = $xoopsDB->fetchRow($result);
 
-  $book=get_tad_book3($tbsn);
-  if(!chk_power($book['read_group'])){
-    header("location:index.php");
-    exit;
-  }
+    $book = get_tad_book3($tbsn);
+    if (!chk_power($book['read_group'])) {
+        header("location:index.php");
+        exit;
+    }
 
-
-  if(!empty($book['passwd']) and $_SESSION['passwd']!=$book['passwd']){
-    $data.="
+    if (!empty($book['passwd']) and $_SESSION['passwd'] != $book['passwd']) {
+        $data .= "
     <tr><td colspan=2 align='center'>
     <form action='{$_SERVER['PHP_SELF']}' method='post' id='myForm' enctype='multipart/form-data'>
     <input type='hidden' name='tbsn' value=$tbsn>
     <input type='hidden' name='op' value='check_passwd'>
-    "._MD_TADBOOK3_INPUT_PASSWD."<input type='text' name='passwd' size=20><input type='submit'>
+    " . _MD_TADBOOK3_INPUT_PASSWD . "<input type='text' name='passwd' size=20><input type='submit'>
     </form>
     </td></tr></table>";
-    return $data;
-    exit;
-  }
+        return $data;
+        exit;
+    }
 
+    $doc_select = doc_select($tbsn, $tbdsn);
+    $near_docs  = near_docs($tbsn, $tbdsn);
+    $prev       = explode(";", $near_docs['prev']);
+    $next       = explode(";", $near_docs['next']);
 
-  $doc_select=doc_select($tbsn,$tbdsn);
-  $near_docs=near_docs($tbsn,$tbdsn);
-  $prev=explode(";",$near_docs['prev']);
-  $next=explode(";",$near_docs['next']);
+    $p = (empty($prev[1])) ? "" : "<a href='page.php?tbdsn={$prev[0]}' style='text-decoration: none;'><img src='images/arrow_left.png' alt='prev' title='Prev' border='0' align='absmiddle' hspace=4>{$prev[1]}</a>";
+    $n = (empty($next[1])) ? "" : "<a href='page.php?tbdsn={$next[0]}' style='text-decoration: none;'>{$next[1]}<img src='images/arrow_right.png' alt='next' title='next' border='0' align='absmiddle' hspace=4></a>";
 
-  $p=(empty($prev[1]))?"":"<a href='page.php?tbdsn={$prev[0]}' style='text-decoration: none;'><img src='images/arrow_left.png' alt='prev' title='Prev' border='0' align='absmiddle' hspace=4>{$prev[1]}</a>";
-  $n=(empty($next[1]))?"":"<a href='page.php?tbdsn={$next[0]}' style='text-decoration: none;'>{$next[1]}<img src='images/arrow_right.png' alt='next' title='next' border='0' align='absmiddle' hspace=4></a>";
+    $doc_sort = mk_category($category, $page, $paragraph, $sort);
 
+    $facebook_comments = facebook_comments($xoopsModuleConfig['facebook_comments_width'], 'tad_book3', 'page.php', 'tbdsn', $tbdsn);
 
-  $doc_sort=mk_category($category,$page,$paragraph,$sort);
+    //È´ò‰∫ÆÂ∫¶Ë™ûÊ≥ï
+    if (!file_exists(TADTOOLS_PATH . "/syntaxhighlighter.php")) {
+        redirect_header("index.php", 3, _MD_NEED_TADTOOLS);
+    }
+    include_once TADTOOLS_PATH . "/syntaxhighlighter.php";
+    $syntaxhighlighter      = new syntaxhighlighter();
+    $syntaxhighlighter_code = $syntaxhighlighter->render();
 
-  $facebook_comments=facebook_comments($xoopsModuleConfig['facebook_comments_width'],'tad_book3','page.php','tbdsn',$tbdsn);
-
-  //∞™´G´◊ªy™k
-  if(!file_exists(TADTOOLS_PATH."/syntaxhighlighter.php")){
-   redirect_header("index.php",3, _MD_NEED_TADTOOLS);
-  }
-  include_once TADTOOLS_PATH."/syntaxhighlighter.php";
-  $syntaxhighlighter= new syntaxhighlighter();
-  $syntaxhighlighter_code=$syntaxhighlighter->render();
-
-  $xoopsTpl->assign('syntaxhighlighter_code',$syntaxhighlighter_code);
-  $xoopsTpl->assign('tbsn',$tbsn);
-  $xoopsTpl->assign('book_title',$book['title']);
-  $xoopsTpl->assign('doc_sort_main',$doc_sort['main']);
-  $xoopsTpl->assign('title',$title);
-  $xoopsTpl->assign('doc_sort_level',$doc_sort['level']);
-  $xoopsTpl->assign('content',$content);
-  $xoopsTpl->assign('p',$p);
-  $xoopsTpl->assign('n',$n);
-  $xoopsTpl->assign('doc_select',$doc_select);
-  $xoopsTpl->assign('facebook_comments',$facebook_comments);
-  $xoopsTpl->assign('push_url',push_url());
-  $xoopsTpl->assign('tbdsn',$tbdsn);
+    $xoopsTpl->assign('syntaxhighlighter_code', $syntaxhighlighter_code);
+    $xoopsTpl->assign('tbsn', $tbsn);
+    $xoopsTpl->assign('book_title', $book['title']);
+    $xoopsTpl->assign('doc_sort_main', $doc_sort['main']);
+    $xoopsTpl->assign('title', $title);
+    $xoopsTpl->assign('doc_sort_level', $doc_sort['level']);
+    $xoopsTpl->assign('content', $content);
+    $xoopsTpl->assign('p', $p);
+    $xoopsTpl->assign('n', $n);
+    $xoopsTpl->assign('doc_select', $doc_select);
+    $xoopsTpl->assign('facebook_comments', $facebook_comments);
+    $xoopsTpl->assign('push_url', push_url());
+    $xoopsTpl->assign('tbdsn', $tbdsn);
 }
 
-//ßÛ∑s≠∂≠±≠pº∆æπ
-function add_counter($tbdsn=""){
-  global $xoopsDB;
-  $sql = "update ".$xoopsDB->prefix("tad_book3_docs")." set  `count` = `count`+1 where tbdsn='$tbdsn'";
-  $xoopsDB->queryF($sql) or redirect_header($_SERVER['PHP_SELF'],3, mysql_error());
+//Êõ¥Êñ∞È†ÅÈù¢Ë®àÊï∏Âô®
+function add_counter($tbdsn = "")
+{
+    global $xoopsDB;
+    $sql = "update " . $xoopsDB->prefix("tad_book3_docs") . " set  `count` = `count`+1 where tbdsn='$tbdsn'";
+    $xoopsDB->queryF($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error());
 }
 
-/*-----------∞ı¶Ê∞ ß@ßP¬_∞œ----------*/
-$_REQUEST['op']=(empty($_REQUEST['op']))?"":$_REQUEST['op'];
-$tbsn = (!isset($_REQUEST['tbsn']))? "":intval($_REQUEST['tbsn']);
-$tbdsn = (!isset($_REQUEST['tbdsn']))? "":intval($_REQUEST['tbdsn']);
+/*-----------Âü∑Ë°åÂãï‰ΩúÂà§Êñ∑ÂçÄ----------*/
+$_REQUEST['op'] = (empty($_REQUEST['op'])) ? "" : $_REQUEST['op'];
+$tbsn           = (!isset($_REQUEST['tbsn'])) ? "" : intval($_REQUEST['tbsn']);
+$tbdsn          = (!isset($_REQUEST['tbdsn'])) ? "" : intval($_REQUEST['tbdsn']);
 
-$xoopsTpl->assign( "toolbar" , toolbar_bootstrap($interface_menu)) ;
-$xoopsTpl->assign( "bootstrap" , get_bootstrap()) ;
-$xoopsTpl->assign( "jquery" , get_jquery(true)) ;
-$xoopsTpl->assign( "isAdmin" , $isAdmin) ;
+$xoopsTpl->assign("toolbar", toolbar_bootstrap($interface_menu));
+$xoopsTpl->assign("bootstrap", get_bootstrap());
+$xoopsTpl->assign("jquery", get_jquery(true));
+$xoopsTpl->assign("isAdmin", $isAdmin);
 
-switch($_REQUEST['op']){
+switch ($_REQUEST['op']) {
 
-  case "check_passwd":
-  check_passwd($tbsn);
-  break;
+    case "check_passwd":
+        check_passwd($tbsn);
+        break;
 
-
-  default:
-  view_page($tbdsn);
-  break;
+    default:
+        view_page($tbdsn);
+        break;
 }
 
-/*-----------®q•Xµ≤™G∞œ--------------*/
-include_once XOOPS_ROOT_PATH.'/footer.php';
-
-?>
+/*-----------ÁßÄÂá∫ÁµêÊûúÂçÄ--------------*/
+include_once XOOPS_ROOT_PATH . '/footer.php';
