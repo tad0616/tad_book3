@@ -1,12 +1,8 @@
 <?php
-//  ------------------------------------------------------------------------ //
-// 本模組由 tad 製作
-// ------------------------------------------------------------------------- //
-
 /*-----------引入檔案區--------------*/
 include "header.php";
 include "post_function.php";
-$xoopsOption['template_main'] = "tadbook3_post.html";
+$xoopsOption['template_main'] = set_bootstrap("tadbook3_post.html");
 include_once XOOPS_ROOT_PATH . "/header.php";
 /*-----------function區--------------*/
 

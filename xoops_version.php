@@ -14,13 +14,13 @@ $modversion['image']       = "images/logo_{$xoopsConfig['language']}.png";
 $modversion['dirname']     = basename(dirname(__FILE__));
 
 //---模組狀態資訊---//
-$modversion['release_date']        = '2014/09/25';
+$modversion['release_date']        = '2015/06/18';
 $modversion['module_website_url']  = 'http://tad0616.net/';
 $modversion['module_website_name'] = _MI_TAD_WEB;
 $modversion['module_status']       = 'release';
 $modversion['author_website_url']  = 'http://tad0616.net/';
 $modversion['author_website_name'] = _MI_TAD_WEB;
-$modversion['min_php']             = 5.2;
+$modversion['min_php']             = 5.3;
 $modversion['min_xoops']           = '2.5';
 
 //---paypal資訊---//
@@ -143,29 +143,24 @@ $modversion['blocks'][4]['description'] = _MI_TADBOOK3_BDESC4;
 $modversion['blocks'][4]['show_func']   = "tad_book3_index";
 $modversion['blocks'][4]['template']    = "tad_book3_index.html";
 
-$modversion['blocks'][5]['file']        = "tad_book3_qrcode.php";
-$modversion['blocks'][5]['name']        = _MI_QRCODE_BLOCKNAME;
-$modversion['blocks'][5]['description'] = _MI_QRCODE_BLOCKDESC;
-$modversion['blocks'][5]['show_func']   = "tad_book3_qrcode_show";
-$modversion['blocks'][5]['template']    = "tad_book3_qrcode.html";
+//---偏好設定---//
+$modversion['config'][1]['name']        = 'facebook_comments_width';
+$modversion['config'][1]['title']       = '_MI_FBCOMMENT_TITLE';
+$modversion['config'][1]['description'] = '_MI_FBCOMMENT_TITLE_DESC';
+$modversion['config'][1]['formtype']    = 'yesno';
+$modversion['config'][1]['valuetype']   = 'int';
+$modversion['config'][1]['default']     = '1';
 
-$modversion['config'][6]['name']        = 'facebook_comments_width';
-$modversion['config'][6]['title']       = '_MI_FBCOMMENT_TITLE';
-$modversion['config'][6]['description'] = '_MI_FBCOMMENT_TITLE_DESC';
-$modversion['config'][6]['formtype']    = 'yesno';
-$modversion['config'][6]['valuetype']   = 'int';
-$modversion['config'][6]['default']     = '1';
+$modversion['config'][2]['name']        = 'use_pda';
+$modversion['config'][2]['title']       = '_MI_USE_PDA_TITLE';
+$modversion['config'][2]['description'] = '_MI_USE_PDA_TITLE_DESC';
+$modversion['config'][2]['formtype']    = 'yesno';
+$modversion['config'][2]['valuetype']   = 'int';
+$modversion['config'][2]['default']     = '1';
 
-$modversion['config'][7]['name']        = 'use_pda';
-$modversion['config'][7]['title']       = '_MI_USE_PDA_TITLE';
-$modversion['config'][7]['description'] = '_MI_USE_PDA_TITLE_DESC';
-$modversion['config'][7]['formtype']    = 'yesno';
-$modversion['config'][7]['valuetype']   = 'int';
-$modversion['config'][7]['default']     = '1';
-
-$modversion['config'][8]['name']        = 'use_social_tools';
-$modversion['config'][8]['title']       = '_MI_SOCIALTOOLS_TITLE';
-$modversion['config'][8]['description'] = '_MI_SOCIALTOOLS_TITLE_DESC';
-$modversion['config'][8]['formtype']    = 'yesno';
-$modversion['config'][8]['valuetype']   = 'int';
-$modversion['config'][8]['default']     = '1';
+$modversion['config'][3]['name']        = 'use_social_tools';
+$modversion['config'][3]['title']       = '_MI_SOCIALTOOLS_TITLE';
+$modversion['config'][3]['description'] = '_MI_SOCIALTOOLS_TITLE_DESC';
+$modversion['config'][3]['formtype']    = 'yesno';
+$modversion['config'][3]['valuetype']   = 'int';
+$modversion['config'][3]['default']     = '1';
