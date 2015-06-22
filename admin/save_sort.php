@@ -1,12 +1,10 @@
 <?php
-include_once "header.php";
-$updateRecordsArray = $_POST['tr'];
+/*-----------引入檔案區--------------*/
+include "../../../include/cp_header.php";
 
-$sort = 1;
-foreach ($updateRecordsArray as $recordIDValue) {
-    $sql = "update " . $xoopsDB->prefix("tad_book3_cate") . " set `sort`='{$sort}' where `tbcsn`='{$recordIDValue}'";
-    $xoopsDB->queryF($sql) or die("Save Sort Fail! (" . date("Y-m-d H:i:s") . ")");
-    $sort++;
-}
+$tbcsn = intval($_POST['tbcsn']);
+$sort  = intval($_POST['sort']);
+$sql   = "update " . $xoopsDB->prefix("tad_book3_cate") . " set `sort`='{$sort}' where tbcsn='{$tbcsn}'";
+$xoopsDB->queryF($sql) or die("Save Sort Fail! (" . date("Y-m-d H:i:s") . ")");
 
-echo "Save Sort OK! (" . date("Y-m-d H:i:s") . ")";
+echo "Save Sort OK! (" . date("Y-m-d H:i:s") . ") ";

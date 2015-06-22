@@ -9,14 +9,8 @@ $adminmenu[$i]['desc']  = _MI_TAD_ADMIN_HOME_DESC;
 $adminmenu[$i]['icon']  = 'images/admin/home.png';
 
 $i++;
-$adminmenu[$i]['title'] = _MI_TADBOOK3_ADMENU1;
-$adminmenu[$i]['link']  = "admin/main.php";
-$adminmenu[$i]['desc']  = _MI_TADBOOK3_ADMENU1;
-$adminmenu[$i]['icon']  = "images/admin/book.png";
-
-$i++;
 $adminmenu[$i]['title'] = _MI_TADBOOK3_ADMENU2;
-$adminmenu[$i]['link']  = "admin/cate.php";
+$adminmenu[$i]['link']  = "admin/main.php";
 $adminmenu[$i]['desc']  = _MI_TADBOOK3_ADMENU2;
 $adminmenu[$i]['icon']  = "images/admin/category.png";
 

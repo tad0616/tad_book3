@@ -3,7 +3,7 @@ $modversion = array();
 
 //---模組基本資訊---//
 $modversion['name']        = _MI_TADBOOK3_NAME;
-$modversion['version']     = 3.31;
+$modversion['version']     = 3.4;
 $modversion['description'] = _MI_TADBOOK3_DESC;
 $modversion['author']      = _MI_TADBOOK3_AUTHOR;
 $modversion['credits']     = "geek01 , Michael Beck";
@@ -14,7 +14,7 @@ $modversion['image']       = "images/logo_{$xoopsConfig['language']}.png";
 $modversion['dirname']     = basename(dirname(__FILE__));
 
 //---模組狀態資訊---//
-$modversion['release_date']        = '2015/06/18';
+$modversion['release_date']        = '2015/06/22';
 $modversion['module_website_url']  = 'http://tad0616.net/';
 $modversion['module_website_name'] = _MI_TAD_WEB;
 $modversion['module_status']       = 'release';
@@ -87,14 +87,6 @@ $modversion['templates'][$i]['file']        = 'tadbook3_adm_main_b3.html';
 $modversion['templates'][$i]['description'] = 'tadbook3_adm_main_b3.html';
 
 $i++;
-$modversion['templates'][$i]['file']        = 'tadbook3_adm_cate.html';
-$modversion['templates'][$i]['description'] = 'tadbook3_adm_cate.html';
-
-$i++;
-$modversion['templates'][$i]['file']        = 'tadbook3_adm_cate_b3.html';
-$modversion['templates'][$i]['description'] = 'tadbook3_adm_cate_b3.html';
-
-$i++;
 $modversion['templates'][$i]['file']        = 'tadbook3_book_shadow.html';
 $modversion['templates'][$i]['description'] = 'tadbook3_book_shadow.html';
 
@@ -117,7 +109,7 @@ $modversion['blocks'][1]['file']        = "tad_book3_random.php";
 $modversion['blocks'][1]['name']        = _MI_TADBOOK3_BNAME1;
 $modversion['blocks'][1]['description'] = _MI_TADBOOK3_BDESC1;
 $modversion['blocks'][1]['show_func']   = "tad_book3_random";
-$modversion['blocks'][1]['template']    = "tad_book3_random.html";
+$modversion['blocks'][1]['template']    = "tad_book3_block_random.html";
 $modversion['blocks'][1]['edit_func']   = "tad_book3_random_edit";
 $modversion['blocks'][1]['options']     = "1|1";
 
@@ -125,7 +117,7 @@ $modversion['blocks'][2]['file']        = "tad_book3_new_doc.php";
 $modversion['blocks'][2]['name']        = _MI_TADBOOK3_BNAME2;
 $modversion['blocks'][2]['description'] = _MI_TADBOOK3_BDESC2;
 $modversion['blocks'][2]['show_func']   = "tad_book3_new_doc";
-$modversion['blocks'][2]['template']    = "tad_book3_new_doc.html";
+$modversion['blocks'][2]['template']    = "tad_book3_block_new_doc.html";
 $modversion['blocks'][2]['edit_func']   = "tad_book3_new_doc_edit";
 $modversion['blocks'][2]['options']     = "5";
 
@@ -133,7 +125,7 @@ $modversion['blocks'][3]['file']        = "tad_book3_list.php";
 $modversion['blocks'][3]['name']        = _MI_TADBOOK3_BNAME3;
 $modversion['blocks'][3]['description'] = _MI_TADBOOK3_BDESC3;
 $modversion['blocks'][3]['show_func']   = "tad_book3_list";
-$modversion['blocks'][3]['template']    = "tad_book3_list.html";
+$modversion['blocks'][3]['template']    = "tad_book3_block_list.html";
 $modversion['blocks'][3]['edit_func']   = "tad_book3_list_edit";
 $modversion['blocks'][3]['options']     = "5|create_date|desc";
 
@@ -141,7 +133,7 @@ $modversion['blocks'][4]['file']        = "tad_book3_index.php";
 $modversion['blocks'][4]['name']        = _MI_TADBOOK3_BNAME4;
 $modversion['blocks'][4]['description'] = _MI_TADBOOK3_BDESC4;
 $modversion['blocks'][4]['show_func']   = "tad_book3_index";
-$modversion['blocks'][4]['template']    = "tad_book3_index.html";
+$modversion['blocks'][4]['template']    = "tad_book3_block_index.html";
 
 //---偏好設定---//
 $modversion['config'][1]['name']        = 'facebook_comments_width';

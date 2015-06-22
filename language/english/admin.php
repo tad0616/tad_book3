@@ -25,3 +25,4 @@ define('_MA_TADBOOK3_CATE_DESCRIPTION', 'Description');
 define('_MA_TADBOOK3_COUNT', 'Count');
 define('_MA_TADBOOK3_NOT_CLASSIFIED', 'Not classified');
 define('_MA_TADBOOK3_ADD_BOOK', 'Add Book');
+define('_MA_TADBOOK3_CATE_FORM', 'Edit category');

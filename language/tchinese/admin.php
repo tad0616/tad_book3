@@ -25,3 +25,4 @@ define("_MA_TADBOOK3_CATE_DESCRIPTION", "分類說明");
 define("_MA_TADBOOK3_COUNT", "人氣");
 define("_MA_TADBOOK3_NOT_CLASSIFIED", "未分類");
 define("_MA_TADBOOK3_ADD_BOOK", "新增書籍");
+define('_MA_TADBOOK3_CATE_FORM', '編輯分類');

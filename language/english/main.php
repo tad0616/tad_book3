@@ -32,3 +32,4 @@ define('_MD_TADBOOK3_IMPORT1', 'Upload 1_book.sql');
 define('_MD_TADBOOK3_IMPORT2', 'Upload 2_docs.sql');
 define('_MD_TADBOOK3_UL_FILE', 'Prease upload "file" and "image" folders to %s first.');
 define('_MD_TADBOOK3_ABS_PATH', 'Does update file url to %s? ');
+define('_MD_TADBOOK3_NEED_AUTHOR', 'You\'re not Author');
