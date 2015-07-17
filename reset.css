@@ -3,8 +3,9 @@
 	padding: 0;
 }
 
-.page_content dl,.page_content dt,.page_content dd,.page_content ul,.page_content ol,.page_content li{
-	line-height:180%;
+.page_content p, .page_content div, .page_content dl,.page_content dt,.page_content dd,.page_content ul,.page_content ol,.page_content li{
+	line-height:200%;
+  margin-bottom: 20px;
 }
 
 .page_content table {
@@ -33,4 +34,7 @@
 }
 .page_content table caption,.page_content table  th {
 	text-align: left;
+}
+.page_content img {
+  margin-bottom: 20px;
 }
