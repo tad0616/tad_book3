@@ -48,10 +48,10 @@ function tad_book3_docs_form($tbdsn = "", $tbsn = "")
         redirect_header("index.php", 3, _MD_NEED_TADTOOLS);
     }
 
-    include_once XOOPS_ROOT_PATH . "/modules/tadtools/fck.php";
-    $fck = new FCKEditor264("tad_book3", "content", $content);
-    $fck->setHeight(450);
-    $editor = $fck->render();
+    include_once XOOPS_ROOT_PATH . "/modules/tadtools/ck.php";
+    $ck = new CKEditor("tad_book3", "content", $content);
+    $ck->setHeight(400);
+    $editor = $ck->render();
 
     $op = (empty($tbdsn)) ? "insert_tad_book3_docs" : "update_tad_book3_docs";
     //$op="replace_tad_book3_docs";

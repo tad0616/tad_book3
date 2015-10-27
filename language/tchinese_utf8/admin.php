@@ -1,6 +1,6 @@
 <?php
 include_once '../../tadtools/language/' . $xoopsConfig['language'] . '/admin_common.php';
-define('_TAD_NEED_TADTOOLS', ' 需要 tadtools 模組，可至<a href="http://www.tad0616.net/modules/tad_uploader/index.php?of_cat_sn=50" target="_blank">Tad教材網</a>下載。');
+define('_TAD_NEED_TADTOOLS', '需要 tadtools 模組，可至<a href="http://campus-xoops.tn.edu.tw/modules/tad_modules/index.php?module_sn=1" target="_blank">XOOPS輕鬆架</a>下載。');
 define('_MA_TADBOOK3_NEW_PCSN', '在左邊分類下新增分類：');
 define('_MA_INPUT_BOOK_FORM', '編輯書籍');
 define('_MA_TADBOOK3_SORT', '排序');

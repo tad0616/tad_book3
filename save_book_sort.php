@@ -1,6 +1,6 @@
 <?php
 /*-----------引入檔案區--------------*/
-include "../../../include/cp_header.php";
+include "../../mainfile.php";
 include "../function.php";
 $updateRecordsArray = $_POST['tr'];
 

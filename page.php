@@ -12,8 +12,9 @@ function view_page($tbdsn = "")
 
     add_counter($tbdsn);
 
-    $sql                                                                                                                            = "select * from " . $xoopsDB->prefix("tad_book3_docs") . " where tbdsn='$tbdsn'";
-    $result                                                                                                                         = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error());
+    $sql    = "select * from " . $xoopsDB->prefix("tad_book3_docs") . " where tbdsn='$tbdsn'";
+    $result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error());
+
     list($tbdsn, $tbsn, $category, $page, $paragraph, $sort, $title, $content, $add_date, $last_modify_date, $uid, $count, $enable) = $xoopsDB->fetchRow($result);
 
     $book = get_tad_book3($tbsn);
@@ -24,13 +25,13 @@ function view_page($tbdsn = "")
 
     if (!empty($book['passwd']) and $_SESSION['passwd'] != $book['passwd']) {
         $data .= "
-    <tr><td colspan=2 align='center'>
-    <form action='{$_SERVER['PHP_SELF']}' method='post' id='myForm' enctype='multipart/form-data'>
-    <input type='hidden' name='tbsn' value=$tbsn>
-    <input type='hidden' name='op' value='check_passwd'>
-    " . _MD_TADBOOK3_INPUT_PASSWD . "<input type='text' name='passwd' size=20><input type='submit'>
-    </form>
-    </td></tr></table>";
+        <tr><td colspan=2 align='center'>
+        <form action='{$_SERVER['PHP_SELF']}' method='post' id='myForm' enctype='multipart/form-data'>
+        <input type='hidden' name='tbsn' value=$tbsn>
+        <input type='hidden' name='op' value='check_passwd'>
+        " . _MD_TADBOOK3_INPUT_PASSWD . "<input type='text' name='passwd' size=20><input type='submit'>
+        </form>
+        </td></tr></table>";
         return $data;
         exit;
     }

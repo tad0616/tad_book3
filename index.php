@@ -49,14 +49,13 @@ function import_form($tbsn = "")
     $counter     = (!isset($DBV['counter'])) ? "" : $DBV['counter'];
     $create_date = (!isset($DBV['create_date'])) ? "" : $DBV['create_date'];
 
-    if (!file_exists(XOOPS_ROOT_PATH . "/modules/tadtools/fck.php")) {
-        redirect_header("index.php", 3, _MD_NEED_TADTOOLS);
+    if (!file_exists(XOOPS_ROOT_PATH . "/modules/tadtools/ck.php")) {
+        redirect_header("http://www.tad0616.net/modules/tad_uploader/index.php?of_cat_sn=50", 3, _TAD_NEED_TADTOOLS);
     }
-    include_once XOOPS_ROOT_PATH . "/modules/tadtools/fck.php";
-    $fck = new FCKEditor264("tad_book3", "description", $description);
-    $fck->setwidth(600);
-    $fck->setHeight(250);
-    $editor = $fck->render();
+    include_once XOOPS_ROOT_PATH . "/modules/tadtools/ck.php";
+    $ck = new CKEditor("tad_book3", "description", $description);
+    $ck->setHeight(400);
+    $editor = $ck->render();
 
     $author_arr = (empty($author)) ? array($xoopsUser->getVar("uid")) : explode(",", $author);
 

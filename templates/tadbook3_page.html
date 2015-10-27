@@ -1,11 +1,6 @@
-<{$bootstrap}>
-<{$jquery}>
 <{$toolbar}>
 <link rel="stylesheet" type="text/css" media="screen" href="reset.css" />
 <link rel="stylesheet" type="text/css" media="screen" href="module.css" />
-
-
-<{$syntaxhighlighter_code}>
 
 <div class="row-fluid" style="background-image: url(images/relink_bg.gif); padding: 10px 0px;">
   <div class="span4 text-left"><{$p}></div>
@@ -44,7 +39,11 @@
 
 <div class="row-fluid">
   <div class="span6" style="text-align:left;vertical-align:bottom;">
-    <a href="<{$xoops_url}>/modules/tad_book3/tcpdf.php?tbdsn=<{$tbdsn}>&filename=BOOK<{$tbsn}>-<{$doc_sort_main}>.pdf"><img src="images/tcpdf.png"><{$smarty.const._MD_TADBOOK3_DL_PDF}></a>
+    <a href="<{$xoops_url}>/modules/tad_book3/tcpdf.php?tbdsn=<{$tbdsn}>&filename=BOOK<{$tbsn}>-<{$doc_sort_main}>.pdf"><i class="fa fa-file-pdf-o"></i> <{$smarty.const._MD_TADBOOK3_DL_PDF}></a>
+
+    <a href="<{$xoops_url}>/modules/tad_book3/markdown.php?tbdsn=<{$tbdsn}>"><i class="fa fa-github-alt"></i> <{$smarty.const._MD_TADBOOK3_DL_MARKDOWN}></a>
+
+
   </div>
   <div class="span6" style="text-align:right;vertical-align:bottom;">
     <{$push_url}>

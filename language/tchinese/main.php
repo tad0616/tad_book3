@@ -1,4 +1,5 @@
 <?php
+define('_TAD_NEED_TADTOOLS', ' 需要 modules/tadtools，可至<a href="http://campus-xoops.tn.edu.tw/modules/tad_modules/index.php?module_sn=1" target="_blank">XOOPS輕鬆架</a>下載。');
 //分頁物件用的語系
 define('_MD_TADBOOK3_HOMEPAGE', '所有書籍');
 
@@ -26,7 +27,8 @@ define('_MD_TADBOOK3_MODIFY_DOC', '修改本文');
 define('_MD_TADBOOK3_INPUT_PASSWD', '本書需要密碼，請輸入密碼：');
 define('_MD_TADBOOK3_NOT_CLASSIFIED', '未分類');
 define('_MD_TADBOOK3_EXPORT', '匯出');
-define('_MD_TADBOOK3_DL_PDF', '下載PDF');
+define('_MD_TADBOOK3_DL_PDF', '下載 PDF');
+define('_MD_TADBOOK3_DL_MARKDOWN', '匯出 MarkDown 格式');
 define('_MD_TADBOOK3_IMPORT', '匯入書籍');
 define('_MD_TADBOOK3_IMPORT1', '匯入 1_book.sql');
 define('_MD_TADBOOK3_IMPORT2', '匯入 2_docs.sql');

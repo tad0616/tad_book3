@@ -94,6 +94,14 @@ $i++;
 $modversion['templates'][$i]['file']        = 'tadbook3_book_shadow_b3.html';
 $modversion['templates'][$i]['description'] = 'tadbook3_book_shadow_b3.html';
 
+$i++;
+$modversion['templates'][$i]['file']        = 'tadbook3_markdown.html';
+$modversion['templates'][$i]['description'] = 'tadbook3_markdown.html';
+
+$i++;
+$modversion['templates'][$i]['file']        = 'tadbook3_markdown_b3.html';
+$modversion['templates'][$i]['description'] = 'tadbook3_markdown_b3.html';
+
 //---評論設定---//
 $modversion['hasComments']          = 1;
 $modversion['comments']['pageName'] = 'page.php';

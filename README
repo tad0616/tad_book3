@@ -7,6 +7,7 @@ Tad Book3 3.4 正式版修正項目（尚未釋出）
 5.當使用bootstrap佈景時，自動隱藏pda.php功能
 6.感謝 Michael Beck 提供英文語系
 7.修改PHP程式碼以符合PSR2規範
+8.修正後台編輯器無法正常使用問題
 
 
 

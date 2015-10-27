@@ -1,0 +1,10 @@
+<div class="row-fluid" style="background-image: url(images/relink_bg.gif); padding: 10px 0px;">
+  <div class="span4 text-left"><{$p}></div>
+  <div class="span4 text-center">
+    <select onChange="window.location.href='markdown.php?tbdsn='+this.value">
+      <{$doc_select}>
+    </select>
+  </div>
+  <div class="span4 text-right"><{$n}></div>
+</div>
+<textarea name="markdown" id="markdown" rows="100" class="span12"><{$markdown}></textarea>
