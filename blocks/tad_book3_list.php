@@ -17,7 +17,7 @@ function tad_book3_list($options)
 
     $i      = 0;
     $sql    = "select `tbsn`,`title`,`counter` from " . $xoopsDB->prefix("tad_book3") . " where enable='1' order by {$options[1]} {$options[2]} limit 0,{$options[0]}";
-    $result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error());
+    $result = $xoopsDB->query($sql) or web_error($sql);
     while (list($tbsn, $title, $counter) = $xoopsDB->fetchRow($result)) {
         $block[$i]['tbsn']    = $tbsn;
         $block[$i]['title']   = $title;

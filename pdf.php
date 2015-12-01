@@ -41,7 +41,7 @@ function view_page($tbdsn = "")
     global $xoopsDB;
 
     $sql                                                                                                                            = "select * from " . $xoopsDB->prefix("tad_book3_docs") . " where tbdsn='$tbdsn'";
-    $result                                                                                                                         = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error());
+    $result                                                                                                                         = $xoopsDB->query($sql) or web_error($sql);
     list($tbdsn, $tbsn, $category, $page, $paragraph, $sort, $title, $content, $add_date, $last_modify_date, $uid, $count, $enable) = $xoopsDB->fetchRow($result);
 
     $book = get_tad_book3($tbsn);

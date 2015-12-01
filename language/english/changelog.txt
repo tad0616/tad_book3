@@ -1,3 +1,15 @@
+Tad Book3 3.4 official version of the amended project (2015-11-08 release)
+====================================================
+1. Fixed administrators can not edit some books bug
+2. Fixed bug when no set book author, visitors will see the editing tools
+3. Added Markdown function
+4. Fixed counter is not working properly
+5. When using the bootstrap sets, auto-hide function pda.php
+6. Thanks Michael Beck in English language
+7. Modify the PHP code to conform to specifications PSR2
+8. Fixed background issue editor does not work properly
+9. Support bootstrap3
+
 Tad Book3 3.31 official version of the amended project (2014-09-25 release)
 ================================================== ==
 1. Modify the program so that it conforms with WCAG

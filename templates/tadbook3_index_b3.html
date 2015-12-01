@@ -149,13 +149,7 @@
   </div>
 <{elseif $now_op=="list_docs"}>
   <{if $my}>
-  <script>
-    function delete_tad_book3_docs_func(tbdsn){
-      var sure = window.confirm('<{$smarty.const._TAD_DEL_CONFIRM}>');
-      if (!sure)	return;
-      location.href="index.php?op=delete_tad_book3_docs&tbdsn=" + tbdsn;
-    }
-  </script>
+    <{$sweet_alert_docs_code}>
   <{/if}>
 
   <div class="row">
@@ -175,7 +169,7 @@
       <{if $description}><div class="alert alert-info"><{$description}></div><{/if}>
       <div class="text-right">
         <{if $my}>
-          <a href="index.php?op=tad_book3_export&tbsn=<{$tbsn}>" class="btn btn-xs btn-info"><{$smarty.const._MD_TADBOOK3_EXPORT}></a>
+          <!--a href="index.php?op=tad_book3_export&tbsn=<{$tbsn}>" class="btn btn-xs btn-info"><{$smarty.const._MD_TADBOOK3_EXPORT}></a-->
         <{/if}>
         <{$push_url}>
       </div>
@@ -239,13 +233,8 @@
         }
       });
     });
-
-    function delete_tad_book3_func(tbsn){
-      var sure = window.confirm("<{$smarty.const._TAD_DEL_CONFIRM}>");
-      if (!sure)  return;
-      location.href="admin/main.php?op=delete_tad_book3&tbsn=" + tbsn;
-    }
   </script>
+  <{$sweet_alert_book_code}>
 
   <{foreach from=$cate item=cate}>
     <{if $cate.books}>

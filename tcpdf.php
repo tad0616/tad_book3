@@ -35,7 +35,7 @@ $html .= '
 </html>';
 //die($html);
 
-require_once 'class/tcpdf/tcpdf.php';
+require_once XOOPS_ROOT_PATH . 'modules/tadtools/tcpdf/tcpdf.php';
 $pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
 $pdf->setPrintHeader(false); //不要頁首
 $pdf->setPrintFooter(false); //不要頁尾
@@ -55,7 +55,7 @@ function view_page($tbdsn = "")
     global $xoopsDB;
 
     $sql                                                                                                                            = "select * from " . $xoopsDB->prefix("tad_book3_docs") . " where tbdsn='$tbdsn'";
-    $result                                                                                                                         = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error());
+    $result                                                                                                                         = $xoopsDB->query($sql) or web_error($sql);
     list($tbdsn, $tbsn, $category, $page, $paragraph, $sort, $title, $content, $add_date, $last_modify_date, $uid, $count, $enable) = $xoopsDB->fetchRow($result);
 
     $book = get_tad_book3($tbsn);

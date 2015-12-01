@@ -16,7 +16,7 @@ function show_allbook()
     $sql = "select a.`tbsn`, a.`tbcsn`, a.`sort`, a.`title`, a.`description`, a.`author`, a.`read_group`, a.`passwd`, a.`enable`, a.`pic_name`, a.`counter`, a.`create_date`
 ,b.`of_tbsn`, b.`sort` as cate_sort, b.`title` as cate_title , b.`description` from " . $xoopsDB->prefix("tad_book3") . " as a left join " . $xoopsDB->prefix("tad_book3_cate") . " as b on a.tbcsn=b.tbcsn where a.enable='1' order by cate_sort,a.sort";
 
-    $result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error());
+    $result = $xoopsDB->query($sql) or web_error($sql);
     while ($data = $xoopsDB->fetchArray($result)) {
         foreach ($data as $k => $v) {
             $$k = $v;
@@ -165,7 +165,7 @@ function get_pre_next($tbsn = "", $now_sn = "")
 {
     global $xoopsDB;
     $sql    = "select tbdsn,title from " . $xoopsDB->prefix("tad_book3") . " where tbsn='{$tbsn}' order by sort , post_date";
-    $result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error());
+    $result = $xoopsDB->query($sql) or web_error($sql);
     $stop   = false;
     $pre    = 0;
     while (list($tbdsn, $title) = $xoopsDB->fetchRow($result)) {
@@ -198,7 +198,7 @@ function list_docs_m($tbsn = "")
 
     $MDIR   = $xoopsModule->getVar('dirname');
     $sql    = "select * from " . $xoopsDB->prefix("tad_book3") . " where tbsn='$tbsn'";
-    $result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error());
+    $result = $xoopsDB->query($sql) or web_error($sql);
 
     $function_title = ($show_function) ? "<th>" . _TAD_FUNCTION . "</th>" : "";
 
@@ -236,7 +236,7 @@ function list_docs_m($tbsn = "")
 	";
 
     $sql    = "select * from " . $xoopsDB->prefix("tad_book3_docs") . " where tbsn='{$tbsn}' and enable='1' order by category,page,paragraph,sort";
-    $result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error());
+    $result = $xoopsDB->query($sql) or web_error($sql);
     while (list($tbdsn, $tbsn, $category, $page, $paragraph, $sort, $title, $content, $add_date, $last_modify_date, $uid, $count, $enable) = $xoopsDB->fetchRow($result)) {
         $uid_name = XoopsUser::getUnameFromId($uid, 1);
         $uid_name = (empty($uid_name)) ? XoopsUser::getUnameFromId($uid, 0) : $uid_name;
@@ -263,7 +263,7 @@ function add_book_counter($tbsn = "")
 {
     global $xoopsDB;
     $sql = "update " . $xoopsDB->prefix("tad_book3") . " set  `counter` = `counter`+1 where tbsn='$tbsn'";
-    $xoopsDB->queryF($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error());
+    $xoopsDB->queryF($sql) or web_error($sql);
 }
 
 //觀看某一頁
@@ -274,7 +274,7 @@ function view_page($tbdsn = "")
     add_counter($tbdsn);
 
     $sql                                                                                                                            = "select * from " . $xoopsDB->prefix("tad_book3_docs") . " where tbdsn='$tbdsn'";
-    $result                                                                                                                         = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error());
+    $result                                                                                                                         = $xoopsDB->query($sql) or web_error($sql);
     list($tbdsn, $tbsn, $category, $page, $paragraph, $sort, $title, $content, $add_date, $last_modify_date, $uid, $count, $enable) = $xoopsDB->fetchRow($result);
 
     $book = get_tad_book3($tbsn);
@@ -384,7 +384,7 @@ function add_counter($tbdsn = "")
 {
     global $xoopsDB;
     $sql = "update " . $xoopsDB->prefix("tad_book3_docs") . " set  `count` = `count`+1 where tbdsn='$tbdsn'";
-    $xoopsDB->queryF($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error());
+    $xoopsDB->queryF($sql) or web_error($sql);
 }
 
 //檢查文章密碼
@@ -392,7 +392,7 @@ function check_passwd_m($tbsn = "")
 {
     global $xoopsDB;
     $sql          = "select passwd from " . $xoopsDB->prefix("tad_book3") . " where tbsn='$tbsn'";
-    $result       = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error());
+    $result       = $xoopsDB->query($sql) or web_error($sql);
     list($passwd) = $xoopsDB->fetchRow($result);
     if ($_POST['passwd'] == $passwd) {
         $_SESSION['passwd'] = $passwd;

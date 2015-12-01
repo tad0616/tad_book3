@@ -81,7 +81,7 @@ function get_tad_book3_docs($tbdsn = "")
     }
 
     $sql    = "select * from " . $xoopsDB->prefix("tad_book3_docs") . " where tbdsn='$tbdsn'";
-    $result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error());
+    $result = $xoopsDB->query($sql) or web_error($sql);
     $data   = $xoopsDB->fetchArray($result);
     return $data;
 }
@@ -99,7 +99,7 @@ function insert_tad_book3_docs()
 
     $uid = $xoopsUser->getVar('uid');
     $sql = "insert into " . $xoopsDB->prefix("tad_book3_docs") . " (`tbsn`,`category`,`page`,`paragraph`,`sort`,`title`,`content`,`add_date`,`last_modify_date`,`uid`,`count`,`enable`) values('{$_POST['tbsn']}','{$_POST['category']}','{$_POST['page']}','{$_POST['paragraph']}','{$_POST['sort']}','{$_POST['title']}','{$_POST['content']}','{$time}','{$time}','{$uid}','0','{$_POST['enable']}')";
-    $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error());
+    $xoopsDB->query($sql) or web_error($sql);
     //取得最後新增資料的流水編號
     $tbdsn = $xoopsDB->getInsertId();
     return $tbdsn;
@@ -116,6 +116,6 @@ function update_tad_book3_docs($tbdsn = "")
     $_POST['content'] = $myts->addSlashes($_POST['content']);
 
     $sql = "update " . $xoopsDB->prefix("tad_book3_docs") . " set  `tbsn` = '{$_POST['tbsn']}', `category` = '{$_POST['category']}', `page` = '{$_POST['page']}', `paragraph` = '{$_POST['paragraph']}', `sort` = '{$_POST['sort']}', `title` = '{$_POST['title']}', `content` = '{$_POST['content']}', `last_modify_date` = '{$time}', `enable` = '{$_POST['enable']}' where tbdsn='$tbdsn'";
-    $xoopsDB->queryF($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error());
+    $xoopsDB->queryF($sql) or web_error($sql);
     return $tbdsn;
 }
