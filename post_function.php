@@ -51,6 +51,8 @@ function tad_book3_docs_form($tbdsn = "", $tbsn = "")
     include_once XOOPS_ROOT_PATH . "/modules/tadtools/ck.php";
     $ck = new CKEditor("tad_book3", "content", $content);
     $ck->setHeight(400);
+    $ck->setContentCss(XOOPS_URL . "/modules/tad_book3/reset.css");
+    $ck->setContentCss(XOOPS_URL . "/modules/tad_book3/modules.css");
     $editor = $ck->render();
 
     $op = (empty($tbdsn)) ? "insert_tad_book3_docs" : "update_tad_book3_docs";

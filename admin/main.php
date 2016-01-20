@@ -186,6 +186,7 @@ function list_tad_book3($tbcsn = "")
 /*-----------執行動作判斷區----------*/
 include_once $GLOBALS['xoops']->path('/modules/system/include/functions.php');
 $op      = system_CleanVars($_REQUEST, 'op', '', 'string');
+$tbsn    = system_CleanVars($_REQUEST, 'tbsn', 0, 'int');
 $tbcsn   = system_CleanVars($_REQUEST, 'tbcsn', 0, 'int');
 $link_sn = system_CleanVars($_REQUEST, 'link_sn', 0, 'int');
 
@@ -216,6 +217,13 @@ switch ($op) {
     case "delete_tad_book3_cate":
         delete_tad_book3_cate($tbcsn);
         header("location: {$_SERVER['PHP_SELF']}");
+        exit;
+        break;
+
+    //刪除資料
+    case "delete_tad_book3":
+        delete_tad_book3($tbsn);
+        header("location: ../index.php");
         exit;
         break;
 

@@ -95,7 +95,7 @@ function tad_book3_cate_count()
 //秀出所有分類及書籍
 function list_all_cate_book($isAdmin = "")
 {
-    global $xoopsDB, $xoopsTpl;
+    global $xoopsDB, $xoopsTpl, $xoopsUser;
 
     $i      = 0;
     $sql    = "select * from  " . $xoopsDB->prefix("tad_book3_cate") . " order by sort";
@@ -103,11 +103,14 @@ function list_all_cate_book($isAdmin = "")
     while ($data = $xoopsDB->fetchArray($result)) {
         $cate[$i] = $data;
 
-        $sql     = "select * from  " . $xoopsDB->prefix("tad_book3") . " where tbcsn='{$data['tbcsn']}' order by sort";
+        $sql     = "select * from  " . $xoopsDB->prefix("tad_book3") . " where tbcsn='{$data['tbcsn']}' and enable='1' order by sort";
         $result2 = $xoopsDB->query($sql) or web_error($sql);
         $j       = 0;
         $books   = "";
         while ($data2 = $xoopsDB->fetchArray($result2)) {
+            if (!chk_power($data2['read_group'])) {
+                continue;
+            }
             $books[$j] = book_shadow($data2);
             $j++;
         }
@@ -167,7 +170,7 @@ function list_docs($def_tbsn = "")
 
     $all_cate = all_cate();
 
-    $sql    = "select * from " . $xoopsDB->prefix("tad_book3") . " where tbsn='$def_tbsn'";
+    $sql    = "select * from " . $xoopsDB->prefix("tad_book3") . " where tbsn='$def_tbsn' and enable='1'";
     $result = $xoopsDB->query($sql) or web_error($sql);
 
     $data = $xoopsDB->fetchArray($result);
@@ -215,6 +218,11 @@ function list_docs($def_tbsn = "")
     $xoopsTpl->assign('counter', $counter);
     $xoopsTpl->assign('create_date', $create_date);
     $xoopsTpl->assign('push_url', push_url());
+    $xoopsTpl->assign("book_content", sprintf(_MD_TADBOOK3_BOOK_CONTENT, $title));
+
+    $xoopsTpl->assign('xoops_pagetitle', $title);
+    $xoopsTpl->assign("fb_description", $description);
+    $xoopsTpl->assign("logo_img", $book['pic']);
 
     $i      = 0;
     $docs   = "";

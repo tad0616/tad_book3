@@ -4,8 +4,8 @@
 }
 
 .page_content p, .page_content div, .page_content dl,.page_content dt,.page_content dd,.page_content ul,.page_content ol,.page_content li{
-	line-height:200%;
-  margin-bottom: 20px;
+	line-height:2;
+  margin-bottom: 10px;
 }
 
 .page_content table {
@@ -37,4 +37,8 @@
 }
 .page_content img {
   margin-bottom: 20px;
+}
+
+.page_content h1, .page_content h2, .page_content h3, .page_content h4, .page_content h5,.page_content h6 {
+    margin: 24px 0px 12px 0px;
 }

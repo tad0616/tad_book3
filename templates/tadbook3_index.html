@@ -1,5 +1,3 @@
-<{$bootstrap}>
-<{$jquery}>
 <{$toolbar}>
 <link rel="stylesheet" type="text/css" media="screen" href="module.css" />
 
@@ -148,9 +146,9 @@
     <div class="span9">
       <h3>
         <span class="label label-success"><{$cate}></span>
-        <a href="admin/main.php?op=list_docs&tbsn=<{$tbsn}>"><{$title}></a>
+        <{$title}>
       </h3>
-      <div style="font-size:11px;"><{$smarty.const._MD_TADBOOK3_CREATE_DATE}> <{$create_date}></div>
+      <div style="font-size: 11px; margin: 10px 0px;"><{$smarty.const._MD_TADBOOK3_CREATE_DATE}> <{$create_date}></div>
 
       <{if $description}><div class="alert alert-info"><{$description}></div><{/if}>
 
@@ -164,6 +162,7 @@
   </div>
 
   <{if $docs}>
+    <h2><{$book_content}></h2>
     <table class="table table-hover">
       <{foreach from=$docs item=doc}>
         <tr>

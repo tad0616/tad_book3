@@ -1,3 +1,9 @@
+Tad Book3 3.5 official version of the amended project (2016-01-20 release)
+====================================================
+1. Fixed issue permission not work properly
+2. Fix the books can not be deleted
+
+
 Tad Book3 3.4 official version of the amended project (2015-11-08 release)
 ====================================================
 1. Fixed administrators can not edit some books bug
