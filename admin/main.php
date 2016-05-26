@@ -64,7 +64,7 @@ function insert_tad_book3_cate()
 {
     global $xoopsDB, $xoopsUser;
 
-    $myts                 = &MyTextSanitizer::getInstance();
+    $myts                 = MyTextSanitizer::getInstance();
     $_POST['title']       = $myts->addSlashes($_POST['title']);
     $_POST['description'] = $myts->addSlashes($_POST['description']);
 
@@ -84,7 +84,7 @@ function update_tad_book3_cate($tbcsn = "")
 {
     global $xoopsDB, $xoopsUser;
 
-    $myts                 = &MyTextSanitizer::getInstance();
+    $myts                 = MyTextSanitizer::getInstance();
     $_POST['title']       = $myts->addSlashes($_POST['title']);
     $_POST['description'] = $myts->addSlashes($_POST['description']);
 

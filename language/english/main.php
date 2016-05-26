@@ -29,6 +29,7 @@ define('_MD_TADBOOK3_NOT_CLASSIFIED', 'Not classified');
 define('_MD_TADBOOK3_EXPORT', 'Export');
 define('_MD_TADBOOK3_DL_PDF', 'Download PDF');
 define('_MD_TADBOOK3_DL_MARKDOWN', 'Export MarkDown');
+define('_MD_TADBOOK3_DL_HTML', 'Print');
 define('_MD_TADBOOK3_IMPORT', 'Import book');
 define('_MD_TADBOOK3_IMPORT1', 'Upload 1_book.sql');
 define('_MD_TADBOOK3_IMPORT2', 'Upload 2_docs.sql');

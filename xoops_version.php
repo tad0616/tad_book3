@@ -3,7 +3,7 @@ $modversion = array();
 
 //---模組基本資訊---//
 $modversion['name']        = _MI_TADBOOK3_NAME;
-$modversion['version']     = 3.5;
+$modversion['version']     = 3.61;
 $modversion['description'] = _MI_TADBOOK3_DESC;
 $modversion['author']      = _MI_TADBOOK3_AUTHOR;
 $modversion['credits']     = "geek01 , Michael Beck";
@@ -14,7 +14,7 @@ $modversion['image']       = "images/logo_{$xoopsConfig['language']}.png";
 $modversion['dirname']     = basename(dirname(__FILE__));
 
 //---模組狀態資訊---//
-$modversion['release_date']        = '2016/01/20';
+$modversion['release_date']        = '2016/05/26';
 $modversion['module_website_url']  = 'http://tad0616.net/';
 $modversion['module_website_name'] = _MI_TAD_WEB;
 $modversion['module_status']       = 'release';
@@ -55,48 +55,24 @@ $modversion['system_menu'] = 1;
 //---樣板設定---//
 $modversion['templates']                    = array();
 $i                                          = 1;
-$modversion['templates'][$i]['file']        = 'tadbook3_index.html';
-$modversion['templates'][$i]['description'] = 'tadbook3_index.html';
-
-$i++;
 $modversion['templates'][$i]['file']        = 'tadbook3_index_b3.html';
 $modversion['templates'][$i]['description'] = 'tadbook3_index_b3.html';
-
-$i++;
-$modversion['templates'][$i]['file']        = 'tadbook3_page.html';
-$modversion['templates'][$i]['description'] = 'tadbook3_page.html';
 
 $i++;
 $modversion['templates'][$i]['file']        = 'tadbook3_page_b3.html';
 $modversion['templates'][$i]['description'] = 'tadbook3_page_b3.html';
 
 $i++;
-$modversion['templates'][$i]['file']        = 'tadbook3_post.html';
-$modversion['templates'][$i]['description'] = 'tadbook3_post.html';
-
-$i++;
 $modversion['templates'][$i]['file']        = 'tadbook3_post_b3.html';
 $modversion['templates'][$i]['description'] = 'tadbook3_post_b3.html';
-
-$i++;
-$modversion['templates'][$i]['file']        = 'tadbook3_adm_main.html';
-$modversion['templates'][$i]['description'] = 'tadbook3_adm_main.html';
 
 $i++;
 $modversion['templates'][$i]['file']        = 'tadbook3_adm_main_b3.html';
 $modversion['templates'][$i]['description'] = 'tadbook3_adm_main_b3.html';
 
 $i++;
-$modversion['templates'][$i]['file']        = 'tadbook3_book_shadow.html';
-$modversion['templates'][$i]['description'] = 'tadbook3_book_shadow.html';
-
-$i++;
 $modversion['templates'][$i]['file']        = 'tadbook3_book_shadow_b3.html';
 $modversion['templates'][$i]['description'] = 'tadbook3_book_shadow_b3.html';
-
-$i++;
-$modversion['templates'][$i]['file']        = 'tadbook3_markdown.html';
-$modversion['templates'][$i]['description'] = 'tadbook3_markdown.html';
 
 $i++;
 $modversion['templates'][$i]['file']        = 'tadbook3_markdown_b3.html';

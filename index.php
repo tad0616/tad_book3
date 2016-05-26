@@ -61,15 +61,14 @@ function import_form($tbsn = "")
 
     $cate_select = cate_select($tbcsn);
 
-    $member_handler = &xoops_gethandler('member');
+    $member_handler = xoops_gethandler('member');
     $usercount      = $member_handler->getUserCount(new Criteria('level', 0, '>'));
 
     if ($usercount < 1000) {
 
         $select = new XoopsFormSelect('', 'author', $author_arr, 5, true);
-        $span   = ($_SESSION['bootstrap'] == '3') ? "form-control" : "span12";
-        $select->setExtra("class='{$span}'");
-        $member_handler = &xoops_gethandler('member');
+        $select->setExtra("class='form-control'");
+        $member_handler = xoops_gethandler('member');
         $criteria       = new CriteriaCompo();
         $criteria->setSort('uname');
         $criteria->setOrder('ASC');
@@ -184,7 +183,7 @@ function tad_book3_export($tbsn = "")
     //共同編輯者
     $author_arr = explode(",", $book['author']);
     if (!in_array($uid, $author_arr)) {
-        redirect_header($_SERVER['PHP_SELF'], 3, 'mysql_error()');
+        redirect_header($_SERVER['PHP_SELF'], 3, _MD_TADBOOK3_NEED_AUTHOR);
     }
 
     $rand = randStr();
@@ -221,7 +220,7 @@ function tad_book3_export($tbsn = "")
         } elseif ($col == "pic_name") {
             $val = $rand;
         } else {
-            $val = mysql_real_escape_string($val);
+            $val = $xoopsDB->escape($val);
         }
         $cols .= "`{$col}`, ";
         $vals .= "'{$val}', ";
@@ -313,7 +312,7 @@ function tad_book3_export($tbsn = "")
 
                 }
 
-                $val = mysql_real_escape_string($val);
+                $val = $xoopsDB->escape($val);
             }
             $cols .= "`{$col}`, ";
             $vals .= "'{$val}', ";

@@ -29,6 +29,7 @@ define('_MD_TADBOOK3_NOT_CLASSIFIED', '未分類');
 define('_MD_TADBOOK3_EXPORT', '匯出');
 define('_MD_TADBOOK3_DL_PDF', '下載 PDF');
 define('_MD_TADBOOK3_DL_MARKDOWN', '匯出 MarkDown 格式');
+define('_MD_TADBOOK3_DL_HTML', '友善列印');
 define('_MD_TADBOOK3_IMPORT', '匯入書籍');
 define('_MD_TADBOOK3_IMPORT1', '匯入 1_book.sql');
 define('_MD_TADBOOK3_IMPORT2', '匯入 2_docs.sql');

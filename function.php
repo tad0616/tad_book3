@@ -56,7 +56,7 @@ function get_tad_book3_sub_cate($tbcsn = "0")
 {
     global $xoopsDB;
     $sql       = "select tbcsn,title from " . $xoopsDB->prefix("tad_book3_cate") . " where of_tbsn='{$tbcsn}'";
-    $result    = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error() . "<br>$sql");
+    $result    = $xoopsDB->query($sql) or web_error($sql);
     $tbcsn_arr = "";
     while (list($tbcsn, $title) = $xoopsDB->fetchRow($result)) {
         $tbcsn_arr[$tbcsn] = $title;
@@ -221,7 +221,7 @@ function list_docs($def_tbsn = "")
     $xoopsTpl->assign("book_content", sprintf(_MD_TADBOOK3_BOOK_CONTENT, $title));
 
     $xoopsTpl->assign('xoops_pagetitle', $title);
-    $xoopsTpl->assign("fb_description", $description);
+    $xoopsTpl->assign("fb_description", strip_tags($description));
     $xoopsTpl->assign("logo_img", $book['pic']);
 
     $i      = 0;
@@ -305,16 +305,14 @@ function tad_book3_form($tbsn = "")
 
     $cate_select = cate_select($tbcsn);
 
-    $member_handler = &xoops_gethandler('member');
+    $member_handler = xoops_gethandler('member');
     $usercount      = $member_handler->getUserCount(new Criteria('level', 0, '>'));
-
-    $span = ($_SESSION['bootstrap'] == '3') ? "form-control" : "span12";
 
     if ($usercount < 1000) {
 
         $select = new XoopsFormSelect('', 'author', $author_arr, 5, true);
-        $select->setExtra("class='{$span}'");
-        $member_handler = &xoops_gethandler('member');
+        $select->setExtra("class='form-control'");
+        $member_handler = xoops_gethandler('member');
         $criteria       = new CriteriaCompo();
         $criteria->setSort('uname');
         $criteria->setOrder('ASC');
@@ -330,7 +328,7 @@ function tad_book3_form($tbsn = "")
 
     $group_arr   = (empty($read_group)) ? array("") : explode(",", $read_group);
     $SelectGroup = new XoopsFormSelectGroup("", "read_group", false, $group_arr, 5, true);
-    $SelectGroup->setExtra("class='{$span}'");
+    $SelectGroup->setExtra("class='form-control'");
     $SelectGroup->addOption("", _MD_TADBOOK3_ALL_OPEN, false);
     $group_menu = $SelectGroup->render();
 
@@ -367,7 +365,7 @@ function insert_tad_book3()
         $author = implode(",", $_POST['author']);
     }
 
-    $myts                 = &MyTextSanitizer::getInstance();
+    $myts                 = MyTextSanitizer::getInstance();
     $_POST['title']       = $myts->addSlashes($_POST['title']);
     $_POST['description'] = $myts->addSlashes($_POST['description']);
 
@@ -393,7 +391,7 @@ function add_tad_book3_cate()
         return;
     }
 
-    $myts  = &MyTextSanitizer::getInstance();
+    $myts  = MyTextSanitizer::getInstance();
     $title = $myts->addSlashes($_POST['new_tbcsn']);
     $sort  = tad_book3_cate_max_sort();
     $sql   = "insert into " . $xoopsDB->prefix("tad_book3_cate") . " (`of_tbsn`,`sort`,`title`) values('0','{$sort}','{$title}')";
@@ -430,7 +428,7 @@ function update_tad_book3($tbsn = "")
         $author = implode(",", $_POST['author']);
     }
 
-    $myts                 = &MyTextSanitizer::getInstance();
+    $myts                 = MyTextSanitizer::getInstance();
     $_POST['title']       = $myts->addSlashes($_POST['title']);
     $_POST['description'] = $myts->addSlashes($_POST['description']);
 
