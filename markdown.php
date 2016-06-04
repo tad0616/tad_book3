@@ -1,6 +1,6 @@
 <?php
 include_once "header.php";
-$xoopsOption['template_main'] = set_bootstrap("tadbook3_markdown.html");
+$xoopsOption['template_main'] = "tadbook3_markdown.tpl";
 include_once XOOPS_ROOT_PATH . "/header.php";
 require 'vendor/autoload.php';
 use League\HTMLToMarkdown\HtmlConverter;

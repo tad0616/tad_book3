@@ -1,7 +1,7 @@
 <?php
 /*-----------引入檔案區--------------*/
 include "header.php";
-$xoopsOption['template_main'] = set_bootstrap("tadbook3_page.html");
+$xoopsOption['template_main'] = "tadbook3_page.tpl";
 include_once XOOPS_ROOT_PATH . "/header.php";
 /*-----------function區--------------*/
 

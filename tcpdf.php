@@ -5,6 +5,7 @@ ini_set("memory_limit", "150M");
 $op       = (empty($_REQUEST['op'])) ? "" : $_REQUEST['op'];
 $tbdsn    = (empty($_REQUEST['tbdsn'])) ? "" : intval($_REQUEST['tbdsn']);
 $filename = (empty($_REQUEST['filename'])) ? "" : $_REQUEST['filename'];
+$filename = str_replace('..', '.', $filename);
 
 $html = '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
@@ -35,7 +36,7 @@ $html .= '
 </html>';
 //die($html);
 
-require_once XOOPS_ROOT_PATH . 'modules/tadtools/tcpdf/tcpdf.php';
+require_once XOOPS_ROOT_PATH . '/modules/tadtools/tcpdf/tcpdf.php';
 $pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
 $pdf->setPrintHeader(false); //不要頁首
 $pdf->setPrintFooter(false); //不要頁尾
