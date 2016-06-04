@@ -1,3 +1,9 @@
+Tad Book3 3.7 (2016-06-04 release)
+==================================================================
+1.Corrected a problem on can not download PDF
+2.Support XOOPS 2.5.8
+
+
 Tad Book3 3.6.1 (2016-05-26 release)
 ==================================================================
 1.Remove BootStrap2 Code
