@@ -1,15 +1,15 @@
-Tad Book3 3.7 (2016-06-04 release)
+Tad Book3 3.7 (2016-06-05 released)
 ==================================================================
 1.Corrected a problem on can not download PDF
 2.Support XOOPS 2.5.8
 
 
-Tad Book3 3.6.1 (2016-05-26 release)
+Tad Book3 3.6.1 (2016-05-26 released)
 ==================================================================
 1.Remove BootStrap2 Code
 
 
-Tad Book3 3.6 (2016-05-22 release)
+Tad Book3 3.6 (2016-05-22 released)
 ====================================================
 1.Added friendly print
 2.Fixed metadata
@@ -18,13 +18,13 @@ Tad Book3 3.6 (2016-05-22 release)
 5.Remove BootStrap2
 
 
-Tad Book3 3.5 (2016-01-20 release)
+Tad Book3 3.5 (2016-01-20 released)
 ====================================================
 1. Fixed issue permission not work properly
 2. Fix the books can not be deleted
 
 
-Tad Book3 3.4 (2015-11-08 release)
+Tad Book3 3.4 (2015-11-08 released)
 ====================================================
 1. Fixed administrators can not edit some books bug
 2. Fixed bug when no set book author, visitors will see the editing tools
@@ -36,12 +36,12 @@ Tad Book3 3.4 (2015-11-08 release)
 8. Fixed background issue editor does not work properly
 9. Support bootstrap3
 
-Tad Book3 3.31 (2014-09-25 release)
+Tad Book3 3.31 (2014-09-25 released)
 ================================================== ==
 1. Modify the program so that it conforms with WCAG
 
 
-Tad Book3 3.3 (2014-09-12 release)
+Tad Book3 3.3 (2014-09-12 released)
 ================================================== ==
 1. Modify the page has been turned off, so that when a non-administrator view does not appear up and down the page.
 2. Adjust the uid field is mediumint format
@@ -49,21 +49,21 @@ Tad Book3 3.3 (2014-09-12 release)
 4. Fixed the problem of background articles could not be added
 5. Fixed issue common editors can not edit the article to others
 
-Tad Book3 3.2 (2014-05-02 release)
+Tad Book3 3.2 (2014-05-02 released)
 ================================================== ==
 1. Modify the page template, the bigger will be automatically scaled according to the window size, so that the screen will not break version.
 2. Visitors can also see the directory
 3. Fixed the bug can not hide Close
 4. Fixed QR code even less than the right of the page bug
 
-Tad Book3 3.1 (2014-01-25 release)
+Tad Book3 3.1 (2014-01-25 released)
 ================================================== ==
 1. Fixed When the site is only one user, the books editor of the problem can not be selected.
 2. Fix when no content articles, just hide unnecessary model.
 3. Cancel button and related functions EPUB
 
 
-Tad Book3 3.0 (2014-01-21 release)
+Tad Book3 3.0 (2014-01-21 released)
 ================================================== ==
 1. streamline unnecessary functions and common function (need tadtools 2.06 above)
 2. streamline and revise language
@@ -73,14 +73,14 @@ The classification plus sorting boxes
 6. Fixed the problem can not download pdf
 
 
-Tad Book3 3 RC1 (2013-12-05 release)
+Tad Book3 3 RC1 (2013-12-05 released)
 ================================================== ==
  1. Add Close initiative to enter the setting mode of pda
  2. For bootstrap Optimizer
  3. Modify the XOOPS 2.5 module architecture
  4. Add tcpdf
 
-Tad Book3 2.0 RC1 (2011-11-29 release)
+Tad Book3 2.0 RC1 (2011-11-29 released)
 ================================================== ==
  1. Fixed a bunch of bug
  2. Modify the block link is not the right questions
