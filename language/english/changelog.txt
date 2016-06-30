@@ -1,3 +1,14 @@
+Tad Book3 3.8.1 (2016-06-30 released)
+==================================================================
+1.Strengthen variable filter
+
+
+Tad Book3 3.8 (2016-06-18 released)
+==================================================================
+1.Fixed encryption books unreadable problem
+2.Add links page mechanism
+
+
 Tad Book3 3.7 (2016-06-05 released)
 ==================================================================
 1.Corrected a problem on can not download PDF

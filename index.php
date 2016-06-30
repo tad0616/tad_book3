@@ -350,18 +350,15 @@ function tad_book3_export($tbsn = "")
     //http://120.115.2.90/uploads/tad_book3/file/school_news_20140815.zip
 }
 /*-----------執行動作判斷區----------*/
-$_REQUEST['op'] = (empty($_REQUEST['op'])) ? "" : $_REQUEST['op'];
-$tbsn           = (!isset($_REQUEST['tbsn'])) ? "" : intval($_REQUEST['tbsn']);
-$tbdsn          = (!isset($_REQUEST['tbdsn'])) ? "" : intval($_REQUEST['tbdsn']);
-$enable         = (!isset($_REQUEST['enable'])) ? "" : intval($_REQUEST['enable']);
-$tbcsn          = (!isset($_REQUEST['tbcsn'])) ? "" : intval($_REQUEST['tbcsn']);
 
-$xoopsTpl->assign("toolbar", toolbar_bootstrap($interface_menu));
-$xoopsTpl->assign("bootstrap", get_bootstrap());
-$xoopsTpl->assign("jquery", get_jquery(true));
-$xoopsTpl->assign("isAdmin", $isAdmin);
+include_once $GLOBALS['xoops']->path('/modules/system/include/functions.php');
+$op     = system_CleanVars($_REQUEST, 'op', '', 'string');
+$tbsn   = system_CleanVars($_REQUEST, 'tbsn', 0, 'int');
+$tbdsn  = system_CleanVars($_REQUEST, 'tbdsn', 0, 'int');
+$enable = system_CleanVars($_REQUEST, 'enable', 0, 'int');
+$tbcsn  = system_CleanVars($_REQUEST, 'tbcsn', 0, 'int');
 
-switch ($_REQUEST['op']) {
+switch ($op) {
 
     case "check_passwd":
         check_passwd($tbsn);
@@ -423,4 +420,8 @@ switch ($_REQUEST['op']) {
 }
 
 /*-----------秀出結果區--------------*/
+$xoopsTpl->assign("toolbar", toolbar_bootstrap($interface_menu));
+$xoopsTpl->assign("bootstrap", get_bootstrap());
+$xoopsTpl->assign("jquery", get_jquery(true));
+$xoopsTpl->assign("isAdmin", $isAdmin);
 include_once XOOPS_ROOT_PATH . '/footer.php';

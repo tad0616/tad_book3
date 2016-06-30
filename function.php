@@ -79,6 +79,20 @@ function get_tad_book3_cate($tbcsn = "")
     return $data;
 }
 
+//以流水號取得某筆tad_book3_docs資料
+function get_tad_book3_docs($tbdsn = "")
+{
+    global $xoopsDB;
+    if (empty($tbdsn)) {
+        return;
+    }
+
+    $sql    = "select * from " . $xoopsDB->prefix("tad_book3_docs") . " where tbdsn='$tbdsn'";
+    $result = $xoopsDB->query($sql) or web_error($sql);
+    $data   = $xoopsDB->fetchArray($result);
+    return $data;
+}
+
 //分類底下的書籍數
 function tad_book3_cate_count()
 {
@@ -182,6 +196,12 @@ function list_docs($def_tbsn = "")
         header("location:index.php");
         exit;
     }
+
+    $needpasswd = 0;
+    if (!empty($passwd) and $_SESSION['passwd'] != $passwd) {
+        $needpasswd = 1;
+    }
+
     $enable_txt = ($enable == '1') ? _MD_TADBOOK3_ENABLE : _MD_TADBOOK3_UNABLE;
 
     $read_group = txt_to_group_name($read_group, _MD_TADBOOK3_ALL_OPEN);
@@ -213,6 +233,7 @@ function list_docs($def_tbsn = "")
     $xoopsTpl->assign('read_group', $read_group);
     $xoopsTpl->assign('author', $author);
     $xoopsTpl->assign('passwd', $passwd);
+    $xoopsTpl->assign('needpasswd', $needpasswd);
     $xoopsTpl->assign('enable', $enable);
     $xoopsTpl->assign('enable_txt', $enable_txt);
     $xoopsTpl->assign('counter', $counter);

@@ -273,9 +273,15 @@ function view_page($tbdsn = "")
 
     add_counter($tbdsn);
 
-    $sql                                                                                                                            = "select * from " . $xoopsDB->prefix("tad_book3_docs") . " where tbdsn='$tbdsn'";
-    $result                                                                                                                         = $xoopsDB->query($sql) or web_error($sql);
-    list($tbdsn, $tbsn, $category, $page, $paragraph, $sort, $title, $content, $add_date, $last_modify_date, $uid, $count, $enable) = $xoopsDB->fetchRow($result);
+    $all = get_tad_book3_docs($tbdsn);
+    foreach ($all as $key => $value) {
+        $$key = $value;
+    }
+
+    if (!empty($from_tbdsn)) {
+        $form_page = get_tad_book3_docs($from_tbdsn);
+        $content .= $form_page['content'];
+    }
 
     $book = get_tad_book3($tbsn);
     if (!chk_power($book['read_group'])) {
@@ -402,14 +408,13 @@ function check_passwd_m($tbsn = "")
 }
 
 /*-----------執行動作判斷區----------*/
-$_REQUEST['op'] = (empty($_REQUEST['op'])) ? "" : $_REQUEST['op'];
-
-$tbdsn = (isset($_REQUEST['tbdsn'])) ? intval($_REQUEST['tbdsn']) : 0;
-$tbsn  = (isset($_REQUEST['tbsn'])) ? intval($_REQUEST['tbsn']) : 0;
-
+include_once $GLOBALS['xoops']->path('/modules/system/include/functions.php');
+$op     = system_CleanVars($_REQUEST, 'op', '', 'string');
+$tbsn   = system_CleanVars($_REQUEST, 'tbsn', 0, 'int');
+$tbdsn  = system_CleanVars($_REQUEST, 'tbdsn', 0, 'int');
 $jquery = get_jquery();
 
-switch ($_REQUEST['op']) {
+switch ($op) {
 
     case "check_passwd":
         check_passwd_m($tbsn);

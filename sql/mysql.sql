@@ -40,6 +40,7 @@ CREATE TABLE tad_book3_docs (
   `uid` mediumint(8) NOT NULL  default 0 ,
   `count` smallint(6) NOT NULL  default 0 ,
   `enable` enum('1','0') NOT NULL default '1' ,
+  `from_tbdsn` int(10) unsigned NOT NULL default 0,
   PRIMARY KEY  (`tbdsn`),
   KEY category (`category`,`page`,`paragraph`),
   KEY book_sn (`tbdsn`)

@@ -175,8 +175,21 @@
   </div>
 
 
-
-  <{if $docs}>
+  <{if $needpasswd=='1'}>
+    <div class="alert alert-danger">
+      <form action="index.php" method="post" id="myForm">
+        <div class="input-group">
+          <span class="input-group-addon"><{$smarty.const._MD_TADBOOK3_INPUT_PASSWD}></span>
+          <input type="text" name="passwd" class="form-control">
+          <span class="input-group-btn">
+            <input type="hidden" name="tbsn" value=<{$tbsn}>>
+            <input type="hidden" name="op" value="check_passwd">
+            <button type="submit" class="btn btn-primary"><{$smarty.const._TAD_SUBMIT}></button>
+          </span>
+        </div>
+      </form>
+    </div>
+  <{elseif $docs}>
     <h2><{$book_content}></h2>
     <table class="table table-hover">
       <{foreach from=$docs item=doc}>

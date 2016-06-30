@@ -7,16 +7,12 @@ include_once XOOPS_ROOT_PATH . "/header.php";
 /*-----------function區--------------*/
 
 /*-----------執行動作判斷區----------*/
-$_REQUEST['op'] = (empty($_REQUEST['op'])) ? "" : $_REQUEST['op'];
-$tbsn           = (!isset($_REQUEST['tbsn'])) ? "" : intval($_REQUEST['tbsn']);
-$tbdsn          = (!isset($_REQUEST['tbdsn'])) ? "" : intval($_REQUEST['tbdsn']);
+include_once $GLOBALS['xoops']->path('/modules/system/include/functions.php');
+$op    = system_CleanVars($_REQUEST, 'op', '', 'string');
+$tbsn  = system_CleanVars($_REQUEST, 'tbsn', 0, 'int');
+$tbdsn = system_CleanVars($_REQUEST, 'tbdsn', 0, 'int');
 
-$xoopsTpl->assign("toolbar", toolbar_bootstrap($interface_menu));
-$xoopsTpl->assign("bootstrap", get_bootstrap());
-$xoopsTpl->assign("jquery", get_jquery(true));
-$xoopsTpl->assign("isAdmin", $isAdmin);
-
-switch ($_REQUEST['op']) {
+switch ($op) {
     //更新資料
     case "update_tad_book3_docs";
         update_tad_book3_docs($tbdsn);
@@ -47,4 +43,9 @@ switch ($_REQUEST['op']) {
 }
 
 /*-----------秀出結果區--------------*/
+
+$xoopsTpl->assign("toolbar", toolbar_bootstrap($interface_menu));
+$xoopsTpl->assign("bootstrap", get_bootstrap());
+$xoopsTpl->assign("jquery", get_jquery(true));
+$xoopsTpl->assign("isAdmin", $isAdmin);
 include_once XOOPS_ROOT_PATH . '/footer.php';

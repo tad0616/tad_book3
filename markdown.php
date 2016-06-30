@@ -11,10 +11,15 @@ function view_page($tbdsn = "")
 {
     global $xoopsDB, $xoopsTpl;
 
-    $sql    = "select * from " . $xoopsDB->prefix("tad_book3_docs") . " where tbdsn='$tbdsn'";
-    $result = $xoopsDB->query($sql) or web_error($sql);
+    $all = get_tad_book3_docs($tbdsn);
+    foreach ($all as $key => $value) {
+        $$key = $value;
+    }
 
-    list($tbdsn, $tbsn, $category, $page, $paragraph, $sort, $title, $content, $add_date, $last_modify_date, $uid, $count, $enable) = $xoopsDB->fetchRow($result);
+    if (!empty($from_tbdsn)) {
+        $form_page = get_tad_book3_docs($from_tbdsn);
+        $content .= $form_page['content'];
+    }
 
     $book = get_tad_book3($tbsn);
     if (!chk_power($book['read_group'])) {
@@ -22,10 +27,9 @@ function view_page($tbdsn = "")
         exit;
     }
 
+    $needpasswd = 0;
     if (!empty($book['passwd']) and $_SESSION['passwd'] != $book['passwd']) {
-        $data .= _MD_TADBOOK3_INPUT_PASSWD;
-        return $data;
-        exit;
+        $needpasswd = 1;
     }
 
     $doc_sort = mk_category($category, $page, $paragraph, $sort);
@@ -55,17 +59,14 @@ function view_page($tbdsn = "")
     $xoopsTpl->assign('p', $p);
     $xoopsTpl->assign('n', $n);
     $xoopsTpl->assign('doc_select', $doc_select);
+    $xoopsTpl->assign('needpasswd', $needpasswd);
     return $main;
 }
 /*-----------執行動作判斷區----------*/
-$_REQUEST['op'] = (empty($_REQUEST['op'])) ? "" : $_REQUEST['op'];
-$tbsn           = (!isset($_REQUEST['tbsn'])) ? "" : intval($_REQUEST['tbsn']);
-$tbdsn          = (!isset($_REQUEST['tbdsn'])) ? "" : intval($_REQUEST['tbdsn']);
-
-$xoopsTpl->assign("toolbar", toolbar_bootstrap($interface_menu));
-$xoopsTpl->assign("bootstrap", get_bootstrap());
-$xoopsTpl->assign("jquery", get_jquery(true));
-$xoopsTpl->assign("isAdmin", $isAdmin);
+include_once $GLOBALS['xoops']->path('/modules/system/include/functions.php');
+$op    = system_CleanVars($_REQUEST, 'op', '', 'string');
+$tbsn  = system_CleanVars($_REQUEST, 'tbsn', 0, 'int');
+$tbdsn = system_CleanVars($_REQUEST, 'tbdsn', 0, 'int');
 
 switch ($_REQUEST['op']) {
 
@@ -80,4 +81,8 @@ switch ($_REQUEST['op']) {
 }
 
 /*-----------秀出結果區--------------*/
+$xoopsTpl->assign("toolbar", toolbar_bootstrap($interface_menu));
+$xoopsTpl->assign("bootstrap", get_bootstrap());
+$xoopsTpl->assign("jquery", get_jquery(true));
+$xoopsTpl->assign("isAdmin", $isAdmin);
 include_once XOOPS_ROOT_PATH . '/footer.php';

@@ -4,7 +4,10 @@ function xoops_module_update_tad_book3(&$module, $old_version)
 {
     global $xoopsDB;
 
-    //if(!chk_chk1()) go_update1();
+    if (chk_chk1()) {
+        go_update1();
+    }
+
     //if(!chk_chk2()) go_update2();
     if (chk_uid()) {
         go_update_uid();
@@ -15,6 +18,27 @@ function xoops_module_update_tad_book3(&$module, $old_version)
     if (is_dir($old_fckeditor)) {
         delete_directory($old_fckeditor);
     }
+    return true;
+}
+
+//新增文章來源欄位
+function chk_chk1()
+{
+    global $xoopsDB;
+    $sql    = "select count(`from_tbdsn`) from " . $xoopsDB->prefix("tad_book3_docs");
+    $result = $xoopsDB->query($sql);
+    if (empty($result)) {
+        return true;
+    }
+
+    return false;
+}
+
+function go_update1()
+{
+    global $xoopsDB;
+    $sql = "ALTER TABLE " . $xoopsDB->prefix("tad_book3_docs") . " ADD `from_tbdsn` int(10) unsigned NOT NULL default 0";
+    $xoopsDB->queryF($sql) or web_error($sql);
     return true;
 }
 

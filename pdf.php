@@ -3,8 +3,9 @@ include_once "header.php";
 //require_once "class/dompdf/dompdf_config.inc.php";
 set_time_limit(0);
 ini_set("memory_limit", "150M");
-$op    = (empty($_REQUEST['op'])) ? "" : $_REQUEST['op'];
-$tbdsn = (empty($_REQUEST['tbdsn'])) ? "" : intval($_REQUEST['tbdsn']);
+include_once $GLOBALS['xoops']->path('/modules/system/include/functions.php');
+$op    = system_CleanVars($_REQUEST, 'op', '', 'string');
+$tbdsn = system_CleanVars($_REQUEST, 'tbdsn', 0, 'int');
 
 $html = '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
@@ -40,9 +41,15 @@ function view_page($tbdsn = "")
 {
     global $xoopsDB;
 
-    $sql                                                                                                                            = "select * from " . $xoopsDB->prefix("tad_book3_docs") . " where tbdsn='$tbdsn'";
-    $result                                                                                                                         = $xoopsDB->query($sql) or web_error($sql);
-    list($tbdsn, $tbsn, $category, $page, $paragraph, $sort, $title, $content, $add_date, $last_modify_date, $uid, $count, $enable) = $xoopsDB->fetchRow($result);
+    $all = get_tad_book3_docs($tbdsn);
+    foreach ($all as $key => $value) {
+        $$key = $value;
+    }
+
+    if (!empty($from_tbdsn)) {
+        $form_page = get_tad_book3_docs($from_tbdsn);
+        $content .= $form_page['content'];
+    }
 
     $book = get_tad_book3($tbsn);
     if (!chk_power($book['read_group'])) {
