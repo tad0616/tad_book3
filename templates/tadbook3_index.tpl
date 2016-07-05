@@ -153,7 +153,7 @@
   <div class="row">
     <div class="col-md-3 text-center">
       <{if $book}>
-        <{includeq file="db:tadbook3_book_shadow_b3.html"}>
+        <{includeq file="db:tadbook3_book_shadow.tpl"}>
       <{/if}>
     </div>
 
@@ -255,7 +255,7 @@
 
       <{foreach from=$cate.books item=book}>
         <{if $book}>
-          <{includeq file="db:tadbook3_book_shadow_b3.html"}>
+          <{includeq file="db:tadbook3_book_shadow.tpl"}>
         <{/if}>
       <{/foreach}>
       </div><div style='clear:both;'></div>
