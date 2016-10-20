@@ -1,3 +1,8 @@
+Tad Book3 3.8.2 (2016-07-13 released)
+==================================================================
+1.Fixed problem can not display books
+
+
 Tad Book3 3.8.1 (2016-06-30 released)
 ==================================================================
 1.Strengthen variable filter

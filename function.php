@@ -545,13 +545,13 @@ function all_cate()
 }
 
 //分類選單
-function cate_select($tbcsn = "")
+function cate_select($def_tbcsn = "")
 {
     $all_cate = all_cate();
     $main     = "";
     foreach ($all_cate as $tbcsn => $title) {
-        $selected = ($tbcsn == $tbcsn) ? "selected" : "";
-        $main .= "<option value=$tbcsn $selected>$title</option>";
+        $selected = ($tbcsn == $def_tbcsn) ? "selected" : "";
+        $main .= "<option value='$tbcsn' $selected>$title</option>";
     }
     return $main;
 }
