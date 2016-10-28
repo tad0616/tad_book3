@@ -38,3 +38,4 @@ define('_MD_TADBOOK3_ABS_PATH', 'Does update file url to %s? ');
 define('_MD_TADBOOK3_NEED_AUTHOR', 'You\'re not Author');
 define('_MD_TADBOOK3_FROM_TBDSN', 'link');
 define('_MD_TADBOOK3_FROM_TBDSN_DESC', 'tbdsn number');
+define('_MD_TADBOOK3_MODIFY_ORDER', 'Modify the order (will fix the red part)');

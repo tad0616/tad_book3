@@ -349,14 +349,27 @@ function tad_book3_export($tbsn = "")
     die("<ol>$all</ol>");
     //http://120.115.2.90/uploads/tad_book3/file/school_news_20140815.zip
 }
+
+//更新排序
+function update_docs_sort($update_sort = array())
+{
+    global $xoopsDB;
+    foreach ($update_sort as $tbdsn => $doc_sort) {
+        $doc_sort_arr = decode_category($doc_sort);
+        $sql          = "update " . $xoopsDB->prefix("tad_book3_docs") . " set `category` = '{$doc_sort_arr['category']}', `page` = '{$doc_sort_arr['page']}' , `paragraph` = '{$doc_sort_arr['paragraph']}' , `sort` ='{$doc_sort_arr['sort']}' where  tbdsn='{$tbdsn}'";
+        // die($sql);
+        $result = $xoopsDB->queryF($sql) or web_error($sql);
+    }
+}
 /*-----------執行動作判斷區----------*/
 
 include_once $GLOBALS['xoops']->path('/modules/system/include/functions.php');
-$op     = system_CleanVars($_REQUEST, 'op', '', 'string');
-$tbsn   = system_CleanVars($_REQUEST, 'tbsn', 0, 'int');
-$tbdsn  = system_CleanVars($_REQUEST, 'tbdsn', 0, 'int');
-$enable = system_CleanVars($_REQUEST, 'enable', 0, 'int');
-$tbcsn  = system_CleanVars($_REQUEST, 'tbcsn', 0, 'int');
+$op          = system_CleanVars($_REQUEST, 'op', '', 'string');
+$tbsn        = system_CleanVars($_REQUEST, 'tbsn', 0, 'int');
+$tbdsn       = system_CleanVars($_REQUEST, 'tbdsn', 0, 'int');
+$enable      = system_CleanVars($_REQUEST, 'enable', 0, 'int');
+$tbcsn       = system_CleanVars($_REQUEST, 'tbcsn', 0, 'int');
+$update_sort = system_CleanVars($_REQUEST, 'update_sort', '', 'array');
 
 switch ($op) {
 
@@ -408,6 +421,11 @@ switch ($op) {
     //匯出書籍
     case "tad_book3_export":
         tad_book3_export($tbsn);
+        break;
+
+    case "update_docs_sort":
+        update_docs_sort($update_sort);
+        header("location: {$_SERVER['PHP_SELF']}?tbsn={$tbsn}");
         break;
 
     default:

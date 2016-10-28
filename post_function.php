@@ -88,6 +88,13 @@ function insert_tad_book3_docs()
     $_POST['content']    = $myts->addSlashes($_POST['content']);
     $_POST['from_tbdsn'] = intval($_POST['from_tbdsn']);
 
+    $_POST['category']  = intval($_POST['category']);
+    $_POST['page']      = intval($_POST['page']);
+    $_POST['paragraph'] = intval($_POST['paragraph']);
+    $_POST['sort']      = intval($_POST['sort']);
+
+    check_update_cpps_add($_POST['tbsn'], $_POST['category'], $_POST['page'], $_POST['paragraph'], $_POST['sort']);
+
     $uid = $xoopsUser->getVar('uid');
     $sql = "insert into " . $xoopsDB->prefix("tad_book3_docs") . " (`tbsn`,`category`,`page`,`paragraph`,`sort`,`title`,`content`,`add_date`,`last_modify_date`,`uid`,`count`,`enable`,`from_tbdsn`) values('{$_POST['tbsn']}','{$_POST['category']}','{$_POST['page']}','{$_POST['paragraph']}','{$_POST['sort']}','{$_POST['title']}','{$_POST['content']}','{$time}','{$time}','{$uid}','0','{$_POST['enable']}','{$_POST['from_tbdsn']}')";
     $xoopsDB->query($sql) or web_error($sql);
@@ -107,7 +114,42 @@ function update_tad_book3_docs($tbdsn = "")
     $_POST['content']    = $myts->addSlashes($_POST['content']);
     $_POST['from_tbdsn'] = intval($_POST['from_tbdsn']);
 
+    $_POST['category']  = intval($_POST['category']);
+    $_POST['page']      = intval($_POST['page']);
+    $_POST['paragraph'] = intval($_POST['paragraph']);
+    $_POST['sort']      = intval($_POST['sort']);
+
+    check_update_cpps_add($_POST['tbsn'], $_POST['category'], $_POST['page'], $_POST['paragraph'], $_POST['sort'], $tbdsn);
+
     $sql = "update " . $xoopsDB->prefix("tad_book3_docs") . " set  `tbsn` = '{$_POST['tbsn']}', `category` = '{$_POST['category']}', `page` = '{$_POST['page']}', `paragraph` = '{$_POST['paragraph']}', `sort` = '{$_POST['sort']}', `title` = '{$_POST['title']}', `content` = '{$_POST['content']}', `last_modify_date` = '{$time}', `enable` = '{$_POST['enable']}', `from_tbdsn` = '{$_POST['from_tbdsn']}' where tbdsn='$tbdsn'";
     $xoopsDB->queryF($sql) or web_error($sql);
     return $tbdsn;
+}
+
+//檢查是否有相同的章節數，若有其他章節往後移動（插入之意）
+function check_update_cpps_add($tbsn = 0, $category = 0, $page = 0, $paragraph = 0, $sort = 0, $tbdsn = 0)
+{
+    global $xoopsDB;
+    $and_tbdsn   = $tbdsn ? "and `tbdsn`!='{$tbdsn}'" : "";
+    $sql         = "select tbdsn from " . $xoopsDB->prefix("tad_book3_docs") . " where tbsn='{$tbsn}' and `category`='{$category}' and `page`='{$page}' and `paragraph`='{$paragraph}' and `sort`='{$sort}' {$and_tbdsn}";
+    $result      = $xoopsDB->query($sql) or web_error($sql);
+    list($tbdsn) = $xoopsDB->fetchRow($result);
+
+    if (!empty($tbdsn)) {
+
+        if (!empty($category) and !empty($page) and !empty($paragraph) and !empty($sort)) {
+            $sql    = "update " . $xoopsDB->prefix("tad_book3_docs") . " set `sort` = `sort` + 1 where  tbsn='{$tbsn}' and `category` = '{$category}' and `page` = '{$page}' and `paragraph` = '{$paragraph}' and `sort` >= '{$sort}'";
+            $result = $xoopsDB->query($sql) or web_error($sql);
+        } elseif (!empty($category) and !empty($page) and !empty($paragraph) and empty($sort)) {
+            $sql    = "update " . $xoopsDB->prefix("tad_book3_docs") . " set `paragraph` = `paragraph` + 1 where tbsn='{$tbsn}' and  `category` = '{$category}' and `page` = '{$page}' and `paragraph` >= '{$paragraph}'";
+            $result = $xoopsDB->query($sql) or web_error($sql);
+        } elseif (!empty($category) and !empty($page) and empty($paragraph) and empty($sort)) {
+            $sql    = "update " . $xoopsDB->prefix("tad_book3_docs") . " set `page` = `page` + 1 where  tbsn='{$tbsn}' and `category` = '{$category}' and `page` >= '{$page}'";
+            $result = $xoopsDB->query($sql) or web_error($sql);
+        } elseif (!empty($category) and empty($page) and empty($paragraph) and empty($sort)) {
+            $sql    = "update " . $xoopsDB->prefix("tad_book3_docs") . " set `category` = `category` + 1 where tbsn='{$tbsn}' and  `category` >= '{$category}' ";
+            $result = $xoopsDB->query($sql) or web_error($sql);
+        }
+
+    }
 }

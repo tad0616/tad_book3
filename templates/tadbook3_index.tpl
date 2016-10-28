@@ -191,40 +191,55 @@
     </div>
   <{elseif $docs}>
     <h2><{$book_content}></h2>
-    <table class="table table-hover">
-      <{foreach from=$docs item=doc}>
-        <tr>
-
-          <td>
-            <span class="doc_sort_<{$doc.doc_sort_level}>">
-              <{$doc.doc_sort_main}>
-            </span>
-            <{$doc.enable_txt}>
-            <a href="<{$xoops_url}>/modules/tad_book3/page.php?tbdsn=<{$doc.tbdsn}>"><{$doc.title}></a>
-          </td>
-
-          <td style="font-size: 10px; color: gray; text-align: right;">
-            <{$doc.count}>
-            <i class="fa fa-user"></i>
-            <{$doc.last_modify_date}>
-          </td>
-
-          <{if $my}>
+    <form action="index.php" method="post">
+      <table class="table table-hover">
+        <{foreach from=$docs item=doc}>
+          <tr>
             <td>
-              <a href="javascript:delete_tad_book3_docs_func(<{$doc.tbdsn}>);" class="btn btn-xs btn-danger"><{$smarty.const._TAD_DEL}></a>
-              <a href="<{$xoops_url}>/modules/tad_book3/post.php?op=tad_book3_docs_form&tbdsn=<{$doc.tbdsn}>" class="btn btn-xs btn-warning"><{$smarty.const._TAD_EDIT}></a>
-
-              <{if $doc.enable=='1'}>
-                <a href="<{$xoops_url}>/modules/tad_book3/index.php?op=change_enable&enable=0&tbdsn=<{$doc.tbdsn}>&tbsn=<{$tbsn}>" class="btn btn-xs"><{$smarty.const._TAD_UNABLE}></a>
-              <{else}>
-                <a href="<{$xoops_url}>/modules/tad_book3/post.php?op=change_enable&enable=1&tbdsn=<{$doc.tbdsn}>&tbsn=<{$tbsn}>" class="btn btn-xs btn-success"><{$smarty.const._TAD_ENABLE}></a>
-              <{/if}>
+              <span class="doc_sort_<{$doc.doc_sort_level}>">
+              <{if $doc.doc_sort_main==$doc.new_sort.main}>
+                  <{$doc.doc_sort_main}>
+                <{else}>
+                  <span style="color:red;" title="<{$doc.doc_sort_main}>"><{$doc.new_sort.main}></span>
+                  <input type="hidden" name="update_sort[<{$doc.tbdsn}>]" value="<{$doc.new_sort.main}>">
+                <{/if}>
+              </span>
+              <{$doc.enable_txt}>
+              <a href="<{$xoops_url}>/modules/tad_book3/page.php?tbdsn=<{$doc.tbdsn}>"><{$doc.title}></a>
             </td>
-          <{/if}>
+            <td style="font-size: 10px; color: gray; text-align: right;">
+              <{$doc.count}>
+              <i class="fa fa-user"></i>
+              <{$doc.last_modify_date}>
+            </td>
 
-        </tr>
-      <{/foreach}>
-    </table>
+            <{if $my}>
+              <td>
+                <a href="<{$xoops_url}>/modules/tad_book3/post.php?op=tad_book3_docs_form&tbdsn=<{$doc.tbdsn}>" class="btn btn-xs btn-warning"><{$smarty.const._TAD_EDIT}></a>
+
+                <{if $doc.enable=='1'}>
+                  <a href="<{$xoops_url}>/modules/tad_book3/index.php?op=change_enable&enable=0&tbdsn=<{$doc.tbdsn}>&tbsn=<{$tbsn}>" class="btn btn-xs btn-default"><{$smarty.const._TAD_UNABLE}></a>
+                <{else}>
+                  <a href="<{$xoops_url}>/modules/tad_book3/post.php?op=change_enable&enable=1&tbdsn=<{$doc.tbdsn}>&tbsn=<{$tbsn}>" class="btn btn-xs btn-success"><{$smarty.const._TAD_ENABLE}></a>
+                <{/if}>
+
+                <{if $doc.have_sub == 0}>
+                  <a href="javascript:delete_tad_book3_docs_func(<{$doc.tbdsn}>);" class="btn btn-xs btn-danger"><{$smarty.const._TAD_DEL}></a>
+                <{/if}>
+              </td>
+            <{/if}>
+
+          </tr>
+        <{/foreach}>
+      </table>
+      <{if $my}>
+        <div class="text-center">
+          <input type="hidden" name="tbsn" value="<{$tbsn}>">
+          <input type="hidden" name="op" value="update_docs_sort">
+          <button type="submit" class="btn btn-primary"><{$smarty.const._MD_TADBOOK3_MODIFY_ORDER}></button>
+        </div>
+      <{/if}>
+    </form>
   <{/if}>
 <{else}>
 

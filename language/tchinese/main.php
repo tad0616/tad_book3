@@ -38,3 +38,4 @@ define('_MD_TADBOOK3_ABS_PATH', '圖片或檔案的路徑是否重設為本站網址（即 %s）？若
 define('_MD_TADBOOK3_NEED_AUTHOR', '本功能需要為書籍作者');
 define('_MD_TADBOOK3_FROM_TBDSN', '連結');
 define('_MD_TADBOOK3_FROM_TBDSN_DESC', '輸入文章編號');
+define('_MD_TADBOOK3_MODIFY_ORDER', '修正排序（會修正紅色部份）');

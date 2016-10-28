@@ -245,12 +245,15 @@ function list_docs($def_tbsn = "")
     $xoopsTpl->assign("fb_description", strip_tags($description));
     $xoopsTpl->assign("logo_img", $book['pic']);
 
-    $i      = 0;
-    $docs   = "";
-    $sql    = "select * from " . $xoopsDB->prefix("tad_book3_docs") . " where tbsn='{$tbsn}' order by category,page,paragraph,sort";
-    $result = $xoopsDB->query($sql) or web_error($sql);
+    $i            = 0;
+    $docs         = "";
+    $sql          = "select * from " . $xoopsDB->prefix("tad_book3_docs") . " where tbsn='{$tbsn}' order by category,page,paragraph,sort";
+    $result       = $xoopsDB->query($sql) or web_error($sql);
+    $i1           = $i2           = $i3           = $i4           = 0;
+    $new_category = $new_page = $new_paragraph = $new_sort = '';
     while (list($tbdsn, $tbsn, $category, $page, $paragraph, $sort, $title, $content, $add_date, $last_modify_date, $uid, $count, $enable) = $xoopsDB->fetchRow($result)) {
         $doc_sort         = mk_category($category, $page, $paragraph, $sort);
+        $have_sub         = have_sub($def_tbsn, $category, $page, $paragraph, $sort);
         $last_modify_date = date("Y-m-d H:i:s", xoops_getUserTimestamp($last_modify_date));
 
         if ($enable != '1' and !$my) {
@@ -267,6 +270,59 @@ function list_docs($def_tbsn = "")
         $docs[$i]['count']            = $count;
         $docs[$i]['enable']           = $enable;
         $docs[$i]['enable_txt']       = $enable_txt;
+        $docs[$i]['have_sub']         = $have_sub;
+
+        if (empty($new_category)) {
+            $new_category = $category;
+            $i1++;
+        } elseif ($new_category != $category) {
+            $new_category = $category;
+            $i1++;
+            $new_page      = 0;
+            $new_paragraph = 0;
+            $new_sort      = 0;
+        }
+
+        if (!empty($page)) {
+            if (empty($new_page)) {
+                $new_page = $page;
+                $i2++;
+            } elseif ($new_page != $page) {
+                $new_page = $page;
+                $i2++;
+                $new_paragraph = 0;
+                $new_sort      = 0;
+            }
+        } else {
+            $i2 = 0;
+        }
+
+        if (!empty($paragraph)) {
+            if (empty($new_paragraph)) {
+                $new_paragraph = $paragraph;
+                $i3++;
+            } elseif ($new_paragraph != $paragraph) {
+                $new_paragraph = $paragraph;
+                $i3++;
+                $new_sort = 0;
+            }
+        } else {
+            $i3 = 0;
+        }
+
+        if (!empty($sort)) {
+            if (empty($new_sort)) {
+                $new_sort = $sort;
+                $i4++;
+            } elseif ($new_sort != $sort) {
+                $new_sort = $sort;
+                $i4++;
+            }
+        } else {
+            $i4 = 0;
+        }
+
+        $docs[$i]['new_sort'] = mk_category($i1, $i2, $i3, $i4);
         $i++;
     }
 
@@ -284,6 +340,26 @@ function list_docs($def_tbsn = "")
     $sweet_alert_docs      = new sweet_alert();
     $sweet_alert_docs_code = $sweet_alert_docs->render("delete_tad_book3_docs_func", "index.php?op=delete_tad_book3_docs&tbsn={$def_tbsn}&tbdsn=", 'tbdsn');
     $xoopsTpl->assign('sweet_alert_docs_code', $sweet_alert_docs_code);
+}
+
+//檢查有無底下文章
+function have_sub($tbsn = 0, $category = 0, $page = 0, $paragraph = 0, $sort = 0)
+{
+
+    global $xoopsDB;
+    if (!empty($sort)) {
+        return 0;
+    }
+
+    $and_category  = $category ? "and `category`= $category" : '';
+    $and_page      = $page ? "and `page`= $page" : '';
+    $and_paragraph = $paragraph ? "and `paragraph`= $paragraph" : '';
+
+    $sql         = "select count(*) from " . $xoopsDB->prefix("tad_book3_docs") . " where tbsn='{$tbsn}' $and_category $and_page $and_paragraph";
+    $result      = $xoopsDB->query($sql) or web_error($sql);
+    list($count) = $xoopsDB->fetchRow($result);
+    $count--;
+    return $count;
 }
 
 //tad_book3編輯表單
@@ -675,6 +751,24 @@ function mk_category($category = "", $page = "", $paragraph = "", $sort = "")
     return $all;
 }
 
+function decode_category($doc_sort = "")
+{
+    if (strpos($doc_sort, '-')) {
+        $doc_sort_arr     = explode('-', $doc_sort);
+        $all['category']  = isset($doc_sort_arr[0]) ? $doc_sort_arr[0] : '';
+        $all['page']      = isset($doc_sort_arr[1]) ? $doc_sort_arr[1] : '';
+        $all['paragraph'] = isset($doc_sort_arr[2]) ? $doc_sort_arr[2] : '';
+        $all['sort']      = isset($doc_sort_arr[3]) ? $doc_sort_arr[3] : '';
+    } else {
+        $all['category']  = str_replace('.', '', $doc_sort);
+        $all['page']      = '';
+        $all['paragraph'] = '';
+        $all['sort']      = '';
+    }
+
+    return $all;
+}
+
 //判斷本文是否允許該用戶之所屬群組觀看
 function chk_power($enable_group = "")
 {
@@ -728,8 +822,35 @@ function chk_edit_power($uid_txt = "")
 function delete_tad_book3_docs($tbdsn = "")
 {
     global $xoopsDB;
+    check_update_cpps_del($tbdsn);
     $sql = "delete from " . $xoopsDB->prefix("tad_book3_docs") . " where tbdsn='$tbdsn'";
     $xoopsDB->queryF($sql) or web_error($sql);
+}
+
+//檢查是否有相同的章節數，若有其他章節往前移動（刪除之意）
+function check_update_cpps_del($tbdsn = 0)
+{
+    global $xoopsDB;
+
+    $sql = "select tbsn,category, page, paragraph,sort from " . $xoopsDB->prefix("tad_book3_docs") . " where `tbdsn`='{$tbdsn}'";
+
+    $result                                          = $xoopsDB->query($sql) or web_error($sql);
+    list($tbsn, $category, $page, $paragraph, $sort) = $xoopsDB->fetchRow($result);
+
+    if (!empty($category) and !empty($page) and !empty($paragraph) and !empty($sort)) {
+        $sql    = "update " . $xoopsDB->prefix("tad_book3_docs") . " set `sort` = `sort` - 1 where  tbsn='{$tbsn}' and `category` = '{$category}' and `page` = '{$page}' and `paragraph` = '{$paragraph}' and `sort` > '{$sort}'";
+        $result = $xoopsDB->queryF($sql) or web_error($sql);
+    } elseif (!empty($category) and !empty($page) and !empty($paragraph) and empty($sort)) {
+        $sql    = "update " . $xoopsDB->prefix("tad_book3_docs") . " set `paragraph` = `paragraph` - 1 where tbsn='{$tbsn}' and  `category` = '{$category}' and `page` = '{$page}' and `paragraph` > '{$paragraph}'";
+        $result = $xoopsDB->queryF($sql) or web_error($sql);
+    } elseif (!empty($category) and !empty($page) and empty($paragraph) and empty($sort)) {
+        $sql    = "update " . $xoopsDB->prefix("tad_book3_docs") . " set `page` = `page` - 1 where  tbsn='{$tbsn}' and `category` = '{$category}' and `page` > '{$page}'";
+        $result = $xoopsDB->queryF($sql) or web_error($sql);
+    } elseif (!empty($category) and empty($page) and empty($paragraph) and empty($sort)) {
+        $sql    = "update " . $xoopsDB->prefix("tad_book3_docs") . " set `category` = `category` - 1 where tbsn='{$tbsn}' and  `category` > '{$category}' ";
+        $result = $xoopsDB->queryF($sql) or web_error($sql);
+    }
+
 }
 
 //刪除tad_book3 某筆資料資料
