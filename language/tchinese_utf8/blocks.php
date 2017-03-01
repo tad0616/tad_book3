@@ -11,5 +11,5 @@ define('_MB_TADBOOK3_POST_DATE', '發佈日期');
 define('_MB_TADBOOK3_TITLE', '書名');
 define('_MB_TADBOOK3_DESC', '遞減');
 define('_MB_TADBOOK3_ASC', '遞增');
-define('_MB_TADBOOK3_YES', '是');
-define('_MB_TADBOOK3_NO', '否');
+define('_MB_TADBOOK3_SORT', '書籍排序');
+define('_MB_TADBOOK3_TAD_BOOK3_SHOW_COUNT', '是否顯示文章數？');

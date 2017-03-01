@@ -11,5 +11,5 @@ define('_MB_TADBOOK3_POST_DATE', 'Post Date');
 define('_MB_TADBOOK3_TITLE', 'Title');
 define('_MB_TADBOOK3_DESC', 'Descendant');
 define('_MB_TADBOOK3_ASC', 'Ascendant');
-define('_MB_TADBOOK3_YES', 'Yes');
-define('_MB_TADBOOK3_NO', 'No');
+define('_MB_TADBOOK3_SORT', 'Books Sort');
+define('_MB_TADBOOK3_TAD_BOOK3_SHOW_COUNT', 'Whether to display the number of articles?');

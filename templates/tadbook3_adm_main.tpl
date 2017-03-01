@@ -1,7 +1,7 @@
 <div class="container-fluid">
   <div id="save_msg"></div>
   <div class="row">
-    <div class="col-md-3">
+    <div class="col-sm-3">
       <{$sweet_alert_code}>
       <{$ztree_code}>
       <{$sweet_alert_book_code}>
@@ -19,15 +19,15 @@
         <a href="main.php?op=tad_book3_cate_form" class="btn btn-info btn-block"><{$smarty.const._MA_TADBOOK3_ADD_CATE}></a>
       </div>
     </div>
-    <div class="col-md-9">
+    <div class="col-sm-9">
       <{if $tbcsn!="" and $op!="tad_book3_cate_form"}>
         <div class="row">
-          <div class="col-md-4">
+          <div class="col-sm-4">
             <h3>
               <{$cate.title}>
             </h3>
           </div>
-          <div class="col-md-8 text-right">
+          <div class="col-sm-8 text-right">
             <div style="margin-top: 10px;">
               <{if $now_op!="tad_book3_cate_form" and $tbcsn}>
                 <a href="javascript:delete_tad_book3_cate_func(<{$cate.tbcsn}>);" class="btn btn-danger <{if $cate.count > 0}>disabled<{/if}>"><{$smarty.const._TAD_DEL}></a>
@@ -39,7 +39,7 @@
 
         <{if $cate.description}>
           <div class="row">
-            <div class="col-md-12">
+            <div class="col-sm-12">
               <div class="alert alert-success"><{$cate.description}></div>
             </div>
           </div>
@@ -53,28 +53,28 @@
 
         <form action="main.php" method="post" id="myForm" enctype="multipart/form-data" class="form-horizontal" role="form">
           <div class="form-group">
-            <label class="col-md-2 control-label">
+            <label class="col-sm-2 control-label">
               <{$smarty.const._MA_TADBOOK3_CATE_TITLE}>
             </label>
-            <div class="col-md-10">
+            <div class="col-sm-10">
               <input type="text" name="title" size="20" value="<{$title}>" id="title" class="validate[required] form-control">
             </div>
           </div>
 
           <div class="form-group">
-            <label class="col-md-2 control-label">
+            <label class="col-sm-2 control-label">
               <{$smarty.const._MA_TADBOOK3_CATE_DESCRIPTION}>
             </label>
-            <div class="col-md-10">
+            <div class="col-sm-10">
               <{$editor}>
             </div>
           </div>
 
 
           <div class="form-group">
-            <label class="col-md-2 control-label">
+            <label class="col-sm-2 control-label">
             </label>
-            <div class="col-md-10">
+            <div class="col-sm-10">
               <input type="hidden" name="tbcsn" value="<{$tbcsn}>">
               <input type="hidden" name="sort" value="<{$sort}>">
               <input type="hidden" name="op" value="<{$next_op}>">

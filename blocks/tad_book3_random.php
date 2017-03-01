@@ -33,8 +33,8 @@ function tad_book3_random_edit($options)
 	" . _MB_TADBOOK3_TAD_BOOK3_RANDOM_EDIT_BITEM0 . "
 	<INPUT type='text' name='options[0]' value='{$options[0]}'><br>
 	" . _MB_TADBOOK3_TAD_BOOK3_RANDOM_EDIT_BITEM1 . "
-	<INPUT type='radio' $chked1_0 name='options[1]' value='1'>" . _MB_TADBOOK3_YES . "
-	<INPUT type='radio' $chked1_1 name='options[1]' value='0'>" . _MB_TADBOOK3_NO . "
+	<INPUT type='radio' $chked1_0 name='options[1]' value='1'>" . _YES . "
+	<INPUT type='radio' $chked1_1 name='options[1]' value='0'>" . _NO . "
 	";
     return $form;
 }

@@ -11,17 +11,19 @@ function tad_book3_list($options)
         $options[1] = "create_date";
     }
 
-    if (empty($options[2])) {
-        $options[2] = "desc";
+    if ($options[3] == '') {
+        $options[3] = "1";
     }
 
-    $i      = 0;
-    $sql    = "select `tbsn`,`title`,`counter` from " . $xoopsDB->prefix("tad_book3") . " where enable='1' order by {$options[1]} {$options[2]} limit 0,{$options[0]}";
+    $i   = 0;
+    $sql = "select `tbsn`,`title`,`counter` from " . $xoopsDB->prefix("tad_book3") . " where enable='1' order by {$options[1]} {$options[2]} limit 0,{$options[0]}";
+
     $result = $xoopsDB->query($sql) or web_error($sql);
     while (list($tbsn, $title, $counter) = $xoopsDB->fetchRow($result)) {
-        $block[$i]['tbsn']    = $tbsn;
-        $block[$i]['title']   = $title;
-        $block[$i]['counter'] = $counter;
+        $block[$i]['tbsn']         = $tbsn;
+        $block[$i]['title']        = $title;
+        $block[$i]['counter']      = $counter;
+        $block[$i]['show_counter'] = $options[3];
         $i++;
     }
 
@@ -34,8 +36,13 @@ function tad_book3_list_edit($options)
     $seled1_0 = ($options[1] == "counter") ? "selected" : "";
     $seled1_1 = ($options[1] == "create_date") ? "selected" : "";
     $seled1_2 = ($options[1] == "title") ? "selected" : "";
+    $seled1_3 = ($options[1] == "sort") ? "selected" : "";
+
     $chked2_0 = ($options[2] == "") ? "checked" : "";
     $chked2_1 = ($options[2] == "desc") ? "checked" : "";
+
+    $chked3_0 = ($options[3] == "0") ? "checked" : "";
+    $chked3_1 = ($options[3] != "0") ? "checked" : "";
 
     $form = "
 	" . _MB_TADBOOK3_TAD_BOOK3_LIST_EDIT_BITEM0 . "
@@ -45,10 +52,14 @@ function tad_book3_list_edit($options)
 		<option $seled1_0 value='counter'>" . _MB_TADBOOK3_COUNTER . "</option>
 		<option $seled1_1 value='create_date'>" . _MB_TADBOOK3_POST_DATE . "</option>
 		<option $seled1_2 value='title'>" . _MB_TADBOOK3_TITLE . "</option>
+        <option $seled1_3 value='sort'>" . _MB_TADBOOK3_SORT . "</option>
 	</select><br>
 	" . _MB_TADBOOK3_TAD_BOOK3_LIST_EDIT_BITEM2 . "
 	<INPUT type='radio' $chked2_0 name='options[2]' value=''>" . _MB_TADBOOK3_ASC . "
-	<INPUT type='radio' $chked2_1 name='options[2]' value='desc'>" . _MB_TADBOOK3_DESC . "
+	<INPUT type='radio' $chked2_1 name='options[2]' value='desc'>" . _MB_TADBOOK3_DESC . "<br>
+    " . _MB_TADBOOK3_TAD_BOOK3_SHOW_COUNT . "
+    <INPUT type='radio' $chked3_1 name='options[3]' value='1'>" . _YES . "
+    <INPUT type='radio' $chked3_0 name='options[3]' value='0'>" . _NO . "
 	";
     return $form;
 }

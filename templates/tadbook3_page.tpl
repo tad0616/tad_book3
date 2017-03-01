@@ -20,18 +20,18 @@
   <link rel="stylesheet" type="text/css" media="screen" href="reset.css" />
 
   <div class="row" style="background-image: url(images/relink_bg.gif); padding: 10px 0px;">
-    <div class="col-md-4 text-left"><{$p}></div>
-    <div class="col-md-4 text-center">
+    <div class="col-sm-4 text-left"><{$p}></div>
+    <div class="col-sm-4 text-center">
       <select onChange="window.location.href='page.php?tbdsn='+this.value" class="form-control">
         <{$doc_select}>
       </select>
     </div>
-    <div class="col-md-4 text-right"><{$n}></div>
+    <div class="col-sm-4 text-right"><{$n}></div>
   </div>
 
 
   <div class="row ">
-    <div class="col-md-12 page">
+    <div class="col-sm-12 page">
       <div class="page_title">
         <a href="index.php?op=list_docs&tbsn=<{$tbsn}>"><{$book_title}></a>
       </div>
@@ -43,25 +43,25 @@
   </div>
 
   <div class="row" style="background-image: url(images/relink_bg.gif); padding: 10px 0px;">
-    <div class="col-md-4 text-left"><{$p}></div>
-    <div class="col-md-4 text-center">
+    <div class="col-sm-4 text-left"><{$p}></div>
+    <div class="col-sm-4 text-center">
       <select onChange="window.location.href='page.php?tbdsn='+this.value" class="form-control">
         <{$doc_select}>
       </select>
     </div>
-    <div class="col-md-4 text-right"><{$n}></div>
+    <div class="col-sm-4 text-right"><{$n}></div>
   </div>
 
   <br>
 
   <div class="row">
-    <div class="col-md-6" style="text-align:left;vertical-align:bottom;">
+    <div class="col-sm-6" style="text-align:left;vertical-align:bottom;">
       <a href="<{$xoops_url}>/modules/tad_book3/html.php?tbdsn=<{$tbdsn}>"><i class="fa fa-print"></i> <{$smarty.const._MD_TADBOOK3_DL_HTML}></a>
       <a href="<{$xoops_url}>/modules/tad_book3/tcpdf.php?tbdsn=<{$tbdsn}>&filename=BOOK<{$tbsn}>_<{$doc_sort_main}>.pdf"><i class="fa fa-file-pdf-o"></i> <{$smarty.const._MD_TADBOOK3_DL_PDF}></a>
 
       <a href="<{$xoops_url}>/modules/tad_book3/markdown.php?tbdsn=<{$tbdsn}>"><i class="fa fa-github-alt"></i> <{$smarty.const._MD_TADBOOK3_DL_MARKDOWN}></a>
     </div>
-    <div class="col-md-6" style="text-align:right;vertical-align:bottom;">
+    <div class="col-sm-6" style="text-align:right;vertical-align:bottom;">
       <{$push_url}>
     </div>
   </div>

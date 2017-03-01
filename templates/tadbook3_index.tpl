@@ -3,25 +3,25 @@
 
 <{if $now_op=="tad_book3_form"}>
   <div class="row">
-    <div class="col-md-12">
+    <div class="col-sm-12">
       <h2><{$smarty.const._MD_INPUT_BOOK_FORM}></h2>
       <form action="<{$action}>" method="post" id="myForm" enctype="multipart/form-data" class="form-horizontal" role="form">
 
       <div class="row">
         <div class="form-group">
-          <label class="col-md-2 control-label"><{$smarty.const._MD_TADBOOK3_TBCSN_MENU}></label>
-          <div class="col-md-3">
+          <label class="col-sm-2 control-label"><{$smarty.const._MD_TADBOOK3_TBCSN_MENU}></label>
+          <div class="col-sm-3">
             <select name="tbcsn" size=1 class="form-control">
               <{$cate_select}>
             </select>
           </div>
-          <div class="col-md-2">
+          <div class="col-sm-2">
             <input type="text" name="new_tbcsn"  class="form-control" placeholder="<{$smarty.const._MD_TADBOOK3_NEW_PCSN}>">
           </div>
-          <label class="col-md-1 control-label">
+          <label class="col-sm-1 control-label">
             <{$smarty.const._MD_TADBOOK3_STATUS}>
           </label>
-          <div class="col-md-4">
+          <div class="col-sm-4">
             <label class="radio-inline">
               <input type="radio" name="enable" id="enable1" value="1" <{if $enable=="1"}>checked<{/if}>><{$smarty.const._MD_TADBOOK3_ENABLE}>
             </label>
@@ -34,24 +34,24 @@
 
       <div class="row">
         <div class="form-group">
-          <label class="col-md-2 control-label">
+          <label class="col-sm-2 control-label">
             <{$smarty.const._MD_TADBOOK3_TITLE}>
           </label>
-          <div class="col-md-5">
+          <div class="col-sm-5">
             <input type="text" name="title" value="<{$title}>" class="form-control" placeholder="<{$smarty.const._MD_TADBOOK3_TITLE}>">
           </div>
 
-          <label class="col-md-1 control-label">
+          <label class="col-sm-1 control-label">
             <{$smarty.const._MD_TADBOOK3_PIC_NAME}>
           </label>
-          <div class="col-md-4">
+          <div class="col-sm-4">
             <input type="file" name="pic_name" placeholder="<{$smarty.const._MD_TADBOOK3_PIC_NAME}>">
           </div>
         </div>
       </div>
 
       <div class="row">
-        <div class="col-md-12">
+        <div class="col-sm-12">
           <{$editor}>
         </div>
       </div>
@@ -61,20 +61,20 @@
       <div class="row">
         <div class="form-group">
 
-          <label class="col-md-1 control-label"><{$smarty.const._MD_TADBOOK3_AUTHOR}></label>
-          <div class="col-md-3">
+          <label class="col-sm-1 control-label"><{$smarty.const._MD_TADBOOK3_AUTHOR}></label>
+          <div class="col-sm-3">
             <{$user_menu}>
           </div>
 
-          <label class="col-md-1 control-label"><{$smarty.const._MD_TADBOOK3_READ_GROUP}></label>
-          <div class="col-md-3">
+          <label class="col-sm-1 control-label"><{$smarty.const._MD_TADBOOK3_READ_GROUP}></label>
+          <div class="col-sm-3">
             <{$group_menu}>
           </div>
 
-          <label class="col-md-1 control-label">
+          <label class="col-sm-1 control-label">
             <{$smarty.const._MD_TADBOOK3_PASSWD}>
           </label>
-          <div class="col-md-3">
+          <div class="col-sm-3">
             <input type="text" name="passwd" class="form-control" value="<{$passwd}>">
 
 
@@ -100,36 +100,36 @@
 
     <div class="row">
 
-      <div class="col-md-3">
+      <div class="col-sm-3">
         <label>
           <{$smarty.const._MD_TADBOOK3_TBCSN_MENU}>
         </label>
-        <select name="tbcsn" size=1 class="col-md-12">
+        <select name="tbcsn" size=1 class="col-sm-12">
           <{$cate_select}>
         </select>
-        <input type="text" name="new_tbcsn" class="col-md-12" placeholder="<{$smarty.const._MD_TADBOOK3_NEW_PCSN}>">
+        <input type="text" name="new_tbcsn" class="col-sm-12" placeholder="<{$smarty.const._MD_TADBOOK3_NEW_PCSN}>">
       </div>
 
 
-      <div class="col-md-3">
+      <div class="col-sm-3">
         <label><{$smarty.const._MD_TADBOOK3_AUTHOR}></label>
         <{$user_menu}>
       </div>
-      <div class="col-md-3">
+      <div class="col-sm-3">
         <label><{$smarty.const._MD_TADBOOK3_READ_GROUP}></label>
         <{$group_menu}>
       </div>
-      <div class="col-md-3">
+      <div class="col-sm-3">
 
         <label><{$smarty.const._MD_TADBOOK3_IMPORT1}></label>
-        <input type="file" name="book" class="col-md-12">
+        <input type="file" name="book" class="col-sm-12">
         <label><{$smarty.const._MD_TADBOOK3_IMPORT2}></label>
-        <input type="file" name="docs" class="col-md-12">
+        <input type="file" name="docs" class="col-sm-12">
       </div>
     </div>
 
     <div class="row">
-      <div class="col-md-12">
+      <div class="col-sm-12">
         <label class="checkbox">
           <input type="checkbox" name="abs_path" value="1" <{$checked}>>
           <{$new_path}>
@@ -151,13 +151,13 @@
   <{/if}>
 
   <div class="row">
-    <div class="col-md-3 text-center">
+    <div class="col-sm-3 text-center">
       <{if $book}>
         <{includeq file="db:tadbook3_book_shadow.tpl"}>
       <{/if}>
     </div>
 
-    <div class="col-md-9">
+    <div class="col-sm-9">
       <h3>
         <span class="label label-success"><{$cate}></span>
         <{$title}>
@@ -247,26 +247,28 @@
 
   <div id="save_msg"></div>
 
-  <script language="JavaScript">
-    $().ready(function(){
-      $("#books_sort").sortable({
-        opacity: 0.6,
-        cursor: "move",
-        update: function() {
-          var order = $(this).sortable("serialize") + "&action=updateRecordsListings";
-          $.post("save_book_sort.php", order, function(theResponse){
-            $("#save_msg").html(theResponse);
-          });
-        }
-      });
-    });
-  </script>
+
   <{$sweet_alert_book_code}>
 
-  <{foreach from=$cate item=cate}>
+  <{foreach from=$cate key=id item=cate}>
     <{if $cate.books}>
+      <script language="JavaScript">
+        $().ready(function(){
+          $("#books_sort_<{$id}>").sortable({
+            opacity: 0.6,
+            cursor: "move",
+            update: function() {
+              var order = $(this).sortable("serialize") + "&action=updateRecordsListings";
+              $.post("save_book_sort.php", order, function(theResponse){
+                $("#save_msg").html(theResponse);
+              });
+            }
+          });
+        });
+      </script>
+
       <h1 style="color:#A0A0A0;margin-top:20px;font-size:24px;"><{$cate.title}></h1>
-      <div style='margin-left:20px;' id='books_sort'>
+      <div style='margin-left:20px;' id="books_sort_<{$id}>">
 
       <{foreach from=$cate.books item=book}>
         <{if $book}>
