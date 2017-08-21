@@ -4,15 +4,18 @@ set_time_limit(0);
 ini_set("memory_limit", "150M");
 
 include_once $GLOBALS['xoops']->path('/modules/system/include/functions.php');
-$op      = system_CleanVars($_REQUEST, 'op', '', 'string');
-$tbdsn   = system_CleanVars($_REQUEST, 'tbdsn', 0, 'int');
-$header  = system_CleanVars($_REQUEST, 'header', 1, 'int');
-$artical = get_tad_book3_docs($tbdsn);
-foreach ($artical as $key => $value) {
-    $$key = $value;
+$op     = system_CleanVars($_REQUEST, 'op', '', 'string');
+$tbsn   = system_CleanVars($_REQUEST, 'tbsn', 0, 'int');
+$header = system_CleanVars($_REQUEST, 'header', 1, 'int');
+$book   = get_tad_book3($tbsn);
+
+if ($xoopsUser) {
+    $uid = $xoopsUser->uid();
+} else {
+    $uid = 0;
 }
-$doc_sort = mk_category($category, $page, $paragraph, $sort);
-$book     = get_tad_book3($tbsn);
+$author_arr = explode(",", $book['author']);
+$my         = in_array($uid, $author_arr);
 //高亮度語法
 if (!file_exists(TADTOOLS_PATH . "/syntaxhighlighter.php")) {
     redirect_header("index.php", 3, _MD_NEED_TADTOOLS);
@@ -26,7 +29,7 @@ $html = '<!DOCTYPE html>
 <html lang="zh-Hant-TW">
 <head>
   <meta charset="utf-8">
-  <title>' . $book['title'] . '-' . $doc_sort['main'] . '-' . $title . '</title>
+  <title>' . $book['title'] . '</title>
   ' . $bootstrap . '
   <link rel="stylesheet" type="text/css" href="reset.css" >
   <style type="text/css">
@@ -56,7 +59,21 @@ $html = '<!DOCTYPE html>
   </head>
   <body>' . $syntaxhighlighter_code;
 
-$html .= view_page($tbdsn, $header);
+$i      = 0;
+$docs   = "";
+$sql    = "select tbdsn,enable from " . $xoopsDB->prefix("tad_book3_docs") . " where tbsn='{$tbsn}' order by category,page,paragraph,sort";
+$result = $xoopsDB->query($sql) or web_error($sql);
+while ($all = $xoopsDB->fetchArray($result)) {
+    foreach ($all as $k => $v) {
+        $$k = $v;
+    }
+
+    if ($enable != '1' and !$my) {
+        continue;
+    }
+    $html .= view_page($tbdsn, $header);
+    $html .= '<p style="page-break-after:always"></p>';
+}
 $html .= '
   </body>
 </html>';
@@ -65,9 +82,10 @@ die($html);
 //觀看某一頁
 function view_page($tbdsn = "", $header = 1)
 {
-    global $xoopsDB, $book, $artical, $doc_sort;
+    global $xoopsDB, $book;
 
-    foreach ($artical as $key => $value) {
+    $all = get_tad_book3_docs($tbdsn);
+    foreach ($all as $key => $value) {
         $$key = $value;
     }
 
@@ -86,9 +104,10 @@ function view_page($tbdsn = "", $header = 1)
         return $data;
         exit;
     }
-    $page_title = $header ? "<div class='page_title'>{$book['title']}</div>" : "";
 
-    $main = "
+    $doc_sort   = mk_category($category, $page, $paragraph, $sort);
+    $page_title = $header ? "<div class='page_title'>{$book['title']}</div>" : "";
+    $main       = "
     <div class='page'>
       $page_title
       <div class='page_content'>

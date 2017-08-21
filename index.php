@@ -394,7 +394,7 @@ switch ($op) {
 
     //輸入表格
     case "tad_book3_form";
-        tad_book3_form($tbsn);
+        tad_book3_form($tbsn, $tbcsn);
         break;
 
     //匯入表格

@@ -6,7 +6,6 @@ ini_set("memory_limit", "150M");
 include_once $GLOBALS['xoops']->path('/modules/system/include/functions.php');
 $op      = system_CleanVars($_REQUEST, 'op', '', 'string');
 $tbdsn   = system_CleanVars($_REQUEST, 'tbdsn', 0, 'int');
-$header  = system_CleanVars($_REQUEST, 'header', 1, 'int');
 $artical = get_tad_book3_docs($tbdsn);
 foreach ($artical as $key => $value) {
     $$key = $value;
@@ -37,7 +36,6 @@ $html = '<!DOCTYPE html>
     .page{
       font-size: 12pt;
       line-height:2;
-      padding: 2cm;
       background-image: url(' . XOOPS_URL . '/modules/tad_book3/images/paper_bg.jpg);
       background-repeat: repeat-x;
     }
@@ -46,24 +44,18 @@ $html = '<!DOCTYPE html>
       font-size: 12pt;
     }
 
-    .page_title{
-      border-bottom: 1px solid black;
-      text-align:right;
-      color:black;
-      margin-bottom:20px;
-    }
   </style>
   </head>
   <body>' . $syntaxhighlighter_code;
 
-$html .= view_page($tbdsn, $header);
+$html .= view_page($tbdsn);
 $html .= '
   </body>
 </html>';
 die($html);
 
 //觀看某一頁
-function view_page($tbdsn = "", $header = 1)
+function view_page($tbdsn = "")
 {
     global $xoopsDB, $book, $artical, $doc_sort;
 
@@ -86,11 +78,9 @@ function view_page($tbdsn = "", $header = 1)
         return $data;
         exit;
     }
-    $page_title = $header ? "<div class='page_title'>{$book['title']}</div>" : "";
 
     $main = "
     <div class='page'>
-      $page_title
       <div class='page_content'>
         <h{$doc_sort['level']}>{$doc_sort['main']} {$title}</h{$doc_sort['level']}>
         $content

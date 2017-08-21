@@ -57,7 +57,7 @@
   <div class="row">
     <div class="col-sm-6" style="text-align:left;vertical-align:bottom;">
       <a href="<{$xoops_url}>/modules/tad_book3/html.php?tbdsn=<{$tbdsn}>"><i class="fa fa-print"></i> <{$smarty.const._MD_TADBOOK3_DL_HTML}></a>
-      <a href="<{$xoops_url}>/modules/tad_book3/tcpdf.php?tbdsn=<{$tbdsn}>&filename=BOOK<{$tbsn}>_<{$doc_sort_main}>.pdf"><i class="fa fa-file-pdf-o"></i> <{$smarty.const._MD_TADBOOK3_DL_PDF}></a>
+      <a href="<{$xoops_url}>/modules/tad_book3/pdf.php?tbdsn=<{$tbdsn}>"><i class="fa fa-file-pdf-o"></i> <{$smarty.const._MD_TADBOOK3_DL_PDF}></a>
 
       <a href="<{$xoops_url}>/modules/tad_book3/markdown.php?tbdsn=<{$tbdsn}>"><i class="fa fa-github-alt"></i> <{$smarty.const._MD_TADBOOK3_DL_MARKDOWN}></a>
     </div>

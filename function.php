@@ -363,7 +363,7 @@ function have_sub($tbsn = 0, $category = 0, $page = 0, $paragraph = 0, $sort = 0
 }
 
 //tad_book3編輯表單
-function tad_book3_form($tbsn = "")
+function tad_book3_form($tbsn = "", $tbcsn = "")
 {
     global $xoopsDB, $xoopsUser, $xoopsTpl;
     include_once XOOPS_ROOT_PATH . "/class/xoopsformloader.php";
@@ -378,7 +378,7 @@ function tad_book3_form($tbsn = "")
     //預設值設定
 
     $tbsn        = (!isset($DBV['tbsn'])) ? "" : $DBV['tbsn'];
-    $tbcsn       = (!isset($DBV['tbcsn'])) ? "" : $DBV['tbcsn'];
+    $tbcsn       = (!isset($DBV['tbcsn'])) ? $tbcsn : $DBV['tbcsn'];
     $sort        = (!isset($DBV['sort'])) ? get_max_doc_sort($tbcsn) : $DBV['sort'];
     $title       = (!isset($DBV['title'])) ? "" : $DBV['title'];
     $description = (!isset($DBV['description'])) ? "" : $DBV['description'];

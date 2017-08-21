@@ -13,3 +13,5 @@ define('_MB_TADBOOK3_DESC', 'Descendant');
 define('_MB_TADBOOK3_ASC', 'Ascendant');
 define('_MB_TADBOOK3_SORT', 'Books Sort');
 define('_MB_TADBOOK3_TAD_BOOK3_SHOW_COUNT', 'Whether to display the number of articles?');
+define('_MB_TADBOOK3_SHOW_CATE', 'Please select the category you want to display');
+define('_MB_TADBOOK3_SHOW_PIC', 'Do you want to show the image?');

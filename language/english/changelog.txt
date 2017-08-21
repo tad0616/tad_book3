@@ -1,3 +1,15 @@
+Tad Book3 3.8.7 (2017-06-16 released)
+================================================== ================
+1. Book list block to add pictures and set classification options.
+2. Improve PDF quality
+3. Join the batch to export the entire book's HTML and PDF files
+4. Complete accessibility barrier detection
+
+Tad Book3 3.8.6 (2017-03-25 released)
+================================================== ================
+1. Update PDF download mechanism
+
+
 Tad Book3 3.8.5 (2017-02-06 released)
 ==================================================================
 1.Add book list block ordering and setup options.

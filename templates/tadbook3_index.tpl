@@ -190,7 +190,11 @@
       </form>
     </div>
   <{elseif $docs}>
-    <h2><{$book_content}></h2>
+    <h2>
+    <div class="pull-right">
+      <a href="html_all.php?tbsn=<{$tbsn}>" class="btn btn-success">HTML</a>
+      <a href="pdf_all.php?tbsn=<{$tbsn}>" class="btn btn-primary">PDF</a>
+    </div><{$book_content}></h2>
     <form action="index.php" method="post">
       <table class="table table-hover">
         <{foreach from=$docs item=doc}>

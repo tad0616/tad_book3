@@ -13,3 +13,5 @@ define('_MB_TADBOOK3_DESC', '遞減');
 define('_MB_TADBOOK3_ASC', '遞增');
 define('_MB_TADBOOK3_SORT', '書籍排序');
 define('_MB_TADBOOK3_TAD_BOOK3_SHOW_COUNT', '是否顯示文章數？');
+define('_MB_TADBOOK3_SHOW_CATE', '欲顯示的分類');
+define('_MB_TADBOOK3_SHOW_PIC', '是否顯示圖片？');
