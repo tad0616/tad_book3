@@ -14,7 +14,7 @@ $tbdsn = system_CleanVars($_REQUEST, 'tbdsn', 0, 'int');
 
 switch ($op) {
     //更新資料
-    case "update_tad_book3_docs";
+    case "update_tad_book3_docs":
         update_tad_book3_docs($tbdsn);
         header("location: page.php?tbdsn={$tbdsn}");
         break;
@@ -26,12 +26,12 @@ switch ($op) {
         break;
 
     //輸入表格
-    case "tad_book3_docs_form";
+    case "tad_book3_docs_form":
         tad_book3_docs_form($tbdsn, $tbsn);
         break;
 
     //刪除資料
-    case "delete_tad_book3_docs";
+    case "delete_tad_book3_docs":
         delete_tad_book3_docs($tbdsn);
         header("location: {$_SERVER['PHP_SELF']}");
         break;

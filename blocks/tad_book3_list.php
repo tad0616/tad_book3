@@ -100,17 +100,16 @@ if (!function_exists("block_book_cate")) {
               i=0;
               var arr = new Array();";
 
-        $sql    = "select tbcsn,title from " . $xoopsDB->prefix("tad_book3_cate") . " order by sort";
+        $sql    = "SELECT tbcsn,title FROM " . $xoopsDB->prefix("tad_book3_cate") . " ORDER BY sort";
         $result = $xoopsDB->query($sql);
         $option = "";
         while (list($tbcsn, $title) = $xoopsDB->fetchRow($result)) {
-
-            $js .= "if(document.getElementById('c{$tbcsn}').checked){
+            $js      .= "if(document.getElementById('c{$tbcsn}').checked){
                arr[i] = document.getElementById('c{$tbcsn}').value;
                i++;
               }";
             $ckecked = (in_array($tbcsn, $sc)) ? "checked" : "";
-            $option .= "<span style='white-space:nowrap;'><input type='checkbox' id='c{$tbcsn}' value='{$tbcsn}' class='bbv' onChange=bbv() $ckecked><label for='c{$tbcsn}'>$title</label></span> ";
+            $option  .= "<span style='white-space:nowrap;'><input type='checkbox' id='c{$tbcsn}' value='{$tbcsn}' class='bbv' onChange=bbv() $ckecked><label for='c{$tbcsn}'>$title</label></span> ";
         }
 
         $js .= "document.getElementById('bb').value=arr.join(',');

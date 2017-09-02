@@ -65,7 +65,6 @@ function import_form($tbsn = "")
     $usercount      = $member_handler->getUserCount(new Criteria('level', 0, '>'));
 
     if ($usercount < 1000) {
-
         $select = new XoopsFormSelect('', 'author', $author_arr, 5, true);
         $select->setExtra("class='form-control'");
         $member_handler = xoops_gethandler('member');
@@ -103,7 +102,6 @@ function import_form($tbsn = "")
     } else {
         $xoopsTpl->assign('checked', 'checked');
     }
-
 }
 
 //匯入書籍
@@ -134,8 +132,8 @@ function import_book($tbcsn)
     $tbsn = $xoopsDB->getInsertId();
 
     //取出亂數資料夾內容
-    $sql        = "select pic_name from " . $xoopsDB->prefix("tad_book3") . " where tbsn='$tbsn'";
-    $result     = $xoopsDB->queryF($sql) or web_error($sql);
+    $sql = "select pic_name from " . $xoopsDB->prefix("tad_book3") . " where tbsn='$tbsn'";
+    $result = $xoopsDB->queryF($sql) or web_error($sql);
     list($rand) = $xoopsDB->fetchRow($result);
 
     //修改書籍封面圖
@@ -176,9 +174,9 @@ function tad_book3_export($tbsn = "")
     }
 
     //輸出書籍設定
-    $sql    = "select * from " . $xoopsDB->prefix("tad_book3") . " where tbsn='$tbsn'";
+    $sql = "select * from " . $xoopsDB->prefix("tad_book3") . " where tbsn='$tbsn'";
     $result = $xoopsDB->queryF($sql) or web_error($sql);
-    $book   = $xoopsDB->fetchArray($result);
+    $book = $xoopsDB->fetchArray($result);
 
     //共同編輯者
     $author_arr = explode(",", $book['author']);
@@ -234,8 +232,8 @@ function tad_book3_export($tbsn = "")
     //輸出文章設定
     $current = "";
     $sql     = "select * from " . $xoopsDB->prefix("tad_book3_docs") . " where tbsn='$tbsn' order by category ,  page , paragraph , sort";
-    $result  = $xoopsDB->queryF($sql) or web_error($sql);
-    $all     = "";
+    $result = $xoopsDB->queryF($sql) or web_error($sql);
+    $all = "";
     while ($doc = $xoopsDB->fetchArray($result)) {
         $cols = $vals = "";
         foreach ($doc as $col => $val) {
@@ -276,7 +274,6 @@ function tad_book3_export($tbsn = "")
                             }
                         }
                     }
-
                 }
 
                 if (strpos($val, '/uploads/tad_book3/file') !== false) {
@@ -309,7 +306,6 @@ function tad_book3_export($tbsn = "")
                             }
                         }
                     }
-
                 }
 
                 $val = $xoopsDB->escape($val);
@@ -317,8 +313,8 @@ function tad_book3_export($tbsn = "")
             $cols .= "`{$col}`, ";
             $vals .= "'{$val}', ";
         }
-        $cols = substr($cols, 0, -2);
-        $vals = substr($vals, 0, -2);
+        $cols    = substr($cols, 0, -2);
+        $vals    = substr($vals, 0, -2);
         $current .= "insert into `tad_book3_docs` ({$cols}) values({$vals});\n--tad_book3_import_doc--\n";
     }
 
@@ -361,6 +357,7 @@ function update_docs_sort($update_sort = array())
         $result = $xoopsDB->queryF($sql) or web_error($sql);
     }
 }
+
 /*-----------執行動作判斷區----------*/
 
 include_once $GLOBALS['xoops']->path('/modules/system/include/functions.php');
@@ -393,12 +390,12 @@ switch ($op) {
         break;
 
     //輸入表格
-    case "tad_book3_form";
+    case "tad_book3_form":
         tad_book3_form($tbsn, $tbcsn);
         break;
 
     //匯入表格
-    case "import_form";
+    case "import_form":
         import_form($tbsn);
         break;
 
@@ -407,13 +404,13 @@ switch ($op) {
         header("location: index.php?op=list_docs&tbsn=$tbsn");
         break;
 
-    case "update_tad_book3";
+    case "update_tad_book3":
         update_tad_book3($tbsn);
         header("location: {$_SERVER['PHP_SELF']}");
         break;
 
     //刪除文章
-    case "delete_tad_book3_docs";
+    case "delete_tad_book3_docs":
         delete_tad_book3_docs($tbdsn);
         header("location: {$_SERVER['PHP_SELF']}?tbsn={$tbsn}");
         break;
