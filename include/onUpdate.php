@@ -25,7 +25,7 @@ function xoops_module_update_tad_book3(&$module, $old_version)
 function chk_chk1()
 {
     global $xoopsDB;
-    $sql    = "select count(`from_tbdsn`) from " . $xoopsDB->prefix("tad_book3_docs");
+    $sql    = "SELECT count(`from_tbdsn`) FROM " . $xoopsDB->prefix("tad_book3_docs");
     $result = $xoopsDB->query($sql);
     if (empty($result)) {
         return true;
@@ -37,7 +37,7 @@ function chk_chk1()
 function go_update1()
 {
     global $xoopsDB;
-    $sql = "ALTER TABLE " . $xoopsDB->prefix("tad_book3_docs") . " ADD `from_tbdsn` int(10) unsigned NOT NULL default 0";
+    $sql = "ALTER TABLE " . $xoopsDB->prefix("tad_book3_docs") . " ADD `from_tbdsn` INT(10) UNSIGNED NOT NULL DEFAULT 0";
     $xoopsDB->queryF($sql) or web_error($sql);
     return true;
 }
@@ -57,7 +57,7 @@ function chk_tad_book3_block()
     }
 
     //找出目前所有的樣板檔
-    $sql = "SELECT bid,name,visible,show_func,template FROM `" . $xoopsDB->prefix("newblocks") . "`
+    $sql    = "SELECT bid,name,visible,show_func,template FROM `" . $xoopsDB->prefix("newblocks") . "`
     WHERE `dirname` = 'tad_book3' ORDER BY `func_num`";
     $result = $xoopsDB->query($sql);
     while (list($bid, $name, $visible, $show_func, $template) = $xoopsDB->fetchRow($result)) {
@@ -78,16 +78,15 @@ function chk_tad_book3_block()
             $xoopsDB->queryF($sql);
         }
     }
-
 }
 
 //修正uid欄位
 function chk_uid()
 {
     global $xoopsDB;
-    $sql = "SELECT DATA_TYPE FROM INFORMATION_SCHEMA.COLUMNS
+    $sql    = "SELECT DATA_TYPE FROM INFORMATION_SCHEMA.COLUMNS
   WHERE table_name = '" . $xoopsDB->prefix("tad_book3_docs") . "' AND COLUMN_NAME = 'uid'";
-    $result     = $xoopsDB->query($sql);
+    $result = $xoopsDB->query($sql);
     list($type) = $xoopsDB->fetchRow($result);
     if ($type == 'smallint') {
         return true;
@@ -100,7 +99,7 @@ function chk_uid()
 function go_update_uid()
 {
     global $xoopsDB;
-    $sql = "ALTER TABLE `" . $xoopsDB->prefix("tad_book3_docs") . "` CHANGE `uid` `uid` mediumint(8) unsigned NOT NULL default 0";
+    $sql = "ALTER TABLE `" . $xoopsDB->prefix("tad_book3_docs") . "` CHANGE `uid` `uid` MEDIUMINT(8) UNSIGNED NOT NULL DEFAULT 0";
     $xoopsDB->queryF($sql) or web_error($sql);
     return true;
 }
@@ -174,7 +173,6 @@ function delete_directory($dirname)
             } else {
                 delete_directory($dirname . '/' . $file);
             }
-
         }
     }
     closedir($dir_handle);
@@ -185,7 +183,6 @@ function delete_directory($dirname)
 //做縮圖
 function thumbnail($filename = "", $thumb_name = "", $type = "image/jpeg", $width = "120")
 {
-
     ini_set('memory_limit', '50M');
     // Get new sizes
     list($old_width, $old_height) = getimagesize($filename);

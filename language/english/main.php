@@ -1,18 +1,19 @@
 <?php
-define('_TAD_NEED_TADTOOLS', 'Need modules/tadtools. You can download tadtools from <a href="http://campus-xoops.tn.edu.tw/modules/tad_modules/index.php?module_sn=1" target="_blank">XOOPS EasyGO</a>.');
-//分頁物件用的語系
+include_once "../../tadtools/language/{$xoopsConfig['language']}/admin_common.php";
+define('_TAD_NEED_TADTOOLS', "This module needs TadTools module. You can download TadTools from <a href='http://www.tad0616.net/modules/tad_uploader/index.php?of_cat_sn=50' target='_blank'>Tad's web</a>.");
+
 define('_MD_TADBOOK3_HOMEPAGE', 'All Books');
 
 //index.php
 define('_MD_INPUT_BOOK_FORM', 'Edit Book');
-define('_MD_TADBOOK3_NEW_PCSN', 'Creat a new sub-category from the category on left side:');
-define('_MD_TADBOOK3_BOOK_CONTENT', 'Index of 「%s」');
+define('_MD_TADBOOK3_NEW_PCSN', 'Create a new sub-category from the category on left side:');
+define('_MD_TADBOOK3_BOOK_CONTENT', 'Index of %s');
 define('_MD_TADBOOK3_TITLE', 'Title');
 define('_MD_TADBOOK3_AUTHOR', 'Author');
 define('_MD_TADBOOK3_READ_GROUP', 'Readable');
 define('_MD_TADBOOK3_PASSWD', 'Password');
 define('_MD_TADBOOK3_PIC_NAME', 'Cover');
-define('_MD_TADBOOK3_CREATE_DATE', 'Created at');
+define('_MD_TADBOOK3_CREATE_DATE', 'Created on');
 define('_MD_TADBOOK3_TBCSN_MENU', 'Category');
 define('_MD_TADBOOK3_ALL_OPEN', 'All');
 define('_MD_TADBOOK3_ADD_DOC', 'Add Article');

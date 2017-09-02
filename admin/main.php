@@ -105,8 +105,8 @@ function list_tad_book3_cate_tree($show_tbcsn = 0)
     global $xoopsTpl, $xoopsDB;
     $path     = get_tad_book3_cate_path($show_tbcsn);
     $path_arr = array_keys($path);
-    $sql      = "select tbcsn,of_tbsn,title from " . $xoopsDB->prefix("tad_book3_cate") . " order by sort";
-    $result   = $xoopsDB->query($sql) or web_error($sql);
+    $sql      = "SELECT tbcsn,of_tbsn,title FROM " . $xoopsDB->prefix("tad_book3_cate") . " ORDER BY sort";
+    $result = $xoopsDB->query($sql) or web_error($sql);
 
     $count  = tad_book3_cate_count();
     $data[] = "{ id:0, pId:0, name:'All', url:'index.php', target:'_self', open:true}";
@@ -125,7 +125,6 @@ function list_tad_book3_cate_tree($show_tbcsn = 0)
     $ztree      = new ztree("link_tree", $json, "", "save_sort.php", "of_tbsn", "tbcsn");
     $ztree_code = $ztree->render();
     $xoopsTpl->assign('ztree_code', $ztree_code);
-
 }
 
 //秀出所有分類及書籍
@@ -140,9 +139,9 @@ function list_tad_book3($tbcsn = "")
     $bar     = $PageBar['bar'];
     $sql     = $PageBar['sql'];
     $total   = $PageBar['total'];
-    $result  = $xoopsDB->query($sql) or web_error($sql);
-    $i       = 0;
-    $books   = "";
+    $result = $xoopsDB->query($sql) or web_error($sql);
+    $i     = 0;
+    $books = "";
     while ($data = $xoopsDB->fetchArray($result)) {
         $books[$i]         = $data;
         $books[$i]['cate'] = get_tad_book3_cate($data['tbcsn']);
@@ -239,7 +238,7 @@ switch ($op) {
         list_tad_book3($tbcsn);
         break;
 
-        /*---判斷動作請貼在上方---*/
+    /*---判斷動作請貼在上方---*/
 }
 
 /*-----------秀出結果區--------------*/
