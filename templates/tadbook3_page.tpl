@@ -16,8 +16,9 @@
   </div>
 <{else}>
 
-  <link rel="stylesheet" type="text/css" media="screen" href="module.css" />
-  <link rel="stylesheet" type="text/css" media="screen" href="reset.css" />
+  <link rel="stylesheet" type="text/css" media="screen" href="module.css" >
+  <link rel="stylesheet" type="text/css" media="screen" href="reset.css" >
+  <link rel="stylesheet" type="text/css" media="screen" href="<{$xoops_url}>/modules/tadtools/css/kbdfun.css" >
 
   <div class="row" style="background-image: url(images/relink_bg.gif); padding: 10px 0px;">
     <div class="col-sm-4 text-left"><{$p}></div>
