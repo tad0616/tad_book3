@@ -169,7 +169,9 @@
         <{if $my}>
           <!--a href="index.php?op=tad_book3_export&tbsn=<{$tbsn}>" class="btn btn-xs btn-info"><{$smarty.const._MD_TADBOOK3_EXPORT}></a-->
         <{/if}>
-        <{$push_url}>
+        <{if $use_social_tools1}>
+          <{$push_url}>
+        <{/if}>
       </div>
     </div>
   </div>
@@ -192,8 +194,13 @@
   <{elseif $docs}>
     <h2>
     <div class="pull-right">
-      <a href="html_all.php?tbsn=<{$tbsn}>" class="btn btn-success">HTML</a>
-      <a href="pdf_all.php?tbsn=<{$tbsn}>" class="btn btn-primary">PDF</a>
+      <a href="https://www.addtoany.com/add_to/printfriendly?linkurl=<{$xoops_url}>%2Fmodules%2Ftad_book3%2Fhtml_all.php%3Ftbsn%3D<{$tbsn}>&amp;linkname="
+        target="_blank" class="btn btn-success">
+        <i class="fa fa-file-pdf-o"></i>
+        <{$smarty.const._MD_TADBOOK3_DL_HTML}> &
+          <{$smarty.const._MD_TADBOOK3_DL_PDF}>
+      </a>
+
     </div><{$book_content}></h2>
     <form action="index.php" method="post">
       <table class="table table-hover">

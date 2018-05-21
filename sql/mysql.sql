@@ -10,10 +10,10 @@ CREATE TABLE tad_book3 (
   `enable` enum('1','0') NOT NULL default '1' ,
   `pic_name` varchar(255) NOT NULL default '' ,
   `counter` smallint(5) unsigned NOT NULL  default 0 ,
-  `create_date` datetime NOT NULL default '0000-00-00 00:00:00' ,
+  `create_date` datetime NOT NULL ,
   PRIMARY KEY  (`tbsn`),
   KEY tbcsn (`tbcsn`)
-)ENGINE=MyISAM;
+)ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 
 CREATE TABLE tad_book3_cate (
@@ -23,7 +23,7 @@ CREATE TABLE tad_book3_cate (
   `title` varchar(255) NOT NULL default '' ,
   `description` text NOT NULL ,
   PRIMARY KEY  (`tbcsn`)
-)ENGINE=MyISAM;
+)ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 
 CREATE TABLE tad_book3_docs (
@@ -44,6 +44,6 @@ CREATE TABLE tad_book3_docs (
   PRIMARY KEY  (`tbdsn`),
   KEY category (`category`,`page`,`paragraph`),
   KEY book_sn (`tbdsn`)
-)ENGINE=MyISAM;
+)ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 

@@ -67,6 +67,12 @@ function view_page($tbdsn = "")
     $xoopsTpl->assign('push_url', push_url());
     $xoopsTpl->assign('tbdsn', $tbdsn);
     $xoopsTpl->assign('needpasswd', $needpasswd);
+    $xoopsTpl->assign('use_social_tools', $xoopsModuleConfig['use_social_tools']);
+
+    $xoopsTpl->assign('fb_title', $title);
+    $xoopsTpl->assign('fb_description', mb_substr(strip_tags($content), 0, 150));
+    $xoopsTpl->assign("xoops_pagetitle", $title);
+
 }
 
 //更新頁面計數器

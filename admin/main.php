@@ -67,6 +67,8 @@ function insert_tad_book3_cate()
     $myts                 = MyTextSanitizer::getInstance();
     $_POST['title']       = $myts->addSlashes($_POST['title']);
     $_POST['description'] = $myts->addSlashes($_POST['description']);
+    $_POST['of_tbsn']     = (int) $_POST['of_tbsn'];
+    $_POST['sort']        = (int) $_POST['sort'];
 
     $sql = "insert into " . $xoopsDB->prefix("tad_book3_cate") . "
     (`of_tbsn` , `title` , `sort` , `description`)
@@ -106,7 +108,7 @@ function list_tad_book3_cate_tree($show_tbcsn = 0)
     $path     = get_tad_book3_cate_path($show_tbcsn);
     $path_arr = array_keys($path);
     $sql      = "SELECT tbcsn,of_tbsn,title FROM " . $xoopsDB->prefix("tad_book3_cate") . " ORDER BY sort";
-    $result = $xoopsDB->query($sql) or web_error($sql);
+    $result   = $xoopsDB->query($sql) or web_error($sql);
 
     $count  = tad_book3_cate_count();
     $data[] = "{ id:0, pId:0, name:'All', url:'index.php', target:'_self', open:true}";
@@ -139,13 +141,13 @@ function list_tad_book3($tbcsn = "")
     $bar     = $PageBar['bar'];
     $sql     = $PageBar['sql'];
     $total   = $PageBar['total'];
-    $result = $xoopsDB->query($sql) or web_error($sql);
-    $i     = 0;
-    $books = "";
+    $result  = $xoopsDB->query($sql) or web_error($sql);
+    $i       = 0;
+    $books   = array();
     while ($data = $xoopsDB->fetchArray($result)) {
         $books[$i]         = $data;
         $books[$i]['cate'] = get_tad_book3_cate($data['tbcsn']);
-        $uid_name          = '';
+        $uid_name          = array();
         $author_arr        = explode(',', $data['author']);
         foreach ($author_arr as $uid) {
             $uidname    = XoopsUser::getUnameFromId($uid, 1);
@@ -196,35 +198,30 @@ switch ($op) {
         replace_tad_book3_cate();
         header("location: {$_SERVER['PHP_SELF']}");
         exit;
-        break;
 
     //新增資料
     case "insert_tad_book3_cate":
         $tbcsn = insert_tad_book3_cate();
         header("location: {$_SERVER['PHP_SELF']}");
         exit;
-        break;
 
     //更新資料
     case "update_tad_book3_cate":
         update_tad_book3_cate($tbcsn);
         header("location: {$_SERVER['PHP_SELF']}");
         exit;
-        break;
 
     //刪除資料
     case "delete_tad_book3_cate":
         delete_tad_book3_cate($tbcsn);
         header("location: {$_SERVER['PHP_SELF']}");
         exit;
-        break;
 
     //刪除資料
     case "delete_tad_book3":
         delete_tad_book3($tbsn);
         header("location: ../index.php");
         exit;
-        break;
 
     //輸入表格
     case "tad_book3_cate_form":
@@ -238,7 +235,7 @@ switch ($op) {
         list_tad_book3($tbcsn);
         break;
 
-    /*---判斷動作請貼在上方---*/
+        /*---判斷動作請貼在上方---*/
 }
 
 /*-----------秀出結果區--------------*/
