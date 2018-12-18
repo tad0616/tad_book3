@@ -7,6 +7,7 @@ include_once XOOPS_ROOT_PATH . "/modules/tadtools/tad_function.php";
 
 define("_TADBOOK3_BOOK_DIR", XOOPS_ROOT_PATH . "/uploads/tad_book3");
 define("_TADBOOK3_BOOK_URL", XOOPS_URL . "/uploads/tad_book3");
+include_once XOOPS_ROOT_PATH . "/modules/tad_book3/function_block.php";
 
 //取得路徑
 function get_tad_book3_cate_path($the_tbcsn = "", $include_self = true)
@@ -767,29 +768,6 @@ function decode_category($doc_sort = "")
     return $all;
 }
 
-//判斷本文是否允許該用戶之所屬群組觀看
-function chk_power($enable_group = "")
-{
-    global $xoopsDB, $xoopsUser;
-    if (empty($enable_group)) {
-        return true;
-    }
-
-    //取得目前使用者的所屬群組
-    if ($xoopsUser) {
-        $User_Groups = $xoopsUser->getGroups();
-    } else {
-        $User_Groups = array();
-    }
-
-    $news_enable_group = explode(",", $enable_group);
-    foreach ($User_Groups as $gid) {
-        if (in_array($gid, $news_enable_group)) {
-            return true;
-        }
-    }
-    return false;
-}
 
 //判斷本文是否允許該用戶編輯
 function chk_edit_power($uid_txt = "")
