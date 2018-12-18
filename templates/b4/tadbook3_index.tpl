@@ -7,7 +7,6 @@
       <h2><{$smarty.const._MD_INPUT_BOOK_FORM}></h2>
       <form action="<{$action}>" method="post" id="myForm" enctype="multipart/form-data" role="form">
 
-      <div class="row">
         <div class="form-group row">
           <label class="col-sm-2 col-form-label text-sm-right"><{$smarty.const._MD_TADBOOK3_TBCSN_MENU}></label>
           <div class="col-sm-3">
@@ -15,13 +14,13 @@
               <{$cate_select}>
             </select>
           </div>
-          <div class="col-sm-2">
+          <div class="col-sm-3">
             <input type="text" name="new_tbcsn"  class="form-control" placeholder="<{$smarty.const._MD_TADBOOK3_NEW_PCSN}>">
           </div>
           <label class="col-sm-1 col-form-label text-sm-right">
             <{$smarty.const._MD_TADBOOK3_STATUS}>
           </label>
-          <div class="col-sm-4">
+          <div class="col-sm-3">
               <div class="form-check form-check-inline">
                 <input class="form-check-input" type="radio" name="enable" id="enable1" value="1" <{if $enable=="1"}>checked<{/if}>>
                 <label class="form-check-label" for="enable1"><{$smarty.const._MD_TADBOOK3_ENABLE}></label>
@@ -32,35 +31,30 @@
               </div>
           </div>
         </div>
-      </div>
 
-      <div class="row">
         <div class="form-group row">
           <label class="col-sm-2 col-form-label text-sm-right">
             <{$smarty.const._MD_TADBOOK3_TITLE}>
           </label>
-          <div class="col-sm-5">
+          <div class="col-sm-6">
             <input type="text" name="title" value="<{$title}>" class="form-control" placeholder="<{$smarty.const._MD_TADBOOK3_TITLE}>">
           </div>
 
           <label class="col-sm-1 col-form-label text-sm-right">
             <{$smarty.const._MD_TADBOOK3_PIC_NAME}>
           </label>
-          <div class="col-sm-4">
+          <div class="col-sm-3">
             <input type="file" name="pic_name" placeholder="<{$smarty.const._MD_TADBOOK3_PIC_NAME}>">
           </div>
         </div>
-      </div>
 
-      <div class="row">
-        <div class="col-sm-12">
-          <{$editor}>
+        <div class="form-group row">
+          <label class="col-sm-1 col-form-label text-sm-right sr-only"><{$smarty.const._MD_TADBOOK3_AUTHOR}></label>
+          <div class="col-sm-12">
+            <{$editor}>
+          </div>
         </div>
-      </div>
 
-      <br>
-
-      <div class="row">
         <div class="form-group row">
 
           <label class="col-sm-1 col-form-label text-sm-right"><{$smarty.const._MD_TADBOOK3_AUTHOR}></label>
@@ -88,7 +82,6 @@
             </p>
           </div>
         </div>
-      </div>
       </form>
     </div>
   </div>
