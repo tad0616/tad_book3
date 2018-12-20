@@ -4,10 +4,10 @@ set_time_limit(0);
 ini_set("memory_limit", "150M");
 
 include_once $GLOBALS['xoops']->path('/modules/system/include/functions.php');
-$op     = system_CleanVars($_REQUEST, 'op', '', 'string');
-$tbsn   = system_CleanVars($_REQUEST, 'tbsn', 0, 'int');
+$op = system_CleanVars($_REQUEST, 'op', '', 'string');
+$tbsn = system_CleanVars($_REQUEST, 'tbsn', 0, 'int');
 $header = system_CleanVars($_REQUEST, 'header', 1, 'int');
-$book   = get_tad_book3($tbsn);
+$book = get_tad_book3($tbsn);
 
 if ($xoopsUser) {
     $uid = $xoopsUser->uid();
@@ -15,15 +15,15 @@ if ($xoopsUser) {
     $uid = 0;
 }
 $author_arr = explode(",", $book['author']);
-$my         = in_array($uid, $author_arr);
+$my = in_array($uid, $author_arr);
 //高亮度語法
 if (!file_exists(TADTOOLS_PATH . "/syntaxhighlighter.php")) {
     redirect_header("index.php", 3, _MD_NEED_TADTOOLS);
 }
 include_once TADTOOLS_PATH . "/syntaxhighlighter.php";
-$syntaxhighlighter      = new syntaxhighlighter();
+$syntaxhighlighter = new syntaxhighlighter();
 $syntaxhighlighter_code = $syntaxhighlighter->render();
-$bootstrap              = get_bootstrap('return');
+$bootstrap = get_bootstrap('return');
 
 $html = '<!DOCTYPE html>
 <html lang="zh-Hant-TW">
@@ -59,9 +59,9 @@ $html = '<!DOCTYPE html>
   </head>
   <body>' . $syntaxhighlighter_code;
 
-$i      = 0;
-$docs   = "";
-$sql    = "select tbdsn,enable from " . $xoopsDB->prefix("tad_book3_docs") . " where tbsn='{$tbsn}' order by category,page,paragraph,sort";
+$i = 0;
+$docs = "";
+$sql = "select tbdsn,enable from " . $xoopsDB->prefix("tad_book3_docs") . " where tbsn='{$tbsn}' order by category,page,paragraph,sort";
 $result = $xoopsDB->query($sql) or web_error($sql);
 while ($all = $xoopsDB->fetchArray($result)) {
     foreach ($all as $k => $v) {
@@ -105,15 +105,15 @@ function view_page($tbdsn = "", $header = 1)
         exit;
     }
 
-    $doc_sort   = mk_category($category, $page, $paragraph, $sort);
+    $doc_sort = mk_category($category, $page, $paragraph, $sort);
     $page_title = $header ? "<div class='page_title'>{$book['title']}</div>" : "";
-    $main       = "
+    $main = "
     <div class='page'>
-      $page_title
-      <div class='page_content'>
-        <h{$doc_sort['level']}>{$doc_sort['main']} {$title}</h{$doc_sort['level']}>
-        $content
-      </div>
+        $page_title
+        <div class='page_content'>
+            <h{$doc_sort['level']}>{$doc_sort['main']} {$title}</h{$doc_sort['level']}>
+            $content
+        </div>
     </div>
     ";
 
