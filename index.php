@@ -10,7 +10,7 @@ function add_book_counter($tbsn = "")
 {
     global $xoopsDB;
     $sql = "update " . $xoopsDB->prefix("tad_book3") . " set  `counter` = `counter`+1 where tbsn='$tbsn'";
-    $xoopsDB->queryF($sql) or web_error($sql);
+    $xoopsDB->queryF($sql) or web_error($sql, __FILE__, _LINE__);
 }
 
 //更新狀態
@@ -18,7 +18,7 @@ function change_enable($enable, $tbdsn)
 {
     global $xoopsDB;
     $sql = "update " . $xoopsDB->prefix("tad_book3_docs") . " set  `enable` = '{$enable}' where tbdsn='$tbdsn'";
-    $xoopsDB->queryF($sql) or web_error($sql);
+    $xoopsDB->queryF($sql) or web_error($sql, __FILE__, _LINE__);
 }
 
 //tad_book3編輯表單
@@ -127,18 +127,18 @@ function import_book($tbcsn)
     $book_sql = str_replace("{{tbcsn}}", $tbcsn, $book_sql);
     $book_sql = str_replace("{{author}}", $author, $book_sql);
     $book_sql = str_replace("{{read_group}}", $read_group, $book_sql);
-    $xoopsDB->queryF($book_sql) or web_error($sql);
+    $xoopsDB->queryF($book_sql) or web_error($sql, __FILE__, _LINE__);
     //取得最後新增資料的流水編號
     $tbsn = $xoopsDB->getInsertId();
 
     //取出亂數資料夾內容
     $sql = "select pic_name from " . $xoopsDB->prefix("tad_book3") . " where tbsn='$tbsn'";
-    $result = $xoopsDB->queryF($sql) or web_error($sql);
+    $result = $xoopsDB->queryF($sql) or web_error($sql, __FILE__, _LINE__);
     list($rand) = $xoopsDB->fetchRow($result);
 
     //修改書籍封面圖
     $sql = "update " . $xoopsDB->prefix("tad_book3") . " set pic_name = 'book_{$tbsn}.png' where tbsn='$tbsn'";
-    $xoopsDB->queryF($sql) or web_error($sql);
+    $xoopsDB->queryF($sql) or web_error($sql, __FILE__, _LINE__);
 
     //產生書籍封面圖
     copy("{$tadbook3_dir}/file/{$rand}/book.png", "{$tadbook3_dir}/book_{$tbsn}.png");
@@ -157,7 +157,7 @@ function import_book($tbcsn)
     foreach ($docs_sql_arr as $docs_sql) {
         $sql = trim($docs_sql);
         if (!empty($sql)) {
-            $xoopsDB->queryF($sql) or web_error($sql);
+            $xoopsDB->queryF($sql) or web_error($sql, __FILE__, _LINE__);
         }
     }
 
@@ -175,7 +175,7 @@ function tad_book3_export($tbsn = "")
 
     //輸出書籍設定
     $sql = "select * from " . $xoopsDB->prefix("tad_book3") . " where tbsn='$tbsn'";
-    $result = $xoopsDB->queryF($sql) or web_error($sql);
+    $result = $xoopsDB->queryF($sql) or web_error($sql, __FILE__, _LINE__);
     $book = $xoopsDB->fetchArray($result);
 
     //共同編輯者
@@ -232,7 +232,7 @@ function tad_book3_export($tbsn = "")
     //輸出文章設定
     $current = "";
     $sql     = "select * from " . $xoopsDB->prefix("tad_book3_docs") . " where tbsn='$tbsn' order by category ,  page , paragraph , sort";
-    $result = $xoopsDB->queryF($sql) or web_error($sql);
+    $result = $xoopsDB->queryF($sql) or web_error($sql, __FILE__, _LINE__);
     $all = "";
     while ($doc = $xoopsDB->fetchArray($result)) {
         $cols = $vals = "";
@@ -354,7 +354,7 @@ function update_docs_sort($update_sort = array())
         $doc_sort_arr = decode_category($doc_sort);
         $sql          = "update " . $xoopsDB->prefix("tad_book3_docs") . " set `category` = '{$doc_sort_arr['category']}', `page` = '{$doc_sort_arr['page']}' , `paragraph` = '{$doc_sort_arr['paragraph']}' , `sort` ='{$doc_sort_arr['sort']}' where  tbdsn='{$tbdsn}'";
         // die($sql);
-        $result = $xoopsDB->queryF($sql) or web_error($sql);
+        $result = $xoopsDB->queryF($sql) or web_error($sql, __FILE__, _LINE__);
     }
 }
 
