@@ -59,29 +59,54 @@ function tad_book3_list_edit($options)
 
     $form = "
     {$option['js']}
-	" . _MB_TADBOOK3_TAD_BOOK3_LIST_EDIT_BITEM0 . "
-	<INPUT type='text' name='options[0]' value='{$options[0]}' size=3><br>
-	" . _MB_TADBOOK3_TAD_BOOK3_LIST_EDIT_BITEM1 . "
-	<select name='options[1]'>
-		<option $seled1_0 value='counter'>" . _MB_TADBOOK3_COUNTER . "</option>
-		<option $seled1_1 value='create_date'>" . _MB_TADBOOK3_POST_DATE . "</option>
-		<option $seled1_2 value='title'>" . _MB_TADBOOK3_TITLE . "</option>
-        <option $seled1_3 value='sort'>" . _MB_TADBOOK3_SORT . "</option>
-	</select><br>
-	" . _MB_TADBOOK3_TAD_BOOK3_LIST_EDIT_BITEM2 . "
-	<INPUT type='radio' $chked2_0 name='options[2]' value=''>" . _MB_TADBOOK3_ASC . "
-	<INPUT type='radio' $chked2_1 name='options[2]' value='desc'>" . _MB_TADBOOK3_DESC . "<br>
-    " . _MB_TADBOOK3_TAD_BOOK3_SHOW_COUNT . "
-    <INPUT type='radio' $chked3_1 name='options[3]' value='1'>" . _YES . "
-    <INPUT type='radio' $chked3_0 name='options[3]' value='0'>" . _NO . "<br>
+    <ol class='my-form'>
+        <li class='my-row'>
+            <lable class='my-label'>" . _MB_TADBOOK3_TAD_BOOK3_LIST_EDIT_BITEM0 . "</lable>
+            <div class='my-content'>
+                <input type='text' class='my-input' name='options[0]' value='{$options[0]}' size=6>
+            </div>
+        </li>
+        <li class='my-row'>
+            <lable class='my-label'>" . _MB_TADBOOK3_TAD_BOOK3_LIST_EDIT_BITEM1 . "</lable>
+            <div class='my-content'>
+                <select name='options[1]' class='my-input'>
+                    <option $seled1_0 value='counter'>" . _MB_TADBOOK3_COUNTER . "</option>
+                    <option $seled1_1 value='create_date'>" . _MB_TADBOOK3_POST_DATE . "</option>
+                    <option $seled1_2 value='title'>" . _MB_TADBOOK3_TITLE . "</option>
+                    <option $seled1_3 value='sort'>" . _MB_TADBOOK3_SORT . "</option>
+                </select>
+            </div>
+        </li>
+        <li class='my-row'>
+            <lable class='my-label'>" . _MB_TADBOOK3_TAD_BOOK3_LIST_EDIT_BITEM2 . "</lable>
+            <div class='my-content'>
+                <input type='radio' $chked2_0 name='options[2]' value=''>" . _MB_TADBOOK3_ASC . "
+                <input type='radio' $chked2_1 name='options[2]' value='desc'>" . _MB_TADBOOK3_DESC . "
+            </div>
+        </li>
+        <li class='my-row'>
+            <lable class='my-label'>" . _MB_TADBOOK3_TAD_BOOK3_SHOW_COUNT . "</lable>
+            <div class='my-content'>
+                <input type='radio' $chked3_1 name='options[3]' value='1'>" . _YES . "
+                <input type='radio' $chked3_0 name='options[3]' value='0'>" . _NO . "
+            </div>
+        </li>
+        <li class='my-row'>
+            <lable class='my-label'>" . _MB_TADBOOK3_SHOW_CATE . "</lable>
+            <div class='my-content'>
+                {$option['form']}
+                <input type='hidden' name='options[4]' id='bb' value='{$options[4]}'>
+            </div>
+        </li>
+        <li class='my-row'>
+            <lable class='my-label'>" . _MB_TADBOOK3_SHOW_PIC . "</lable>
+            <div class='my-content'>
+                <input type='radio' $chked5_1 name='options[5]' value='1'>" . _YES . "
+                <input type='radio' $chked5_0 name='options[5]' value='0'>" . _NO . "
+            </div>
+        </li>
+    </ol>";
 
-    " . _MB_TADBOOK3_SHOW_CATE . "
-      {$option['form']}
-      <INPUT type='hidden' name='options[4]' id='bb' value='{$options[4]}'><br>
-    " . _MB_TADBOOK3_SHOW_PIC . "
-    <INPUT type='radio' $chked5_1 name='options[5]' value='1'>" . _YES . "
-    <INPUT type='radio' $chked5_0 name='options[5]' value='0'>" . _NO . "<br>
-	";
     return $form;
 }
 
@@ -97,19 +122,19 @@ if (!function_exists("block_book_cate")) {
 
         $js = "<script>
             function bbv(){
-              i=0;
-              var arr = new Array();";
+                i=0;
+                var arr = new Array();";
 
         $sql    = "SELECT tbcsn,title FROM " . $xoopsDB->prefix("tad_book3_cate") . " ORDER BY sort";
         $result = $xoopsDB->query($sql);
         $option = "";
         while (list($tbcsn, $title) = $xoopsDB->fetchRow($result)) {
-            $js      .= "if(document.getElementById('c{$tbcsn}').checked){
-               arr[i] = document.getElementById('c{$tbcsn}').value;
-               i++;
-              }";
+            $js .= "if(document.getElementById('c{$tbcsn}').checked){
+                arr[i] = document.getElementById('c{$tbcsn}').value;
+                i++;
+            }";
             $ckecked = (in_array($tbcsn, $sc)) ? "checked" : "";
-            $option  .= "<span style='white-space:nowrap;'><input type='checkbox' id='c{$tbcsn}' value='{$tbcsn}' class='bbv' onChange=bbv() $ckecked><label for='c{$tbcsn}'>$title</label></span> ";
+            $option .= "<span style='white-space:nowrap;'><input type='checkbox' id='c{$tbcsn}' value='{$tbcsn}' class='bbv' onChange=bbv() $ckecked><label for='c{$tbcsn}'>$title</label></span> ";
         }
 
         $js .= "document.getElementById('bb').value=arr.join(',');

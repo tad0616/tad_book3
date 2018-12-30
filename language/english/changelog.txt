@@ -3,6 +3,7 @@ Tad Book3 3.9 (released from 2019-01-01)
 1. Fix the problem that books with no permissions to read will appear in random book blocks
 2. Support BootStrap4
 3. Enhanced variable filtering
+4. Support PHP 7.3
 
 
 Tad Book3 3.8.9 (released on 2018-05-21)

@@ -35,11 +35,20 @@ function tad_book3_random_edit($options)
     $chked1_1 = ($options[1] == "0") ? "checked" : "";
 
     $form = "
-	" . _MB_TADBOOK3_TAD_BOOK3_RANDOM_EDIT_BITEM0 . "
-	<INPUT type='text' name='options[0]' value='{$options[0]}'><br>
-	" . _MB_TADBOOK3_TAD_BOOK3_RANDOM_EDIT_BITEM1 . "
-	<INPUT type='radio' $chked1_0 name='options[1]' value='1'>" . _YES . "
-	<INPUT type='radio' $chked1_1 name='options[1]' value='0'>" . _NO . "
-	";
+    <ol class='my-form'>
+        <li class='my-row'>
+            <lable class='my-label'>" . _MB_TADBOOK3_TAD_BOOK3_RANDOM_EDIT_BITEM0 . "</lable>
+            <div class='my-content'>
+                <input type='text' class='my-input' name='options[0]' value='{$options[0]}' size=6>
+            </div>
+        </li>
+        <li class='my-row'>
+            <lable class='my-label'>" . _MB_TADBOOK3_TAD_BOOK3_RANDOM_EDIT_BITEM1 . "</lable>
+            <div class='my-content'>
+                <INPUT type='radio' $chked1_0 name='options[1]' value='1'>" . _YES . "
+                <INPUT type='radio' $chked1_1 name='options[1]' value='0'>" . _NO . "
+            </div>
+        </li>
+    </ol>";
     return $form;
 }

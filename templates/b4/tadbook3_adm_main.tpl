@@ -30,8 +30,8 @@
           <div class="col-sm-8 text-right">
             <div style="margin-top: 10px;">
               <{if $now_op!="tad_book3_cate_form" and $tbcsn}>
-                <a href="javascript:delete_tad_book3_cate_func(<{$cate.tbcsn}>);" class="btn btn-danger <{if $cate.count > 0}>disabled<{/if}>"><{$smarty.const._TAD_DEL}></a>
-                <a href="main.php?op=tad_book3_cate_form&tbcsn=<{$tbcsn}>" class="btn btn-warning"><{$smarty.const._TAD_EDIT}></a>
+                <a href="javascript:delete_tad_book3_cate_func(<{$cate.tbcsn}>);" class="btn btn-sm btn-danger <{if $cate.count > 0}>disabled<{/if}>"><{$smarty.const._TAD_DEL}></a>
+                <a href="main.php?op=tad_book3_cate_form&tbcsn=<{$tbcsn}>" class="btn btn-sm btn-warning"><{$smarty.const._TAD_EDIT}></a>
               <{/if}>
             </div>
           </div>
