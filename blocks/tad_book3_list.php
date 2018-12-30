@@ -22,7 +22,7 @@ function tad_book3_list($options)
     $and_tbcsn = empty($show_ncsn) ? "" : "and tbcsn in($show_ncsn)";
     $sql       = "select `tbsn`,`title`,`counter`,`pic_name` from " . $xoopsDB->prefix("tad_book3") . " where enable='1' $and_tbcsn order by {$options[1]} {$options[2]} limit 0,{$options[0]}";
 
-    $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, _LINE__);
+    $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
     while (list($tbsn, $title, $counter, $pic_name) = $xoopsDB->fetchRow($result)) {
         $block[$i]['tbsn']         = $tbsn;
         $block[$i]['title']        = $title;

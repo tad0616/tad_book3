@@ -54,7 +54,7 @@ $html = '<!DOCTYPE html>
 $i      = 0;
 $docs   = "";
 $sql    = "select tbdsn,enable from " . $xoopsDB->prefix("tad_book3_docs") . " where tbsn='{$tbsn}' order by category,page,paragraph,sort";
-$result = $xoopsDB->query($sql) or web_error($sql, __FILE__, _LINE__);
+$result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
 while ($all = $xoopsDB->fetchArray($result)) {
     foreach ($all as $k => $v) {
         $$k = $v;

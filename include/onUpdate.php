@@ -38,7 +38,7 @@ function go_update1()
 {
     global $xoopsDB;
     $sql = "ALTER TABLE " . $xoopsDB->prefix("tad_book3_docs") . " ADD `from_tbdsn` INT(10) UNSIGNED NOT NULL DEFAULT 0";
-    $xoopsDB->queryF($sql) or web_error($sql, __FILE__, _LINE__);
+    $xoopsDB->queryF($sql) or web_error($sql, __FILE__, __LINE__);
     return true;
 }
 
@@ -100,7 +100,7 @@ function go_update_uid()
 {
     global $xoopsDB;
     $sql = "ALTER TABLE `" . $xoopsDB->prefix("tad_book3_docs") . "` CHANGE `uid` `uid` MEDIUMINT(8) UNSIGNED NOT NULL DEFAULT 0";
-    $xoopsDB->queryF($sql) or web_error($sql, __FILE__, _LINE__);
+    $xoopsDB->queryF($sql) or web_error($sql, __FILE__, __LINE__);
     return true;
 }
 
