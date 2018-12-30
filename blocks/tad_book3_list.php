@@ -2,7 +2,9 @@
 //區塊主函式 (把所有的書以文字列出)
 function tad_book3_list($options)
 {
-    global $xoopsDB;
+    global $xoopsDB, $xoTheme;
+    $xoTheme->addStylesheet('modules/tadtools/css/vertical_menu.css');
+
     if (empty($options[0])) {
         $options[0] = "5";
     }
