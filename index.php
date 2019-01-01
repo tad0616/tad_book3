@@ -34,6 +34,8 @@ function import_form($tbsn = "")
         $DBV = array();
     }
 
+    
+
     //預設值設定
 
     $tbsn        = (!isset($DBV['tbsn'])) ? "" : $DBV['tbsn'];
@@ -57,7 +59,7 @@ function import_form($tbsn = "")
     $ck->setHeight(400);
     $editor = $ck->render();
 
-    $author_arr = (empty($author)) ? array($xoopsUser->getVar("uid")) : explode(",", $author);
+    $author_arr = (empty($author)) ? array($xoopsUser->uid()) : explode(",", $author);
 
     $cate_select = cate_select($tbcsn);
 

@@ -365,7 +365,7 @@ function have_sub($tbsn = 0, $category = 0, $page = 0, $paragraph = 0, $sort = 0
 //tad_book3編輯表單
 function tad_book3_form($tbsn = "", $tbcsn = "")
 {
-    global $xoopsDB, $xoopsUser, $xoopsTpl;
+    global $xoopsDB, $xoopsUser, $xoopsTpl,$isAdmin;
     include_once XOOPS_ROOT_PATH . "/class/xoopsformloader.php";
 
     //抓取預設值
@@ -375,6 +375,12 @@ function tad_book3_form($tbsn = "", $tbcsn = "")
         $DBV = array();
     }
 
+    if (!$isAdmin) {
+        if (!chk_edit_power($DBV['author'])) {
+            header("location:index.php");
+            exit;
+        }
+    }
     //預設值設定
 
     $tbsn        = (!isset($DBV['tbsn'])) ? "" : $DBV['tbsn'];
@@ -452,7 +458,7 @@ function insert_tad_book3()
     if (!empty($_POST['new_tbcsn'])) {
         $tbcsn = add_tad_book3_cate();
     } else {
-        $tbcsn = $_POST['tbcsn'];
+        $tbcsn = (int)$_POST['tbcsn'];
     }
 
     if (!empty($_POST['author_str'])) {
@@ -510,8 +516,14 @@ function tad_book3_cate_max_sort()
 //更新tad_book3某一筆資料
 function update_tad_book3($tbsn = "")
 {
-    global $xoopsDB;
-
+    global $xoopsDB,$isAdmin;
+    if (!$isAdmin) {
+        $book = get_tad_book3($tbsn);
+        if (!chk_edit_power($book['author'])) {
+            header("location:index.php");
+            exit;
+        }
+    }
     if (!empty($_POST['new_tbcsn'])) {
         $tbcsn = add_tad_book3_cate();
     } else {
@@ -551,7 +563,15 @@ function get_max_doc_sort($tbcsn = "")
 //縮圖上傳
 function mk_thumb($tbsn = "", $col_name = "", $width = 100)
 {
-    global $xoopsDB;
+    global $xoopsDB,$isAdmin;
+    if (!$isAdmin) {
+        $book = get_tad_book3($tbsn);
+        if (!chk_edit_power($book['author'])) {
+            header("location:index.php");
+            exit;
+        }
+    }
+
     include_once XOOPS_ROOT_PATH . "/modules/tadtools/upload/class.upload.php";
 
     if (file_exists(_TADBOOK3_BOOK_DIR . "/book_{$tbsn}.png")) {
@@ -806,13 +826,19 @@ function delete_tad_book3_docs($tbdsn = "")
 //檢查是否有相同的章節數，若有其他章節往前移動（刪除之意）
 function check_update_cpps_del($tbdsn = 0)
 {
-    global $xoopsDB;
+    global $xoopsDB,$isAdmin;
 
-    $sql = "select tbsn,category, page, paragraph,sort from " . $xoopsDB->prefix("tad_book3_docs") . " where `tbdsn`='{$tbdsn}'";
+    $sql = "select tbsn,category, page, paragraph,sort,author from " . $xoopsDB->prefix("tad_book3_docs") . " where `tbdsn`='{$tbdsn}'";
 
     $result                                          = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
-    list($tbsn, $category, $page, $paragraph, $sort) = $xoopsDB->fetchRow($result);
+    list($tbsn, $category, $page, $paragraph, $sort,$author) = $xoopsDB->fetchRow($result);
 
+    if (!$isAdmin) {
+        if (!chk_edit_power($author)) {
+            header("location:index.php");
+            exit;
+        }
+    }
     if (!empty($category) and !empty($page) and !empty($paragraph) and !empty($sort)) {
         $sql    = "update " . $xoopsDB->prefix("tad_book3_docs") . " set `sort` = `sort` - 1 where  tbsn='{$tbsn}' and `category` = '{$category}' and `page` = '{$page}' and `paragraph` = '{$paragraph}' and `sort` > '{$sort}'";
         $result = $xoopsDB->queryF($sql) or web_error($sql, __FILE__, __LINE__);
@@ -832,6 +858,14 @@ function check_update_cpps_del($tbdsn = 0)
 function delete_tad_book3($tbsn = "")
 {
     global $xoopsDB;
+
+    if (!$isAdmin) {
+        $book = get_tad_book3($tbsn);
+        if (!chk_edit_power($book['author'])) {
+            header("location:index.php");
+            exit;
+        }
+    }
 
     $sql = "delete from " . $xoopsDB->prefix("tad_book3_docs") . " where tbsn='$tbsn'";
     $xoopsDB->queryF($sql) or web_error($sql, __FILE__, __LINE__);
