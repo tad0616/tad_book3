@@ -34,7 +34,7 @@ function import_form($tbsn = "")
         $DBV = array();
     }
 
-    
+
 
     //預設值設定
 
@@ -383,13 +383,13 @@ switch ($op) {
     case "change_enable":
         change_enable($enable, $tbdsn);
         header("location: {$_SERVER['PHP_SELF']}?op=list_docs&tbsn=$tbsn");
-        break;
+        exit;
 
     //新增資料
     case "insert_tad_book3":
         insert_tad_book3();
         header("location: {$_SERVER['PHP_SELF']}");
-        break;
+        exit;
 
     //輸入表格
     case "tad_book3_form":
@@ -404,18 +404,18 @@ switch ($op) {
     case "import_book":
         $tbsn = import_book($tbcsn);
         header("location: index.php?op=list_docs&tbsn=$tbsn");
-        break;
+        exit;
 
     case "update_tad_book3":
         update_tad_book3($tbsn);
         header("location: {$_SERVER['PHP_SELF']}");
-        break;
+        exit;
 
     //刪除文章
     case "delete_tad_book3_docs":
         delete_tad_book3_docs($tbdsn);
         header("location: {$_SERVER['PHP_SELF']}?tbsn={$tbsn}");
-        break;
+        exit;
 
     //匯出書籍
     case "tad_book3_export":
@@ -425,7 +425,7 @@ switch ($op) {
     case "update_docs_sort":
         update_docs_sort($update_sort);
         header("location: {$_SERVER['PHP_SELF']}?tbsn={$tbsn}");
-        break;
+        exit;
 
     default:
         if (!empty($tbsn)) {

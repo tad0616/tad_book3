@@ -17,13 +17,13 @@ switch ($op) {
     case "update_tad_book3_docs":
         update_tad_book3_docs($tbdsn);
         header("location: page.php?tbdsn={$tbdsn}");
-        break;
+        exit;
 
     //新增資料
     case "insert_tad_book3_docs":
         $tbdsn = insert_tad_book3_docs();
         header("location: page.php?tbdsn={$tbdsn}");
-        break;
+        exit;
 
     //輸入表格
     case "tad_book3_docs_form":
@@ -34,7 +34,7 @@ switch ($op) {
     case "delete_tad_book3_docs":
         delete_tad_book3_docs($tbdsn);
         header("location: {$_SERVER['PHP_SELF']}");
-        break;
+        exit;
 
     //預設動作
     default:
