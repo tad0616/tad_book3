@@ -828,13 +828,13 @@ function check_update_cpps_del($tbdsn = 0)
 {
     global $xoopsDB,$isAdmin;
 
-    $sql = "select tbsn,category, page, paragraph,sort,author from " . $xoopsDB->prefix("tad_book3_docs") . " where `tbdsn`='{$tbdsn}'";
+    $sql = "select tbsn,category, page, paragraph,sort,uid from " . $xoopsDB->prefix("tad_book3_docs") . " where `tbdsn`='{$tbdsn}'";
 
     $result                                          = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
-    list($tbsn, $category, $page, $paragraph, $sort,$author) = $xoopsDB->fetchRow($result);
+    list($tbsn, $category, $page, $paragraph, $sort,$uid) = $xoopsDB->fetchRow($result);
 
     if (!$isAdmin) {
-        if (!chk_edit_power($author)) {
+        if (!chk_edit_power($uid)) {
             header("location:index.php");
             exit;
         }
