@@ -1,3 +1,7 @@
+Tad Book3 3.9.1 (released from 2019-03-21)
+=========================================================== ================
+1. Fix the article can not delete the problem
+
 Tad Book3 3.9 (released from 2019-01-01)
 =========================================================== ================
 1. Fix the problem that books with no permissions to read will appear in random book blocks
