@@ -5,14 +5,6 @@ $xoopsOption['template_main'] = "tadbook3_index.tpl";
 include_once XOOPS_ROOT_PATH . "/header.php";
 /*-----------function區--------------*/
 
-//更新書籍計數器
-function add_book_counter($tbsn = "")
-{
-    global $xoopsDB;
-    $sql = "update " . $xoopsDB->prefix("tad_book3") . " set  `counter` = `counter`+1 where tbsn='$tbsn'";
-    $xoopsDB->queryF($sql) or web_error($sql, __FILE__, __LINE__);
-}
-
 //更新狀態
 function change_enable($enable, $tbdsn)
 {
@@ -33,8 +25,6 @@ function import_form($tbsn = "")
     } else {
         $DBV = array();
     }
-
-
 
     //預設值設定
 
@@ -134,8 +124,8 @@ function import_book($tbcsn)
     $tbsn = $xoopsDB->getInsertId();
 
     //取出亂數資料夾內容
-    $sql = "select pic_name from " . $xoopsDB->prefix("tad_book3") . " where tbsn='$tbsn'";
-    $result = $xoopsDB->queryF($sql) or web_error($sql, __FILE__, __LINE__);
+    $sql        = "select pic_name from " . $xoopsDB->prefix("tad_book3") . " where tbsn='$tbsn'";
+    $result     = $xoopsDB->queryF($sql) or web_error($sql, __FILE__, __LINE__);
     list($rand) = $xoopsDB->fetchRow($result);
 
     //修改書籍封面圖
@@ -176,9 +166,9 @@ function tad_book3_export($tbsn = "")
     }
 
     //輸出書籍設定
-    $sql = "select * from " . $xoopsDB->prefix("tad_book3") . " where tbsn='$tbsn'";
+    $sql    = "select * from " . $xoopsDB->prefix("tad_book3") . " where tbsn='$tbsn'";
     $result = $xoopsDB->queryF($sql) or web_error($sql, __FILE__, __LINE__);
-    $book = $xoopsDB->fetchArray($result);
+    $book   = $xoopsDB->fetchArray($result);
 
     //共同編輯者
     $author_arr = explode(",", $book['author']);
@@ -234,8 +224,8 @@ function tad_book3_export($tbsn = "")
     //輸出文章設定
     $current = "";
     $sql     = "select * from " . $xoopsDB->prefix("tad_book3_docs") . " where tbsn='$tbsn' order by category ,  page , paragraph , sort";
-    $result = $xoopsDB->queryF($sql) or web_error($sql, __FILE__, __LINE__);
-    $all = "";
+    $result  = $xoopsDB->queryF($sql) or web_error($sql, __FILE__, __LINE__);
+    $all     = "";
     while ($doc = $xoopsDB->fetchArray($result)) {
         $cols = $vals = "";
         foreach ($doc as $col => $val) {
@@ -315,8 +305,8 @@ function tad_book3_export($tbsn = "")
             $cols .= "`{$col}`, ";
             $vals .= "'{$val}', ";
         }
-        $cols    = substr($cols, 0, -2);
-        $vals    = substr($vals, 0, -2);
+        $cols = substr($cols, 0, -2);
+        $vals = substr($vals, 0, -2);
         $current .= "insert into `tad_book3_docs` ({$cols}) values({$vals});\n--tad_book3_import_doc--\n";
     }
 

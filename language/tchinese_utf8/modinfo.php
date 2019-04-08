@@ -14,3 +14,12 @@ define('_MI_TADBOOK3_BNAME3', '書籍列表');
 define('_MI_TADBOOK3_BDESC3', '把所有的書以文字列出');
 define('_MI_TADBOOK3_BNAME4', '書籍目錄');
 define('_MI_TADBOOK3_BDESC4', '會自動偵測目前閱讀的書籍，並秀出該書目錄');
+define('_MI_TADBOOK3_BNAME5', '指定書籍章節目錄');
+define('_MI_TADBOOK3_BDESC5', '可指定某一本書，秀出其所有章節文章');
+
+define('_MI_TADBOOK3_DIRNAME', basename(dirname(dirname(__DIR__))));
+define('_MI_TADBOOK3_HELP_HEADER', __DIR__ . '/help/helpheader.html');
+define('_MI_TADBOOK3_BACK_2_ADMIN', '回模組後台：');
+
+//help
+define('_MI_TADBOOK3_HELP_OVERVIEW', '綜覽');

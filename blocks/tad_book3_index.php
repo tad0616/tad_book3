@@ -3,6 +3,7 @@
 function tad_book3_index()
 {
     global $xoopsDB;
+    include_once XOOPS_ROOT_PATH . "/modules/tad_book3/function_block.php";
     $global_tbsn  = isset($_GET['tbsn']) ? intval($_GET['tbsn']) : "";
     $global_tbdsn = isset($_GET['tbdsn']) ? intval($_GET['tbdsn']) : "";
 
@@ -30,32 +31,6 @@ function tad_book3_index()
     $block         = $dtree->render();
 
     return $block;
-}
-
-if (!function_exists("mk_category")) {
-    //章節格式化
-    function mk_category($category = "", $page = "", $paragraph = "", $sort = "")
-    {
-        if (!empty($sort)) {
-            $main  = "{$category}-${page}-{$paragraph}-{$sort}";
-            $level = 4;
-        } elseif (!empty($paragraph)) {
-            $main  = "{$category}-${page}-{$paragraph}";
-            $level = 3;
-        } elseif (!empty($page)) {
-            $main  = "{$category}-${page}";
-            $level = 2;
-        } elseif (!empty($category)) {
-            $main  = "{$category}.";
-            $level = 1;
-        } else {
-            $main  = "";
-            $level = 0;
-        }
-        $all['main']  = $main;
-        $all['level'] = $level;
-        return $all;
-    }
 }
 
 if (!function_exists("block_get_book_content")) {

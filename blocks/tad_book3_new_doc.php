@@ -3,6 +3,7 @@
 function tad_book3_new_doc($options)
 {
     global $xoopsDB;
+    include_once XOOPS_ROOT_PATH . "/modules/tad_book3/function_block.php";
 
     $now = date("Y-m-d H:i:s", xoops_getUserTimestamp(time()));
 
@@ -41,30 +42,4 @@ function tad_book3_new_doc_edit($options)
         </li>
     </ol>";
     return $form;
-}
-
-if (!function_exists("mk_category")) {
-    //章節格式化
-    function mk_category($category = "", $page = "", $paragraph = "", $sort = "")
-    {
-        if (!empty($sort)) {
-            $main  = "{$category}-${page}-{$paragraph}-{$sort}";
-            $level = 4;
-        } elseif (!empty($paragraph)) {
-            $main  = "{$category}-${page}-{$paragraph}";
-            $level = 3;
-        } elseif (!empty($page)) {
-            $main  = "{$category}-${page}";
-            $level = 2;
-        } elseif (!empty($category)) {
-            $main  = "{$category}.";
-            $level = 1;
-        } else {
-            $main  = "";
-            $level = 0;
-        }
-        $all['main']  = $main;
-        $all['level'] = $level;
-        return $all;
-    }
 }

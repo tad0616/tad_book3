@@ -1,3 +1,7 @@
+Tad Book3 3.9.2 (released from 2019-03-22)
+=========================================================== ================
+1. Added "Specified Book Chapter Directory" block
+
 Tad Book3 3.9.1 (released from 2019-03-21)
 =========================================================== ================
 1. Fix the article can not delete the problem

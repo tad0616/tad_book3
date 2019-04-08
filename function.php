@@ -145,27 +145,6 @@ function list_all_cate_book($isAdmin = "")
     $xoopsTpl->assign('sweet_alert_book_code', $sweet_alert_book_code);
 }
 
-//book陰影
-function book_shadow($books = array())
-{
-    global $xoopsUser;
-
-    if ($xoopsUser) {
-        $uid = $xoopsUser->uid();
-    } else {
-        $uid = 0;
-    }
-    $authors       = explode(',', $books['author']);
-    $tool          = ((!empty($uid) and in_array($uid, $authors)) or $isAdmin) ? true : false;
-    $books['tool'] = $tool;
-
-    $pic                  = (empty($books['pic_name'])) ? XOOPS_URL . "/modules/tad_book3/images/blank.png" : _TADBOOK3_BOOK_URL . "/{$books['pic_name']}";
-    $books['pic']         = $pic;
-    $description          = strip_tags($description);
-    $books['description'] = $description;
-
-    return $books;
-}
 
 //列出某書資料
 function list_docs($def_tbsn = "")
@@ -252,7 +231,12 @@ function list_docs($def_tbsn = "")
     $result       = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
     $i1           = $i2           = $i3           = $i4           = 0;
     $new_category = $new_page = $new_paragraph = $new_sort = '';
-    while (list($tbdsn, $tbsn, $category, $page, $paragraph, $sort, $title, $content, $add_date, $last_modify_date, $uid, $count, $enable) = $xoopsDB->fetchRow($result)) {
+    while ($data = $xoopsDB->fetchArray($result)) {
+        foreach ($data as $k => $v) {
+            $$k = $v;
+        }
+
+
         $doc_sort         = mk_category($category, $page, $paragraph, $sort);
         $have_sub         = have_sub($def_tbsn, $category, $page, $paragraph, $sort);
         $last_modify_date = date("Y-m-d H:i:s", xoops_getUserTimestamp($last_modify_date));
@@ -343,24 +327,6 @@ function list_docs($def_tbsn = "")
     $xoopsTpl->assign('sweet_alert_docs_code', $sweet_alert_docs_code);
 }
 
-//檢查有無底下文章
-function have_sub($tbsn = 0, $category = 0, $page = 0, $paragraph = 0, $sort = 0)
-{
-    global $xoopsDB;
-    if (!empty($sort)) {
-        return 0;
-    }
-
-    $and_category  = $category ? "and `category`= $category" : '';
-    $and_page      = $page ? "and `page`= $page" : '';
-    $and_paragraph = $paragraph ? "and `paragraph`= $paragraph" : '';
-
-    $sql         = "select count(*) from " . $xoopsDB->prefix("tad_book3_docs") . " where tbsn='{$tbsn}' $and_category $and_page $and_paragraph";
-    $result      = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
-    list($count) = $xoopsDB->fetchRow($result);
-    $count--;
-    return $count;
-}
 
 //tad_book3編輯表單
 function tad_book3_form($tbsn = "", $tbcsn = "")
@@ -627,18 +593,6 @@ function get_tad_book3($tbsn = "")
     return $data;
 }
 
-//取得所有分類
-function all_cate()
-{
-    global $xoopsDB, $xoopsModule;
-    $sql    = "SELECT tbcsn,title FROM " . $xoopsDB->prefix("tad_book3_cate") . " ORDER BY sort";
-    $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
-    while (list($tbcsn, $title) = $xoopsDB->fetchRow($result)) {
-        $main[$tbcsn] = $title;
-    }
-    return $main;
-}
-
 //分類選單
 function cate_select($def_tbcsn = "")
 {
@@ -744,30 +698,6 @@ function doc_select($tbsn = "", $doc_sn = "")
         $main .= "<option value=$tbdsn $selected $style>" . str_repeat("&nbsp;", ($doc_sort['level'] - 1) * 2) . "{$doc_sort['main']} {$stat}{$title}</option>";
     }
     return $main;
-}
-
-//章節格式化
-function mk_category($category = "", $page = "", $paragraph = "", $sort = "")
-{
-    if (!empty($sort)) {
-        $main  = "{$category}-${page}-{$paragraph}-{$sort}";
-        $level = 4;
-    } elseif (!empty($paragraph)) {
-        $main  = "{$category}-${page}-{$paragraph}";
-        $level = 3;
-    } elseif (!empty($page)) {
-        $main  = "{$category}-${page}";
-        $level = 2;
-    } elseif (!empty($category)) {
-        $main  = "{$category}.";
-        $level = 1;
-    } else {
-        $main  = "";
-        $level = 0;
-    }
-    $all['main']  = $main;
-    $all['level'] = $level;
-    return $all;
 }
 
 function decode_category($doc_sort = "")
