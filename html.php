@@ -2,24 +2,51 @@
 include_once "header.php";
 set_time_limit(0);
 ini_set("memory_limit", "150M");
-$op       = (empty($_REQUEST['op'])) ? "" : $_REQUEST['op'];
-$tbdsn    = (empty($_REQUEST['tbdsn'])) ? "" : intval($_REQUEST['tbdsn']);
-$filename = (empty($_REQUEST['filename'])) ? "" : $_REQUEST['filename'];
 
-$html = '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
-<html>
-  <head>
-  <meta http-equiv="content-type" content="text/html; charset=' . _CHARSET . '">
+include_once $GLOBALS['xoops']->path('/modules/system/include/functions.php');
+$op      = system_CleanVars($_REQUEST, 'op', '', 'string');
+$tbdsn   = system_CleanVars($_REQUEST, 'tbdsn', 0, 'int');
+$header  = system_CleanVars($_REQUEST, 'header', 1, 'int');
+$artical = get_tad_book3_docs($tbdsn);
+foreach ($artical as $key => $value) {
+    $$key = $value;
+}
+$doc_sort = mk_category($category, $page, $paragraph, $sort);
+$book     = get_tad_book3($tbsn);
+//高亮度語法
+if (!file_exists(TADTOOLS_PATH . "/syntaxhighlighter.php")) {
+    redirect_header("index.php", 3, _MD_NEED_TADTOOLS);
+}
+include_once TADTOOLS_PATH . "/syntaxhighlighter.php";
+$syntaxhighlighter      = new syntaxhighlighter();
+$syntaxhighlighter_code = $syntaxhighlighter->render();
+$bootstrap              = get_bootstrap('return');
+
+$html = '<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+  <meta charset="utf-8">
+  <title>' . $book['title'] . '-' . $doc_sort['main'] . '-' . $title . '</title>
+  ' . $bootstrap . '
+  <link rel="stylesheet" type="text/css" href="reset.css" >
   <style type="text/css">
-    #page{
-      border:1px solid black;
-      padding: 40px 60px 40px 60px;
-      background-image: url(images/paper_bg.jpg);
-      background-repeat: repeat-x;
-      line-height:200%;
+    body{
+      font-size: 12pt;
     }
 
-    #page_title{
+    .page{
+      font-size: 12pt;
+      line-height:2;
+      padding: 2cm;
+      background-image: url(' . XOOPS_URL . '/modules/tad_book3/images/paper_bg.jpg);
+      background-repeat: repeat-x;
+    }
+
+    .page_content{
+      font-size: 12pt;
+    }
+
+    .page_title{
       border-bottom: 1px solid black;
       text-align:right;
       color:black;
@@ -27,25 +54,28 @@ $html = '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
     }
   </style>
   </head>
-  <body>';
+  <body>' . $syntaxhighlighter_code;
 
-$html .= view_page($tbdsn);
+$html .= view_page($tbdsn, $header);
 $html .= '
   </body>
 </html>';
 die($html);
 
-
 //觀看某一頁
-function view_page($tbdsn = "")
+function view_page($tbdsn = "", $header = 1)
 {
-    global $xoopsDB;
+    global $xoopsDB, $book, $artical, $doc_sort;
 
-    $sql                                                                                                                            = "select * from " . $xoopsDB->prefix("tad_book3_docs") . " where tbdsn='$tbdsn'";
-    $result                                                                                                                         = $xoopsDB->query($sql) or web_error($sql);
-    list($tbdsn, $tbsn, $category, $page, $paragraph, $sort, $title, $content, $add_date, $last_modify_date, $uid, $count, $enable) = $xoopsDB->fetchRow($result);
+    foreach ($artical as $key => $value) {
+        $$key = $value;
+    }
 
-    $book = get_tad_book3($tbsn);
+    if (!empty($from_tbdsn)) {
+        $form_page = get_tad_book3_docs($from_tbdsn);
+        $content .= $form_page['content'];
+    }
+
     if (!chk_power($book['read_group'])) {
         header("location:index.php");
         exit;
@@ -56,23 +86,15 @@ function view_page($tbdsn = "")
         return $data;
         exit;
     }
-
-    $doc_sort = mk_category($category, $page, $paragraph, $sort);
-
-    //高亮度語法
-    if (!file_exists(TADTOOLS_PATH . "/syntaxhighlighter.php")) {
-        redirect_header("index.php", 3, _MD_NEED_TADTOOLS);
-    }
-    include_once TADTOOLS_PATH . "/syntaxhighlighter.php";
-    $syntaxhighlighter      = new syntaxhighlighter();
-    $syntaxhighlighter_code = $syntaxhighlighter->render();
+    $page_title = $header ? "<div class='page_title'>{$book['title']}</div>" : "";
 
     $main = "
-    <div id='page'>
-      <div id='page_title'>{$book['title']}</div>
-
-      <h{$doc_sort['level']}>{$doc_sort['main']} {$title}</h{$doc_sort['level']}>
-      $content
+    <div class='page'>
+      $page_title
+      <div class='page_content'>
+        <h{$doc_sort['level']}>{$doc_sort['main']} {$title}</h{$doc_sort['level']}>
+        $content
+      </div>
     </div>
     ";
 

@@ -14,3 +14,10 @@ define('_MI_TADBOOK3_BNAME3', 'Book List');
 define('_MI_TADBOOK3_BDESC3', 'Display all books by a list');
 define('_MI_TADBOOK3_BNAME4', 'Index');
 define('_MI_TADBOOK3_BDESC4', 'Display index of currently reading book');
+
+define('_MI_TADBOOK3_DIRNAME', basename(dirname(dirname(__DIR__))));
+define('_MI_TADBOOK3_HELP_HEADER', __DIR__ . '/help/helpheader.html');
+define('_MI_TADBOOK3_BACK_2_ADMIN', 'Back to Administration of ');
+
+//help
+define('_MI_TADBOOK3_HELP_OVERVIEW', 'Overview');

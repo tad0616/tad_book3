@@ -1,6 +1,6 @@
 <?php
 /*-----------引入檔案區--------------*/
-$xoopsOption['template_main'] = "tadbook3_adm_main.html";
+$xoopsOption['template_main'] = "tadbook3_adm_main.tpl";
 include_once "header.php";
 include_once "../function.php";
 
@@ -67,11 +67,13 @@ function insert_tad_book3_cate()
     $myts                 = MyTextSanitizer::getInstance();
     $_POST['title']       = $myts->addSlashes($_POST['title']);
     $_POST['description'] = $myts->addSlashes($_POST['description']);
+    $_POST['of_tbsn']     = (int) $_POST['of_tbsn'];
+    $_POST['sort']        = (int) $_POST['sort'];
 
     $sql = "insert into " . $xoopsDB->prefix("tad_book3_cate") . "
     (`of_tbsn` , `title` , `sort` , `description`)
     values('{$_POST['of_tbsn']}' , '{$_POST['title']}' , '{$_POST['sort']}' , '{$_POST['description']}')";
-    $xoopsDB->query($sql) or web_error($sql);
+    $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
 
     //取得最後新增資料的流水編號
     $tbcsn = $xoopsDB->getInsertId();
@@ -94,7 +96,7 @@ function update_tad_book3_cate($tbcsn = "")
      `sort` = '{$_POST['sort']}' ,
      `description` = '{$_POST['description']}'
     where tbcsn='$tbcsn'";
-    $xoopsDB->queryF($sql) or web_error($sql);
+    $xoopsDB->queryF($sql) or web_error($sql, __FILE__, __LINE__);
 
     return $tbcsn;
 }
@@ -105,8 +107,8 @@ function list_tad_book3_cate_tree($show_tbcsn = 0)
     global $xoopsTpl, $xoopsDB;
     $path     = get_tad_book3_cate_path($show_tbcsn);
     $path_arr = array_keys($path);
-    $sql      = "select tbcsn,of_tbsn,title from " . $xoopsDB->prefix("tad_book3_cate") . " order by sort";
-    $result   = $xoopsDB->query($sql) or web_error($sql);
+    $sql      = "SELECT tbcsn,of_tbsn,title FROM " . $xoopsDB->prefix("tad_book3_cate") . " ORDER BY sort";
+    $result   = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
 
     $count  = tad_book3_cate_count();
     $data[] = "{ id:0, pId:0, name:'All', url:'index.php', target:'_self', open:true}";
@@ -125,7 +127,6 @@ function list_tad_book3_cate_tree($show_tbcsn = 0)
     $ztree      = new ztree("link_tree", $json, "", "save_sort.php", "of_tbsn", "tbcsn");
     $ztree_code = $ztree->render();
     $xoopsTpl->assign('ztree_code', $ztree_code);
-
 }
 
 //秀出所有分類及書籍
@@ -140,13 +141,13 @@ function list_tad_book3($tbcsn = "")
     $bar     = $PageBar['bar'];
     $sql     = $PageBar['sql'];
     $total   = $PageBar['total'];
-    $result  = $xoopsDB->query($sql) or web_error($sql);
+    $result  = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
     $i       = 0;
-    $books   = "";
+    $books   = array();
     while ($data = $xoopsDB->fetchArray($result)) {
         $books[$i]         = $data;
         $books[$i]['cate'] = get_tad_book3_cate($data['tbcsn']);
-        $uid_name          = '';
+        $uid_name          = array();
         $author_arr        = explode(',', $data['author']);
         foreach ($author_arr as $uid) {
             $uidname    = XoopsUser::getUnameFromId($uid, 1);
@@ -197,35 +198,30 @@ switch ($op) {
         replace_tad_book3_cate();
         header("location: {$_SERVER['PHP_SELF']}");
         exit;
-        break;
 
     //新增資料
     case "insert_tad_book3_cate":
         $tbcsn = insert_tad_book3_cate();
         header("location: {$_SERVER['PHP_SELF']}");
         exit;
-        break;
 
     //更新資料
     case "update_tad_book3_cate":
         update_tad_book3_cate($tbcsn);
         header("location: {$_SERVER['PHP_SELF']}");
         exit;
-        break;
 
     //刪除資料
     case "delete_tad_book3_cate":
         delete_tad_book3_cate($tbcsn);
         header("location: {$_SERVER['PHP_SELF']}");
         exit;
-        break;
 
     //刪除資料
     case "delete_tad_book3":
         delete_tad_book3($tbsn);
         header("location: ../index.php");
         exit;
-        break;
 
     //輸入表格
     case "tad_book3_cate_form":

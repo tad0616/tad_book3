@@ -2,7 +2,7 @@
 function tadbook3_search($queryarray, $andor, $limit, $offset, $userid)
 {
     global $xoopsDB;
-    //³B²z³\¥\»\
+        //è™•ç†è¨±åŠŸè“‹
     if (get_magic_quotes_gpc()) {
         if (is_array($queryarray)) {
             foreach ($queryarray as $k => $v) {
@@ -25,7 +25,7 @@ function tadbook3_search($queryarray, $andor, $limit, $offset, $userid)
         }
         $sql .= ") ";
     }
-    $sql .= "ORDER BY last_modify_date DESC";
+    $sql    .= "ORDER BY last_modify_date DESC";
     $result = $xoopsDB->query($sql, $limit, $offset);
     $ret    = array();
     $i      = 0;

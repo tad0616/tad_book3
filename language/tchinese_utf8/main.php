@@ -36,3 +36,6 @@ define('_MD_TADBOOK3_IMPORT2', '匯入 2_docs.sql');
 define('_MD_TADBOOK3_UL_FILE', '請先將「file」及「image」兩個資料夾，上傳至「%s」底下，並覆蓋之即可。');
 define('_MD_TADBOOK3_ABS_PATH', '圖片或檔案的路徑是否重設為本站網址（即 %s）？若網站放在子目錄下或者home的子網站，請設為「是」，選否會保持用相對路徑。');
 define('_MD_TADBOOK3_NEED_AUTHOR', '本功能需要為書籍作者');
+define('_MD_TADBOOK3_FROM_TBDSN', '連結');
+define('_MD_TADBOOK3_FROM_TBDSN_DESC', '輸入文章編號');
+define('_MD_TADBOOK3_MODIFY_ORDER', '修正排序（會修正紅色部份）');

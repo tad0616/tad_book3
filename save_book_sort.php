@@ -2,7 +2,8 @@
 /*-----------引入檔案區--------------*/
 include "../../mainfile.php";
 include "../function.php";
-$updateRecordsArray = $_POST['tr'];
+include_once $GLOBALS['xoops']->path('/modules/system/include/functions.php');
+$updateRecordsArray = system_CleanVars($_POST, 'tr', '', 'array');
 
 $sort = 1;
 foreach ($updateRecordsArray as $recordIDValue) {

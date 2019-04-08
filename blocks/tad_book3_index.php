@@ -8,7 +8,7 @@ function tad_book3_index()
 
     if (empty($global_tbsn) and !empty($global_tbdsn)) {
         $sql        = "select `tbsn` from " . $xoopsDB->prefix("tad_book3_docs") . " where tbdsn='{$global_tbdsn}'";
-        $result     = $xoopsDB->query($sql) or web_error($sql);
+        $result     = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
         list($tbsn) = $xoopsDB->fetchRow($result);
     } else {
         $tbsn = $global_tbsn;

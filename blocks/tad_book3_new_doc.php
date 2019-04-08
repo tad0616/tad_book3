@@ -6,7 +6,7 @@ function tad_book3_new_doc($options)
 
     $now = date("Y-m-d H:i:s", xoops_getUserTimestamp(time()));
 
-    $block = "";
+    $block = array();
     $sql   = "select a.`tbdsn`,a.`tbsn`,a.`category`,a.`page`,a.`paragraph`,a.`sort`,a.`title`,a.`last_modify_date`,b.`title` from " . $xoopsDB->prefix("tad_book3_docs") . " as a left join " . $xoopsDB->prefix("tad_book3") . " as b on a.`tbsn`=b.`tbsn` where a.`enable`='1' and  TO_DAYS('{$now}') - TO_DAYS( FROM_UNIXTIME(a.`last_modify_date`)) <= {$options[0]} order by a.`last_modify_date` desc";
     //die($sql);
     $result = $xoopsDB->query($sql);
@@ -32,9 +32,14 @@ function tad_book3_new_doc($options)
 function tad_book3_new_doc_edit($options)
 {
     $form = "
-  " . _MB_TADBOOK3_TAD_BOOK3_NEW_DOC_EDIT_BITEM0 . "
-  <INPUT type='text' name='options[0]' value='{$options[0]}'>
-  ";
+    <ol class='my-form'>
+        <li class='my-row'>
+            <lable class='my-label'>" . _MB_TADBOOK3_TAD_BOOK3_NEW_DOC_EDIT_BITEM0 . "</lable>
+            <div class='my-content'>
+                <input type='text' class='my-input' name='options[0]' value='{$options[0]}' size=6>
+            </div>
+        </li>
+    </ol>";
     return $form;
 }
 

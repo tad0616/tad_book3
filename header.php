@@ -13,7 +13,7 @@ if ($xoopsModuleConfig['use_pda'] == '1' and strpos($_SESSION['theme_kind'], 'bo
 $isAdmin = false;
 if ($xoopsUser) {
     $module_id = $xoopsModule->getVar('mid');
-    $isAdmin   = $xoopsUser->isAdmin($module_id);
+    $isAdmin = $xoopsUser->isAdmin($module_id);
 }
 
 $interface_menu[_TAD_TO_MOD] = "index.php";
@@ -23,28 +23,30 @@ if ($isAdmin) {
     $interface_menu[_MD_TADBOOK3_ADD_BOOK] = "index.php?op=tad_book3_form";
     //$interface_menu[_MD_TADBOOK3_IMPORT]   = "index.php?op=import_form";
 }
+$tbdsn = (int) $_GET['tbdsn'];
+$tbsn = (int) $_GET['tbsn'];
 
-if (!empty($_GET['tbdsn']) or !empty($_GET['tbsn'])) {
-    if (!empty($_GET['tbdsn'])) {
-        $sql                                                              = "select a.tbsn,a.title,b.author,a.category,a.page,a.paragraph,a.sort from " . $xoopsDB->prefix("tad_book3_docs") . " as a left join " . $xoopsDB->prefix("tad_book3") . " as b on a.tbsn=b.tbsn where a.tbdsn='{$_GET['tbdsn']}'";
-        $result                                                           = $xoopsDB->query($sql) or web_error($sql);
+if (!empty($tbdsn) or !empty($tbsn)) {
+    if (!empty($tbdsn)) {
+        $sql = "select a.tbsn,a.title,b.author,a.category,a.page,a.paragraph,a.sort from " . $xoopsDB->prefix("tad_book3_docs") . " as a left join " . $xoopsDB->prefix("tad_book3") . " as b on a.tbsn=b.tbsn where a.tbdsn='{$tbdsn}'";
+        $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
         list($tbsn, $title, $author, $category, $page, $paragraph, $sort) = $xoopsDB->fetchRow($result);
 
-        $all_books            = all_books();
-        $txt                  = sprintf(_MD_TADBOOK3_BOOK_CONTENT, $all_books[$tbsn]);
+        $all_books = all_books();
+        $txt = sprintf(_MD_TADBOOK3_BOOK_CONTENT, $all_books[$tbsn]);
         $interface_menu[$txt] = "index.php?op=list_docs&tbsn={$tbsn}";
 
         if (chk_edit_power($author)) {
 
-            $interface_menu[_MD_TADBOOK3_ADD_DOC]    = "post.php?op=tad_book3_docs_form&tbsn={$tbsn}";
-            $interface_menu[_MD_TADBOOK3_MODIFY_DOC] = "post.php?op=tad_book3_docs_form&tbsn={$tbsn}&tbdsn={$_GET['tbdsn']}";
+            $interface_menu[_MD_TADBOOK3_ADD_DOC] = "post.php?op=tad_book3_docs_form&tbsn={$tbsn}";
+            $interface_menu[_MD_TADBOOK3_MODIFY_DOC] = "post.php?op=tad_book3_docs_form&tbsn={$tbsn}&tbdsn={$tbdsn}";
         }
 
         $category = mk_category($category, $page, $paragraph, $sort);
 
-    } elseif (!empty($_GET['tbsn'])) {
-        $sql                 = "select tbsn,author from " . $xoopsDB->prefix("tad_book3") . " where tbsn='{$_GET['tbsn']}'";
-        $result              = $xoopsDB->query($sql) or web_error($sql);
+    } elseif (!empty($tbsn)) {
+        $sql = "select tbsn,author from " . $xoopsDB->prefix("tad_book3") . " where tbsn='{$tbsn}'";
+        $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
         list($tbsn, $author) = $xoopsDB->fetchRow($result);
         if (chk_edit_power($author)) {
             $interface_menu[_MD_TADBOOK3_ADD_DOC] = "post.php?op=tad_book3_docs_form&tbsn={$tbsn}";

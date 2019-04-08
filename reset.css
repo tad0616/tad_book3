@@ -8,6 +8,11 @@
   margin-bottom: 10px;
 }
 
+.page_content pre span,.page_content pre div{
+	line-height:inherit;
+  margin-bottom: 0px;
+}
+
 .page_content table {
 	border-collapse: collapse;
 	border-spacing: 0;

@@ -13,10 +13,10 @@ function show_allbook()
 {
     global $xoopsDB;
     //$sql = "select * from ".$xoopsDB->prefix("tad_book3")." where tbcsn='$tbcsn' and enable='1' order by sort";
-    $sql = "select a.`tbsn`, a.`tbcsn`, a.`sort`, a.`title`, a.`description`, a.`author`, a.`read_group`, a.`passwd`, a.`enable`, a.`pic_name`, a.`counter`, a.`create_date`
-,b.`of_tbsn`, b.`sort` as cate_sort, b.`title` as cate_title , b.`description` from " . $xoopsDB->prefix("tad_book3") . " as a left join " . $xoopsDB->prefix("tad_book3_cate") . " as b on a.tbcsn=b.tbcsn where a.enable='1' order by cate_sort,a.sort";
+    $sql = "SELECT a.`tbsn`, a.`tbcsn`, a.`sort`, a.`title`, a.`description`, a.`author`, a.`read_group`, a.`passwd`, a.`enable`, a.`pic_name`, a.`counter`, a.`create_date`
+,b.`of_tbsn`, b.`sort` AS cate_sort, b.`title` AS cate_title , b.`description` FROM " . $xoopsDB->prefix("tad_book3") . " AS a LEFT JOIN " . $xoopsDB->prefix("tad_book3_cate") . " AS b ON a.tbcsn=b.tbcsn WHERE a.enable='1' ORDER BY cate_sort,a.sort";
 
-    $result = $xoopsDB->query($sql) or web_error($sql);
+    $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
     while ($data = $xoopsDB->fetchArray($result)) {
         foreach ($data as $k => $v) {
             $$k = $v;
@@ -42,7 +42,6 @@ function show_allbook()
 						</a>
 					</li>
 		";
-
     }
 
     $main = "";
@@ -164,10 +163,10 @@ function show_allbook()
 function get_pre_next($tbsn = "", $now_sn = "")
 {
     global $xoopsDB;
-    $sql    = "select tbdsn,title from " . $xoopsDB->prefix("tad_book3") . " where tbsn='{$tbsn}' order by sort , post_date";
-    $result = $xoopsDB->query($sql) or web_error($sql);
-    $stop   = false;
-    $pre    = 0;
+    $sql = "select tbdsn,title from " . $xoopsDB->prefix("tad_book3") . " where tbsn='{$tbsn}' order by sort , post_date";
+    $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
+    $stop = false;
+    $pre  = 0;
     while (list($tbdsn, $title) = $xoopsDB->fetchRow($result)) {
         if ($stop) {
             $next       = $tbdsn;
@@ -196,9 +195,9 @@ function list_docs_m($tbsn = "")
     global $xoopsDB, $xoopsModule;
     add_book_counter($tbsn);
 
-    $MDIR   = $xoopsModule->getVar('dirname');
-    $sql    = "select * from " . $xoopsDB->prefix("tad_book3") . " where tbsn='$tbsn'";
-    $result = $xoopsDB->query($sql) or web_error($sql);
+    $MDIR = $xoopsModule->getVar('dirname');
+    $sql  = "select * from " . $xoopsDB->prefix("tad_book3") . " where tbsn='$tbsn'";
+    $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
 
     $function_title = ($show_function) ? "<th>" . _TAD_FUNCTION . "</th>" : "";
 
@@ -235,8 +234,8 @@ function list_docs_m($tbsn = "")
 	<li data-role='list-divider'>$title</li>
 	";
 
-    $sql    = "select * from " . $xoopsDB->prefix("tad_book3_docs") . " where tbsn='{$tbsn}' and enable='1' order by category,page,paragraph,sort";
-    $result = $xoopsDB->query($sql) or web_error($sql);
+    $sql = "select * from " . $xoopsDB->prefix("tad_book3_docs") . " where tbsn='{$tbsn}' and enable='1' order by category,page,paragraph,sort";
+    $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
     while (list($tbdsn, $tbsn, $category, $page, $paragraph, $sort, $title, $content, $add_date, $last_modify_date, $uid, $count, $enable) = $xoopsDB->fetchRow($result)) {
         $uid_name = XoopsUser::getUnameFromId($uid, 1);
         $uid_name = (empty($uid_name)) ? XoopsUser::getUnameFromId($uid, 0) : $uid_name;
@@ -263,7 +262,7 @@ function add_book_counter($tbsn = "")
 {
     global $xoopsDB;
     $sql = "update " . $xoopsDB->prefix("tad_book3") . " set  `counter` = `counter`+1 where tbsn='$tbsn'";
-    $xoopsDB->queryF($sql) or web_error($sql);
+    $xoopsDB->queryF($sql) or web_error($sql, __FILE__, __LINE__);
 }
 
 //觀看某一頁
@@ -273,9 +272,15 @@ function view_page($tbdsn = "")
 
     add_counter($tbdsn);
 
-    $sql                                                                                                                            = "select * from " . $xoopsDB->prefix("tad_book3_docs") . " where tbdsn='$tbdsn'";
-    $result                                                                                                                         = $xoopsDB->query($sql) or web_error($sql);
-    list($tbdsn, $tbsn, $category, $page, $paragraph, $sort, $title, $content, $add_date, $last_modify_date, $uid, $count, $enable) = $xoopsDB->fetchRow($result);
+    $all = get_tad_book3_docs($tbdsn);
+    foreach ($all as $key => $value) {
+        $$key = $value;
+    }
+
+    if (!empty($from_tbdsn)) {
+        $form_page = get_tad_book3_docs($from_tbdsn);
+        $content   .= $form_page['content'];
+    }
 
     $book = get_tad_book3($tbsn);
     if (!chk_power($book['read_group'])) {
@@ -384,15 +389,15 @@ function add_counter($tbdsn = "")
 {
     global $xoopsDB;
     $sql = "update " . $xoopsDB->prefix("tad_book3_docs") . " set  `count` = `count`+1 where tbdsn='$tbdsn'";
-    $xoopsDB->queryF($sql) or web_error($sql);
+    $xoopsDB->queryF($sql) or web_error($sql, __FILE__, __LINE__);
 }
 
 //檢查文章密碼
 function check_passwd_m($tbsn = "")
 {
     global $xoopsDB;
-    $sql          = "select passwd from " . $xoopsDB->prefix("tad_book3") . " where tbsn='$tbsn'";
-    $result       = $xoopsDB->query($sql) or web_error($sql);
+    $sql = "select passwd from " . $xoopsDB->prefix("tad_book3") . " where tbsn='$tbsn'";
+    $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
     list($passwd) = $xoopsDB->fetchRow($result);
     if ($_POST['passwd'] == $passwd) {
         $_SESSION['passwd'] = $passwd;
@@ -402,14 +407,13 @@ function check_passwd_m($tbsn = "")
 }
 
 /*-----------執行動作判斷區----------*/
-$_REQUEST['op'] = (empty($_REQUEST['op'])) ? "" : $_REQUEST['op'];
-
-$tbdsn = (isset($_REQUEST['tbdsn'])) ? intval($_REQUEST['tbdsn']) : 0;
-$tbsn  = (isset($_REQUEST['tbsn'])) ? intval($_REQUEST['tbsn']) : 0;
-
+include_once $GLOBALS['xoops']->path('/modules/system/include/functions.php');
+$op     = system_CleanVars($_REQUEST, 'op', '', 'string');
+$tbsn   = system_CleanVars($_REQUEST, 'tbsn', 0, 'int');
+$tbdsn  = system_CleanVars($_REQUEST, 'tbdsn', 0, 'int');
 $jquery = get_jquery();
 
-switch ($_REQUEST['op']) {
+switch ($op) {
 
     case "check_passwd":
         check_passwd_m($tbsn);

@@ -2,9 +2,14 @@
 include_once "header.php";
 set_time_limit(0);
 ini_set("memory_limit", "150M");
-$op       = (empty($_REQUEST['op'])) ? "" : $_REQUEST['op'];
-$tbdsn    = (empty($_REQUEST['tbdsn'])) ? "" : intval($_REQUEST['tbdsn']);
-$filename = (empty($_REQUEST['filename'])) ? "" : $_REQUEST['filename'];
+
+include_once $GLOBALS['xoops']->path('/modules/system/include/functions.php');
+$op       = system_CleanVars($_REQUEST, 'op', '', 'string');
+$tbsn     = system_CleanVars($_REQUEST, 'tbsn', 0, 'int');
+$tbdsn    = system_CleanVars($_REQUEST, 'tbdsn', 0, 'int');
+$filename = system_CleanVars($_REQUEST, 'filename', '', 'string');
+
+$filename = str_replace('..', '.', $filename);
 
 $html = '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
@@ -35,7 +40,7 @@ $html .= '
 </html>';
 //die($html);
 
-require_once XOOPS_ROOT_PATH . 'modules/tadtools/tcpdf/tcpdf.php';
+require_once XOOPS_ROOT_PATH . '/modules/tadtools/tcpdf/tcpdf.php';
 $pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
 $pdf->setPrintHeader(false); //不要頁首
 $pdf->setPrintFooter(false); //不要頁尾
@@ -54,9 +59,15 @@ function view_page($tbdsn = "")
 {
     global $xoopsDB;
 
-    $sql                                                                                                                            = "select * from " . $xoopsDB->prefix("tad_book3_docs") . " where tbdsn='$tbdsn'";
-    $result                                                                                                                         = $xoopsDB->query($sql) or web_error($sql);
-    list($tbdsn, $tbsn, $category, $page, $paragraph, $sort, $title, $content, $add_date, $last_modify_date, $uid, $count, $enable) = $xoopsDB->fetchRow($result);
+    $all = get_tad_book3_docs($tbdsn);
+    foreach ($all as $key => $value) {
+        $$key = $value;
+    }
+
+    if (!empty($from_tbdsn)) {
+        $form_page = get_tad_book3_docs($from_tbdsn);
+        $content .= $form_page['content'];
+    }
 
     $book = get_tad_book3($tbsn);
     if (!chk_power($book['read_group'])) {

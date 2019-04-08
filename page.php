@@ -1,7 +1,7 @@
 <?php
 /*-----------引入檔案區--------------*/
 include "header.php";
-$xoopsOption['template_main'] = set_bootstrap("tadbook3_page.html");
+$xoopsOption['template_main'] = "tadbook3_page.tpl";
 include_once XOOPS_ROOT_PATH . "/header.php";
 /*-----------function區--------------*/
 
@@ -11,29 +11,26 @@ function view_page($tbdsn = "")
     global $xoopsDB, $xoopsModuleConfig, $xoopsTpl;
 
     add_counter($tbdsn);
+    $all = get_tad_book3_docs($tbdsn);
+    foreach ($all as $key => $value) {
+        $$key = $value;
+    }
 
-    $sql    = "select * from " . $xoopsDB->prefix("tad_book3_docs") . " where tbdsn='$tbdsn'";
-    $result = $xoopsDB->query($sql) or web_error($sql);
-
-    list($tbdsn, $tbsn, $category, $page, $paragraph, $sort, $title, $content, $add_date, $last_modify_date, $uid, $count, $enable) = $xoopsDB->fetchRow($result);
+    if (!empty($from_tbdsn)) {
+        $form_page = get_tad_book3_docs($from_tbdsn);
+        $content .= $form_page['content'];
+    }
 
     $book = get_tad_book3($tbsn);
+
     if (!chk_power($book['read_group'])) {
         header("location:index.php");
         exit;
     }
 
+    $needpasswd = 0;
     if (!empty($book['passwd']) and $_SESSION['passwd'] != $book['passwd']) {
-        $data .= "
-        <tr><td colspan=2 align='center'>
-        <form action='{$_SERVER['PHP_SELF']}' method='post' id='myForm' enctype='multipart/form-data'>
-        <input type='hidden' name='tbsn' value=$tbsn>
-        <input type='hidden' name='op' value='check_passwd'>
-        " . _MD_TADBOOK3_INPUT_PASSWD . "<input type='text' name='passwd' size=20><input type='submit'>
-        </form>
-        </td></tr></table>";
-        return $data;
-        exit;
+        $needpasswd = 1;
     }
 
     $doc_select = doc_select($tbsn, $tbdsn);
@@ -69,6 +66,13 @@ function view_page($tbdsn = "")
     $xoopsTpl->assign('facebook_comments', $facebook_comments);
     $xoopsTpl->assign('push_url', push_url());
     $xoopsTpl->assign('tbdsn', $tbdsn);
+    $xoopsTpl->assign('needpasswd', $needpasswd);
+    $xoopsTpl->assign('use_social_tools', $xoopsModuleConfig['use_social_tools']);
+
+    $xoopsTpl->assign('fb_title', $title);
+    $xoopsTpl->assign('fb_description', mb_substr(strip_tags($content), 0, 150));
+    $xoopsTpl->assign("xoops_pagetitle", $title);
+
 }
 
 //更新頁面計數器
@@ -76,20 +80,16 @@ function add_counter($tbdsn = "")
 {
     global $xoopsDB;
     $sql = "update " . $xoopsDB->prefix("tad_book3_docs") . " set  `count` = `count`+1 where tbdsn='$tbdsn'";
-    $xoopsDB->queryF($sql) or web_error($sql);
+    $xoopsDB->queryF($sql) or web_error($sql, __FILE__, __LINE__);
 }
 
 /*-----------執行動作判斷區----------*/
-$_REQUEST['op'] = (empty($_REQUEST['op'])) ? "" : $_REQUEST['op'];
-$tbsn           = (!isset($_REQUEST['tbsn'])) ? "" : intval($_REQUEST['tbsn']);
-$tbdsn          = (!isset($_REQUEST['tbdsn'])) ? "" : intval($_REQUEST['tbdsn']);
+include_once $GLOBALS['xoops']->path('/modules/system/include/functions.php');
+$op    = system_CleanVars($_REQUEST, 'op', '', 'string');
+$tbsn  = system_CleanVars($_REQUEST, 'tbsn', 0, 'int');
+$tbdsn = system_CleanVars($_REQUEST, 'tbdsn', 0, 'int');
 
-$xoopsTpl->assign("toolbar", toolbar_bootstrap($interface_menu));
-$xoopsTpl->assign("bootstrap", get_bootstrap());
-$xoopsTpl->assign("jquery", get_jquery(true));
-$xoopsTpl->assign("isAdmin", $isAdmin);
-
-switch ($_REQUEST['op']) {
+switch ($op) {
 
     case "check_passwd":
         check_passwd($tbsn);
@@ -101,4 +101,9 @@ switch ($_REQUEST['op']) {
 }
 
 /*-----------秀出結果區--------------*/
+
+$xoopsTpl->assign("toolbar", toolbar_bootstrap($interface_menu));
+$xoopsTpl->assign("bootstrap", get_bootstrap());
+$xoopsTpl->assign("jquery", get_jquery(true));
+$xoopsTpl->assign("isAdmin", $isAdmin);
 include_once XOOPS_ROOT_PATH . '/footer.php';
