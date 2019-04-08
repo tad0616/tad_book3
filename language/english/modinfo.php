@@ -16,7 +16,7 @@ define('_MI_TADBOOK3_BNAME4', 'Index');
 define('_MI_TADBOOK3_BDESC4', 'Display index of currently reading book');
 
 define('_MI_TADBOOK3_DIRNAME', basename(dirname(dirname(__DIR__))));
-define('_MI_TADBOOK3_HELP_HEADER', __DIR__ . '/help/helpheader.html');
+define('_MI_TADBOOK3_HELP_HEADER', __DIR__ . '/help/helpheader.tpl');
 define('_MI_TADBOOK3_BACK_2_ADMIN', 'Back to Administration of ');
 
 //help
