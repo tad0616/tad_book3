@@ -18,7 +18,7 @@ define('_MI_TADBOOK3_BNAME5', 'List the specified book chapter directory');
 define('_MI_TADBOOK3_BDESC5', 'Specify a book, show all its chapters');
 
 define('_MI_TADBOOK3_DIRNAME', basename(dirname(dirname(__DIR__))));
-define('_MI_TADBOOK3_HELP_HEADER', __DIR__ . '/help/helpheader.html');
+define('_MI_TADBOOK3_HELP_HEADER', __DIR__ . '/help/helpheader.tpl');
 define('_MI_TADBOOK3_BACK_2_ADMIN', 'Back to Administration of ');
 
 //help
