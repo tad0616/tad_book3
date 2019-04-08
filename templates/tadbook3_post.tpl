@@ -16,13 +16,23 @@
     <label class="col-md-1 control-label">
       <{$smarty.const._MD_TADBOOK3_STATUS}>
     </label>
-    <div class="col-md-5">
+    <div class="col-md-2">
       <label class="radio-inline">
         <input type="radio" name="enable" id="enable1" value="1" <{if $enable=="1"}>checked<{/if}>><{$smarty.const._MD_TADBOOK3_ENABLE}>
       </label>
       <label class="radio-inline">
         <input type="radio" name="enable" id="enable0" value="0" <{if $enable=="0"}>checked<{/if}>><{$smarty.const._MD_TADBOOK3_UNABLE}>
       </label>
+    </div>
+    <label class="col-md-1 control-label">
+      <{if $from_tbdsn}>
+        <a href="page.php?tbdsn=<{$from_tbdsn}>" target="_blank"><{$smarty.const._MD_TADBOOK3_FROM_TBDSN}></a>
+      <{else}>
+        <{$smarty.const._MD_TADBOOK3_FROM_TBDSN}>
+      <{/if}>
+    </label>
+    <div class="col-md-2">
+      <input type="text" name="from_tbdsn" id="from_tbdsn" value="<{$from_tbdsn}>" class="form-control" placeholder="<{$smarty.const._MD_TADBOOK3_FROM_TBDSN_DESC}>">
     </div>
   </div>
 
@@ -31,7 +41,7 @@
       <{$smarty.const._MD_TADBOOK3_DOC_TITLE}>
     </label>
     <div class="col-md-5">
-      <input type="text" name="title" value="<{$title}>" class="form-control" placeholder="<{$smarty.const._MD_TADBOOK3_DOC_TITLE}>">
+      <input type="text" name="title" id="title" value="<{$title}>" class="form-control" placeholder="<{$smarty.const._MD_TADBOOK3_DOC_TITLE}>">
     </div>
     <label class="col-md-1 control-label">
       <{$smarty.const._MD_TADBOOK3_CATEGORY}>
