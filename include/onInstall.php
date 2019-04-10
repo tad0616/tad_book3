@@ -2,16 +2,16 @@
 function xoops_module_install_tad_book3(&$module)
 {
 
-    mk_dir(XOOPS_ROOT_PATH . "/uploads/tad_book3");
-    mk_dir(XOOPS_ROOT_PATH . "/uploads/tad_book3/file");
-    mk_dir(XOOPS_ROOT_PATH . "/uploads/tad_book3/image");
-    mk_dir(XOOPS_ROOT_PATH . "/uploads/tad_book3/image/.thumbs");
+    tad_book3_mk_dir(XOOPS_ROOT_PATH . "/uploads/tad_book3");
+    tad_book3_mk_dir(XOOPS_ROOT_PATH . "/uploads/tad_book3/file");
+    tad_book3_mk_dir(XOOPS_ROOT_PATH . "/uploads/tad_book3/image");
+    tad_book3_mk_dir(XOOPS_ROOT_PATH . "/uploads/tad_book3/image/.thumbs");
 
     return true;
 }
 
 //建立目錄
-function mk_dir($dir = "")
+function tad_book3_mk_dir($dir = "")
 {
     //若無目錄名稱秀出警告訊息
     if (empty($dir)) {
