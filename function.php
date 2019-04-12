@@ -57,7 +57,7 @@ function get_tad_book3_sub_cate($tbcsn = "0")
     global $xoopsDB;
     $sql       = "select tbcsn,title from " . $xoopsDB->prefix("tad_book3_cate") . " where of_tbsn='{$tbcsn}'";
     $result    = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
-    $tbcsn_arr = array();
+    $tbcsn_arr = [];
     while (list($tbcsn, $title) = $xoopsDB->fetchRow($result)) {
         $tbcsn_arr[$tbcsn] = $title;
     }
@@ -120,7 +120,7 @@ function list_all_cate_book($isAdmin = "")
         $sql     = "select * from  " . $xoopsDB->prefix("tad_book3") . " where tbcsn='{$data['tbcsn']}' and enable='1' order by sort";
         $result2 = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
         $j       = 0;
-        $books   = array();
+        $books   = [];
         while ($data2 = $xoopsDB->fetchArray($result2)) {
             if (!chk_power($data2['read_group'])) {
                 continue;
@@ -226,7 +226,7 @@ function list_docs($def_tbsn = "")
     $xoopsTpl->assign('use_social_tools', $xoopsModuleConfig['use_social_tools']);
 
     $i            = 0;
-    $docs         = array();
+    $docs         = [];
     $sql          = "select * from " . $xoopsDB->prefix("tad_book3_docs") . " where tbsn='{$tbsn}' order by category,page,paragraph,sort";
     $result       = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
     $i1           = $i2           = $i3           = $i4           = 0;
@@ -338,7 +338,7 @@ function tad_book3_form($tbsn = "", $tbcsn = "")
     if (!empty($tbsn)) {
         $DBV = get_tad_book3($tbsn);
     } else {
-        $DBV = array();
+        $DBV = [];
     }
 
     if (!$isAdmin) {
@@ -370,7 +370,7 @@ function tad_book3_form($tbsn = "", $tbcsn = "")
     $ck->setHeight(400);
     $editor = $ck->render();
 
-    $author_arr = (empty($author)) ? array($xoopsUser->getVar("uid")) : explode(",", $author);
+    $author_arr = (empty($author)) ? [$xoopsUser->getVar("uid")] : explode(",", $author);
 
     $cate_select = cate_select($tbcsn);
 
@@ -394,7 +394,7 @@ function tad_book3_form($tbsn = "", $tbcsn = "")
     <div>user uid, ex:\"1,27,103\"</div>";
     }
 
-    $group_arr   = (empty($read_group)) ? array("") : explode(",", $read_group);
+    $group_arr   = (empty($read_group)) ? [""] : explode(",", $read_group);
     $SelectGroup = new XoopsFormSelectGroup("", "read_group", false, $group_arr, 5, true);
     $SelectGroup->setExtra("class='form-control'");
     $SelectGroup->addOption("", _MD_TADBOOK3_ALL_OPEN, false);
@@ -731,7 +731,7 @@ function chk_edit_power($uid_txt = "")
     if ($xoopsUser) {
         $user_id = $xoopsUser->getVar('uid');
     } else {
-        $user_id = array();
+        $user_id = [];
     }
 
     $uid_arr = explode(",", $uid_txt);

@@ -29,9 +29,9 @@ final class Environment
     /**
      * @var ConverterInterface[]
      */
-    protected $converters = array();
+    protected $converters = [];
 
-    public function __construct(array $config = array())
+    public function __construct(array $config = [])
     {
         $this->config = new Configuration($config);
         $this->addConverter(new DefaultConverter());
@@ -78,7 +78,7 @@ final class Environment
      *
      * @return Environment
      */
-    public static function createDefaultEnvironment(array $config = array())
+    public static function createDefaultEnvironment(array $config = [])
     {
         $environment = new static($config);
 

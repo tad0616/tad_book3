@@ -23,7 +23,7 @@ function import_form($tbsn = "")
     if (!empty($tbsn)) {
         $DBV = get_tad_book3($tbsn);
     } else {
-        $DBV = array();
+        $DBV = [];
     }
 
     //預設值設定
@@ -49,7 +49,7 @@ function import_form($tbsn = "")
     $ck->setHeight(400);
     $editor = $ck->render();
 
-    $author_arr = (empty($author)) ? array($xoopsUser->uid()) : explode(",", $author);
+    $author_arr = (empty($author)) ? [$xoopsUser->uid()] : explode(",", $author);
 
     $cate_select = cate_select($tbcsn);
 
@@ -73,7 +73,7 @@ function import_form($tbsn = "")
     <div>user uid, ex:\"1,27,103\"</div>";
     }
 
-    $group_arr   = (empty($read_group)) ? array("") : explode(",", $read_group);
+    $group_arr   = (empty($read_group)) ? [""] : explode(",", $read_group);
     $SelectGroup = new XoopsFormSelectGroup("", "read_group", false, $group_arr, 5, true);
     $SelectGroup->addOption("", _MD_TADBOOK3_ALL_OPEN, false);
     $SelectGroup->setExtra("class='span12'");
@@ -339,7 +339,7 @@ function tad_book3_export($tbsn = "")
 }
 
 //更新排序
-function update_docs_sort($update_sort = array())
+function update_docs_sort($update_sort = [])
 {
     global $xoopsDB;
     foreach ($update_sort as $tbdsn => $doc_sort) {

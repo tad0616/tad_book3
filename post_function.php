@@ -17,7 +17,7 @@ function tad_book3_docs_form($tbdsn = "", $tbsn = "")
         $DBV  = get_tad_book3_docs($tbdsn);
         $tbsn = $DBV['tbsn'];
     } else {
-        $DBV = array();
+        $DBV = [];
     }
 
     if (!$isAdmin) {

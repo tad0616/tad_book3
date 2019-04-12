@@ -4,7 +4,7 @@ function tad_book3_random($options)
 {
     global $xoopsDB;
     include_once XOOPS_ROOT_PATH . "/modules/tad_book3/function_block.php";
-    $block = array();
+    $block = [];
 
     $sql    = "select `tbsn`,`title`,`counter`,`pic_name`, `read_group` from " . $xoopsDB->prefix("tad_book3") . " where enable='1' order by rand() limit 0, {$options[0]}";
     $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);

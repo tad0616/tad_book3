@@ -40,6 +40,6 @@ class DivConverter implements ConverterInterface, ConfigurationAwareInterface
      */
     public function getSupportedTags()
     {
-        return array('div');
+        return ['div'];
     }
 }

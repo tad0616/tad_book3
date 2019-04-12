@@ -45,6 +45,6 @@ class DefaultConverter implements ConverterInterface, ConfigurationAwareInterfac
      */
     public function getSupportedTags()
     {
-        return array(self::DEFAULT_CONVERTER);
+        return [self::DEFAULT_CONVERTER];
     }
 }

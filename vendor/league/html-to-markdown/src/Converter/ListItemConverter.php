@@ -32,6 +32,6 @@ class ListItemConverter implements ConverterInterface
      */
     public function getSupportedTags()
     {
-        return array('li');
+        return ['li'];
     }
 }

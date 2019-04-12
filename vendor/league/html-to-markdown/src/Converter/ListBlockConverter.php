@@ -21,6 +21,6 @@ class ListBlockConverter implements ConverterInterface
      */
     public function getSupportedTags()
     {
-        return array('ol', 'ul');
+        return ['ol', 'ul'];
     }
 }

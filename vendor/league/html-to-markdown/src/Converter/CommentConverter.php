@@ -21,6 +21,6 @@ class CommentConverter implements ConverterInterface
      */
     public function getSupportedTags()
     {
-        return array('#comment');
+        return ['#comment'];
     }
 }

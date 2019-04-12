@@ -21,6 +21,6 @@ class HardBreakConverter implements ConverterInterface
      */
     public function getSupportedTags()
     {
-        return array('br');
+        return ['br'];
     }
 }

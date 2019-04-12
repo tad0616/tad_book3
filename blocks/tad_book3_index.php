@@ -43,7 +43,7 @@ if (!function_exists("block_get_book_content")) {
         $result = $xoopsDB->query($sql);
 
         $father_sn = $old_sn = $old_level = 0;
-        $fsn       = array();
+        $fsn       = [];
         while (list($tbdsn, $tbsn, $category, $page, $paragraph, $sort, $title) = $xoopsDB->fetchRow($result)) {
             $doc_sort = block_category($tbdsn, $category, $page, $paragraph, $sort);
 

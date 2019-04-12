@@ -55,7 +55,7 @@ function tad_book3_content($options)
     }
 
     $i            = 0;
-    $docs         = array();
+    $docs         = [];
     $sql          = "select * from " . $xoopsDB->prefix("tad_book3_docs") . " where tbsn='{$def_tbsn}' order by category,page,paragraph,sort";
     $result       = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
     $i1           = $i2           = $i3           = $i4           = 0;

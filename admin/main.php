@@ -14,7 +14,7 @@ function tad_book3_cate_form($tbcsn = "")
     if (!empty($tbcsn)) {
         $DBV = get_tad_book3_cate($tbcsn);
     } else {
-        $DBV = array();
+        $DBV = [];
     }
 
     //預設值設定
@@ -143,11 +143,11 @@ function list_tad_book3($tbcsn = "")
     $total   = $PageBar['total'];
     $result  = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
     $i       = 0;
-    $books   = array();
+    $books   = [];
     while ($data = $xoopsDB->fetchArray($result)) {
         $books[$i]         = $data;
         $books[$i]['cate'] = get_tad_book3_cate($data['tbcsn']);
-        $uid_name          = array();
+        $uid_name          = [];
         $author_arr        = explode(',', $data['author']);
         foreach ($author_arr as $uid) {
             $uidname    = XoopsUser::getUnameFromId($uid, 1);

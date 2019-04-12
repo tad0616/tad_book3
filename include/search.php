@@ -10,7 +10,7 @@ function tadbook3_search($queryarray, $andor, $limit, $offset, $userid)
             }
             $queryarray = $arr;
         } else {
-            $queryarray = array();
+            $queryarray = [];
         }
     }
     $sql = "SELECT tbdsn,title,last_modify_date,uid FROM " . $xoopsDB->prefix("tad_book3_docs") . " WHERE enable='1'";
@@ -27,7 +27,7 @@ function tadbook3_search($queryarray, $andor, $limit, $offset, $userid)
     }
     $sql    .= "ORDER BY last_modify_date DESC";
     $result = $xoopsDB->query($sql, $limit, $offset);
-    $ret    = array();
+    $ret    = [];
     $i      = 0;
     while ($myrow = $xoopsDB->fetchArray($result)) {
         $ret[$i]['image'] = "images/copy.png";

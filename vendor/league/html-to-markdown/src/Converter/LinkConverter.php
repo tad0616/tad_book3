@@ -37,6 +37,6 @@ class LinkConverter implements ConverterInterface
      */
     public function getSupportedTags()
     {
-        return array('a');
+        return ['a'];
     }
 }

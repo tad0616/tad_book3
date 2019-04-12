@@ -13,7 +13,7 @@ if (!function_exists('chk_power')) {
         if ($xoopsUser) {
             $User_Groups = $xoopsUser->getGroups();
         } else {
-            $User_Groups = array();
+            $User_Groups = [];
         }
 
         $news_enable_group = explode(",", $enable_group);
@@ -100,7 +100,7 @@ if (!function_exists('have_sub')) {
 
 //book陰影
 if (!function_exists('book_shadow')) {
-    function book_shadow($books = array())
+    function book_shadow($books = [])
     {
         global $xoopsUser;
 
