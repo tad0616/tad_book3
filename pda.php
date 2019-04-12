@@ -150,7 +150,7 @@ function show_allbook()
 				<ul class='gallery-entries clearfix'>
 	  ";
         foreach ($book_arr as $book) {
-            $main .= "{$book}";
+            $main .= (string)($book);
         }
         $main .= "
 				</ul>

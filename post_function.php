@@ -86,12 +86,12 @@ function insert_tad_book3_docs()
     $myts                = MyTextSanitizer::getInstance();
     $_POST['title']      = $myts->addSlashes($_POST['title']);
     $_POST['content']    = $myts->addSlashes($_POST['content']);
-    $_POST['from_tbdsn'] = intval($_POST['from_tbdsn']);
+    $_POST['from_tbdsn'] = (int)$_POST['from_tbdsn'];
 
-    $_POST['category']  = intval($_POST['category']);
-    $_POST['page']      = intval($_POST['page']);
-    $_POST['paragraph'] = intval($_POST['paragraph']);
-    $_POST['sort']      = intval($_POST['sort']);
+    $_POST['category']  = (int)$_POST['category'];
+    $_POST['page']      = (int)$_POST['page'];
+    $_POST['paragraph'] = (int)$_POST['paragraph'];
+    $_POST['sort']      = (int)$_POST['sort'];
 
     check_update_cpps_add($_POST['tbsn'], $_POST['category'], $_POST['page'], $_POST['paragraph'], $_POST['sort']);
 
@@ -112,12 +112,12 @@ function update_tad_book3_docs($tbdsn = "")
     $myts                = MyTextSanitizer::getInstance();
     $_POST['title']      = $myts->addSlashes($_POST['title']);
     $_POST['content']    = $myts->addSlashes($_POST['content']);
-    $_POST['from_tbdsn'] = intval($_POST['from_tbdsn']);
+    $_POST['from_tbdsn'] = (int)$_POST['from_tbdsn'];
 
-    $_POST['category']  = intval($_POST['category']);
-    $_POST['page']      = intval($_POST['page']);
-    $_POST['paragraph'] = intval($_POST['paragraph']);
-    $_POST['sort']      = intval($_POST['sort']);
+    $_POST['category']  = (int)$_POST['category'];
+    $_POST['page']      = (int)$_POST['page'];
+    $_POST['paragraph'] = (int)$_POST['paragraph'];
+    $_POST['sort']      = (int)$_POST['sort'];
 
     check_update_cpps_add($_POST['tbsn'], $_POST['category'], $_POST['page'], $_POST['paragraph'], $_POST['sort'], $tbdsn);
 
