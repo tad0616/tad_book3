@@ -374,13 +374,13 @@ function tad_book3_form($tbsn = "", $tbcsn = "")
 
     $cate_select = cate_select($tbcsn);
 
-    $member_handler = xoops_gethandler('member');
+    $member_handler = xoops_getHandler('member');
     $usercount      = $member_handler->getUserCount(new Criteria('level', 0, '>'));
 
     if ($usercount < 1000) {
         $select = new XoopsFormSelect('', 'author', $author_arr, 5, true);
         $select->setExtra("class='form-control'");
-        $member_handler = xoops_gethandler('member');
+        $member_handler = xoops_getHandler('member');
         $criteria       = new CriteriaCompo();
         $criteria->setSort('uname');
         $criteria->setOrder('ASC');
