@@ -148,7 +148,7 @@ class Utility
 
     //建立目錄
 
-    public function mk_dir($dir = '')
+    public static function mk_dir($dir = '')
     {
         //若無目錄名稱秀出警告訊息
         if (empty($dir)) {
