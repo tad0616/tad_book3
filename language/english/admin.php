@@ -15,7 +15,7 @@ define('_MA_TADBOOK3_COUNTER', 'Count');
 define('_MA_TADBOOK3_CREATE_DATE', 'Created on');
 define('_MA_TADBOOK3_TBCSN_MENU', 'Category');
 define('_MA_TADBOOK3_ADD_DOC', 'Add Article');
-define("_MA_TADBOOK3_ADD_CATE", "Add Category");
+define('_MA_TADBOOK3_ADD_CATE', 'Add Category');
 define('_MA_TADBOOK3_ENABLE', 'Activate');
 define('_MA_TADBOOK3_UNABLE', 'Closed');
 

@@ -1,26 +1,26 @@
 <?php
-include_once "header.php";
+include_once 'header.php';
 set_time_limit(0);
-ini_set("memory_limit", "150M");
+ini_set('memory_limit', '150M');
 
 include_once $GLOBALS['xoops']->path('/modules/system/include/functions.php');
-$op      = system_CleanVars($_REQUEST, 'op', '', 'string');
-$tbdsn   = system_CleanVars($_REQUEST, 'tbdsn', 0, 'int');
-$header  = system_CleanVars($_REQUEST, 'header', 1, 'int');
+$op = system_CleanVars($_REQUEST, 'op', '', 'string');
+$tbdsn = system_CleanVars($_REQUEST, 'tbdsn', 0, 'int');
+$header = system_CleanVars($_REQUEST, 'header', 1, 'int');
 $artical = get_tad_book3_docs($tbdsn);
 foreach ($artical as $key => $value) {
     $$key = $value;
 }
 $doc_sort = mk_category($category, $page, $paragraph, $sort);
-$book     = get_tad_book3($tbsn);
+$book = get_tad_book3($tbsn);
 //高亮度語法
-if (!file_exists(TADTOOLS_PATH . "/syntaxhighlighter.php")) {
-    redirect_header("index.php", 3, _MD_NEED_TADTOOLS);
+if (!file_exists(TADTOOLS_PATH . '/syntaxhighlighter.php')) {
+    redirect_header('index.php', 3, _MD_NEED_TADTOOLS);
 }
-include_once TADTOOLS_PATH . "/syntaxhighlighter.php";
-$syntaxhighlighter      = new syntaxhighlighter();
+include_once TADTOOLS_PATH . '/syntaxhighlighter.php';
+$syntaxhighlighter = new syntaxhighlighter();
 $syntaxhighlighter_code = $syntaxhighlighter->render();
-$bootstrap              = get_bootstrap('return');
+$bootstrap = get_bootstrap('return');
 
 $html = '<!DOCTYPE html>
 <html lang="zh-Hant-TW">
@@ -63,7 +63,7 @@ $html .= '
 die($html);
 
 //觀看某一頁
-function view_page($tbdsn = "", $header = 1)
+function view_page($tbdsn = '', $header = 1)
 {
     global $xoopsDB, $book, $artical, $doc_sort;
 
@@ -77,16 +77,17 @@ function view_page($tbdsn = "", $header = 1)
     }
 
     if (!chk_power($book['read_group'])) {
-        header("location:index.php");
+        header('location:index.php');
         exit;
     }
 
     if (!empty($book['passwd']) and $_SESSION['passwd'] != $book['passwd']) {
         $data .= _MD_TADBOOK3_INPUT_PASSWD;
+
         return $data;
         exit;
     }
-    $page_title = $header ? "<div class='page_title'>{$book['title']}</div>" : "";
+    $page_title = $header ? "<div class='page_title'>{$book['title']}</div>" : '';
 
     $main = "
     <div class='page'>

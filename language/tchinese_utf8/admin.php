@@ -14,7 +14,7 @@ define('_MA_TADBOOK3_COUNTER', '人氣');
 define('_MA_TADBOOK3_CREATE_DATE', '建立日期');
 define('_MA_TADBOOK3_TBCSN_MENU', '書籍分類');
 define('_MA_TADBOOK3_ADD_DOC', '新增文章');
-define("_MA_TADBOOK3_ADD_CATE", "建立新分類");
+define('_MA_TADBOOK3_ADD_CATE', '建立新分類');
 define('_MA_TADBOOK3_ENABLE', '顯示');
 define('_MA_TADBOOK3_UNABLE', '關閉');
 define('_MA_TADBOOK3_TBCSN', '分類編號');

@@ -3,9 +3,9 @@
 function tad_book3_content($options)
 {
     global $xoopsDB, $xoopsUser, $xoopsTpl;
-    include_once XOOPS_ROOT_PATH . "/modules/tad_book3/function_block.php";
+    include_once XOOPS_ROOT_PATH . '/modules/tad_book3/function_block.php';
 
-    $def_tbsn = !empty($options[0]) ? (int) $options[0] : "1";
+    $def_tbsn = !empty($options[0]) ? (int) $options[0] : '1';
 
     $uid = ($xoopsUser) ? $xoopsUser->uid() : 0;
 
@@ -13,17 +13,18 @@ function tad_book3_content($options)
 
     $all_cate = all_cate();
 
-    $sql    = "select * from " . $xoopsDB->prefix("tad_book3") . " where tbsn='$def_tbsn' and enable='1'";
+    $sql = 'select * from ' . $xoopsDB->prefix('tad_book3') . " where tbsn='$def_tbsn' and enable='1'";
     $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
 
     $data = $xoopsDB->fetchArray($result);
     foreach ($data as $k => $v) {
-        $$k        = $v;
+        $$k = $v;
         $block[$k] = $v;
     }
 
     if (!chk_power($read_group)) {
         $block['msg'] = _MB_TADBOOK3_NO_READ_ACCESS;
+
         return $block;
     }
 
@@ -32,58 +33,58 @@ function tad_book3_content($options)
         $block['needpasswd'] = 1;
     }
 
-    $block['enable_txt'] = ($enable == '1') ? _MB_TADBOOK3_ENABLE : _MB_TADBOOK3_UNABLE;
+    $block['enable_txt'] = ('1' == $enable) ? _MB_TADBOOK3_ENABLE : _MB_TADBOOK3_UNABLE;
 
     //共同編輯者
-    $author_arr = explode(",", $author);
+    $author_arr = explode(',', $author);
     foreach ($author_arr as $uid) {
-        $uidname    = XoopsUser::getUnameFromId($uid, 1);
-        $uidname    = (empty($uidname)) ? XoopsUser::getUnameFromId($uid, 0) : $uidname;
+        $uidname = XoopsUser::getUnameFromId($uid, 1);
+        $uidname = (empty($uidname)) ? XoopsUser::getUnameFromId($uid, 0) : $uidname;
         $uid_name[] = $uidname;
     }
-    $block['author']       = implode(" , ", $uid_name);
-    $block['create_date']  = date("Y-m-d H:i:s", xoops_getUserTimestamp(strtotime($create_date)));
-    $block['cate']         = (empty($all_cate[$tbcsn])) ? _MB_TADBOOK3_NOT_CLASSIFIED : $all_cate[$tbcsn];
-    $book                  = book_shadow($data);
-    $block['book']         = $book;
+    $block['author'] = implode(' , ', $uid_name);
+    $block['create_date'] = date('Y-m-d H:i:s', xoops_getUserTimestamp(strtotime($create_date)));
+    $block['cate'] = (empty($all_cate[$tbcsn])) ? _MB_TADBOOK3_NOT_CLASSIFIED : $all_cate[$tbcsn];
+    $book = book_shadow($data);
+    $block['book'] = $book;
     $block['book_content'] = sprintf(_MB_TADBOOK3_BOOK_CONTENT, $title);
 
     if ($xoopsTpl) {
         $xoopsTpl->assign('xoops_pagetitle', $title);
-        $xoopsTpl->assign("fb_description", strip_tags($description));
-        $xoopsTpl->assign("logo_img", $book['pic']);
+        $xoopsTpl->assign('fb_description', strip_tags($description));
+        $xoopsTpl->assign('logo_img', $book['pic']);
     }
 
-    $i            = 0;
-    $docs         = [];
-    $sql          = "select * from " . $xoopsDB->prefix("tad_book3_docs") . " where tbsn='{$def_tbsn}' order by category,page,paragraph,sort";
-    $result       = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
-    $i1           = $i2           = $i3           = $i4           = 0;
+    $i = 0;
+    $docs = [];
+    $sql = 'select * from ' . $xoopsDB->prefix('tad_book3_docs') . " where tbsn='{$def_tbsn}' order by category,page,paragraph,sort";
+    $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
+    $i1 = $i2 = $i3 = $i4 = 0;
     $new_category = $new_page = $new_paragraph = $new_sort = '';
     while ($data = $xoopsDB->fetchArray($result)) {
         foreach ($data as $k => $v) {
             $$k = $v;
         }
 
-        $doc_sort         = mk_category($category, $page, $paragraph, $sort);
-        $have_sub         = have_sub($def_tbsn, $category, $page, $paragraph, $sort);
-        $last_modify_date = date("Y-m-d H:i:s", xoops_getUserTimestamp($last_modify_date));
+        $doc_sort = mk_category($category, $page, $paragraph, $sort);
+        $have_sub = have_sub($def_tbsn, $category, $page, $paragraph, $sort);
+        $last_modify_date = date('Y-m-d H:i:s', xoops_getUserTimestamp($last_modify_date));
 
-        if ($enable != '1') {
+        if ('1' != $enable) {
             continue;
         }
 
-        $enable_txt = ($enable == '1') ? "" : "[" . _MB_TADBOOK3_UNABLE . "] ";
+        $enable_txt = ('1' == $enable) ? '' : '[' . _MB_TADBOOK3_UNABLE . '] ';
 
-        $docs[$i]['tbdsn']            = $tbdsn;
+        $docs[$i]['tbdsn'] = $tbdsn;
         $docs[$i]['last_modify_date'] = $last_modify_date;
-        $docs[$i]['doc_sort_level']   = $doc_sort['level'];
-        $docs[$i]['doc_sort_main']    = $doc_sort['main'];
-        $docs[$i]['title']            = $title;
-        $docs[$i]['count']            = $count;
-        $docs[$i]['enable']           = $enable;
-        $docs[$i]['enable_txt']       = $enable_txt;
-        $docs[$i]['have_sub']         = $have_sub;
+        $docs[$i]['doc_sort_level'] = $doc_sort['level'];
+        $docs[$i]['doc_sort_main'] = $doc_sort['main'];
+        $docs[$i]['title'] = $title;
+        $docs[$i]['count'] = $count;
+        $docs[$i]['enable'] = $enable;
+        $docs[$i]['enable_txt'] = $enable_txt;
+        $docs[$i]['have_sub'] = $have_sub;
 
         if (empty($new_category)) {
             $new_category = $category;
@@ -91,9 +92,9 @@ function tad_book3_content($options)
         } elseif ($new_category != $category) {
             $new_category = $category;
             $i1++;
-            $new_page      = 0;
+            $new_page = 0;
             $new_paragraph = 0;
-            $new_sort      = 0;
+            $new_sort = 0;
         }
 
         if (!empty($page)) {
@@ -104,7 +105,7 @@ function tad_book3_content($options)
                 $new_page = $page;
                 $i2++;
                 $new_paragraph = 0;
-                $new_sort      = 0;
+                $new_sort = 0;
             }
         } else {
             $i2 = 0;
@@ -140,14 +141,15 @@ function tad_book3_content($options)
     }
 
     $block['docs'] = $docs;
+
     return $block;
 }
 
 //區塊編輯函式
 function tad_book3_content_edit($options)
 {
-    $chked1_0 = ($options[1] == "1") ? "checked" : "";
-    $chked1_1 = ($options[1] == "0") ? "checked" : "";
+    $chked1_0 = ('1' == $options[1]) ? 'checked' : '';
+    $chked1_1 = ('0' == $options[1]) ? 'checked' : '';
 
     $form = "
     <ol class='my-form'>
@@ -161,9 +163,10 @@ function tad_book3_content_edit($options)
             <lable class='my-label'>" . _MB_TADBOOK3_TAD_BOOK3_RANDOM_EDIT_BITEM1 . "</lable>
             <div class='my-content'>
                 <INPUT type='radio' $chked1_0 name='options[1]' value='1'>" . _YES . "
-                <INPUT type='radio' $chked1_1 name='options[1]' value='0'>" . _NO . "
+                <INPUT type='radio' $chked1_1 name='options[1]' value='0'>" . _NO . '
             </div>
         </li>
-    </ol>";
+    </ol>';
+
     return $form;
 }
