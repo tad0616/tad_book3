@@ -42,13 +42,13 @@ function tad_book3_list($options)
 //區塊編輯函式
 function tad_book3_list_edit($options)
 {
-    $seled1_0 = ('counter' == $options[1]) ? 'selected' : '';
-    $seled1_1 = ('create_date' == $options[1]) ? 'selected' : '';
-    $seled1_2 = ('title' == $options[1]) ? 'selected' : '';
-    $seled1_3 = ('sort' == $options[1]) ? 'selected' : '';
+    $seled1_0 = ('counter' === $options[1]) ? 'selected' : '';
+    $seled1_1 = ('create_date' === $options[1]) ? 'selected' : '';
+    $seled1_2 = ('title' === $options[1]) ? 'selected' : '';
+    $seled1_3 = ('sort' === $options[1]) ? 'selected' : '';
 
     $chked2_0 = ('' == $options[2]) ? 'checked' : '';
-    $chked2_1 = ('desc' == $options[2]) ? 'checked' : '';
+    $chked2_1 = ('desc' === $options[2]) ? 'checked' : '';
 
     $chked3_0 = ('0' == $options[3]) ? 'checked' : '';
     $chked3_1 = ('0' != $options[3]) ? 'checked' : '';

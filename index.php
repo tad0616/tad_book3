@@ -197,17 +197,17 @@ function tad_book3_export($tbsn = '')
 
     $cols = $vals = '';
     foreach ($book as $col => $val) {
-        if ('tbsn' == $col) {
+        if ('tbsn' === $col) {
             continue;
         }
 
-        if ('tbcsn' == $col) {
+        if ('tbcsn' === $col) {
             $val = '{{tbcsn}}';
-        } elseif ('author' == $col) {
+        } elseif ('author' === $col) {
             $val = '{{author}}';
-        } elseif ('read_group' == $col) {
+        } elseif ('read_group' === $col) {
             $val = '{{read_group}}';
-        } elseif ('pic_name' == $col) {
+        } elseif ('pic_name' === $col) {
             $val = $rand;
         } else {
             $val = $xoopsDB->escape($val);
@@ -229,11 +229,11 @@ function tad_book3_export($tbsn = '')
     while ($doc = $xoopsDB->fetchArray($result)) {
         $cols = $vals = '';
         foreach ($doc as $col => $val) {
-            if ('tbdsn' == $col) {
+            if ('tbdsn' === $col) {
                 continue;
             }
 
-            if ('tbsn' == $col) {
+            if ('tbsn' === $col) {
                 $val = '{{tbsn}}';
             } else {
                 if (false !== mb_strpos($val, '/uploads/tad_book3/image')) {
