@@ -18,8 +18,8 @@ class PreformattedConverter implements ConverterInterface
         $markdown = '';
 
         $code_content = html_entity_decode($element->getChildrenAsString());
-        $code_content = str_replace(array('<code>', '</code>'), '', $code_content);
-        $code_content = str_replace(array('<pre>', '</pre>'), '', $code_content);
+        $code_content = str_replace(['<code>', '</code>'], '', $code_content);
+        $code_content = str_replace(['<pre>', '</pre>'], '', $code_content);
 
         $lines = preg_split('/\r\n|\r|\n/', $code_content);
         $total = count($lines);
@@ -68,6 +68,6 @@ class PreformattedConverter implements ConverterInterface
      */
     public function getSupportedTags()
     {
-        return array('pre', 'code');
+        return ['pre', 'code'];
     }
 }

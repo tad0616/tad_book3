@@ -1,12 +1,12 @@
 <?php
-include_once "header.php";
+include_once 'header.php';
 set_time_limit(0);
-ini_set("memory_limit", "150M");
+ini_set('memory_limit', '150M');
 
 include_once $GLOBALS['xoops']->path('/modules/system/include/functions.php');
-$op       = system_CleanVars($_REQUEST, 'op', '', 'string');
-$tbsn     = system_CleanVars($_REQUEST, 'tbsn', 0, 'int');
-$tbdsn    = system_CleanVars($_REQUEST, 'tbdsn', 0, 'int');
+$op = system_CleanVars($_REQUEST, 'op', '', 'string');
+$tbsn = system_CleanVars($_REQUEST, 'tbsn', 0, 'int');
+$tbdsn = system_CleanVars($_REQUEST, 'tbdsn', 0, 'int');
 $filename = system_CleanVars($_REQUEST, 'filename', '', 'string');
 
 $filename = str_replace('..', '.', $filename);
@@ -55,7 +55,7 @@ $pdf->writeHTML($html);
 $pdf->Output($filename, 'D');
 
 //觀看某一頁
-function view_page($tbdsn = "")
+function view_page($tbdsn = '')
 {
     global $xoopsDB;
 
@@ -71,12 +71,13 @@ function view_page($tbdsn = "")
 
     $book = get_tad_book3($tbsn);
     if (!chk_power($book['read_group'])) {
-        header("location:index.php");
+        header('location:index.php');
         exit;
     }
 
     if (!empty($book['passwd']) and $_SESSION['passwd'] != $book['passwd']) {
         $data .= _MD_TADBOOK3_INPUT_PASSWD;
+
         return $data;
         exit;
     }
@@ -84,11 +85,11 @@ function view_page($tbdsn = "")
     $doc_sort = mk_category($category, $page, $paragraph, $sort);
 
     //高亮度語法
-    if (!file_exists(TADTOOLS_PATH . "/syntaxhighlighter.php")) {
-        redirect_header("index.php", 3, _MD_NEED_TADTOOLS);
+    if (!file_exists(TADTOOLS_PATH . '/syntaxhighlighter.php')) {
+        redirect_header('index.php', 3, _MD_NEED_TADTOOLS);
     }
-    include_once TADTOOLS_PATH . "/syntaxhighlighter.php";
-    $syntaxhighlighter      = new syntaxhighlighter();
+    include_once TADTOOLS_PATH . '/syntaxhighlighter.php';
+    $syntaxhighlighter = new syntaxhighlighter();
     $syntaxhighlighter_code = $syntaxhighlighter->render();
 
     $main = "

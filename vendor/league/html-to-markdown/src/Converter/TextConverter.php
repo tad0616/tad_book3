@@ -37,6 +37,6 @@ class TextConverter implements ConverterInterface
      */
     public function getSupportedTags()
     {
-        return array('#text');
+        return ['#text'];
     }
 }

@@ -23,6 +23,6 @@ class ParagraphConverter implements ConverterInterface
      */
     public function getSupportedTags()
     {
-        return array('p');
+        return ['p'];
     }
 }

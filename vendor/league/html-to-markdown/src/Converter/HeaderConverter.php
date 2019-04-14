@@ -46,7 +46,7 @@ class HeaderConverter implements ConverterInterface, ConfigurationAwareInterface
      */
     public function getSupportedTags()
     {
-        return array('h1', 'h2', 'h3', 'h4', 'h5', 'h6');
+        return ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'];
     }
 
     /**

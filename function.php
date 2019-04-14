@@ -1,24 +1,24 @@
 <?php
 //引入TadTools的函式庫
-if (!file_exists(XOOPS_ROOT_PATH . "/modules/tadtools/tad_function.php")) {
-    redirect_header("http://campus-xoops.tn.edu.tw/modules/tad_modules/index.php?module_sn=1", 3, _TAD_NEED_TADTOOLS);
+if (!file_exists(XOOPS_ROOT_PATH . '/modules/tadtools/tad_function.php')) {
+    redirect_header('http://campus-xoops.tn.edu.tw/modules/tad_modules/index.php?module_sn=1', 3, _TAD_NEED_TADTOOLS);
 }
-include_once XOOPS_ROOT_PATH . "/modules/tadtools/tad_function.php";
+include_once XOOPS_ROOT_PATH . '/modules/tadtools/tad_function.php';
 
-define("_TADBOOK3_BOOK_DIR", XOOPS_ROOT_PATH . "/uploads/tad_book3");
-define("_TADBOOK3_BOOK_URL", XOOPS_URL . "/uploads/tad_book3");
-include_once XOOPS_ROOT_PATH . "/modules/tad_book3/function_block.php";
+define('_TADBOOK3_BOOK_DIR', XOOPS_ROOT_PATH . '/uploads/tad_book3');
+define('_TADBOOK3_BOOK_URL', XOOPS_URL . '/uploads/tad_book3');
+include_once XOOPS_ROOT_PATH . '/modules/tad_book3/function_block.php';
 
 //取得路徑
-function get_tad_book3_cate_path($the_tbcsn = "", $include_self = true)
+function get_tad_book3_cate_path($the_tbcsn = '', $include_self = true)
 {
     global $xoopsDB;
 
-    $arr[0]['tbcsn'] = "0";
+    $arr[0]['tbcsn'] = '0';
     $arr[0]['title'] = "<i class='fa fa-home'></i>";
-    $arr[0]['sub']   = get_tad_book3_sub_cate(0);
+    $arr[0]['sub'] = get_tad_book3_sub_cate(0);
     if (!empty($the_tbcsn)) {
-        $tbl = $xoopsDB->prefix("tad_book3_cate");
+        $tbl = $xoopsDB->prefix('tad_book3_cate');
         $sql = "SELECT t1.tbcsn AS lev1, t2.tbcsn as lev2, t3.tbcsn as lev3, t4.tbcsn as lev4, t5.tbcsn as lev5, t6.tbcsn as lev6, t7.tbcsn as lev7
             FROM `{$tbl}` t1
             LEFT JOIN `{$tbl}` t2 ON t2.of_tbsn = t1.tbcsn
@@ -30,14 +30,14 @@ function get_tad_book3_cate_path($the_tbcsn = "", $include_self = true)
             WHERE t1.of_tbsn = '0'";
         $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
         while ($all = $xoopsDB->fetchArray($result)) {
-            if (in_array($the_tbcsn, $all)) {
+            if (in_array($the_tbcsn, $all, true)) {
                 //$main.="-";
                 foreach ($all as $tbcsn) {
                     if (!empty($tbcsn)) {
                         if (!$include_self and $tbcsn == $the_tbcsn) {
                             break;
                         }
-                        $arr[$tbcsn]        = get_tad_book3_cate($tbcsn);
+                        $arr[$tbcsn] = get_tad_book3_cate($tbcsn);
                         $arr[$tbcsn]['sub'] = get_tad_book3_sub_cate($tbcsn);
                         if ($tbcsn == $the_tbcsn) {
                             break;
@@ -49,47 +49,51 @@ function get_tad_book3_cate_path($the_tbcsn = "", $include_self = true)
             }
         }
     }
+
     return $arr;
 }
 
-function get_tad_book3_sub_cate($tbcsn = "0")
+function get_tad_book3_sub_cate($tbcsn = '0')
 {
     global $xoopsDB;
-    $sql       = "select tbcsn,title from " . $xoopsDB->prefix("tad_book3_cate") . " where of_tbsn='{$tbcsn}'";
-    $result    = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
-    $tbcsn_arr = array();
+    $sql = 'select tbcsn,title from ' . $xoopsDB->prefix('tad_book3_cate') . " where of_tbsn='{$tbcsn}'";
+    $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
+    $tbcsn_arr = [];
     while (list($tbcsn, $title) = $xoopsDB->fetchRow($result)) {
         $tbcsn_arr[$tbcsn] = $title;
     }
+
     return $tbcsn_arr;
 }
 
 //以流水號取得某筆tad_book3_cate資料
-function get_tad_book3_cate($tbcsn = "")
+function get_tad_book3_cate($tbcsn = '')
 {
     global $xoopsDB;
     if (empty($tbcsn)) {
         return;
     }
-    $counter       = tad_book3_cate_count();
-    $sql           = "select * from " . $xoopsDB->prefix("tad_book3_cate") . " where tbcsn='$tbcsn'";
-    $result        = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
-    $data          = $xoopsDB->fetchArray($result);
+    $counter = tad_book3_cate_count();
+    $sql = 'select * from ' . $xoopsDB->prefix('tad_book3_cate') . " where tbcsn='$tbcsn'";
+    $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
+    $data = $xoopsDB->fetchArray($result);
     $data['count'] = $counter[$tbcsn];
+
     return $data;
 }
 
 //以流水號取得某筆tad_book3_docs資料
-function get_tad_book3_docs($tbdsn = "")
+function get_tad_book3_docs($tbdsn = '')
 {
     global $xoopsDB;
     if (empty($tbdsn)) {
         return;
     }
 
-    $sql    = "select * from " . $xoopsDB->prefix("tad_book3_docs") . " where tbdsn='$tbdsn'";
+    $sql = 'select * from ' . $xoopsDB->prefix('tad_book3_docs') . " where tbdsn='$tbdsn'";
     $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
-    $data   = $xoopsDB->fetchArray($result);
+    $data = $xoopsDB->fetchArray($result);
+
     return $data;
 }
 
@@ -97,7 +101,7 @@ function get_tad_book3_docs($tbdsn = "")
 function tad_book3_cate_count()
 {
     global $xoopsDB;
-    $sql    = "SELECT tbcsn,count(*) FROM " . $xoopsDB->prefix("tad_book3") . " GROUP BY tbcsn";
+    $sql = 'SELECT tbcsn,count(*) FROM ' . $xoopsDB->prefix('tad_book3') . ' GROUP BY tbcsn';
     $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
     while (list($tbcsn, $count) = $xoopsDB->fetchRow($result)) {
         $all[$tbcsn] = (int) ($count);
@@ -107,20 +111,20 @@ function tad_book3_cate_count()
 }
 
 //秀出所有分類及書籍
-function list_all_cate_book($isAdmin = "")
+function list_all_cate_book($isAdmin = '')
 {
     global $xoopsDB, $xoopsTpl, $xoopsUser;
 
-    $i      = 0;
-    $sql    = "SELECT * FROM  " . $xoopsDB->prefix("tad_book3_cate") . " ORDER BY sort";
+    $i = 0;
+    $sql = 'SELECT * FROM  ' . $xoopsDB->prefix('tad_book3_cate') . ' ORDER BY sort';
     $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
     while ($data = $xoopsDB->fetchArray($result)) {
         $cate[$i] = $data;
 
-        $sql     = "select * from  " . $xoopsDB->prefix("tad_book3") . " where tbcsn='{$data['tbcsn']}' and enable='1' order by sort";
+        $sql = 'select * from  ' . $xoopsDB->prefix('tad_book3') . " where tbcsn='{$data['tbcsn']}' and enable='1' order by sort";
         $result2 = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
-        $j       = 0;
-        $books   = array();
+        $j = 0;
+        $books = [];
         while ($data2 = $xoopsDB->fetchArray($result2)) {
             if (!chk_power($data2['read_group'])) {
                 continue;
@@ -136,18 +140,17 @@ function list_all_cate_book($isAdmin = "")
     $xoopsTpl->assign('cate', $cate);
 
     //刪除書籍
-    if (!file_exists(XOOPS_ROOT_PATH . "/modules/tadtools/sweet_alert.php")) {
-        redirect_header("index.php", 3, _MA_NEED_TADTOOLS);
+    if (!file_exists(XOOPS_ROOT_PATH . '/modules/tadtools/sweet_alert.php')) {
+        redirect_header('index.php', 3, _MA_NEED_TADTOOLS);
     }
-    include_once XOOPS_ROOT_PATH . "/modules/tadtools/sweet_alert.php";
-    $sweet_alert_book      = new sweet_alert();
-    $sweet_alert_book_code = $sweet_alert_book->render("delete_tad_book3_func", "admin/main.php?op=delete_tad_book3&tbsn=", 'tbsn');
+    include_once XOOPS_ROOT_PATH . '/modules/tadtools/sweet_alert.php';
+    $sweet_alert_book = new sweet_alert();
+    $sweet_alert_book_code = $sweet_alert_book->render('delete_tad_book3_func', 'admin/main.php?op=delete_tad_book3&tbsn=', 'tbsn');
     $xoopsTpl->assign('sweet_alert_book_code', $sweet_alert_book_code);
 }
 
-
 //列出某書資料
-function list_docs($def_tbsn = "")
+function list_docs($def_tbsn = '')
 {
     global $xoopsDB, $xoopsUser, $xoopsModule, $xoopsTpl, $xoopsModuleConfig;
 
@@ -163,7 +166,7 @@ function list_docs($def_tbsn = "")
 
     $all_cate = all_cate();
 
-    $sql    = "select * from " . $xoopsDB->prefix("tad_book3") . " where tbsn='$def_tbsn' and enable='1'";
+    $sql = 'select * from ' . $xoopsDB->prefix('tad_book3') . " where tbsn='$def_tbsn' and enable='1'";
     $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
 
     $data = $xoopsDB->fetchArray($result);
@@ -172,7 +175,7 @@ function list_docs($def_tbsn = "")
     }
 
     if (!chk_power($read_group)) {
-        header("location:index.php");
+        header('location:index.php');
         exit;
     }
 
@@ -181,23 +184,23 @@ function list_docs($def_tbsn = "")
         $needpasswd = 1;
     }
 
-    $enable_txt = ($enable == '1') ? _MD_TADBOOK3_ENABLE : _MD_TADBOOK3_UNABLE;
+    $enable_txt = ('1' == $enable) ? _MD_TADBOOK3_ENABLE : _MD_TADBOOK3_UNABLE;
 
     $read_group = txt_to_group_name($read_group, _MD_TADBOOK3_ALL_OPEN);
 
     //共同編輯者
-    $author_arr = explode(",", $author);
-    $my         = in_array($uid, $author_arr);
+    $author_arr = explode(',', $author);
+    $my = in_array($uid, $author_arr, true);
     $xoopsTpl->assign('my', $my);
     foreach ($author_arr as $uid) {
-        $uidname    = XoopsUser::getUnameFromId($uid, 1);
-        $uidname    = (empty($uidname)) ? XoopsUser::getUnameFromId($uid, 0) : $uidname;
+        $uidname = XoopsUser::getUnameFromId($uid, 1);
+        $uidname = (empty($uidname)) ? XoopsUser::getUnameFromId($uid, 0) : $uidname;
         $uid_name[] = $uidname;
     }
-    $author   = implode(" , ", $uid_name);
-    $uid_name = "";
+    $author = implode(' , ', $uid_name);
+    $uid_name = '';
 
-    $create_date = date("Y-m-d H:i:s", xoops_getUserTimestamp(strtotime($create_date)));
+    $create_date = date('Y-m-d H:i:s', xoops_getUserTimestamp(strtotime($create_date)));
 
     $cate = (empty($all_cate[$tbcsn])) ? _MD_TADBOOK3_NOT_CLASSIFIED : $all_cate[$tbcsn];
 
@@ -218,44 +221,43 @@ function list_docs($def_tbsn = "")
     $xoopsTpl->assign('counter', $counter);
     $xoopsTpl->assign('create_date', $create_date);
     $xoopsTpl->assign('push_url', push_url());
-    $xoopsTpl->assign("book_content", sprintf(_MD_TADBOOK3_BOOK_CONTENT, $title));
+    $xoopsTpl->assign('book_content', sprintf(_MD_TADBOOK3_BOOK_CONTENT, $title));
 
     $xoopsTpl->assign('xoops_pagetitle', $title);
-    $xoopsTpl->assign("fb_description", strip_tags($description));
-    $xoopsTpl->assign("logo_img", $book['pic']);
+    $xoopsTpl->assign('fb_description', strip_tags($description));
+    $xoopsTpl->assign('logo_img', $book['pic']);
     $xoopsTpl->assign('use_social_tools', $xoopsModuleConfig['use_social_tools']);
 
-    $i            = 0;
-    $docs         = array();
-    $sql          = "select * from " . $xoopsDB->prefix("tad_book3_docs") . " where tbsn='{$tbsn}' order by category,page,paragraph,sort";
-    $result       = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
-    $i1           = $i2           = $i3           = $i4           = 0;
+    $i = 0;
+    $docs = [];
+    $sql = 'select * from ' . $xoopsDB->prefix('tad_book3_docs') . " where tbsn='{$tbsn}' order by category,page,paragraph,sort";
+    $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
+    $i1 = $i2 = $i3 = $i4 = 0;
     $new_category = $new_page = $new_paragraph = $new_sort = '';
     while ($data = $xoopsDB->fetchArray($result)) {
         foreach ($data as $k => $v) {
             $$k = $v;
         }
 
+        $doc_sort = mk_category($category, $page, $paragraph, $sort);
+        $have_sub = have_sub($def_tbsn, $category, $page, $paragraph, $sort);
+        $last_modify_date = date('Y-m-d H:i:s', xoops_getUserTimestamp($last_modify_date));
 
-        $doc_sort         = mk_category($category, $page, $paragraph, $sort);
-        $have_sub         = have_sub($def_tbsn, $category, $page, $paragraph, $sort);
-        $last_modify_date = date("Y-m-d H:i:s", xoops_getUserTimestamp($last_modify_date));
-
-        if ($enable != '1' and !$my) {
+        if ('1' != $enable and !$my) {
             continue;
         }
 
-        $enable_txt = ($enable == '1') ? "" : "[" . _MD_TADBOOK3_UNABLE . "] ";
+        $enable_txt = ('1' == $enable) ? '' : '[' . _MD_TADBOOK3_UNABLE . '] ';
 
-        $docs[$i]['tbdsn']            = $tbdsn;
+        $docs[$i]['tbdsn'] = $tbdsn;
         $docs[$i]['last_modify_date'] = $last_modify_date;
-        $docs[$i]['doc_sort_level']   = $doc_sort['level'];
-        $docs[$i]['doc_sort_main']    = $doc_sort['main'];
-        $docs[$i]['title']            = $title;
-        $docs[$i]['count']            = $count;
-        $docs[$i]['enable']           = $enable;
-        $docs[$i]['enable_txt']       = $enable_txt;
-        $docs[$i]['have_sub']         = $have_sub;
+        $docs[$i]['doc_sort_level'] = $doc_sort['level'];
+        $docs[$i]['doc_sort_main'] = $doc_sort['main'];
+        $docs[$i]['title'] = $title;
+        $docs[$i]['count'] = $count;
+        $docs[$i]['enable'] = $enable;
+        $docs[$i]['enable_txt'] = $enable_txt;
+        $docs[$i]['have_sub'] = $have_sub;
 
         if (empty($new_category)) {
             $new_category = $category;
@@ -263,9 +265,9 @@ function list_docs($def_tbsn = "")
         } elseif ($new_category != $category) {
             $new_category = $category;
             $i1++;
-            $new_page      = 0;
+            $new_page = 0;
             $new_paragraph = 0;
-            $new_sort      = 0;
+            $new_sort = 0;
         }
 
         if (!empty($page)) {
@@ -276,7 +278,7 @@ function list_docs($def_tbsn = "")
                 $new_page = $page;
                 $i2++;
                 $new_paragraph = 0;
-                $new_sort      = 0;
+                $new_sort = 0;
             }
         } else {
             $i2 = 0;
@@ -314,74 +316,73 @@ function list_docs($def_tbsn = "")
     $xoopsTpl->assign('docs', $docs);
 
     //刪除書籍
-    if (!file_exists(XOOPS_ROOT_PATH . "/modules/tadtools/sweet_alert.php")) {
-        redirect_header("index.php", 3, _MA_NEED_TADTOOLS);
+    if (!file_exists(XOOPS_ROOT_PATH . '/modules/tadtools/sweet_alert.php')) {
+        redirect_header('index.php', 3, _MA_NEED_TADTOOLS);
     }
-    include_once XOOPS_ROOT_PATH . "/modules/tadtools/sweet_alert.php";
-    $sweet_alert_book      = new sweet_alert();
-    $sweet_alert_book_code = $sweet_alert_book->render("delete_tad_book3_func", "admin/main.php?op=delete_tad_book3&tbsn=", 'tbsn');
+    include_once XOOPS_ROOT_PATH . '/modules/tadtools/sweet_alert.php';
+    $sweet_alert_book = new sweet_alert();
+    $sweet_alert_book_code = $sweet_alert_book->render('delete_tad_book3_func', 'admin/main.php?op=delete_tad_book3&tbsn=', 'tbsn');
     $xoopsTpl->assign('sweet_alert_book_code', $sweet_alert_book_code);
 
-    $sweet_alert_docs      = new sweet_alert();
-    $sweet_alert_docs_code = $sweet_alert_docs->render("delete_tad_book3_docs_func", "index.php?op=delete_tad_book3_docs&tbsn={$def_tbsn}&tbdsn=", 'tbdsn');
+    $sweet_alert_docs = new sweet_alert();
+    $sweet_alert_docs_code = $sweet_alert_docs->render('delete_tad_book3_docs_func', "index.php?op=delete_tad_book3_docs&tbsn={$def_tbsn}&tbdsn=", 'tbdsn');
     $xoopsTpl->assign('sweet_alert_docs_code', $sweet_alert_docs_code);
 }
 
-
 //tad_book3編輯表單
-function tad_book3_form($tbsn = "", $tbcsn = "")
+function tad_book3_form($tbsn = '', $tbcsn = '')
 {
     global $xoopsDB, $xoopsUser, $xoopsTpl,$isAdmin;
-    include_once XOOPS_ROOT_PATH . "/class/xoopsformloader.php";
+    include_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
 
     //抓取預設值
     if (!empty($tbsn)) {
         $DBV = get_tad_book3($tbsn);
     } else {
-        $DBV = array();
+        $DBV = [];
     }
 
     if (!$isAdmin) {
         if (!chk_edit_power($DBV['author'])) {
-            header("location:index.php");
+            header('location:index.php');
             exit;
         }
     }
     //預設值設定
 
-    $tbsn        = (!isset($DBV['tbsn'])) ? "" : $DBV['tbsn'];
-    $tbcsn       = (!isset($DBV['tbcsn'])) ? $tbcsn : $DBV['tbcsn'];
-    $sort        = (!isset($DBV['sort'])) ? get_max_doc_sort($tbcsn) : $DBV['sort'];
-    $title       = (!isset($DBV['title'])) ? "" : $DBV['title'];
-    $description = (!isset($DBV['description'])) ? "" : $DBV['description'];
-    $author      = (!isset($DBV['author'])) ? "" : $DBV['author'];
-    $read_group  = (!isset($DBV['read_group'])) ? "" : $DBV['read_group'];
-    $passwd      = (!isset($DBV['passwd'])) ? "" : $DBV['passwd'];
-    $enable      = (!isset($DBV['enable'])) ? "1" : $DBV['enable'];
-    $pic_name    = (!isset($DBV['pic_name'])) ? "" : $DBV['pic_name'];
-    $counter     = (!isset($DBV['counter'])) ? "" : $DBV['counter'];
-    $create_date = (!isset($DBV['create_date'])) ? "" : $DBV['create_date'];
+    $tbsn = (!isset($DBV['tbsn'])) ? '' : $DBV['tbsn'];
+    $tbcsn = (!isset($DBV['tbcsn'])) ? $tbcsn : $DBV['tbcsn'];
+    $sort = (!isset($DBV['sort'])) ? get_max_doc_sort($tbcsn) : $DBV['sort'];
+    $title = (!isset($DBV['title'])) ? '' : $DBV['title'];
+    $description = (!isset($DBV['description'])) ? '' : $DBV['description'];
+    $author = (!isset($DBV['author'])) ? '' : $DBV['author'];
+    $read_group = (!isset($DBV['read_group'])) ? '' : $DBV['read_group'];
+    $passwd = (!isset($DBV['passwd'])) ? '' : $DBV['passwd'];
+    $enable = (!isset($DBV['enable'])) ? '1' : $DBV['enable'];
+    $pic_name = (!isset($DBV['pic_name'])) ? '' : $DBV['pic_name'];
+    $counter = (!isset($DBV['counter'])) ? '' : $DBV['counter'];
+    $create_date = (!isset($DBV['create_date'])) ? '' : $DBV['create_date'];
 
-    if (!file_exists(XOOPS_ROOT_PATH . "/modules/tadtools/ck.php")) {
-        redirect_header("http://campus-xoops.tn.edu.tw/modules/tad_modules/index.php?module_sn=1", 3, _TAD_NEED_TADTOOLS);
+    if (!file_exists(XOOPS_ROOT_PATH . '/modules/tadtools/ck.php')) {
+        redirect_header('http://campus-xoops.tn.edu.tw/modules/tad_modules/index.php?module_sn=1', 3, _TAD_NEED_TADTOOLS);
     }
-    include_once XOOPS_ROOT_PATH . "/modules/tadtools/ck.php";
-    $ck = new CKEditor("tad_book3", "description", $description);
+    include_once XOOPS_ROOT_PATH . '/modules/tadtools/ck.php';
+    $ck = new CKEditor('tad_book3', 'description', $description);
     $ck->setHeight(400);
     $editor = $ck->render();
 
-    $author_arr = (empty($author)) ? array($xoopsUser->getVar("uid")) : explode(",", $author);
+    $author_arr = (empty($author)) ? [$xoopsUser->getVar('uid')] : explode(',', $author);
 
     $cate_select = cate_select($tbcsn);
 
-    $member_handler = xoops_gethandler('member');
-    $usercount      = $member_handler->getUserCount(new Criteria('level', 0, '>'));
+    $member_handler = xoops_getHandler('member');
+    $usercount = $member_handler->getUserCount(new Criteria('level', 0, '>'));
 
     if ($usercount < 1000) {
         $select = new XoopsFormSelect('', 'author', $author_arr, 5, true);
         $select->setExtra("class='form-control'");
-        $member_handler = xoops_gethandler('member');
-        $criteria       = new CriteriaCompo();
+        $member_handler = xoops_getHandler('member');
+        $criteria = new CriteriaCompo();
         $criteria->setSort('uname');
         $criteria->setOrder('ASC');
         $criteria->setLimit(1000);
@@ -394,13 +395,13 @@ function tad_book3_form($tbsn = "", $tbcsn = "")
     <div>user uid, ex:\"1,27,103\"</div>";
     }
 
-    $group_arr   = (empty($read_group)) ? array("") : explode(",", $read_group);
-    $SelectGroup = new XoopsFormSelectGroup("", "read_group", false, $group_arr, 5, true);
+    $group_arr = (empty($read_group)) ? [''] : explode(',', $read_group);
+    $SelectGroup = new XoopsFormSelectGroup('', 'read_group', false, $group_arr, 5, true);
     $SelectGroup->setExtra("class='form-control'");
-    $SelectGroup->addOption("", _MD_TADBOOK3_ALL_OPEN, false);
+    $SelectGroup->addOption('', _MD_TADBOOK3_ALL_OPEN, false);
     $group_menu = $SelectGroup->render();
 
-    $op = (empty($tbsn)) ? "insert_tad_book3" : "update_tad_book3";
+    $op = (empty($tbsn)) ? 'insert_tad_book3' : 'update_tad_book3';
 
     $xoopsTpl->assign('action', $_SERVER['PHP_SELF']);
     $xoopsTpl->assign('tbsn', $tbsn);
@@ -430,22 +431,22 @@ function insert_tad_book3()
     if (!empty($_POST['author_str'])) {
         $author = $_POST['author_str'];
     } else {
-        $author = implode(",", $_POST['author']);
+        $author = implode(',', $_POST['author']);
     }
 
-    $myts                 = MyTextSanitizer::getInstance();
-    $_POST['title']       = $myts->addSlashes($_POST['title']);
+    $myts = MyTextSanitizer::getInstance();
+    $_POST['title'] = $myts->addSlashes($_POST['title']);
     $_POST['description'] = $myts->addSlashes($_POST['description']);
 
-    $read_group = (in_array("", $_POST['read_group'])) ? "" : implode(",", $_POST['read_group']);
-    $now        = date("Y-m-d H:i:s", xoops_getUserTimestamp(time()));
-    $sql        = "insert into " . $xoopsDB->prefix("tad_book3") . " (`tbcsn`,`sort`,`title`,`description`,`author`,`read_group`,`passwd`,`enable`,`pic_name`,`counter`,`create_date`) values('{$tbcsn}','{$_POST['sort']}','{$_POST['title']}','{$_POST['description']}','{$author}','{$read_group}','{$_POST['passwd']}','{$_POST['enable']}','{$_POST['pic_name']}',0,'{$now}')";
+    $read_group = (in_array('', $_POST['read_group'], true)) ? '' : implode(',', $_POST['read_group']);
+    $now = date('Y-m-d H:i:s', xoops_getUserTimestamp(time()));
+    $sql = 'insert into ' . $xoopsDB->prefix('tad_book3') . " (`tbcsn`,`sort`,`title`,`description`,`author`,`read_group`,`passwd`,`enable`,`pic_name`,`counter`,`create_date`) values('{$tbcsn}','{$_POST['sort']}','{$_POST['title']}','{$_POST['description']}','{$author}','{$read_group}','{$_POST['passwd']}','{$_POST['enable']}','{$_POST['pic_name']}',0,'{$now}')";
     $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
     //取得最後新增資料的流水編號
     $tbsn = $xoopsDB->getInsertId();
 
     if (!empty($_FILES['pic_name']['name'])) {
-        mk_thumb($tbsn, "pic_name", 120);
+        mk_thumb($tbsn, 'pic_name', 120);
     }
 
     return $tbsn;
@@ -459,13 +460,14 @@ function add_tad_book3_cate()
         return;
     }
 
-    $myts  = MyTextSanitizer::getInstance();
+    $myts = MyTextSanitizer::getInstance();
     $title = $myts->addSlashes($_POST['new_tbcsn']);
-    $sort  = tad_book3_cate_max_sort();
-    $sql   = "insert into " . $xoopsDB->prefix("tad_book3_cate") . " (`of_tbsn`,`sort`,`title`) values('0','{$sort}','{$title}')";
+    $sort = tad_book3_cate_max_sort();
+    $sql = 'insert into ' . $xoopsDB->prefix('tad_book3_cate') . " (`of_tbsn`,`sort`,`title`) values('0','{$sort}','{$title}')";
     $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
     //取得最後新增資料的流水編號
     $tbcsn = $xoopsDB->getInsertId();
+
     return $tbcsn;
 }
 
@@ -473,20 +475,21 @@ function add_tad_book3_cate()
 function tad_book3_cate_max_sort()
 {
     global $xoopsDB, $xoopsModule;
-    $sql        = "SELECT max(sort) FROM " . $xoopsDB->prefix("tad_book3_cate") . " WHERE of_tbsn=''";
-    $result     = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
+    $sql = 'SELECT max(sort) FROM ' . $xoopsDB->prefix('tad_book3_cate') . " WHERE of_tbsn=''";
+    $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
     list($sort) = $xoopsDB->fetchRow($result);
+
     return ++$sort;
 }
 
 //更新tad_book3某一筆資料
-function update_tad_book3($tbsn = "")
+function update_tad_book3($tbsn = '')
 {
     global $xoopsDB,$isAdmin;
     if (!$isAdmin) {
         $book = get_tad_book3($tbsn);
         if (!chk_edit_power($book['author'])) {
-            header("location:index.php");
+            header('location:index.php');
             exit;
         }
     }
@@ -499,46 +502,48 @@ function update_tad_book3($tbsn = "")
     if (!empty($_POST['author_str'])) {
         $author = $_POST['author_str'];
     } else {
-        $author = implode(",", $_POST['author']);
+        $author = implode(',', $_POST['author']);
     }
 
-    $myts                 = MyTextSanitizer::getInstance();
-    $_POST['title']       = $myts->addSlashes($_POST['title']);
+    $myts = MyTextSanitizer::getInstance();
+    $_POST['title'] = $myts->addSlashes($_POST['title']);
     $_POST['description'] = $myts->addSlashes($_POST['description']);
 
-    $read_group = (in_array("", $_POST['read_group'])) ? "" : implode(",", $_POST['read_group']);
-    $sql        = "update " . $xoopsDB->prefix("tad_book3") . " set  `tbcsn` = '{$tbcsn}', `sort` = '{$_POST['sort']}', `title` = '{$_POST['title']}', `description` = '{$_POST['description']}', `author` = '{$author}', `read_group` = '{$read_group}', `passwd` = '{$_POST['passwd']}', `enable` = '{$_POST['enable']}' where tbsn='$tbsn'";
+    $read_group = (in_array('', $_POST['read_group'], true)) ? '' : implode(',', $_POST['read_group']);
+    $sql = 'update ' . $xoopsDB->prefix('tad_book3') . " set  `tbcsn` = '{$tbcsn}', `sort` = '{$_POST['sort']}', `title` = '{$_POST['title']}', `description` = '{$_POST['description']}', `author` = '{$author}', `read_group` = '{$read_group}', `passwd` = '{$_POST['passwd']}', `enable` = '{$_POST['enable']}' where tbsn='$tbsn'";
     $xoopsDB->queryF($sql) or web_error($sql, __FILE__, __LINE__);
 
     if (!empty($_FILES['pic_name']['name'])) {
-        mk_thumb($tbsn, "pic_name", 120);
+        mk_thumb($tbsn, 'pic_name', 120);
     }
+
     return $tbsn;
 }
 
 //自動取得新排序
-function get_max_doc_sort($tbcsn = "")
+function get_max_doc_sort($tbcsn = '')
 {
     global $xoopsDB, $xoopsModule;
-    $sql        = "select max(sort) from " . $xoopsDB->prefix("tad_book3") . " where tbcsn='{$tbcsn}'";
-    $result     = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
+    $sql = 'select max(sort) from ' . $xoopsDB->prefix('tad_book3') . " where tbcsn='{$tbcsn}'";
+    $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
     list($sort) = $xoopsDB->fetchRow($result);
+
     return ++$sort;
 }
 
 //縮圖上傳
-function mk_thumb($tbsn = "", $col_name = "", $width = 100)
+function mk_thumb($tbsn = '', $col_name = '', $width = 100)
 {
     global $xoopsDB,$isAdmin;
     if (!$isAdmin) {
         $book = get_tad_book3($tbsn);
         if (!chk_edit_power($book['author'])) {
-            header("location:index.php");
+            header('location:index.php');
             exit;
         }
     }
 
-    include_once XOOPS_ROOT_PATH . "/modules/tadtools/upload/class.upload.php";
+    include_once XOOPS_ROOT_PATH . '/modules/tadtools/upload/class.upload.php';
 
     if (file_exists(_TADBOOK3_BOOK_DIR . "/book_{$tbsn}.png")) {
         unlink(_TADBOOK3_BOOK_DIR . "/book_{$tbsn}.png");
@@ -546,62 +551,65 @@ function mk_thumb($tbsn = "", $col_name = "", $width = 100)
     $handle = new upload($_FILES[$col_name]);
     if ($handle->uploaded) {
         $handle->file_new_name_body = "book_{$tbsn}";
-        $handle->image_convert      = 'png';
-        $handle->image_resize       = true;
-        $handle->image_x            = $width;
-        $handle->image_ratio_y      = true;
-        $handle->file_overwrite     = true;
+        $handle->image_convert = 'png';
+        $handle->image_resize = true;
+        $handle->image_x = $width;
+        $handle->image_ratio_y = true;
+        $handle->file_overwrite = true;
         $handle->process(_TADBOOK3_BOOK_DIR);
         $handle->auto_create_dir = true;
         if ($handle->processed) {
             $handle->clean();
-            $sql = "update " . $xoopsDB->prefix("tad_book3") . " set pic_name = 'book_{$tbsn}.png' where tbsn='$tbsn'";
+            $sql = 'update ' . $xoopsDB->prefix('tad_book3') . " set pic_name = 'book_{$tbsn}.png' where tbsn='$tbsn'";
             $xoopsDB->queryF($sql);
+
             return true;
-        } else {
-            die($handle->error);
         }
+        die($handle->error);
     }
+
     return false;
 }
 
 //檢查文章密碼
-function check_passwd($tbsn = "")
+function check_passwd($tbsn = '')
 {
     global $xoopsDB;
-    $sql          = "select passwd from " . $xoopsDB->prefix("tad_book3") . " where tbsn='$tbsn'";
-    $result       = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
+    $sql = 'select passwd from ' . $xoopsDB->prefix('tad_book3') . " where tbsn='$tbsn'";
+    $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
     list($passwd) = $xoopsDB->fetchRow($result);
     if ($_POST['passwd'] == $passwd) {
         $_SESSION['passwd'] = $passwd;
     }
-    header("location:" . XOOPS_URL . "/modules/tad_book3/index.php?op=list_docs&tbsn=$tbsn");
+    header('location:' . XOOPS_URL . "/modules/tad_book3/index.php?op=list_docs&tbsn=$tbsn");
     exit;
 }
 
 //以流水號取得某筆tad_book3資料
-function get_tad_book3($tbsn = "")
+function get_tad_book3($tbsn = '')
 {
     global $xoopsDB;
     if (empty($tbsn)) {
         return;
     }
 
-    $sql    = "select * from " . $xoopsDB->prefix("tad_book3") . " where tbsn='$tbsn'";
+    $sql = 'select * from ' . $xoopsDB->prefix('tad_book3') . " where tbsn='$tbsn'";
     $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
-    $data   = $xoopsDB->fetchArray($result);
+    $data = $xoopsDB->fetchArray($result);
+
     return $data;
 }
 
 //分類選單
-function cate_select($def_tbcsn = "")
+function cate_select($def_tbcsn = '')
 {
     $all_cate = all_cate();
-    $main     = "";
+    $main = '';
     foreach ($all_cate as $tbcsn => $title) {
-        $selected = ($tbcsn == $def_tbcsn) ? "selected" : "";
+        $selected = ($tbcsn == $def_tbcsn) ? 'selected' : '';
         $main .= "<option value='$tbcsn' $selected>$title</option>";
     }
+
     return $main;
 }
 
@@ -609,118 +617,122 @@ function cate_select($def_tbcsn = "")
 function all_books()
 {
     global $xoopsDB, $xoopsModule;
-    $sql    = "SELECT tbsn,title FROM " . $xoopsDB->prefix("tad_book3") . " ORDER BY sort";
+    $sql = 'SELECT tbsn,title FROM ' . $xoopsDB->prefix('tad_book3') . ' ORDER BY sort';
     $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
     while (list($tbsn, $title) = $xoopsDB->fetchRow($result)) {
         $main[$tbsn] = $title;
     }
+
     return $main;
 }
 
 //書名選單
-function book_select($book_sn = "")
+function book_select($book_sn = '')
 {
     $all_books = all_books();
     foreach ($all_books as $tbsn => $title) {
-        $selected = ($book_sn == $tbsn) ? "selected" : "";
+        $selected = ($book_sn == $tbsn) ? 'selected' : '';
         $main .= "<option value=$tbsn $selected>$title</option>";
     }
+
     return $main;
 }
 
 //產生章節選單
-function category_menu($num = "")
+function category_menu($num = '')
 {
-    $opt = "";
+    $opt = '';
     for ($i = 0; $i <= 50; $i++) {
-        $selected = ($num == $i) ? "selected" : "";
+        $selected = ($num == $i) ? 'selected' : '';
         $opt .= "<option value='{$i}' $selected>$i</option>";
     }
+
     return $opt;
 }
 
 //取得前後文章
-function near_docs($tbsn = "", $doc_sn = "")
+function near_docs($tbsn = '', $doc_sn = '')
 {
     global $xoopsDB, $isAdmin;
-    $and_enable = $isAdmin ? "" : "and enable='1'";
-    $sql        = "select tbdsn,title,category,page,paragraph,sort from " . $xoopsDB->prefix("tad_book3_docs") . " where tbsn='$tbsn' $and_enable order by category,page,paragraph,sort";
-    $result     = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
-    $get_next   = false;
+    $and_enable = $isAdmin ? '' : "and enable='1'";
+    $sql = 'select tbdsn,title,category,page,paragraph,sort from ' . $xoopsDB->prefix('tad_book3_docs') . " where tbsn='$tbsn' $and_enable order by category,page,paragraph,sort";
+    $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
+    $get_next = false;
     while (list($tbdsn, $title, $category, $page, $paragraph, $sort) = $xoopsDB->fetchRow($result)) {
         $doc_sort = mk_category($category, $page, $paragraph, $sort);
         if ($doc_sn == $tbdsn) {
             $doc['main'] = "{$tbdsn};{$doc_sort['main']} {$title}";
-            $get_next    = true;
+            $get_next = true;
         } elseif ($get_next) {
             $doc['next'] = "{$tbdsn};{$doc_sort['main']} {$title}";
+
             return $doc;
             break;
         } else {
             $doc['prev'] = "{$tbdsn};{$doc_sort['main']} {$title}";
         }
     }
+
     return $doc;
 }
 
 //文章選單
-function doc_select($tbsn = "", $doc_sn = "")
+function doc_select($tbsn = '', $doc_sn = '')
 {
     global $xoopsDB, $xoopsUser;
 
     if (empty($xoopsUser)) {
         $andenable = " and `enable`='1'";
-        $now_uid   = 0;
+        $now_uid = 0;
     } else {
-        $andenable = "";
-        $now_uid   = $xoopsUser->uid();
+        $andenable = '';
+        $now_uid = $xoopsUser->uid();
     }
 
-    $main = "";
+    $main = '';
 
-    $sql    = "select tbdsn,title,category,page,paragraph,sort,enable,uid from " . $xoopsDB->prefix("tad_book3_docs") . " where tbsn='$tbsn' $andenable order by category,page,paragraph,sort";
+    $sql = 'select tbdsn,title,category,page,paragraph,sort,enable,uid from ' . $xoopsDB->prefix('tad_book3_docs') . " where tbsn='$tbsn' $andenable order by category,page,paragraph,sort";
     $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
     while (list($tbdsn, $title, $category, $page, $paragraph, $sort, $enable, $uid) = $xoopsDB->fetchRow($result)) {
-        $selected = ($doc_sn == $tbdsn) ? "selected" : "";
+        $selected = ($doc_sn == $tbdsn) ? 'selected' : '';
         $doc_sort = mk_category($category, $page, $paragraph, $sort);
 
         $stat = '';
-        if ($enable != '1') {
+        if ('1' != $enable) {
             if ($now_uid != $uid) {
                 continue;
-            } else {
-                $style = " style='color:gray;'";
-                $stat  = "[" . _MD_TADBOOK3_UNABLE . "] ";
             }
+            $style = " style='color:gray;'";
+            $stat = '[' . _MD_TADBOOK3_UNABLE . '] ';
         } else {
             $style = " style='color:black;'";
         }
-        $main .= "<option value=$tbdsn $selected $style>" . str_repeat("&nbsp;", ($doc_sort['level'] - 1) * 2) . "{$doc_sort['main']} {$stat}{$title}</option>";
+        $main .= "<option value=$tbdsn $selected $style>" . str_repeat('&nbsp;', ($doc_sort['level'] - 1) * 2) . "{$doc_sort['main']} {$stat}{$title}</option>";
     }
+
     return $main;
 }
 
-function decode_category($doc_sort = "")
+function decode_category($doc_sort = '')
 {
-    if (strpos($doc_sort, '-')) {
-        $doc_sort_arr     = explode('-', $doc_sort);
-        $all['category']  = isset($doc_sort_arr[0]) ? $doc_sort_arr[0] : '';
-        $all['page']      = isset($doc_sort_arr[1]) ? $doc_sort_arr[1] : '';
+    if (mb_strpos($doc_sort, '-')) {
+        $doc_sort_arr = explode('-', $doc_sort);
+        $all['category'] = isset($doc_sort_arr[0]) ? $doc_sort_arr[0] : '';
+        $all['page'] = isset($doc_sort_arr[1]) ? $doc_sort_arr[1] : '';
         $all['paragraph'] = isset($doc_sort_arr[2]) ? $doc_sort_arr[2] : '';
-        $all['sort']      = isset($doc_sort_arr[3]) ? $doc_sort_arr[3] : '';
+        $all['sort'] = isset($doc_sort_arr[3]) ? $doc_sort_arr[3] : '';
     } else {
-        $all['category']  = str_replace('.', '', $doc_sort);
-        $all['page']      = '';
+        $all['category'] = str_replace('.', '', $doc_sort);
+        $all['page'] = '';
         $all['paragraph'] = '';
-        $all['sort']      = '';
+        $all['sort'] = '';
     }
 
     return $all;
 }
 
-
 //判斷本文是否允許該用戶編輯
-function chk_edit_power($uid_txt = "")
+function chk_edit_power($uid_txt = '')
 {
     global $xoopsDB, $xoopsUser;
     if (empty($uid_txt)) {
@@ -731,12 +743,12 @@ function chk_edit_power($uid_txt = "")
     if ($xoopsUser) {
         $user_id = $xoopsUser->getVar('uid');
     } else {
-        $user_id = array();
+        $user_id = [];
     }
 
-    $uid_arr = explode(",", $uid_txt);
+    $uid_arr = explode(',', $uid_txt);
 
-    if (in_array($user_id, $uid_arr)) {
+    if (in_array($user_id, $uid_arr, true)) {
         return true;
     }
 
@@ -745,11 +757,11 @@ function chk_edit_power($uid_txt = "")
 
 /********************* 預設函數 *********************/
 //刪除tad_book3_docs某筆資料資料
-function delete_tad_book3_docs($tbdsn = "")
+function delete_tad_book3_docs($tbdsn = '')
 {
     global $xoopsDB;
     check_update_cpps_del($tbdsn);
-    $sql = "delete from " . $xoopsDB->prefix("tad_book3_docs") . " where tbdsn='$tbdsn'";
+    $sql = 'delete from ' . $xoopsDB->prefix('tad_book3_docs') . " where tbdsn='$tbdsn'";
     $xoopsDB->queryF($sql) or web_error($sql, __FILE__, __LINE__);
 }
 
@@ -758,61 +770,61 @@ function check_update_cpps_del($tbdsn = 0)
 {
     global $xoopsDB,$isAdmin;
 
-    $sql = "select tbsn,category, page, paragraph,sort,uid from " . $xoopsDB->prefix("tad_book3_docs") . " where `tbdsn`='{$tbdsn}'";
+    $sql = 'select tbsn,category, page, paragraph,sort,uid from ' . $xoopsDB->prefix('tad_book3_docs') . " where `tbdsn`='{$tbdsn}'";
 
-    $result                                          = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
-    list($tbsn, $category, $page, $paragraph, $sort,$uid) = $xoopsDB->fetchRow($result);
+    $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
+    list($tbsn, $category, $page, $paragraph, $sort, $uid) = $xoopsDB->fetchRow($result);
 
     if (!$isAdmin) {
         if (!chk_edit_power($uid)) {
-            header("location:index.php");
+            header('location:index.php');
             exit;
         }
     }
     if (!empty($category) and !empty($page) and !empty($paragraph) and !empty($sort)) {
-        $sql    = "update " . $xoopsDB->prefix("tad_book3_docs") . " set `sort` = `sort` - 1 where  tbsn='{$tbsn}' and `category` = '{$category}' and `page` = '{$page}' and `paragraph` = '{$paragraph}' and `sort` > '{$sort}'";
+        $sql = 'update ' . $xoopsDB->prefix('tad_book3_docs') . " set `sort` = `sort` - 1 where  tbsn='{$tbsn}' and `category` = '{$category}' and `page` = '{$page}' and `paragraph` = '{$paragraph}' and `sort` > '{$sort}'";
         $result = $xoopsDB->queryF($sql) or web_error($sql, __FILE__, __LINE__);
     } elseif (!empty($category) and !empty($page) and !empty($paragraph) and empty($sort)) {
-        $sql    = "update " . $xoopsDB->prefix("tad_book3_docs") . " set `paragraph` = `paragraph` - 1 where tbsn='{$tbsn}' and  `category` = '{$category}' and `page` = '{$page}' and `paragraph` > '{$paragraph}'";
+        $sql = 'update ' . $xoopsDB->prefix('tad_book3_docs') . " set `paragraph` = `paragraph` - 1 where tbsn='{$tbsn}' and  `category` = '{$category}' and `page` = '{$page}' and `paragraph` > '{$paragraph}'";
         $result = $xoopsDB->queryF($sql) or web_error($sql, __FILE__, __LINE__);
     } elseif (!empty($category) and !empty($page) and empty($paragraph) and empty($sort)) {
-        $sql    = "update " . $xoopsDB->prefix("tad_book3_docs") . " set `page` = `page` - 1 where  tbsn='{$tbsn}' and `category` = '{$category}' and `page` > '{$page}'";
+        $sql = 'update ' . $xoopsDB->prefix('tad_book3_docs') . " set `page` = `page` - 1 where  tbsn='{$tbsn}' and `category` = '{$category}' and `page` > '{$page}'";
         $result = $xoopsDB->queryF($sql) or web_error($sql, __FILE__, __LINE__);
     } elseif (!empty($category) and empty($page) and empty($paragraph) and empty($sort)) {
-        $sql    = "update " . $xoopsDB->prefix("tad_book3_docs") . " set `category` = `category` - 1 where tbsn='{$tbsn}' and  `category` > '{$category}' ";
+        $sql = 'update ' . $xoopsDB->prefix('tad_book3_docs') . " set `category` = `category` - 1 where tbsn='{$tbsn}' and  `category` > '{$category}' ";
         $result = $xoopsDB->queryF($sql) or web_error($sql, __FILE__, __LINE__);
     }
 }
 
 //刪除tad_book3 某筆資料資料
-function delete_tad_book3($tbsn = "")
+function delete_tad_book3($tbsn = '')
 {
     global $xoopsDB;
 
     if (!$isAdmin) {
         $book = get_tad_book3($tbsn);
         if (!chk_edit_power($book['author'])) {
-            header("location:index.php");
+            header('location:index.php');
             exit;
         }
     }
 
-    $sql = "delete from " . $xoopsDB->prefix("tad_book3_docs") . " where tbsn='$tbsn'";
+    $sql = 'delete from ' . $xoopsDB->prefix('tad_book3_docs') . " where tbsn='$tbsn'";
     $xoopsDB->queryF($sql) or web_error($sql, __FILE__, __LINE__);
 
     //先刪除底下所有連結
-    $sql = "delete from " . $xoopsDB->prefix("tad_book3") . " where tbsn='$tbsn'";
+    $sql = 'delete from ' . $xoopsDB->prefix('tad_book3') . " where tbsn='$tbsn'";
     $xoopsDB->queryF($sql) or web_error($sql, __FILE__, __LINE__);
 }
 
 //刪除tad_book3_cate某筆資料資料
-function delete_tad_book3_cate($tbcsn = "")
+function delete_tad_book3_cate($tbcsn = '')
 {
     global $xoopsDB;
     //先刪除底下所有連結
-    $sql = "delete from " . $xoopsDB->prefix("tad_book3") . " where tbcsn='$tbcsn'";
+    $sql = 'delete from ' . $xoopsDB->prefix('tad_book3') . " where tbcsn='$tbcsn'";
     $xoopsDB->queryF($sql) or web_error($sql, __FILE__, __LINE__);
 
-    $sql = "delete from " . $xoopsDB->prefix("tad_book3_cate") . " where tbcsn='$tbcsn'";
+    $sql = 'delete from ' . $xoopsDB->prefix('tad_book3_cate') . " where tbcsn='$tbcsn'";
     $xoopsDB->queryF($sql) or web_error($sql, __FILE__, __LINE__);
 }

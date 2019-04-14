@@ -26,16 +26,16 @@ class HtmlConverter
      *
      * @param array $options Configuration options
      */
-    public function __construct(array $options = array())
+    public function __construct(array $options = [])
     {
-        $defaults = array(
+        $defaults = [
             'header_style'    => 'setext', // Set to 'atx' to output H1 and H2 headers as # Header1 and ## Header2
             'suppress_errors' => true, // Set to false to show warnings when loading malformed HTML
             'strip_tags'      => false, // Set to true to strip tags that don't have markdown equivalents. N.B. Strips tags, not their content. Useful to clean MS Word HTML output.
             'bold_style'      => '**', // Set to '__' if you prefer the underlined style
             'italic_style'    => '*', // Set to '_' if you prefer the underlined style
             'remove_nodes'    => '', // space-separated list of dom nodes that should be removed. example: 'meta style script'
-        );
+        ];
 
         $this->environment = Environment::createDefaultEnvironment($defaults);
 
@@ -129,7 +129,7 @@ class HtmlConverter
     private function convertChildren(ElementInterface $element)
     {
         // Don't convert HTML code inside <code> and <pre> blocks to Markdown - that should stay as HTML
-        if ($element->isDescendantOf(array('pre', 'code'))) {
+        if ($element->isDescendantOf(['pre', 'code'])) {
             return;
         }
 
@@ -185,7 +185,7 @@ class HtmlConverter
         $markdown = html_entity_decode($markdown, ENT_QUOTES, 'UTF-8');
         $markdown = html_entity_decode($markdown, ENT_QUOTES, 'UTF-8'); // Double decode to cover cases like &amp;nbsp; http://www.php.net/manual/en/function.htmlentities.php#99984
         $markdown = preg_replace('/<!DOCTYPE [^>]+>/', '', $markdown); // Strip doctype declaration
-        $unwanted = array('<html>', '</html>', '<body>', '</body>', '<head>', '</head>', '<?xml encoding="UTF-8">', '&#xD;');
+        $unwanted = ['<html>', '</html>', '<body>', '</body>', '<head>', '</head>', '<?xml encoding="UTF-8">', '&#xD;'];
         $markdown = str_replace($unwanted, '', $markdown); // Strip unwanted tags
         $markdown = trim($markdown, "\n\r\0\x0B");
 

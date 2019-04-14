@@ -45,6 +45,6 @@ class EmphasisConverter implements ConverterInterface, ConfigurationAwareInterfa
      */
     public function getSupportedTags()
     {
-        return array('em', 'i', 'strong', 'b');
+        return ['em', 'i', 'strong', 'b'];
     }
 }

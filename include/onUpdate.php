@@ -16,11 +16,10 @@ function xoops_module_update_tad_book3(&$module, $old_version)
     }
     Utility::chk_tad_book3_block();
 
-    $old_fckeditor = XOOPS_ROOT_PATH . "/modules/tad_book3/fckeditor";
+    $old_fckeditor = XOOPS_ROOT_PATH . '/modules/tad_book3/fckeditor';
     if (is_dir($old_fckeditor)) {
         Utility::delete_directory($old_fckeditor);
     }
+
     return true;
 }
-
-

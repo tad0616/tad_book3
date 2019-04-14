@@ -100,7 +100,7 @@ class Element implements ElementInterface
      */
     public function getChildren()
     {
-        $ret = array();
+        $ret = [];
         /** @var \DOMNode $node */
         foreach ($this->node->childNodes as $node) {
             $ret[] = new static($node);
@@ -148,7 +148,7 @@ class Element implements ElementInterface
     public function isDescendantOf($tagNames)
     {
         if (!is_array($tagNames)) {
-            $tagNames = array($tagNames);
+            $tagNames = [$tagNames];
         }
 
         for ($p = $this->node->parentNode; $p !== false; $p = $p->parentNode) {

@@ -32,6 +32,6 @@ class ImageConverter implements ConverterInterface
      */
     public function getSupportedTags()
     {
-        return array('img');
+        return ['img'];
     }
 }

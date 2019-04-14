@@ -21,6 +21,6 @@ class HorizontalRuleConverter implements ConverterInterface
      */
     public function getSupportedTags()
     {
-        return array('hr');
+        return ['hr'];
     }
 }
