@@ -1,8 +1,8 @@
 <?php
 /*-----------引入檔案區--------------*/
-include '../../mainfile.php';
-include '../function.php';
-include_once $GLOBALS['xoops']->path('/modules/system/include/functions.php');
+require dirname(dirname(__DIR__)) . '/mainfile.php';
+require dirname(__DIR__) . '/function.php';
+require_once $GLOBALS['xoops']->path('/modules/system/include/functions.php');
 $updateRecordsArray = system_CleanVars($_POST, 'tr', '', 'array');
 
 $sort = 1;

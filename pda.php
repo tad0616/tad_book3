@@ -2,11 +2,11 @@
 
 /*-----------引入檔案區--------------*/
 if (file_exists('mainfile.php')) {
-    include_once 'mainfile.php';
+    require_once __DIR__ . '/mainfile.php';
 } elseif ('../../mainfile.php') {
-    include_once '../../mainfile.php';
+    require_once dirname(dirname(__DIR__)) . '/mainfile.php';
 }
-include_once 'function.php';
+require_once __DIR__ . '/function.php';
 /*-----------function區--------------*/
 
 function show_allbook()
@@ -17,7 +17,7 @@ function show_allbook()
 ,b.`of_tbsn`, b.`sort` AS cate_sort, b.`title` AS cate_title , b.`description` FROM ' . $xoopsDB->prefix('tad_book3') . ' AS a LEFT JOIN ' . $xoopsDB->prefix('tad_book3_cate') . " AS b ON a.tbcsn=b.tbcsn WHERE a.enable='1' ORDER BY cate_sort,a.sort";
 
     $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
-    while ($data = $xoopsDB->fetchArray($result)) {
+    while (false !== ($data = $xoopsDB->fetchArray($result))) {
         foreach ($data as $k => $v) {
             $$k = $v;
         }
@@ -37,7 +37,7 @@ function show_allbook()
 
         $data_arr[$cate_title][] = "
 					<li class='gallery-item'>
-						<a href='{$_SERVER['PHP_SELF']}?tbsn={$tbsn}'><img src='$pic' alt='{$title}' />
+						<a href='{$_SERVER['PHP_SELF']}?tbsn={$tbsn}'><img src='$pic' alt='{$title}'>
 						<h3>{$title}</h3>
 						</a>
 					</li>
@@ -168,7 +168,7 @@ function get_pre_next($tbsn = '', $now_sn = '')
     $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
     $stop = false;
     $pre = 0;
-    while (list($tbdsn, $title) = $xoopsDB->fetchRow($result)) {
+    while (false !== (list($tbdsn, $title) = $xoopsDB->fetchRow($result))) {
         if ($stop) {
             $next = $tbdsn;
             $next_title = $title;
@@ -238,7 +238,7 @@ function list_docs_m($tbsn = '')
 
     $sql = 'select * from ' . $xoopsDB->prefix('tad_book3_docs') . " where tbsn='{$tbsn}' and enable='1' order by category,page,paragraph,sort";
     $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
-    while (list($tbdsn, $tbsn, $category, $page, $paragraph, $sort, $title, $content, $add_date, $last_modify_date, $uid, $count, $enable) = $xoopsDB->fetchRow($result)) {
+    while (false !== (list($tbdsn, $tbsn, $category, $page, $paragraph, $sort, $title, $content, $add_date, $last_modify_date, $uid, $count, $enable) = $xoopsDB->fetchRow($result))) {
         $uid_name = XoopsUser::getUnameFromId($uid, 1);
         $uid_name = (empty($uid_name)) ? XoopsUser::getUnameFromId($uid, 0) : $uid_name;
 
@@ -322,7 +322,7 @@ function view_page($tbdsn = '')
     /*if(!file_exists(TADTOOLS_PATH."/syntaxhighlighter.php")){
     redirect_header("index.php",3, _MD_NEED_TADTOOLS);
     }
-    include_once TADTOOLS_PATH."/syntaxhighlighter.php";
+    require_once TADTOOLS_PATH."/syntaxhighlighter.php";
     $syntaxhighlighter= new syntaxhighlighter();
     $syntaxhighlighter_code=$syntaxhighlighter->render();*/
 
@@ -411,7 +411,7 @@ function check_passwd_m($tbsn = '')
 }
 
 /*-----------執行動作判斷區----------*/
-include_once $GLOBALS['xoops']->path('/modules/system/include/functions.php');
+require_once $GLOBALS['xoops']->path('/modules/system/include/functions.php');
 $op = system_CleanVars($_REQUEST, 'op', '', 'string');
 $tbsn = system_CleanVars($_REQUEST, 'tbsn', 0, 'int');
 $tbdsn = system_CleanVars($_REQUEST, 'tbdsn', 0, 'int');
@@ -443,9 +443,9 @@ echo "
 <head>
 <meta charset='" . _CHARSET . "'>
 <meta name='viewport' content='width=device-width, initial-scale=1'>
-<meta name='apple-mobile-web-app-capable'content='yes'/>
+<meta name='apple-mobile-web-app-capable'content='yes'>
 <title>$title</title>
-<link href='" . XOOPS_URL . "/modules/tadtools/jquery.mobile/jquery.mobile.css' rel='stylesheet' type='text/css'/>
+<link href='" . XOOPS_URL . "/modules/tadtools/jquery.mobile/jquery.mobile.css' rel='stylesheet' type='text/css'>
 <script src='" . XOOPS_URL . "/modules/tadtools/jquery/jquery.js' type='text/javascript'></script>
 <script>
 $(document).bind('mobileinit', function(){

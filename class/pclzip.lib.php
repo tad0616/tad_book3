@@ -2071,15 +2071,15 @@ class PclZip
                 // ----- List of items in folder
                 $v_dirlist_descr = [];
                 $v_dirlist_nb = 0;
-                if ($v_folder_handler = @opendir($v_descr['filename'])) {
-                    while (false !== ($v_item_handler = @readdir($v_folder_handler))) {
+                if ($v_folderHandler = @opendir($v_descr['filename'])) {
+                    while (false !== ($v_itemHandler = @readdir($v_folderHandler))) {
                         // ----- Skip '.' and '..'
-                        if (('.' === $v_item_handler) || ('..' === $v_item_handler)) {
+                        if (('.' === $v_itemHandler) || ('..' === $v_itemHandler)) {
                             continue;
                         }
 
                         // ----- Compose the full filename
-                        $v_dirlist_descr[$v_dirlist_nb]['filename'] = $v_descr['filename'] . '/' . $v_item_handler;
+                        $v_dirlist_descr[$v_dirlist_nb]['filename'] = $v_descr['filename'] . '/' . $v_itemHandler;
 
                         // ----- Look for different stored filename
                         // Because the name of the folder was changed, the name of the
@@ -2087,16 +2087,16 @@ class PclZip
                         if (($v_descr['stored_filename'] != $v_descr['filename'])
                             && (!isset($p_options[PCLZIP_OPT_REMOVE_ALL_PATH]))) {
                             if ('' != $v_descr['stored_filename']) {
-                                $v_dirlist_descr[$v_dirlist_nb]['new_full_name'] = $v_descr['stored_filename'] . '/' . $v_item_handler;
+                                $v_dirlist_descr[$v_dirlist_nb]['new_full_name'] = $v_descr['stored_filename'] . '/' . $v_itemHandler;
                             } else {
-                                $v_dirlist_descr[$v_dirlist_nb]['new_full_name'] = $v_item_handler;
+                                $v_dirlist_descr[$v_dirlist_nb]['new_full_name'] = $v_itemHandler;
                             }
                         }
 
                         $v_dirlist_nb++;
                     }
 
-                    @closedir($v_folder_handler);
+                    @closedir($v_folderHandler);
                 }
                 // TBC : unable to open folder in read mode
 
@@ -3642,7 +3642,7 @@ class PclZip
         }
 
         // ----- Look for all path to remove
-        if (true == $p_remove_all_path) {
+        if (true === $p_remove_all_path) {
             // ----- Look for folder entry that not need to be extracted
             if (($p_entry['external'] & 0x00000010) == 0x00000010) {
                 $p_entry['status'] = 'filtered';
@@ -5574,7 +5574,7 @@ function PclZipUtilTranslateWinPath($p_path, $p_remove_disk_letter = true)
 {
     if (mb_stristr(php_uname(), 'windows')) {
         // ----- Look for potential disk letter
-        if (($p_remove_disk_letter) && (false != ($v_position = mb_strpos($p_path, ':')))) {
+        if (($p_remove_disk_letter) && (false !== ($v_position = mb_strpos($p_path, ':')))) {
             $p_path = mb_substr($p_path, $v_position + 1);
         }
         // ----- Change potential windows directory separator

@@ -25,7 +25,7 @@ function tad_book3_list($options)
     $sql = 'select `tbsn`,`title`,`counter`,`pic_name` from ' . $xoopsDB->prefix('tad_book3') . " where enable='1' $and_tbcsn order by {$options[1]} {$options[2]} limit 0,{$options[0]}";
 
     $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
-    while (list($tbsn, $title, $counter, $pic_name) = $xoopsDB->fetchRow($result)) {
+    while (false !== (list($tbsn, $title, $counter, $pic_name) = $xoopsDB->fetchRow($result))) {
         $block[$i]['tbsn'] = $tbsn;
         $block[$i]['title'] = $title;
         $block[$i]['counter'] = $counter;
@@ -131,7 +131,7 @@ if (!function_exists('block_book_cate')) {
         $sql = 'SELECT tbcsn,title FROM ' . $xoopsDB->prefix('tad_book3_cate') . ' ORDER BY sort';
         $result = $xoopsDB->query($sql);
         $option = '';
-        while (list($tbcsn, $title) = $xoopsDB->fetchRow($result)) {
+        while (false !== (list($tbcsn, $title) = $xoopsDB->fetchRow($result))) {
             $js .= "if(document.getElementById('c{$tbcsn}').checked){
                 arr[i] = document.getElementById('c{$tbcsn}').value;
                 i++;

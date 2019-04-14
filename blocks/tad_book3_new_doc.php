@@ -3,7 +3,7 @@
 function tad_book3_new_doc($options)
 {
     global $xoopsDB;
-    include_once XOOPS_ROOT_PATH . '/modules/tad_book3/function_block.php';
+    require_once XOOPS_ROOT_PATH . '/modules/tad_book3/function_block.php';
 
     $now = date('Y-m-d H:i:s', xoops_getUserTimestamp(time()));
 
@@ -14,7 +14,7 @@ function tad_book3_new_doc($options)
 
     //$today=date("Y-m-d H:i:s",xoops_getUserTimestamp(time()));
     $i = 0;
-    while (list($tbdsn, $tbsn, $category, $page, $paragraph, $sort, $title, $last_modify_date, $book_title) = $xoopsDB->fetchRow($result)) {
+    while (false !== (list($tbdsn, $tbsn, $category, $page, $paragraph, $sort, $title, $last_modify_date, $book_title) = $xoopsDB->fetchRow($result))) {
         $last_modify_date = date('Y-m-d', xoops_getUserTimestamp($last_modify_date));
         //if($today > $show_time+$last_modify_date)continue;
         $doc_sort = mk_category($category, $page, $paragraph, $sort);

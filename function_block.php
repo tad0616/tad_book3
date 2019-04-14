@@ -44,7 +44,7 @@ if (!function_exists('all_cate')) {
         global $xoopsDB, $xoopsModule;
         $sql = 'SELECT tbcsn,title FROM ' . $xoopsDB->prefix('tad_book3_cate') . ' ORDER BY sort';
         $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
-        while (list($tbcsn, $title) = $xoopsDB->fetchRow($result)) {
+        while (false !== (list($tbcsn, $title) = $xoopsDB->fetchRow($result))) {
             $main[$tbcsn] = $title;
         }
 

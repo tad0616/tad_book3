@@ -3,7 +3,7 @@
 function tad_book3_content($options)
 {
     global $xoopsDB, $xoopsUser, $xoopsTpl;
-    include_once XOOPS_ROOT_PATH . '/modules/tad_book3/function_block.php';
+    require_once XOOPS_ROOT_PATH . '/modules/tad_book3/function_block.php';
 
     $def_tbsn = !empty($options[0]) ? (int) $options[0] : '1';
 
@@ -61,7 +61,7 @@ function tad_book3_content($options)
     $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
     $i1 = $i2 = $i3 = $i4 = 0;
     $new_category = $new_page = $new_paragraph = $new_sort = '';
-    while ($data = $xoopsDB->fetchArray($result)) {
+    while (false !== ($data = $xoopsDB->fetchArray($result))) {
         foreach ($data as $k => $v) {
             $$k = $v;
         }

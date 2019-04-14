@@ -3,7 +3,7 @@
 function tad_book3_docs_form($tbdsn = '', $tbsn = '')
 {
     global $xoopsDB, $xoopsUser, $xoopsModule, $xoopsTpl;
-    include_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
+    require_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
 
     if ($xoopsUser) {
         $module_id = $xoopsModule->getVar('mid');
@@ -49,7 +49,7 @@ function tad_book3_docs_form($tbdsn = '', $tbsn = '')
         redirect_header('index.php', 3, _MD_NEED_TADTOOLS);
     }
 
-    include_once XOOPS_ROOT_PATH . '/modules/tadtools/ck.php';
+    require_once XOOPS_ROOT_PATH . '/modules/tadtools/ck.php';
     $ck = new CKEditor('tad_book3', 'content', $content);
     $ck->setHeight(400);
     $ck->setContentCss(XOOPS_URL . '/modules/tad_book3/reset.css');

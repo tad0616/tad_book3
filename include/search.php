@@ -29,7 +29,7 @@ function tadbook3_search($queryarray, $andor, $limit, $offset, $userid)
     $result = $xoopsDB->query($sql, $limit, $offset);
     $ret = [];
     $i = 0;
-    while ($myrow = $xoopsDB->fetchArray($result)) {
+    while (false !== ($myrow = $xoopsDB->fetchArray($result))) {
         $ret[$i]['image'] = 'images/copy.png';
         $ret[$i]['link'] = 'page.php?tbdsn=' . $myrow['tbdsn'];
         $ret[$i]['title'] = $myrow['title'];

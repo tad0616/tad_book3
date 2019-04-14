@@ -1,9 +1,9 @@
 <?php
-include_once 'header.php';
+require_once __DIR__ . '/header.php';
 set_time_limit(0);
 ini_set('memory_limit', '150M');
 
-include_once $GLOBALS['xoops']->path('/modules/system/include/functions.php');
+require_once $GLOBALS['xoops']->path('/modules/system/include/functions.php');
 $op = system_CleanVars($_REQUEST, 'op', '', 'string');
 $tbsn = system_CleanVars($_REQUEST, 'tbsn', 0, 'int');
 $header = system_CleanVars($_REQUEST, 'header', 1, 'int');
@@ -20,7 +20,7 @@ $my = in_array($uid, $author_arr, true);
 if (!file_exists(TADTOOLS_PATH . '/syntaxhighlighter.php')) {
     redirect_header('index.php', 3, _MD_NEED_TADTOOLS);
 }
-include_once TADTOOLS_PATH . '/syntaxhighlighter.php';
+require_once TADTOOLS_PATH . '/syntaxhighlighter.php';
 $syntaxhighlighter = new syntaxhighlighter();
 $syntaxhighlighter_code = $syntaxhighlighter->render();
 $bootstrap = get_bootstrap('return');
@@ -63,7 +63,7 @@ $i = 0;
 $docs = '';
 $sql = 'select tbdsn,enable from ' . $xoopsDB->prefix('tad_book3_docs') . " where tbsn='{$tbsn}' order by category,page,paragraph,sort";
 $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
-while ($all = $xoopsDB->fetchArray($result)) {
+while (false !== ($all = $xoopsDB->fetchArray($result))) {
     foreach ($all as $k => $v) {
         $$k = $v;
     }

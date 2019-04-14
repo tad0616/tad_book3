@@ -1,13 +1,13 @@
 <?php
 /*-----------引入檔案區--------------*/
-include 'header.php';
-include 'post_function.php';
-$xoopsOption['template_main'] = 'tadbook3_post.tpl';
-include_once XOOPS_ROOT_PATH . '/header.php';
+require __DIR__ . '/header.php';
+require __DIR__ . '/post_function.php';
+$GLOBALS['xoopsOption']['template_main'] = 'tadbook3_post.tpl';
+require_once XOOPS_ROOT_PATH . '/header.php';
 /*-----------function區--------------*/
 
 /*-----------執行動作判斷區----------*/
-include_once $GLOBALS['xoops']->path('/modules/system/include/functions.php');
+require_once $GLOBALS['xoops']->path('/modules/system/include/functions.php');
 $op = system_CleanVars($_REQUEST, 'op', '', 'string');
 $tbsn = system_CleanVars($_REQUEST, 'tbsn', 0, 'int');
 $tbdsn = system_CleanVars($_REQUEST, 'tbdsn', 0, 'int');
@@ -47,4 +47,4 @@ $xoopsTpl->assign('toolbar', toolbar_bootstrap($interface_menu));
 $xoopsTpl->assign('bootstrap', get_bootstrap());
 $xoopsTpl->assign('jquery', get_jquery(true));
 $xoopsTpl->assign('isAdmin', $isAdmin);
-include_once XOOPS_ROOT_PATH . '/footer.php';
+require_once XOOPS_ROOT_PATH . '/footer.php';

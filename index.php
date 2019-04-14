@@ -1,8 +1,8 @@
 <?php
 /*-----------引入檔案區--------------*/
-include 'header.php';
-$xoopsOption['template_main'] = 'tadbook3_index.tpl';
-include_once XOOPS_ROOT_PATH . '/header.php';
+require __DIR__ . '/header.php';
+$GLOBALS['xoopsOption']['template_main'] = 'tadbook3_index.tpl';
+require_once XOOPS_ROOT_PATH . '/header.php';
 /*-----------function區--------------*/
 
 //更新狀態
@@ -17,7 +17,7 @@ function change_enable($enable, $tbdsn)
 function import_form($tbsn = '')
 {
     global $xoopsDB, $xoopsUser, $xoopsTpl;
-    include_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
+    require_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
 
     //抓取預設值
     if (!empty($tbsn)) {
@@ -44,7 +44,7 @@ function import_form($tbsn = '')
     if (!file_exists(XOOPS_ROOT_PATH . '/modules/tadtools/ck.php')) {
         redirect_header('http://campus-xoops.tn.edu.tw/modules/tad_modules/index.php?module_sn=1', 3, _TAD_NEED_TADTOOLS);
     }
-    include_once XOOPS_ROOT_PATH . '/modules/tadtools/ck.php';
+    require_once XOOPS_ROOT_PATH . '/modules/tadtools/ck.php';
     $ck = new CKEditor('tad_book3', 'description', $description);
     $ck->setHeight(400);
     $editor = $ck->render();
@@ -53,20 +53,20 @@ function import_form($tbsn = '')
 
     $cate_select = cate_select($tbcsn);
 
-    $member_handler = xoops_getHandler('member');
-    $usercount = $member_handler->getUserCount(new Criteria('level', 0, '>'));
+    $memberHandler = xoops_getHandler('member');
+    $usercount = $memberHandler->getUserCount(new Criteria('level', 0, '>'));
 
     if ($usercount < 1000) {
         $select = new XoopsFormSelect('', 'author', $author_arr, 5, true);
         $select->setExtra("class='form-control'");
-        $member_handler = xoops_getHandler('member');
+        $memberHandler = xoops_getHandler('member');
         $criteria = new CriteriaCompo();
         $criteria->setSort('uname');
         $criteria->setOrder('ASC');
         $criteria->setLimit(1000);
         $criteria->setStart(0);
 
-        $select->addOptionArray($member_handler->getUserList($criteria));
+        $select->addOptionArray($memberHandler->getUserList($criteria));
         $user_menu = $select->render();
     } else {
         $user_menu = "<textarea name='author_str' style='width:100%;'>$author</textarea>
@@ -226,7 +226,7 @@ function tad_book3_export($tbsn = '')
     $sql = 'select * from ' . $xoopsDB->prefix('tad_book3_docs') . " where tbsn='$tbsn' order by category ,  page , paragraph , sort";
     $result = $xoopsDB->queryF($sql) or web_error($sql, __FILE__, __LINE__);
     $all = '';
-    while ($doc = $xoopsDB->fetchArray($result)) {
+    while (false !== ($doc = $xoopsDB->fetchArray($result))) {
         $cols = $vals = '';
         foreach ($doc as $col => $val) {
             if ('tbdsn' === $col) {
@@ -322,7 +322,7 @@ function tad_book3_export($tbsn = '')
     if (file_exists($zip_name)) {
         header('location:' . XOOPS_URL . "/uploads/tad_book3/import_{$tbsn}.zip");
     } else {
-        include_once 'class/pclzip.lib.php';
+        require_once __DIR__ . '/class/pclzip.lib.php';
         $zipfile = new PclZip($zip_name);
         $v_list = $zipfile->create($import_dir, PCLZIP_OPT_REMOVE_PATH, XOOPS_ROOT_PATH . '/uploads/tad_book3');
 
@@ -351,7 +351,7 @@ function update_docs_sort($update_sort = [])
 
 /*-----------執行動作判斷區----------*/
 
-include_once $GLOBALS['xoops']->path('/modules/system/include/functions.php');
+require_once $GLOBALS['xoops']->path('/modules/system/include/functions.php');
 $op = system_CleanVars($_REQUEST, 'op', '', 'string');
 $tbsn = system_CleanVars($_REQUEST, 'tbsn', 0, 'int');
 $tbdsn = system_CleanVars($_REQUEST, 'tbdsn', 0, 'int');
@@ -424,4 +424,4 @@ $xoopsTpl->assign('toolbar', toolbar_bootstrap($interface_menu));
 $xoopsTpl->assign('bootstrap', get_bootstrap());
 $xoopsTpl->assign('jquery', get_jquery(true));
 $xoopsTpl->assign('isAdmin', $isAdmin);
-include_once XOOPS_ROOT_PATH . '/footer.php';
+require_once XOOPS_ROOT_PATH . '/footer.php';

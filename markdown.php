@@ -1,8 +1,8 @@
 <?php
-include_once 'header.php';
-$xoopsOption['template_main'] = 'tadbook3_markdown.tpl';
-include_once XOOPS_ROOT_PATH . '/header.php';
-require 'vendor/autoload.php';
+require_once __DIR__ . '/header.php';
+$GLOBALS['xoopsOption']['template_main'] = 'tadbook3_markdown.tpl';
+require_once XOOPS_ROOT_PATH . '/header.php';
+require __DIR__ . '/vendor/autoload.php';
 use League\HTMLToMarkdown\HtmlConverter;
 
 /*-----------function區--------------*/
@@ -39,7 +39,7 @@ function view_page($tbdsn = '')
     if (!file_exists(TADTOOLS_PATH . '/syntaxhighlighter.php')) {
         redirect_header('index.php', 3, _MD_NEED_TADTOOLS);
     }
-    include_once TADTOOLS_PATH . '/syntaxhighlighter.php';
+    require_once TADTOOLS_PATH . '/syntaxhighlighter.php';
     $syntaxhighlighter = new syntaxhighlighter();
     $syntaxhighlighter_code = $syntaxhighlighter->render();
 
@@ -65,7 +65,7 @@ function view_page($tbdsn = '')
     return $main;
 }
 /*-----------執行動作判斷區----------*/
-include_once $GLOBALS['xoops']->path('/modules/system/include/functions.php');
+require_once $GLOBALS['xoops']->path('/modules/system/include/functions.php');
 $op = system_CleanVars($_REQUEST, 'op', '', 'string');
 $tbsn = system_CleanVars($_REQUEST, 'tbsn', 0, 'int');
 $tbdsn = system_CleanVars($_REQUEST, 'tbdsn', 0, 'int');
@@ -86,4 +86,4 @@ $xoopsTpl->assign('toolbar', toolbar_bootstrap($interface_menu));
 $xoopsTpl->assign('bootstrap', get_bootstrap());
 $xoopsTpl->assign('jquery', get_jquery(true));
 $xoopsTpl->assign('isAdmin', $isAdmin);
-include_once XOOPS_ROOT_PATH . '/footer.php';
+require_once XOOPS_ROOT_PATH . '/footer.php';

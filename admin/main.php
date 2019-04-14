@@ -1,8 +1,8 @@
 <?php
 /*-----------引入檔案區--------------*/
-$xoopsOption['template_main'] = 'tadbook3_adm_main.tpl';
-include_once 'header.php';
-include_once '../function.php';
+$GLOBALS['xoopsOption']['template_main'] = 'tadbook3_adm_main.tpl';
+require_once __DIR__ . '/header.php';
+require_once dirname(__DIR__) . '/function.php';
 
 /*-----------function區--------------*/
 //tad_book3_cate編輯表單
@@ -40,7 +40,7 @@ function tad_book3_cate_form($tbcsn = '')
     if (!file_exists(TADTOOLS_PATH . '/formValidator.php')) {
         redirect_header('index.php', 3, _MA_NEED_TADTOOLS);
     }
-    include_once TADTOOLS_PATH . '/formValidator.php';
+    require_once TADTOOLS_PATH . '/formValidator.php';
     $formValidator = new formValidator('#myForm', true);
     $formValidator_code = $formValidator->render();
 
@@ -52,7 +52,7 @@ function tad_book3_cate_form($tbcsn = '')
     $xoopsTpl->assign('description', $description);
     $xoopsTpl->assign('formValidator_code', $formValidator_code);
 
-    include_once XOOPS_ROOT_PATH . '/modules/tadtools/ck.php';
+    require_once XOOPS_ROOT_PATH . '/modules/tadtools/ck.php';
     $ck = new CKEditor('tad_book3', 'description', $description);
     $ck->setHeight(200);
     $editor = $ck->render();
@@ -112,7 +112,7 @@ function list_tad_book3_cate_tree($show_tbcsn = 0)
 
     $count = tad_book3_cate_count();
     $data[] = "{ id:0, pId:0, name:'All', url:'index.php', target:'_self', open:true}";
-    while (list($tbcsn, $of_tbsn, $title) = $xoopsDB->fetchRow($result)) {
+    while (false !== (list($tbcsn, $of_tbsn, $title) = $xoopsDB->fetchRow($result))) {
         $font_style = $show_tbcsn == $tbcsn ? ", font:{'background-color':'yellow', 'color':'black'}" : '';
         $open = in_array($tbcsn, $path_arr, true) ? 'true' : 'false';
         $display_counter = empty($count[$tbcsn]) ? '' : " ({$count[$tbcsn]})";
@@ -123,7 +123,7 @@ function list_tad_book3_cate_tree($show_tbcsn = 0)
     if (!file_exists(XOOPS_ROOT_PATH . '/modules/tadtools/ztree.php')) {
         redirect_header('index.php', 3, _MA_NEED_TADTOOLS);
     }
-    include_once XOOPS_ROOT_PATH . '/modules/tadtools/ztree.php';
+    require_once XOOPS_ROOT_PATH . '/modules/tadtools/ztree.php';
     $ztree = new ztree('link_tree', $json, '', 'save_sort.php', 'of_tbsn', 'tbcsn');
     $ztree_code = $ztree->render();
     $xoopsTpl->assign('ztree_code', $ztree_code);
@@ -144,7 +144,7 @@ function list_tad_book3($tbcsn = '')
     $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
     $i = 0;
     $books = [];
-    while ($data = $xoopsDB->fetchArray($result)) {
+    while (false !== ($data = $xoopsDB->fetchArray($result))) {
         $books[$i] = $data;
         $books[$i]['cate'] = get_tad_book3_cate($data['tbcsn']);
         $uid_name = [];
@@ -173,7 +173,7 @@ function list_tad_book3($tbcsn = '')
     if (!file_exists(XOOPS_ROOT_PATH . '/modules/tadtools/sweet_alert.php')) {
         redirect_header('index.php', 3, _MA_NEED_TADTOOLS);
     }
-    include_once XOOPS_ROOT_PATH . '/modules/tadtools/sweet_alert.php';
+    require_once XOOPS_ROOT_PATH . '/modules/tadtools/sweet_alert.php';
     $sweet_alert = new sweet_alert();
     $sweet_alert_code = $sweet_alert->render('delete_tad_book3_cate_func', 'main.php?op=delete_tad_book3_cate&tbcsn=', 'tbcsn');
     $xoopsTpl->assign('sweet_alert_code', $sweet_alert_code);
@@ -185,7 +185,7 @@ function list_tad_book3($tbcsn = '')
 }
 
 /*-----------執行動作判斷區----------*/
-include_once $GLOBALS['xoops']->path('/modules/system/include/functions.php');
+require_once $GLOBALS['xoops']->path('/modules/system/include/functions.php');
 $op = system_CleanVars($_REQUEST, 'op', '', 'string');
 $tbsn = system_CleanVars($_REQUEST, 'tbsn', 0, 'int');
 $tbcsn = system_CleanVars($_REQUEST, 'tbcsn', 0, 'int');
@@ -237,4 +237,4 @@ switch ($op) {
 }
 
 /*-----------秀出結果區--------------*/
-include_once 'footer.php';
+require_once __DIR__ . '/footer.php';
