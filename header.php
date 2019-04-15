@@ -23,8 +23,13 @@ if ($isAdmin) {
     $interface_menu[_MD_TADBOOK3_ADD_BOOK] = 'index.php?op=tad_book3_form';
     //$interface_menu[_MD_TADBOOK3_IMPORT]   = "index.php?op=import_form";
 }
-$tbdsn = (int) $_GET['tbdsn'];
-$tbsn = (int) $_GET['tbsn'];
+
+if (\Xmf\Request::hasVar('tbdsn', 'GET')) {
+    $tbdsn = \Xmf\Request::getInt('tbdsn', 0,'GET') ;
+   }
+if (\Xmf\Request::hasVar('tbsn', 'GET')) {
+    $tbsn = \Xmf\Request::getInt('tbsn', 0, 'GET');
+}
 
 if (!empty($tbdsn) or !empty($tbsn)) {
     if (!empty($tbdsn)) {

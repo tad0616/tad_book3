@@ -1,4 +1,7 @@
 <?php
+
+use XoopsModules\Tadtools\Utility;
+
 /*-----------引入檔案區--------------*/
 require __DIR__ . '/header.php';
 $GLOBALS['xoopsOption']['template_main'] = 'tadbook3_index.tpl';
@@ -187,11 +190,11 @@ function tad_book3_export($tbsn = '')
     $bookfile = "{$import_dir}/1_book.sql";
     $docsfile = "{$import_dir}/2_docs.sql";
     rrmdir($import_dir);
-    mk_dir($import_dir);
-    mk_dir($import_dir . '/file');
-    mk_dir($import_dir . '/image');
-    mk_dir($import_file_dir);
-    mk_dir($import_image_dir);
+    Utility::mk_dir($import_dir);
+    Utility::mk_dir($import_dir . '/file');
+    Utility::mk_dir($import_dir . '/image');
+    Utility::mk_dir($import_file_dir);
+    Utility::mk_dir($import_image_dir);
 
     copy($tadbook3_dir . "/{$book['pic_name']}", $import_file_dir . '/book.png');
 
@@ -253,7 +256,7 @@ function tad_book3_export($tbsn = '')
                                 $new_import_image_dir = $import_image_dir;
                                 foreach ($dirs as $d) {
                                     $new_import_image_dir = $new_import_image_dir . '/' . $d;
-                                    mk_dir($new_import_image_dir);
+                                    Utility::mk_dir($new_import_image_dir);
                                 }
                             }
 
@@ -285,7 +288,7 @@ function tad_book3_export($tbsn = '')
                                 $new_import_file_dir = $import_file_dir;
                                 foreach ($dirs as $d) {
                                     $new_import_file_dir = $new_import_file_dir . '/' . $d;
-                                    mk_dir($new_import_file_dir);
+                                    Utility::mk_dir($new_import_file_dir);
                                 }
                             }
 

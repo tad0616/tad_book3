@@ -30,7 +30,7 @@ function get_tad_book3_cate_path($the_tbcsn = '', $include_self = true)
             WHERE t1.of_tbsn = '0'";
         $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
         while (false !== ($all = $xoopsDB->fetchArray($result))) {
-            if (in_array($the_tbcsn, $all, true)) {
+            if (in_array($the_tbcsn, $all)) {
                 //$main.="-";
                 foreach ($all as $tbcsn) {
                     if (!empty($tbcsn)) {
@@ -73,6 +73,7 @@ function get_tad_book3_cate($tbcsn = '')
     if (empty($tbcsn)) {
         return;
     }
+//    $data = [];
     $counter = tad_book3_cate_count();
     $sql = 'select * from ' . $xoopsDB->prefix('tad_book3_cate') . " where tbcsn='$tbcsn'";
     $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
@@ -101,6 +102,7 @@ function get_tad_book3_docs($tbdsn = '')
 function tad_book3_cate_count()
 {
     global $xoopsDB;
+    $all = [];
     $sql = 'SELECT tbcsn,count(*) FROM ' . $xoopsDB->prefix('tad_book3') . ' GROUP BY tbcsn';
     $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
     while (false !== (list($tbcsn, $count) = $xoopsDB->fetchRow($result))) {
@@ -116,6 +118,7 @@ function list_all_cate_book($isAdmin = '')
     global $xoopsDB, $xoopsTpl, $xoopsUser;
 
     $i = 0;
+    $cate = [];
     $sql = 'SELECT * FROM  ' . $xoopsDB->prefix('tad_book3_cate') . ' ORDER BY sort';
     $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
     while (false !== ($data = $xoopsDB->fetchArray($result))) {
@@ -190,7 +193,7 @@ function list_docs($def_tbsn = '')
 
     //共同編輯者
     $author_arr = explode(',', $author);
-    $my = in_array($uid, $author_arr, true);
+    $my = in_array($uid, $author_arr);
     $xoopsTpl->assign('my', $my);
     foreach ($author_arr as $uid) {
         $uidname = XoopsUser::getUnameFromId($uid, 1);
@@ -438,7 +441,7 @@ function insert_tad_book3()
     $_POST['title'] = $myts->addSlashes($_POST['title']);
     $_POST['description'] = $myts->addSlashes($_POST['description']);
 
-    $read_group = (in_array('', $_POST['read_group'], true)) ? '' : implode(',', $_POST['read_group']);
+    $read_group = (in_array('', $_POST['read_group'])) ? '' : implode(',', $_POST['read_group']);
     $now = date('Y-m-d H:i:s', xoops_getUserTimestamp(time()));
     $sql = 'insert into ' . $xoopsDB->prefix('tad_book3') . " (`tbcsn`,`sort`,`title`,`description`,`author`,`read_group`,`passwd`,`enable`,`pic_name`,`counter`,`create_date`) values('{$tbcsn}','{$_POST['sort']}','{$_POST['title']}','{$_POST['description']}','{$author}','{$read_group}','{$_POST['passwd']}','{$_POST['enable']}','{$_POST['pic_name']}',0,'{$now}')";
     $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
@@ -509,7 +512,7 @@ function update_tad_book3($tbsn = '')
     $_POST['title'] = $myts->addSlashes($_POST['title']);
     $_POST['description'] = $myts->addSlashes($_POST['description']);
 
-    $read_group = (in_array('', $_POST['read_group'], true)) ? '' : implode(',', $_POST['read_group']);
+    $read_group = (in_array('', $_POST['read_group'])) ? '' : implode(',', $_POST['read_group']);
     $sql = 'update ' . $xoopsDB->prefix('tad_book3') . " set  `tbcsn` = '{$tbcsn}', `sort` = '{$_POST['sort']}', `title` = '{$_POST['title']}', `description` = '{$_POST['description']}', `author` = '{$author}', `read_group` = '{$read_group}', `passwd` = '{$_POST['passwd']}', `enable` = '{$_POST['enable']}' where tbsn='$tbsn'";
     $xoopsDB->queryF($sql) or web_error($sql, __FILE__, __LINE__);
 
@@ -748,7 +751,7 @@ function chk_edit_power($uid_txt = '')
 
     $uid_arr = explode(',', $uid_txt);
 
-    if (in_array($user_id, $uid_arr, true)) {
+    if (in_array($user_id, $uid_arr)) {
         return true;
     }
 
