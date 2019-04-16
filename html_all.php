@@ -15,7 +15,7 @@ if ($xoopsUser) {
     $uid = 0;
 }
 $author_arr = explode(',', $book['author']);
-$my = in_array($uid, $author_arr, true);
+$my = in_array($uid, $author_arr);
 //高亮度語法
 if (!file_exists(TADTOOLS_PATH . '/syntaxhighlighter.php')) {
     redirect_header('index.php', 3, _MD_NEED_TADTOOLS);

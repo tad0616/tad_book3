@@ -136,7 +136,7 @@ if (!function_exists('block_book_cate')) {
                 arr[i] = document.getElementById('c{$tbcsn}').value;
                 i++;
             }";
-            $ckecked = (in_array($tbcsn, $sc, true)) ? 'checked' : '';
+            $ckecked = (in_array($tbcsn, $sc)) ? 'checked' : '';
             $option .= "<span style='white-space:nowrap;'><input type='checkbox' id='c{$tbcsn}' value='{$tbcsn}' class='bbv' onChange=bbv() $ckecked><label for='c{$tbcsn}'>$title</label></span> ";
         }
 

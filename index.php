@@ -112,7 +112,7 @@ function import_book($tbcsn)
     } else {
         $author = implode(',', $_POST['author']);
     }
-    $read_group = (in_array('', $_POST['read_group'], true)) ? '' : implode(',', $_POST['read_group']);
+    $read_group = (in_array('', $_POST['read_group'])) ? '' : implode(',', $_POST['read_group']);
 
     $book_sql = file_get_contents($_FILES['book']['tmp_name']);
     $book_sql = str_replace('`tad_book3`', '`' . $xoopsDB->prefix('tad_book3') . '`', $book_sql);
@@ -172,7 +172,7 @@ function tad_book3_export($tbsn = '')
 
     //共同編輯者
     $author_arr = explode(',', $book['author']);
-    if (!in_array($uid, $author_arr, true)) {
+    if (!in_array($uid, $author_arr)) {
         redirect_header($_SERVER['PHP_SELF'], 3, _MD_TADBOOK3_NEED_AUTHOR);
     }
 

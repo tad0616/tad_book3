@@ -30,7 +30,7 @@ function get_tad_book3_cate_path($the_tbcsn = '', $include_self = true)
             WHERE t1.of_tbsn = '0'";
         $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
         while ($all = $xoopsDB->fetchArray($result)) {
-            if (in_array($the_tbcsn, $all, true)) {
+            if (in_array($the_tbcsn, $all)) {
                 //$main.="-";
                 foreach ($all as $tbcsn) {
                     if (!empty($tbcsn)) {
@@ -190,7 +190,7 @@ function list_docs($def_tbsn = '')
 
     //共同編輯者
     $author_arr = explode(',', $author);
-    $my = in_array($uid, $author_arr, true);
+    $my = in_array($uid, $author_arr);
     $xoopsTpl->assign('my', $my);
     foreach ($author_arr as $uid) {
         $uidname = XoopsUser::getUnameFromId($uid, 1);
@@ -332,7 +332,7 @@ function list_docs($def_tbsn = '')
 //tad_book3編輯表單
 function tad_book3_form($tbsn = '', $tbcsn = '')
 {
-    global $xoopsDB, $xoopsUser, $xoopsTpl,$isAdmin;
+    global $xoopsDB, $xoopsUser, $xoopsTpl, $isAdmin;
     include_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
 
     //抓取預設值
@@ -425,7 +425,7 @@ function insert_tad_book3()
     if (!empty($_POST['new_tbcsn'])) {
         $tbcsn = add_tad_book3_cate();
     } else {
-        $tbcsn = (int)$_POST['tbcsn'];
+        $tbcsn = (int) $_POST['tbcsn'];
     }
 
     if (!empty($_POST['author_str'])) {
@@ -438,7 +438,7 @@ function insert_tad_book3()
     $_POST['title'] = $myts->addSlashes($_POST['title']);
     $_POST['description'] = $myts->addSlashes($_POST['description']);
 
-    $read_group = (in_array('', $_POST['read_group'], true)) ? '' : implode(',', $_POST['read_group']);
+    $read_group = (in_array('', $_POST['read_group'])) ? '' : implode(',', $_POST['read_group']);
     $now = date('Y-m-d H:i:s', xoops_getUserTimestamp(time()));
     $sql = 'insert into ' . $xoopsDB->prefix('tad_book3') . " (`tbcsn`,`sort`,`title`,`description`,`author`,`read_group`,`passwd`,`enable`,`pic_name`,`counter`,`create_date`) values('{$tbcsn}','{$_POST['sort']}','{$_POST['title']}','{$_POST['description']}','{$author}','{$read_group}','{$_POST['passwd']}','{$_POST['enable']}','{$_POST['pic_name']}',0,'{$now}')";
     $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
@@ -485,7 +485,7 @@ function tad_book3_cate_max_sort()
 //更新tad_book3某一筆資料
 function update_tad_book3($tbsn = '')
 {
-    global $xoopsDB,$isAdmin;
+    global $xoopsDB, $isAdmin;
     if (!$isAdmin) {
         $book = get_tad_book3($tbsn);
         if (!chk_edit_power($book['author'])) {
@@ -509,7 +509,7 @@ function update_tad_book3($tbsn = '')
     $_POST['title'] = $myts->addSlashes($_POST['title']);
     $_POST['description'] = $myts->addSlashes($_POST['description']);
 
-    $read_group = (in_array('', $_POST['read_group'], true)) ? '' : implode(',', $_POST['read_group']);
+    $read_group = (in_array('', $_POST['read_group'])) ? '' : implode(',', $_POST['read_group']);
     $sql = 'update ' . $xoopsDB->prefix('tad_book3') . " set  `tbcsn` = '{$tbcsn}', `sort` = '{$_POST['sort']}', `title` = '{$_POST['title']}', `description` = '{$_POST['description']}', `author` = '{$author}', `read_group` = '{$read_group}', `passwd` = '{$_POST['passwd']}', `enable` = '{$_POST['enable']}' where tbsn='$tbsn'";
     $xoopsDB->queryF($sql) or web_error($sql, __FILE__, __LINE__);
 
@@ -534,7 +534,7 @@ function get_max_doc_sort($tbcsn = '')
 //縮圖上傳
 function mk_thumb($tbsn = '', $col_name = '', $width = 100)
 {
-    global $xoopsDB,$isAdmin;
+    global $xoopsDB, $isAdmin;
     if (!$isAdmin) {
         $book = get_tad_book3($tbsn);
         if (!chk_edit_power($book['author'])) {
@@ -747,8 +747,11 @@ function chk_edit_power($uid_txt = '')
     }
 
     $uid_arr = explode(',', $uid_txt);
+    foreach ($uid_arr as $uid) {
+        $uid_arr[] = (int) $uid;
+    }
 
-    if (in_array($user_id, $uid_arr, true)) {
+    if (in_array($user_id, $uid_arr)) {
         return true;
     }
 
@@ -768,7 +771,7 @@ function delete_tad_book3_docs($tbdsn = '')
 //檢查是否有相同的章節數，若有其他章節往前移動（刪除之意）
 function check_update_cpps_del($tbdsn = 0)
 {
-    global $xoopsDB,$isAdmin;
+    global $xoopsDB, $isAdmin;
 
     $sql = 'select tbsn,category, page, paragraph,sort,uid from ' . $xoopsDB->prefix('tad_book3_docs') . " where `tbdsn`='{$tbdsn}'";
 
