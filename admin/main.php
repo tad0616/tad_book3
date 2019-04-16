@@ -114,7 +114,7 @@ function list_tad_book3_cate_tree($show_tbcsn = 0)
     $data[] = "{ id:0, pId:0, name:'All', url:'index.php', target:'_self', open:true}";
     while (false !== (list($tbcsn, $of_tbsn, $title) = $xoopsDB->fetchRow($result))) {
         $font_style = $show_tbcsn == $tbcsn ? ", font:{'background-color':'yellow', 'color':'black'}" : '';
-        $open = in_array($tbcsn, $path_arr, true) ? 'true' : 'false';
+        $open = in_array($tbcsn, $path_arr) ? 'true' : 'false';
         $display_counter = empty($count[$tbcsn]) ? '' : " ({$count[$tbcsn]})";
         $data[] = "{ id:{$tbcsn}, pId:{$of_tbsn}, name:'{$title}{$display_counter}', url:'main.php?tbcsn={$tbcsn}', target:'_self', open:{$open} {$font_style}}";
     }

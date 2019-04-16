@@ -18,7 +18,7 @@ if (!function_exists('chk_power')) {
 
         $news_enable_group = explode(',', $enable_group);
         foreach ($User_Groups as $gid) {
-            if (in_array($gid, $news_enable_group, true)) {
+            if (in_array($gid, $news_enable_group)) {
                 return true;
             }
         }
@@ -113,7 +113,7 @@ if (!function_exists('book_shadow')) {
             $uid = 0;
         }
         $authors = explode(',', $books['author']);
-        $tool = ((!empty($uid) and in_array($uid, $authors, true)) or $isAdmin) ? true : false;
+        $tool = ((!empty($uid) and in_array($uid, $authors)) or $isAdmin) ? true : false;
         $books['tool'] = $tool;
 
         $pic = (empty($books['pic_name'])) ? XOOPS_URL . '/modules/tad_book3/images/blank.png' : XOOPS_URL . "/uploads/tad_book3/{$books['pic_name']}";

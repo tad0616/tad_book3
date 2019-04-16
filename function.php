@@ -29,7 +29,7 @@ function get_tad_book3_cate_path($the_tbcsn = '', $include_self = true)
             LEFT JOIN `{$tbl}` t7 ON t7.of_tbsn = t6.tbcsn
             WHERE t1.of_tbsn = '0'";
         $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
-        while (false !== ($all = $xoopsDB->fetchArray($result))) {
+        while ($all = $xoopsDB->fetchArray($result)) {
             if (in_array($the_tbcsn, $all)) {
                 //$main.="-";
                 foreach ($all as $tbcsn) {
@@ -59,7 +59,7 @@ function get_tad_book3_sub_cate($tbcsn = '0')
     $sql = 'select tbcsn,title from ' . $xoopsDB->prefix('tad_book3_cate') . " where of_tbsn='{$tbcsn}'";
     $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
     $tbcsn_arr = [];
-    while (false !== (list($tbcsn, $title) = $xoopsDB->fetchRow($result))) {
+    while (list($tbcsn, $title) = $xoopsDB->fetchRow($result)) {
         $tbcsn_arr[$tbcsn] = $title;
     }
 
@@ -73,7 +73,6 @@ function get_tad_book3_cate($tbcsn = '')
     if (empty($tbcsn)) {
         return;
     }
-//    $data = [];
     $counter = tad_book3_cate_count();
     $sql = 'select * from ' . $xoopsDB->prefix('tad_book3_cate') . " where tbcsn='$tbcsn'";
     $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
@@ -105,7 +104,7 @@ function tad_book3_cate_count()
     $all = [];
     $sql = 'SELECT tbcsn,count(*) FROM ' . $xoopsDB->prefix('tad_book3') . ' GROUP BY tbcsn';
     $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
-    while (false !== (list($tbcsn, $count) = $xoopsDB->fetchRow($result))) {
+    while (list($tbcsn, $count) = $xoopsDB->fetchRow($result)) {
         $all[$tbcsn] = (int) ($count);
     }
 
@@ -622,7 +621,7 @@ function all_books()
     global $xoopsDB, $xoopsModule;
     $sql = 'SELECT tbsn,title FROM ' . $xoopsDB->prefix('tad_book3') . ' ORDER BY sort';
     $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
-    while (false !== (list($tbsn, $title) = $xoopsDB->fetchRow($result))) {
+    while (list($tbsn, $title) = $xoopsDB->fetchRow($result)) {
         $main[$tbsn] = $title;
     }
 
@@ -661,7 +660,7 @@ function near_docs($tbsn = '', $doc_sn = '')
     $sql = 'select tbdsn,title,category,page,paragraph,sort from ' . $xoopsDB->prefix('tad_book3_docs') . " where tbsn='$tbsn' $and_enable order by category,page,paragraph,sort";
     $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
     $get_next = false;
-    while (false !== (list($tbdsn, $title, $category, $page, $paragraph, $sort) = $xoopsDB->fetchRow($result))) {
+    while (list($tbdsn, $title, $category, $page, $paragraph, $sort) = $xoopsDB->fetchRow($result)) {
         $doc_sort = mk_category($category, $page, $paragraph, $sort);
         if ($doc_sn == $tbdsn) {
             $doc['main'] = "{$tbdsn};{$doc_sort['main']} {$title}";
@@ -696,7 +695,7 @@ function doc_select($tbsn = '', $doc_sn = '')
 
     $sql = 'select tbdsn,title,category,page,paragraph,sort,enable,uid from ' . $xoopsDB->prefix('tad_book3_docs') . " where tbsn='$tbsn' $andenable order by category,page,paragraph,sort";
     $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
-    while (false !== (list($tbdsn, $title, $category, $page, $paragraph, $sort, $enable, $uid) = $xoopsDB->fetchRow($result))) {
+    while (list($tbdsn, $title, $category, $page, $paragraph, $sort, $enable, $uid) = $xoopsDB->fetchRow($result)) {
         $selected = ($doc_sn == $tbdsn) ? 'selected' : '';
         $doc_sort = mk_category($category, $page, $paragraph, $sort);
 
@@ -750,6 +749,9 @@ function chk_edit_power($uid_txt = '')
     }
 
     $uid_arr = explode(',', $uid_txt);
+    foreach ($uid_arr as $uid) {
+        $uid_arr[] = (int) $uid;
+    }
 
     if (in_array($user_id, $uid_arr)) {
         return true;
