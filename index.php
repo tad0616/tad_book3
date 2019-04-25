@@ -1,4 +1,6 @@
 <?php
+use XoopsModules\Tadtools\Utility;
+
 /*-----------引入檔案區--------------*/
 include 'header.php';
 $xoopsOption['template_main'] = 'tadbook3_index.tpl';
@@ -10,7 +12,7 @@ function change_enable($enable, $tbdsn)
 {
     global $xoopsDB;
     $sql = 'update ' . $xoopsDB->prefix('tad_book3_docs') . " set  `enable` = '{$enable}' where tbdsn='$tbdsn'";
-    $xoopsDB->queryF($sql) or web_error($sql, __FILE__, __LINE__);
+    $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
 }
 
 //tad_book3編輯表單
@@ -119,18 +121,18 @@ function import_book($tbcsn)
     $book_sql = str_replace('{{tbcsn}}', $tbcsn, $book_sql);
     $book_sql = str_replace('{{author}}', $author, $book_sql);
     $book_sql = str_replace('{{read_group}}', $read_group, $book_sql);
-    $xoopsDB->queryF($book_sql) or web_error($sql, __FILE__, __LINE__);
+    $xoopsDB->queryF($book_sql) or Utility::web_error($sql, __FILE__, __LINE__);
     //取得最後新增資料的流水編號
     $tbsn = $xoopsDB->getInsertId();
 
     //取出亂數資料夾內容
     $sql = 'select pic_name from ' . $xoopsDB->prefix('tad_book3') . " where tbsn='$tbsn'";
-    $result = $xoopsDB->queryF($sql) or web_error($sql, __FILE__, __LINE__);
+    $result = $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
     list($rand) = $xoopsDB->fetchRow($result);
 
     //修改書籍封面圖
     $sql = 'update ' . $xoopsDB->prefix('tad_book3') . " set pic_name = 'book_{$tbsn}.png' where tbsn='$tbsn'";
-    $xoopsDB->queryF($sql) or web_error($sql, __FILE__, __LINE__);
+    $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
 
     //產生書籍封面圖
     copy("{$tadbook3_dir}/file/{$rand}/book.png", "{$tadbook3_dir}/book_{$tbsn}.png");
@@ -149,7 +151,7 @@ function import_book($tbcsn)
     foreach ($docs_sql_arr as $docs_sql) {
         $sql = trim($docs_sql);
         if (!empty($sql)) {
-            $xoopsDB->queryF($sql) or web_error($sql, __FILE__, __LINE__);
+            $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
         }
     }
 
@@ -167,7 +169,7 @@ function tad_book3_export($tbsn = '')
 
     //輸出書籍設定
     $sql = 'select * from ' . $xoopsDB->prefix('tad_book3') . " where tbsn='$tbsn'";
-    $result = $xoopsDB->queryF($sql) or web_error($sql, __FILE__, __LINE__);
+    $result = $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
     $book = $xoopsDB->fetchArray($result);
 
     //共同編輯者
@@ -176,7 +178,7 @@ function tad_book3_export($tbsn = '')
         redirect_header($_SERVER['PHP_SELF'], 3, _MD_TADBOOK3_NEED_AUTHOR);
     }
 
-    $rand = randStr();
+    $rand = Utility::randStr();
 
     $tadbook3_dir = XOOPS_ROOT_PATH . '/uploads/tad_book3';
     $import_dir = "{$tadbook3_dir}/import_{$tbsn}";
@@ -186,12 +188,12 @@ function tad_book3_export($tbsn = '')
     $import_image_dir = "{$import_dir}/image/{$rand}";
     $bookfile = "{$import_dir}/1_book.sql";
     $docsfile = "{$import_dir}/2_docs.sql";
-    rrmdir($import_dir);
-    mk_dir($import_dir);
-    mk_dir($import_dir . '/file');
-    mk_dir($import_dir . '/image');
-    mk_dir($import_file_dir);
-    mk_dir($import_image_dir);
+    Utility::rrmdir($import_dir);
+    Utility::mk_dir($import_dir);
+    Utility::mk_dir($import_dir . '/file');
+    Utility::mk_dir($import_dir . '/image');
+    Utility::mk_dir($import_file_dir);
+    Utility::mk_dir($import_image_dir);
 
     copy($tadbook3_dir . "/{$book['pic_name']}", $import_file_dir . '/book.png');
 
@@ -224,7 +226,7 @@ function tad_book3_export($tbsn = '')
     //輸出文章設定
     $current = '';
     $sql = 'select * from ' . $xoopsDB->prefix('tad_book3_docs') . " where tbsn='$tbsn' order by category ,  page , paragraph , sort";
-    $result = $xoopsDB->queryF($sql) or web_error($sql, __FILE__, __LINE__);
+    $result = $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
     $all = '';
     while ($doc = $xoopsDB->fetchArray($result)) {
         $cols = $vals = '';
@@ -253,7 +255,7 @@ function tad_book3_export($tbsn = '')
                                 $new_import_image_dir = $import_image_dir;
                                 foreach ($dirs as $d) {
                                     $new_import_image_dir = $new_import_image_dir . '/' . $d;
-                                    mk_dir($new_import_image_dir);
+                                    Utility::mk_dir($new_import_image_dir);
                                 }
                             }
 
@@ -285,7 +287,7 @@ function tad_book3_export($tbsn = '')
                                 $new_import_file_dir = $import_file_dir;
                                 foreach ($dirs as $d) {
                                     $new_import_file_dir = $new_import_file_dir . '/' . $d;
-                                    mk_dir($new_import_file_dir);
+                                    Utility::mk_dir($new_import_file_dir);
                                 }
                             }
 
@@ -345,7 +347,7 @@ function update_docs_sort($update_sort = [])
         $doc_sort_arr = decode_category($doc_sort);
         $sql = 'update ' . $xoopsDB->prefix('tad_book3_docs') . " set `category` = '{$doc_sort_arr['category']}', `page` = '{$doc_sort_arr['page']}' , `paragraph` = '{$doc_sort_arr['paragraph']}' , `sort` ='{$doc_sort_arr['sort']}' where  tbdsn='{$tbdsn}'";
         // die($sql);
-        $result = $xoopsDB->queryF($sql) or web_error($sql, __FILE__, __LINE__);
+        $result = $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
     }
 }
 
@@ -420,8 +422,7 @@ switch ($op) {
 }
 
 /*-----------秀出結果區--------------*/
-$xoopsTpl->assign('toolbar', toolbar_bootstrap($interface_menu));
-$xoopsTpl->assign('bootstrap', get_bootstrap());
-$xoopsTpl->assign('jquery', get_jquery(true));
+$xoopsTpl->assign('toolbar', Utility::toolbar_bootstrap($interface_menu));
+$xoopsTpl->assign('jquery', Utility::get_jquery(true));
 $xoopsTpl->assign('isAdmin', $isAdmin);
 include_once XOOPS_ROOT_PATH . '/footer.php';

@@ -1,15 +1,17 @@
 <?php
+use XoopsModules\Tadtools\Utility;
+
 //區塊主函式 (會自動偵測目前閱讀的書籍，並秀出該書目錄)
 function tad_book3_index()
 {
     global $xoopsDB;
     include_once XOOPS_ROOT_PATH . '/modules/tad_book3/function_block.php';
-    $global_tbsn = isset($_GET['tbsn']) ? (int)$_GET['tbsn'] : '';
-    $global_tbdsn = isset($_GET['tbdsn']) ? (int)$_GET['tbdsn'] : '';
+    $global_tbsn = isset($_GET['tbsn']) ? (int) $_GET['tbsn'] : '';
+    $global_tbdsn = isset($_GET['tbdsn']) ? (int) $_GET['tbdsn'] : '';
 
     if (empty($global_tbsn) and !empty($global_tbdsn)) {
         $sql = 'select `tbsn` from ' . $xoopsDB->prefix('tad_book3_docs') . " where tbdsn='{$global_tbdsn}'";
-        $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
+        $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
         list($tbsn) = $xoopsDB->fetchRow($result);
     } else {
         $tbsn = $global_tbsn;
@@ -49,10 +51,10 @@ if (!function_exists('block_get_book_content')) {
 
             $father_sn = 0;
             if (1 == $doc_sort['level']) {
-                $fsn[(string)($category)] = $tbdsn;
+                $fsn[(string) ($category)] = $tbdsn;
             } elseif (2 == $doc_sort['level']) {
                 $fsn["{$category}-{$page}"] = $tbdsn;
-                $father_sn = isset($fsn[(string)($category)]) ? $fsn[(string)($category)] : '';
+                $father_sn = isset($fsn[(string) ($category)]) ? $fsn[(string) ($category)] : '';
             } elseif (3 == $doc_sort['level']) {
                 $fsn["{$category}-{$page}-{$paragraph}"] = $tbdsn;
                 $father_sn = isset($fsn["{$category}-{$page}"]) ? $fsn["{$category}-{$page}"] : '';

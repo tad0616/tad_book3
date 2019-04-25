@@ -1,5 +1,7 @@
 <?php
 
+use XoopsModules\Tadtools\Utility;
+
 //判斷本文是否允許該用戶之所屬群組觀看
 if (!function_exists('chk_power')) {
     function chk_power($enable_group = '')
@@ -33,7 +35,7 @@ if (!function_exists('add_book_counter')) {
     {
         global $xoopsDB;
         $sql = 'update ' . $xoopsDB->prefix('tad_book3') . " set  `counter` = `counter`+1 where tbsn='$tbsn'";
-        $xoopsDB->queryF($sql) or web_error($sql, __FILE__, __LINE__);
+        $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
     }
 }
 
@@ -43,7 +45,7 @@ if (!function_exists('all_cate')) {
     {
         global $xoopsDB, $xoopsModule;
         $sql = 'SELECT tbcsn,title FROM ' . $xoopsDB->prefix('tad_book3_cate') . ' ORDER BY sort';
-        $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
+        $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
         while (list($tbcsn, $title) = $xoopsDB->fetchRow($result)) {
             $main[$tbcsn] = $title;
         }
@@ -93,7 +95,7 @@ if (!function_exists('have_sub')) {
         $and_paragraph = $paragraph ? "and `paragraph`= $paragraph" : '';
 
         $sql = 'select count(*) from ' . $xoopsDB->prefix('tad_book3_docs') . " where tbsn='{$tbsn}' $and_category $and_page $and_paragraph";
-        $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
+        $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
         list($count) = $xoopsDB->fetchRow($result);
         $count--;
 

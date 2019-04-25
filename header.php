@@ -1,5 +1,9 @@
 <?php
+
+use XoopsModules\Tadtools\Utility;
+
 include_once '../../mainfile.php';
+
 
 include_once 'function.php';
 if ('1' == $xoopsModuleConfig['use_pda'] and false === mb_strpos($_SESSION['theme_kind'], 'bootstrap')) {
@@ -29,7 +33,7 @@ $tbsn = (int) $_GET['tbsn'];
 if (!empty($tbdsn) or !empty($tbsn)) {
     if (!empty($tbdsn)) {
         $sql = 'select a.tbsn,a.title,b.author,a.category,a.page,a.paragraph,a.sort from ' . $xoopsDB->prefix('tad_book3_docs') . ' as a left join ' . $xoopsDB->prefix('tad_book3') . " as b on a.tbsn=b.tbsn where a.tbdsn='{$tbdsn}'";
-        $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
+        $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
         list($tbsn, $title, $author, $category, $page, $paragraph, $sort) = $xoopsDB->fetchRow($result);
 
         $all_books = all_books();
@@ -44,7 +48,7 @@ if (!empty($tbdsn) or !empty($tbsn)) {
         $category = mk_category($category, $page, $paragraph, $sort);
     } elseif (!empty($tbsn)) {
         $sql = 'select tbsn,author from ' . $xoopsDB->prefix('tad_book3') . " where tbsn='{$tbsn}'";
-        $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
+        $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
         list($tbsn, $author) = $xoopsDB->fetchRow($result);
         if (chk_edit_power($author)) {
             $interface_menu[_MD_TADBOOK3_ADD_DOC] = "post.php?op=tad_book3_docs_form&tbsn={$tbsn}";

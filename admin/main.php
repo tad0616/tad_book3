@@ -1,4 +1,6 @@
 <?php
+use XoopsModules\Tadtools\Utility;
+
 /*-----------引入檔案區--------------*/
 $xoopsOption['template_main'] = 'tadbook3_adm_main.tpl';
 include_once 'header.php';
@@ -37,10 +39,10 @@ function tad_book3_cate_form($tbcsn = '')
     $op = (empty($tbcsn)) ? 'insert_tad_book3_cate' : 'update_tad_book3_cate';
     //$op="replace_tad_book3_cate";
 
-    if (!file_exists(TADTOOLS_PATH . '/formValidator.php')) {
+    if (!file_exists(XOOPS_ROOT_PATH . '/modules/tadtools/formValidator.php')) {
         redirect_header('index.php', 3, _MA_NEED_TADTOOLS);
     }
-    include_once TADTOOLS_PATH . '/formValidator.php';
+    include_once XOOPS_ROOT_PATH . '/modules/tadtools/formValidator.php';
     $formValidator = new formValidator('#myForm', true);
     $formValidator_code = $formValidator->render();
 
@@ -73,7 +75,7 @@ function insert_tad_book3_cate()
     $sql = 'insert into ' . $xoopsDB->prefix('tad_book3_cate') . "
     (`of_tbsn` , `title` , `sort` , `description`)
     values('{$_POST['of_tbsn']}' , '{$_POST['title']}' , '{$_POST['sort']}' , '{$_POST['description']}')";
-    $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
+    $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
 
     //取得最後新增資料的流水編號
     $tbcsn = $xoopsDB->getInsertId();
@@ -96,7 +98,7 @@ function update_tad_book3_cate($tbcsn = '')
      `sort` = '{$_POST['sort']}' ,
      `description` = '{$_POST['description']}'
     where tbcsn='$tbcsn'";
-    $xoopsDB->queryF($sql) or web_error($sql, __FILE__, __LINE__);
+    $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
 
     return $tbcsn;
 }
@@ -108,7 +110,7 @@ function list_tad_book3_cate_tree($show_tbcsn = 0)
     $path = get_tad_book3_cate_path($show_tbcsn);
     $path_arr = array_keys($path);
     $sql = 'SELECT tbcsn,of_tbsn,title FROM ' . $xoopsDB->prefix('tad_book3_cate') . ' ORDER BY sort';
-    $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
+    $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
 
     $count = tad_book3_cate_count();
     $data[] = "{ id:0, pId:0, name:'All', url:'index.php', target:'_self', open:true}";
@@ -137,11 +139,11 @@ function list_tad_book3($tbcsn = '')
     $and_tbcsn = !empty($tbcsn) ? "and `tbcsn`='{$tbcsn}'" : '';
     $sql = 'select * from  ' . $xoopsDB->prefix('tad_book3') . " where 1 $and_tbcsn order by sort";
     //getPageBar($原sql語法, 每頁顯示幾筆資料, 最多顯示幾個頁數選項);
-    $PageBar = getPageBar($sql, 10, 10);
+    $PageBar = Utility::getPageBar($sql, 10, 10);
     $bar = $PageBar['bar'];
     $sql = $PageBar['sql'];
     $total = $PageBar['total'];
-    $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
+    $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
     $i = 0;
     $books = [];
     while ($data = $xoopsDB->fetchArray($result)) {
@@ -155,7 +157,7 @@ function list_tad_book3($tbcsn = '')
             $uid_name[] = $uidname;
         }
         $books[$i]['author'] = implode(' , ', $uid_name);
-        $books[$i]['read_groups'] = txt_to_group_name($read_group, _MD_TADBOOK3_ALL_OPEN);
+        $books[$i]['read_groups'] = Utility::txt_to_group_name($read_group, _MD_TADBOOK3_ALL_OPEN);
         $i++;
     }
     $xoopsTpl->assign('books', $books);

@@ -1,4 +1,6 @@
 <?php
+use XoopsModules\Tadtools\Utility;
+
 include_once 'header.php';
 set_time_limit(0);
 ini_set('memory_limit', '150M');
@@ -85,10 +87,10 @@ function view_page($tbdsn = '')
     $doc_sort = mk_category($category, $page, $paragraph, $sort);
 
     //高亮度語法
-    if (!file_exists(TADTOOLS_PATH . '/syntaxhighlighter.php')) {
+    if (!file_exists(XOOPS_ROOT_PATH . '/modules/tadtools/syntaxhighlighter.php')) {
         redirect_header('index.php', 3, _MD_NEED_TADTOOLS);
     }
-    include_once TADTOOLS_PATH . '/syntaxhighlighter.php';
+    include_once XOOPS_ROOT_PATH . '/modules/tadtools/syntaxhighlighter.php';
     $syntaxhighlighter = new syntaxhighlighter();
     $syntaxhighlighter_code = $syntaxhighlighter->render();
 

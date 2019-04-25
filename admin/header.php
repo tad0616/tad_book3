@@ -16,6 +16,7 @@
  * @author       Tad
  * @version      $Id $
  **/
+
 include '../../../include/cp_header.php';
 
 defined('FRAMEWORKS_ART_FUNCTIONS_INI') || include_once XOOPS_ROOT_PATH . '/Frameworks/art/functions.ini.php';

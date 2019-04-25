@@ -1,4 +1,6 @@
 <?php
+use XoopsModules\Tadtools\Utility;
+
 //tad_book3_docs編輯表單
 function tad_book3_docs_form($tbdsn = '', $tbsn = '')
 {
@@ -86,18 +88,18 @@ function insert_tad_book3_docs()
     $myts = MyTextSanitizer::getInstance();
     $_POST['title'] = $myts->addSlashes($_POST['title']);
     $_POST['content'] = $myts->addSlashes($_POST['content']);
-    $_POST['from_tbdsn'] = (int)$_POST['from_tbdsn'];
+    $_POST['from_tbdsn'] = (int) $_POST['from_tbdsn'];
 
-    $_POST['category'] = (int)$_POST['category'];
-    $_POST['page'] = (int)$_POST['page'];
-    $_POST['paragraph'] = (int)$_POST['paragraph'];
-    $_POST['sort'] = (int)$_POST['sort'];
+    $_POST['category'] = (int) $_POST['category'];
+    $_POST['page'] = (int) $_POST['page'];
+    $_POST['paragraph'] = (int) $_POST['paragraph'];
+    $_POST['sort'] = (int) $_POST['sort'];
 
     check_update_cpps_add($_POST['tbsn'], $_POST['category'], $_POST['page'], $_POST['paragraph'], $_POST['sort']);
 
     $uid = $xoopsUser->getVar('uid');
     $sql = 'insert into ' . $xoopsDB->prefix('tad_book3_docs') . " (`tbsn`,`category`,`page`,`paragraph`,`sort`,`title`,`content`,`add_date`,`last_modify_date`,`uid`,`count`,`enable`,`from_tbdsn`) values('{$_POST['tbsn']}','{$_POST['category']}','{$_POST['page']}','{$_POST['paragraph']}','{$_POST['sort']}','{$_POST['title']}','{$_POST['content']}','{$time}','{$time}','{$uid}','0','{$_POST['enable']}','{$_POST['from_tbdsn']}')";
-    $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
+    $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
     //取得最後新增資料的流水編號
     $tbdsn = $xoopsDB->getInsertId();
 
@@ -113,17 +115,17 @@ function update_tad_book3_docs($tbdsn = '')
     $myts = MyTextSanitizer::getInstance();
     $_POST['title'] = $myts->addSlashes($_POST['title']);
     $_POST['content'] = $myts->addSlashes($_POST['content']);
-    $_POST['from_tbdsn'] = (int)$_POST['from_tbdsn'];
+    $_POST['from_tbdsn'] = (int) $_POST['from_tbdsn'];
 
-    $_POST['category'] = (int)$_POST['category'];
-    $_POST['page'] = (int)$_POST['page'];
-    $_POST['paragraph'] = (int)$_POST['paragraph'];
-    $_POST['sort'] = (int)$_POST['sort'];
+    $_POST['category'] = (int) $_POST['category'];
+    $_POST['page'] = (int) $_POST['page'];
+    $_POST['paragraph'] = (int) $_POST['paragraph'];
+    $_POST['sort'] = (int) $_POST['sort'];
 
     check_update_cpps_add($_POST['tbsn'], $_POST['category'], $_POST['page'], $_POST['paragraph'], $_POST['sort'], $tbdsn);
 
     $sql = 'update ' . $xoopsDB->prefix('tad_book3_docs') . " set  `tbsn` = '{$_POST['tbsn']}', `category` = '{$_POST['category']}', `page` = '{$_POST['page']}', `paragraph` = '{$_POST['paragraph']}', `sort` = '{$_POST['sort']}', `title` = '{$_POST['title']}', `content` = '{$_POST['content']}', `last_modify_date` = '{$time}', `enable` = '{$_POST['enable']}', `from_tbdsn` = '{$_POST['from_tbdsn']}' where tbdsn='$tbdsn'";
-    $xoopsDB->queryF($sql) or web_error($sql, __FILE__, __LINE__);
+    $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
 
     return $tbdsn;
 }
@@ -134,22 +136,22 @@ function check_update_cpps_add($tbsn = 0, $category = 0, $page = 0, $paragraph =
     global $xoopsDB;
     $and_tbdsn = $tbdsn ? "and `tbdsn`!='{$tbdsn}'" : '';
     $sql = 'select tbdsn from ' . $xoopsDB->prefix('tad_book3_docs') . " where tbsn='{$tbsn}' and `category`='{$category}' and `page`='{$page}' and `paragraph`='{$paragraph}' and `sort`='{$sort}' {$and_tbdsn}";
-    $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
+    $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
     list($tbdsn) = $xoopsDB->fetchRow($result);
 
     if (!empty($tbdsn)) {
         if (!empty($category) and !empty($page) and !empty($paragraph) and !empty($sort)) {
             $sql = 'update ' . $xoopsDB->prefix('tad_book3_docs') . " set `sort` = `sort` + 1 where  tbsn='{$tbsn}' and `category` = '{$category}' and `page` = '{$page}' and `paragraph` = '{$paragraph}' and `sort` >= '{$sort}'";
-            $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
+            $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
         } elseif (!empty($category) and !empty($page) and !empty($paragraph) and empty($sort)) {
             $sql = 'update ' . $xoopsDB->prefix('tad_book3_docs') . " set `paragraph` = `paragraph` + 1 where tbsn='{$tbsn}' and  `category` = '{$category}' and `page` = '{$page}' and `paragraph` >= '{$paragraph}'";
-            $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
+            $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
         } elseif (!empty($category) and !empty($page) and empty($paragraph) and empty($sort)) {
             $sql = 'update ' . $xoopsDB->prefix('tad_book3_docs') . " set `page` = `page` + 1 where  tbsn='{$tbsn}' and `category` = '{$category}' and `page` >= '{$page}'";
-            $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
+            $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
         } elseif (!empty($category) and empty($page) and empty($paragraph) and empty($sort)) {
             $sql = 'update ' . $xoopsDB->prefix('tad_book3_docs') . " set `category` = `category` + 1 where tbsn='{$tbsn}' and  `category` >= '{$category}' ";
-            $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
+            $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
         }
     }
 }
