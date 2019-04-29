@@ -5,7 +5,7 @@ use XoopsModules\Tadtools\Utility;
 function tad_book3_content($options)
 {
     global $xoopsDB, $xoopsUser, $xoopsTpl;
-    include_once XOOPS_ROOT_PATH . '/modules/tad_book3/function_block.php';
+    require_once XOOPS_ROOT_PATH . '/modules/tad_book3/function_block.php';
 
     $def_tbsn = !empty($options[0]) ? (int) $options[0] : '1';
 

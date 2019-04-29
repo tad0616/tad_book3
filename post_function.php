@@ -1,11 +1,12 @@
 <?php
+use XoopsModules\Tadtools\CkEditor;
 use XoopsModules\Tadtools\Utility;
 
 //tad_book3_docs編輯表單
 function tad_book3_docs_form($tbdsn = '', $tbsn = '')
 {
     global $xoopsDB, $xoopsUser, $xoopsModule, $xoopsTpl;
-    include_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
+    require_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
 
     if ($xoopsUser) {
         $module_id = $xoopsModule->getVar('mid');
@@ -47,12 +48,7 @@ function tad_book3_docs_form($tbdsn = '', $tbsn = '')
     $enable = (!isset($DBV['enable'])) ? '1' : $DBV['enable'];
     $from_tbdsn = (!isset($DBV['from_tbdsn'])) ? '' : $DBV['from_tbdsn'];
 
-    if (!file_exists(XOOPS_ROOT_PATH . '/modules/tadtools/fck.php')) {
-        redirect_header('index.php', 3, _MD_NEED_TADTOOLS);
-    }
-
-    include_once XOOPS_ROOT_PATH . '/modules/tadtools/ck.php';
-    $ck = new CKEditor('tad_book3', 'content', $content);
+    $ck = new CkEditor('tad_book3', 'content', $content);
     $ck->setHeight(400);
     $ck->setContentCss(XOOPS_URL . '/modules/tad_book3/reset.css');
     $ck->setContentCss(XOOPS_URL . '/modules/tad_book3/modules.css');
@@ -64,7 +60,6 @@ function tad_book3_docs_form($tbdsn = '', $tbsn = '')
 	$';
 
     $xoopsTpl->assign('action', $_SERVER['PHP_SELF']);
-    $xoopsTpl->assign('syntaxhighlighter_code', $syntaxhighlighter_code);
     $xoopsTpl->assign('tbdsn', $tbdsn);
     $xoopsTpl->assign('book_select', book_select($tbsn));
     $xoopsTpl->assign('enable', $enable);
@@ -85,7 +80,7 @@ function insert_tad_book3_docs()
     $time = time();
     //$time=xoops_getUserTimestamp(time());
 
-    $myts = MyTextSanitizer::getInstance();
+    $myts = \MyTextSanitizer::getInstance();
     $_POST['title'] = $myts->addSlashes($_POST['title']);
     $_POST['content'] = $myts->addSlashes($_POST['content']);
     $_POST['from_tbdsn'] = (int) $_POST['from_tbdsn'];
@@ -112,7 +107,7 @@ function update_tad_book3_docs($tbdsn = '')
     global $xoopsDB;
     $time = time();
     //$time=xoops_getUserTimestamp(time());
-    $myts = MyTextSanitizer::getInstance();
+    $myts = \MyTextSanitizer::getInstance();
     $_POST['title'] = $myts->addSlashes($_POST['title']);
     $_POST['content'] = $myts->addSlashes($_POST['content']);
     $_POST['from_tbdsn'] = (int) $_POST['from_tbdsn'];

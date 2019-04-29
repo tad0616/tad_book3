@@ -1,10 +1,12 @@
 <?php
+use XoopsModules\Tadtools\SyntaxHighlighter;
 use XoopsModules\Tadtools\Utility;
-include_once 'header.php';
+
+require_once 'header.php';
 set_time_limit(0);
 ini_set('memory_limit', '150M');
 
-include_once $GLOBALS['xoops']->path('/modules/system/include/functions.php');
+require_once $GLOBALS['xoops']->path('/modules/system/include/functions.php');
 $op = system_CleanVars($_REQUEST, 'op', '', 'string');
 $tbsn = system_CleanVars($_REQUEST, 'tbsn', 0, 'int');
 $header = system_CleanVars($_REQUEST, 'header', 1, 'int');
@@ -18,12 +20,8 @@ if ($xoopsUser) {
 $author_arr = explode(',', $book['author']);
 $my = in_array($uid, $author_arr);
 //高亮度語法
-if (!file_exists(XOOPS_ROOT_PATH . '/modules/tadtools/syntaxhighlighter.php')) {
-    redirect_header('index.php', 3, _MD_NEED_TADTOOLS);
-}
-include_once XOOPS_ROOT_PATH . '/modules/tadtools/syntaxhighlighter.php';
-$syntaxhighlighter = new syntaxhighlighter();
-$syntaxhighlighter_code = $syntaxhighlighter->render();
+$SyntaxHighlighter = new SyntaxHighlighter();
+$syntaxhighlighter_code = $SyntaxHighlighter->render();
 $bootstrap = Utility::get_bootstrap('return');
 
 $html = '<!DOCTYPE html>

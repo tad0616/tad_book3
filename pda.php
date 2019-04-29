@@ -3,11 +3,11 @@ use XoopsModules\Tadtools\Utility;
 
 /*-----------引入檔案區--------------*/
 if (file_exists('mainfile.php')) {
-    include_once 'mainfile.php';
+    require_once 'mainfile.php';
 } elseif ('../../mainfile.php') {
-    include_once '../../mainfile.php';
+    require_once '../../mainfile.php';
 }
-include_once 'function.php';
+require_once 'function.php';
 /*-----------function區--------------*/
 
 function show_allbook()
@@ -398,7 +398,7 @@ function check_passwd_m($tbsn = '')
 }
 
 /*-----------執行動作判斷區----------*/
-include_once $GLOBALS['xoops']->path('/modules/system/include/functions.php');
+require_once $GLOBALS['xoops']->path('/modules/system/include/functions.php');
 $op = system_CleanVars($_REQUEST, 'op', '', 'string');
 $tbsn = system_CleanVars($_REQUEST, 'tbsn', 0, 'int');
 $tbdsn = system_CleanVars($_REQUEST, 'tbdsn', 0, 'int');

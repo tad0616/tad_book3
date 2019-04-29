@@ -1,10 +1,11 @@
 <?php
+use XoopsModules\Tadtools\SyntaxHighlighter;
 use XoopsModules\Tadtools\Utility;
 
 /*-----------引入檔案區--------------*/
-include 'header.php';
+require 'header.php';
 $xoopsOption['template_main'] = 'tadbook3_page.tpl';
-include_once XOOPS_ROOT_PATH . '/header.php';
+require_once XOOPS_ROOT_PATH . '/header.php';
 /*-----------function區--------------*/
 
 //觀看某一頁
@@ -48,14 +49,9 @@ function view_page($tbdsn = '')
     $facebook_comments = Utility::facebook_comments($xoopsModuleConfig['facebook_comments_width'], 'tad_book3', 'page.php', 'tbdsn', $tbdsn);
 
     //高亮度語法
-    if (!file_exists(XOOPS_ROOT_PATH . '/modules/tadtools/syntaxhighlighter.php')) {
-        redirect_header('index.php', 3, _MD_NEED_TADTOOLS);
-    }
-    include_once XOOPS_ROOT_PATH . '/modules/tadtools/syntaxhighlighter.php';
-    $syntaxhighlighter = new syntaxhighlighter();
-    $syntaxhighlighter_code = $syntaxhighlighter->render();
+    $SyntaxHighlighter = new SyntaxHighlighter();
+    $SyntaxHighlighter->render();
 
-    $xoopsTpl->assign('syntaxhighlighter_code', $syntaxhighlighter_code);
     $xoopsTpl->assign('tbsn', $tbsn);
     $xoopsTpl->assign('book_title', $book['title']);
     $xoopsTpl->assign('doc_sort_main', $doc_sort['main']);
@@ -85,7 +81,7 @@ function add_counter($tbdsn = '')
 }
 
 /*-----------執行動作判斷區----------*/
-include_once $GLOBALS['xoops']->path('/modules/system/include/functions.php');
+require_once $GLOBALS['xoops']->path('/modules/system/include/functions.php');
 $op = system_CleanVars($_REQUEST, 'op', '', 'string');
 $tbsn = system_CleanVars($_REQUEST, 'tbsn', 0, 'int');
 $tbdsn = system_CleanVars($_REQUEST, 'tbdsn', 0, 'int');
@@ -104,4 +100,4 @@ switch ($op) {
 $xoopsTpl->assign('toolbar', Utility::toolbar_bootstrap($interface_menu));
 $xoopsTpl->assign('jquery', Utility::get_jquery(true));
 $xoopsTpl->assign('isAdmin', $isAdmin);
-include_once XOOPS_ROOT_PATH . '/footer.php';
+require_once XOOPS_ROOT_PATH . '/footer.php';

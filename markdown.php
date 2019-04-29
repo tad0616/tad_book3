@@ -1,11 +1,13 @@
 <?php
-use XoopsModules\Tadtools\Utility;
-
-include_once 'header.php';
-$xoopsOption['template_main'] = 'tadbook3_markdown.tpl';
-include_once XOOPS_ROOT_PATH . '/header.php';
-require 'vendor/autoload.php';
 use League\HTMLToMarkdown\HtmlConverter;
+use XoopsModules\Tadtools\SyntaxHighlighter;
+
+
+require_once 'header.php';
+$xoopsOption['template_main'] = 'tadbook3_markdown.tpl';
+require_once XOOPS_ROOT_PATH . '/header.php';
+require 'vendor/autoload.php';
+use XoopsModules\Tadtools\Utility;
 
 /*-----------function區--------------*/
 
@@ -38,16 +40,12 @@ function view_page($tbdsn = '')
     $doc_sort = mk_category($category, $page, $paragraph, $sort);
 
     //高亮度語法
-    if (!file_exists(XOOPS_ROOT_PATH . '/modules/tadtools/syntaxhighlighter.php')) {
-        redirect_header('index.php', 3, _MD_NEED_TADTOOLS);
-    }
-    include_once XOOPS_ROOT_PATH . '/modules/tadtools/syntaxhighlighter.php';
-    $syntaxhighlighter = new syntaxhighlighter();
-    $syntaxhighlighter_code = $syntaxhighlighter->render();
+    $SyntaxHighlighter = new SyntaxHighlighter();
+    $syntaxhighlighter_code = $SyntaxHighlighter->render();
 
     $main = "
-      <h1>{$book['title']}</h1>
-      $content
+    <h1>{$book['title']}</h1>
+    $content
     ";
 
     $doc_select = doc_select($tbsn, $tbdsn);
@@ -67,7 +65,7 @@ function view_page($tbdsn = '')
     return $main;
 }
 /*-----------執行動作判斷區----------*/
-include_once $GLOBALS['xoops']->path('/modules/system/include/functions.php');
+require_once $GLOBALS['xoops']->path('/modules/system/include/functions.php');
 $op = system_CleanVars($_REQUEST, 'op', '', 'string');
 $tbsn = system_CleanVars($_REQUEST, 'tbsn', 0, 'int');
 $tbdsn = system_CleanVars($_REQUEST, 'tbdsn', 0, 'int');
@@ -87,4 +85,4 @@ switch ($_REQUEST['op']) {
 $xoopsTpl->assign('toolbar', Utility::toolbar_bootstrap($interface_menu));
 $xoopsTpl->assign('jquery', Utility::get_jquery(true));
 $xoopsTpl->assign('isAdmin', $isAdmin);
-include_once XOOPS_ROOT_PATH . '/footer.php';
+require_once XOOPS_ROOT_PATH . '/footer.php';

@@ -1,10 +1,11 @@
 <?php
+use XoopsModules\Tadtools\CkEditor;
 use XoopsModules\Tadtools\Utility;
 
 /*-----------引入檔案區--------------*/
-include 'header.php';
+require 'header.php';
 $xoopsOption['template_main'] = 'tadbook3_index.tpl';
-include_once XOOPS_ROOT_PATH . '/header.php';
+require_once XOOPS_ROOT_PATH . '/header.php';
 /*-----------function區--------------*/
 
 //更新狀態
@@ -19,7 +20,7 @@ function change_enable($enable, $tbdsn)
 function import_form($tbsn = '')
 {
     global $xoopsDB, $xoopsUser, $xoopsTpl;
-    include_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
+    require_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
 
     //抓取預設值
     if (!empty($tbsn)) {
@@ -43,11 +44,7 @@ function import_form($tbsn = '')
     $counter = (!isset($DBV['counter'])) ? '' : $DBV['counter'];
     $create_date = (!isset($DBV['create_date'])) ? '' : $DBV['create_date'];
 
-    if (!file_exists(XOOPS_ROOT_PATH . '/modules/tadtools/ck.php')) {
-        redirect_header('http://campus-xoops.tn.edu.tw/modules/tad_modules/index.php?module_sn=1', 3, _TAD_NEED_TADTOOLS);
-    }
-    include_once XOOPS_ROOT_PATH . '/modules/tadtools/ck.php';
-    $ck = new CKEditor('tad_book3', 'description', $description);
+    $ck = new CkEditor('tad_book3', 'description', $description);
     $ck->setHeight(400);
     $editor = $ck->render();
 
@@ -324,7 +321,7 @@ function tad_book3_export($tbsn = '')
     if (file_exists($zip_name)) {
         header('location:' . XOOPS_URL . "/uploads/tad_book3/import_{$tbsn}.zip");
     } else {
-        include_once 'class/pclzip.lib.php';
+        require_once 'class/pclzip.lib.php';
         $zipfile = new PclZip($zip_name);
         $v_list = $zipfile->create($import_dir, PCLZIP_OPT_REMOVE_PATH, XOOPS_ROOT_PATH . '/uploads/tad_book3');
 
@@ -353,7 +350,7 @@ function update_docs_sort($update_sort = [])
 
 /*-----------執行動作判斷區----------*/
 
-include_once $GLOBALS['xoops']->path('/modules/system/include/functions.php');
+require_once $GLOBALS['xoops']->path('/modules/system/include/functions.php');
 $op = system_CleanVars($_REQUEST, 'op', '', 'string');
 $tbsn = system_CleanVars($_REQUEST, 'tbsn', 0, 'int');
 $tbdsn = system_CleanVars($_REQUEST, 'tbdsn', 0, 'int');
@@ -425,4 +422,4 @@ switch ($op) {
 $xoopsTpl->assign('toolbar', Utility::toolbar_bootstrap($interface_menu));
 $xoopsTpl->assign('jquery', Utility::get_jquery(true));
 $xoopsTpl->assign('isAdmin', $isAdmin);
-include_once XOOPS_ROOT_PATH . '/footer.php';
+require_once XOOPS_ROOT_PATH . '/footer.php';
