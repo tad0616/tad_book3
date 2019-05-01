@@ -49,7 +49,7 @@ function tad_book3_content($options)
     $block['cate'] = (empty($all_cate[$tbcsn])) ? _MB_TADBOOK3_NOT_CLASSIFIED : $all_cate[$tbcsn];
     $book = book_shadow($data);
     $block['book'] = $book;
-    $block['book_content'] = sprintf(_MB_TADBOOK3_BOOK_CONTENT, $title);
+    $block['book_content'] = sprintf(_MB_TADBOOK3_BOOK_ALL_CONTENT, $title);
 
     if ($xoopsTpl) {
         $xoopsTpl->assign('xoops_pagetitle', $title);

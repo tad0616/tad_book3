@@ -19,7 +19,7 @@ define('_MB_TADBOOK3_SHOW_CATE', 'Please select the category you want to display
 define('_MB_TADBOOK3_SHOW_PIC', 'Do you want to show the image?');
 define('_MB_TADBOOK3_NO_READ_ACCESS', 'You do not have permission to watch');
 define('_MB_TADBOOK3_NOT_CLASSIFIED', 'Not classified');
-define('_MB_TADBOOK3_BOOK_CONTENT', 'Index of %s');
+define('_MB_TADBOOK3_BOOK_ALL_CONTENT', 'Index of %s');
 define('_MB_TADBOOK3_CREATE_DATE', 'Created on');
 define('_MB_TADBOOK3_UNABLE', 'Closed');
 define('_MB_TADBOOK3_INPUT_PASSWD', 'Password needed:');
