@@ -56,7 +56,7 @@ function import_form($tbsn = '')
     $usercount = $member_handler->getUserCount(new Criteria('level', 0, '>'));
 
     if ($usercount < 1000) {
-        $select = new XoopsFormSelect('', 'author', $author_arr, 5, true);
+        $select = new \XoopsFormSelect('', 'author', $author_arr, 5, true);
         $select->setExtra("class='form-control'");
         $member_handler = xoops_getHandler('member');
         $criteria = new CriteriaCompo();
@@ -73,7 +73,7 @@ function import_form($tbsn = '')
     }
 
     $group_arr = (empty($read_group)) ? [''] : explode(',', $read_group);
-    $SelectGroup = new XoopsFormSelectGroup('', 'read_group', false, $group_arr, 5, true);
+    $SelectGroup = new \XoopsFormSelectGroup('', 'read_group', false, $group_arr, 5, true);
     $SelectGroup->addOption('', _MD_TADBOOK3_ALL_OPEN, false);
     $SelectGroup->setExtra("class='span12'");
     $group_menu = $SelectGroup->render();
