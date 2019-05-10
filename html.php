@@ -1,6 +1,6 @@
 <?php
-use XoopsModules\Tadtools\Utility;
 use XoopsModules\Tadtools\SyntaxHighlighter;
+use XoopsModules\Tadtools\Utility;
 
 require_once 'header.php';
 set_time_limit(0);
@@ -18,7 +18,7 @@ $doc_sort = mk_category($category, $page, $paragraph, $sort);
 $book = get_tad_book3($tbsn);
 //高亮度語法
 $SyntaxHighlighter = new SyntaxHighlighter();
-$syntaxhighlighter_code = $syntaxhighlighter->render();
+$syntaxhighlighter_code = $SyntaxHighlighter->render();
 $bootstrap = Utility::get_bootstrap('return');
 
 $html = '<!DOCTYPE html>
