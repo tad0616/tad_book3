@@ -14,7 +14,7 @@ function tad_book3_new_doc($options)
 
     //$today=date("Y-m-d H:i:s",xoops_getUserTimestamp(time()));
     $i = 0;
-    while (false !== (list($tbdsn, $tbsn, $category, $page, $paragraph, $sort, $title, $last_modify_date, $book_title) = $xoopsDB->fetchRow($result))) {
+    while (list($tbdsn, $tbsn, $category, $page, $paragraph, $sort, $title, $last_modify_date, $book_title) = $xoopsDB->fetchRow($result)) {
         $last_modify_date = date('Y-m-d', xoops_getUserTimestamp($last_modify_date));
         //if($today > $show_time+$last_modify_date)continue;
         $doc_sort = mk_category($category, $page, $paragraph, $sort);

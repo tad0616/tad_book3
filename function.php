@@ -77,7 +77,7 @@ function get_tad_book3_cate($tbcsn = '')
     $sql = 'select * from ' . $xoopsDB->prefix('tad_book3_cate') . " where tbcsn='$tbcsn'";
     $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
     $data = $xoopsDB->fetchArray($result);
-    $data['count'] = $counter[$tbcsn];
+    $data['count'] = isset($counter[$tbcsn]) ? $counter[$tbcsn] : 0;
 
     return $data;
 }
@@ -143,7 +143,7 @@ function list_all_cate_book($isAdmin = '')
 
     //刪除書籍
     if (!file_exists(XOOPS_ROOT_PATH . '/modules/tadtools/sweet_alert.php')) {
-        redirect_header('index.php', 3, _MA_NEED_TADTOOLS);
+        redirect_header('index.php', 3, _TAD_NEED_TADTOOLS);
     }
     require_once XOOPS_ROOT_PATH . '/modules/tadtools/sweet_alert.php';
     $sweet_alert_book = new sweet_alert();
@@ -195,7 +195,7 @@ function list_docs($def_tbsn = '')
     $my = in_array($uid, $author_arr);
     $xoopsTpl->assign('my', $my);
     foreach ($author_arr as $uid) {
-        $uidname = XoopsUser::getUnameFromId($uid, 1);
+        $uidname = \XoopsUser::getUnameFromId($uid, 1);
         $uidname = (empty($uidname)) ? XoopsUser::getUnameFromId($uid, 0) : $uidname;
         $uid_name[] = $uidname;
     }
@@ -319,7 +319,7 @@ function list_docs($def_tbsn = '')
 
     //刪除書籍
     if (!file_exists(XOOPS_ROOT_PATH . '/modules/tadtools/sweet_alert.php')) {
-        redirect_header('index.php', 3, _MA_NEED_TADTOOLS);
+        redirect_header('index.php', 3, _TAD_NEED_TADTOOLS);
     }
     require_once XOOPS_ROOT_PATH . '/modules/tadtools/sweet_alert.php';
     $sweet_alert_book = new sweet_alert();
@@ -378,13 +378,13 @@ function tad_book3_form($tbsn = '', $tbcsn = '')
     $cate_select = cate_select($tbcsn);
 
     $memberHandler = xoops_getHandler('member');
-    $usercount = $memberHandler->getUserCount(new Criteria('level', 0, '>'));
+    $usercount = $memberHandler->getUserCount(new \Criteria('level', 0, '>'));
 
     if ($usercount < 1000) {
-        $select = new XoopsFormSelect('', 'author', $author_arr, 5, true);
+        $select = new \XoopsFormSelect('', 'author', $author_arr, 5, true);
         $select->setExtra("class='form-control'");
         $memberHandler = xoops_getHandler('member');
-        $criteria = new CriteriaCompo();
+        $criteria = new \CriteriaCompo();
         $criteria->setSort('uname');
         $criteria->setOrder('ASC');
         $criteria->setLimit(1000);
@@ -398,7 +398,7 @@ function tad_book3_form($tbsn = '', $tbcsn = '')
     }
 
     $group_arr = (empty($read_group)) ? [''] : explode(',', $read_group);
-    $SelectGroup = new XoopsFormSelectGroup('', 'read_group', false, $group_arr, 5, true);
+    $SelectGroup = new \XoopsFormSelectGroup('', 'read_group', false, $group_arr, 5, true);
     $SelectGroup->setExtra("class='form-control'");
     $SelectGroup->addOption('', _MD_TADBOOK3_ALL_OPEN, false);
     $group_menu = $SelectGroup->render();

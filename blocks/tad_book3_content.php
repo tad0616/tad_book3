@@ -22,7 +22,7 @@ function tad_book3_content($options)
         $block[$k] = $v;
     }
 
-    if (!chk_power($read_group)) {
+    if (isset($read_group) && !chk_power($read_group)) {
         $block['msg'] = _MB_TADBOOK3_NO_READ_ACCESS;
 
         return $block;
@@ -33,25 +33,25 @@ function tad_book3_content($options)
         $block['needpasswd'] = 1;
     }
 
-    $block['enable_txt'] = ('1' == $enable) ? _MB_TADBOOK3_ENABLE : _MB_TADBOOK3_UNABLE;
+    $block['enable_txt'] = (isset($enable) && '1' == $enable) ? _MB_TADBOOK3_ENABLE : _MB_TADBOOK3_UNABLE;
 
     //共同編輯者
-    $author_arr = explode(',', $author);
+    $author_arr = isset($author) ? explode(',', $author): [];
     foreach ($author_arr as $uid) {
-        $uidname = XoopsUser::getUnameFromId($uid, 1);
+        $uidname = \XoopsUser::getUnameFromId($uid, 1);
         $uidname = (empty($uidname)) ? XoopsUser::getUnameFromId($uid, 0) : $uidname;
         $uid_name[] = $uidname;
     }
-    $block['author'] = implode(' , ', $uid_name);
-    $block['create_date'] = date('Y-m-d H:i:s', xoops_getUserTimestamp(strtotime($create_date)));
-    $block['cate'] = (empty($all_cate[$tbcsn])) ? _MB_TADBOOK3_NOT_CLASSIFIED : $all_cate[$tbcsn];
+    $block['author'] = isset($uid_name) ? implode(' , ', $uid_name):'';
+    $block['create_date'] = date('Y-m-d H:i:s', xoops_getUserTimestamp(strtotime(isset($create_date) ? $create_date : time())));
+    $block['cate'] = (!isset($tbcsn) || empty($all_cate[$tbcsn])) ? _MB_TADBOOK3_NOT_CLASSIFIED : $all_cate[$tbcsn];
     $book = book_shadow($data);
     $block['book'] = $book;
-    $block['book_content'] = sprintf(_MB_TADBOOK3_BOOK_CONTENT, $title);
+    $block['book_content'] = sprintf(_MB_TADBOOK3_BOOK_CONTENT_INDEX, isset($title) ? $title : '');
 
     if ($xoopsTpl) {
-        $xoopsTpl->assign('xoops_pagetitle', $title);
-        $xoopsTpl->assign('fb_description', strip_tags($description));
+        $xoopsTpl->assign('xoops_pagetitle', isset($title) ? $title : '');
+        $xoopsTpl->assign('fb_description', strip_tags(isset($description)?$description:''));
         $xoopsTpl->assign('logo_img', $book['pic']);
     }
 

@@ -44,7 +44,7 @@ if (!function_exists('all_cate')) {
         global $xoopsDB, $xoopsModule;
         $sql = 'SELECT tbcsn,title FROM ' . $xoopsDB->prefix('tad_book3_cate') . ' ORDER BY sort';
         $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
-        while (false !== (list($tbcsn, $title) = $xoopsDB->fetchRow($result))) {
+        while (list($tbcsn, $title) = $xoopsDB->fetchRow($result)) {
             $main[$tbcsn] = $title;
         }
 
@@ -105,7 +105,7 @@ if (!function_exists('have_sub')) {
 if (!function_exists('book_shadow')) {
     function book_shadow($books = [])
     {
-        global $xoopsUser;
+        global $xoopsUser, $isAdmin;
 
         if ($xoopsUser) {
             $uid = $xoopsUser->uid();
@@ -113,12 +113,12 @@ if (!function_exists('book_shadow')) {
             $uid = 0;
         }
         $authors = explode(',', $books['author']);
-        $tool = ((!empty($uid) and in_array($uid, $authors)) or $isAdmin) ? true : false;
+        $tool = ((!empty($uid) && in_array($uid, $authors)) || $isAdmin) ? true : false;
         $books['tool'] = $tool;
 
         $pic = (empty($books['pic_name'])) ? XOOPS_URL . '/modules/tad_book3/images/blank.png' : XOOPS_URL . "/uploads/tad_book3/{$books['pic_name']}";
         $books['pic'] = $pic;
-        $description = strip_tags($description);
+        $description = isset($description) ? strip_tags($description) : '';
         $books['description'] = $description;
 
         return $books;

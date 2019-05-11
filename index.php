@@ -3,8 +3,8 @@
 use XoopsModules\Tadtools\Utility;
 
 /*-----------引入檔案區--------------*/
-require __DIR__ . '/header.php';
 $GLOBALS['xoopsOption']['template_main'] = 'tadbook3_index.tpl';
+require __DIR__ . '/header.php';
 require_once XOOPS_ROOT_PATH . '/header.php';
 /*-----------function區--------------*/
 
@@ -57,13 +57,13 @@ function import_form($tbsn = '')
     $cate_select = cate_select($tbcsn);
 
     $memberHandler = xoops_getHandler('member');
-    $usercount = $memberHandler->getUserCount(new Criteria('level', 0, '>'));
+    $usercount = $memberHandler->getUserCount(new \Criteria('level', 0, '>'));
 
     if ($usercount < 1000) {
-        $select = new XoopsFormSelect('', 'author', $author_arr, 5, true);
+        $select = new \XoopsFormSelect('', 'author', $author_arr, 5, true);
         $select->setExtra("class='form-control'");
         $memberHandler = xoops_getHandler('member');
-        $criteria = new CriteriaCompo();
+        $criteria = new \CriteriaCompo();
         $criteria->setSort('uname');
         $criteria->setOrder('ASC');
         $criteria->setLimit(1000);
@@ -77,7 +77,7 @@ function import_form($tbsn = '')
     }
 
     $group_arr = (empty($read_group)) ? [''] : explode(',', $read_group);
-    $SelectGroup = new XoopsFormSelectGroup('', 'read_group', false, $group_arr, 5, true);
+    $SelectGroup = new \XoopsFormSelectGroup('', 'read_group', false, $group_arr, 5, true);
     $SelectGroup->addOption('', _MD_TADBOOK3_ALL_OPEN, false);
     $SelectGroup->setExtra("class='span12'");
     $group_menu = $SelectGroup->render();

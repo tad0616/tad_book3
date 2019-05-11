@@ -19,7 +19,6 @@ define('_MB_TADBOOK3_NO_READ_ACCESS', '無閱讀權限');
 define('_MB_TADBOOK3_ENABLE', '顯示');
 define('_MB_TADBOOK3_UNABLE', '關閉');
 define('_MB_TADBOOK3_NOT_CLASSIFIED', '未分類');
-define('_MB_TADBOOK3_BOOK_CONTENT', '「%s」目錄');
+define('_MB_TADBOOK3_BOOK_CONTENT_INDEX', '「%s」目錄');
 define('_MB_TADBOOK3_CREATE_DATE', '建立日期');
-define('_MB_TADBOOK3_UNABLE', '關閉');
 define('_MB_TADBOOK3_INPUT_PASSWD', '本書需要密碼，請輸入密碼：');

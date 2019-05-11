@@ -168,7 +168,7 @@ function get_pre_next($tbsn = '', $now_sn = '')
     $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
     $stop = false;
     $pre = 0;
-    while (false !== (list($tbdsn, $title) = $xoopsDB->fetchRow($result))) {
+    while (list($tbdsn, $title) = $xoopsDB->fetchRow($result)) {
         if ($stop) {
             $next = $tbdsn;
             $next_title = $title;
@@ -238,8 +238,8 @@ function list_docs_m($tbsn = '')
 
     $sql = 'select * from ' . $xoopsDB->prefix('tad_book3_docs') . " where tbsn='{$tbsn}' and enable='1' order by category,page,paragraph,sort";
     $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
-    while (false !== (list($tbdsn, $tbsn, $category, $page, $paragraph, $sort, $title, $content, $add_date, $last_modify_date, $uid, $count, $enable) = $xoopsDB->fetchRow($result))) {
-        $uid_name = XoopsUser::getUnameFromId($uid, 1);
+    while (list($tbdsn, $tbsn, $category, $page, $paragraph, $sort, $title, $content, $add_date, $last_modify_date, $uid, $count, $enable) = $xoopsDB->fetchRow($result)) {
+        $uid_name = \XoopsUser::getUnameFromId($uid, 1);
         $uid_name = (empty($uid_name)) ? XoopsUser::getUnameFromId($uid, 0) : $uid_name;
 
         $doc_sort = mk_category($category, $page, $paragraph, $sort);

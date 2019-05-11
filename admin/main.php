@@ -38,7 +38,7 @@ function tad_book3_cate_form($tbcsn = '')
     //$op="replace_tad_book3_cate";
 
     if (!file_exists(TADTOOLS_PATH . '/formValidator.php')) {
-        redirect_header('index.php', 3, _MA_NEED_TADTOOLS);
+        redirect_header('index.php', 3, _TAD_NEED_TADTOOLS);
     }
     require_once TADTOOLS_PATH . '/formValidator.php';
     $formValidator = new formValidator('#myForm', true);
@@ -112,7 +112,7 @@ function list_tad_book3_cate_tree($show_tbcsn = 0)
 
     $count = tad_book3_cate_count();
     $data[] = "{ id:0, pId:0, name:'All', url:'index.php', target:'_self', open:true}";
-    while (false !== (list($tbcsn, $of_tbsn, $title) = $xoopsDB->fetchRow($result))) {
+    while (list($tbcsn, $of_tbsn, $title) = $xoopsDB->fetchRow($result)) {
         $font_style = $show_tbcsn == $tbcsn ? ", font:{'background-color':'yellow', 'color':'black'}" : '';
         $open = in_array($tbcsn, $path_arr) ? 'true' : 'false';
         $display_counter = empty($count[$tbcsn]) ? '' : " ({$count[$tbcsn]})";
@@ -121,7 +121,7 @@ function list_tad_book3_cate_tree($show_tbcsn = 0)
     $json = implode(',', $data);
 
     if (!file_exists(XOOPS_ROOT_PATH . '/modules/tadtools/ztree.php')) {
-        redirect_header('index.php', 3, _MA_NEED_TADTOOLS);
+        redirect_header('index.php', 3, _TAD_NEED_TADTOOLS);
     }
     require_once XOOPS_ROOT_PATH . '/modules/tadtools/ztree.php';
     $ztree = new ztree('link_tree', $json, '', 'save_sort.php', 'of_tbsn', 'tbcsn');
@@ -150,7 +150,7 @@ function list_tad_book3($tbcsn = '')
         $uid_name = [];
         $author_arr = explode(',', $data['author']);
         foreach ($author_arr as $uid) {
-            $uidname = XoopsUser::getUnameFromId($uid, 1);
+            $uidname = \XoopsUser::getUnameFromId($uid, 1);
             $uidname = (empty($uidname)) ? XoopsUser::getUnameFromId($uid, 0) : $uidname;
             $uid_name[] = $uidname;
         }
@@ -171,7 +171,7 @@ function list_tad_book3($tbcsn = '')
 
     //刪除分類
     if (!file_exists(XOOPS_ROOT_PATH . '/modules/tadtools/sweet_alert.php')) {
-        redirect_header('index.php', 3, _MA_NEED_TADTOOLS);
+        redirect_header('index.php', 3, _TAD_NEED_TADTOOLS);
     }
     require_once XOOPS_ROOT_PATH . '/modules/tadtools/sweet_alert.php';
     $sweet_alert = new sweet_alert();
