@@ -1,9 +1,13 @@
 <?php
+use League\HTMLToMarkdown\HtmlConverter;
+use XoopsModules\Tadtools\SyntaxHighlighter;
+use XoopsModules\Tadtools\Utility;
+
 require_once __DIR__ . '/header.php';
-$GLOBALS['xoopsOption']['template_main'] = 'tadbook3_markdown.tpl';
+$xoopsOption['template_main'] = 'tadbook3_markdown.tpl';
 require_once XOOPS_ROOT_PATH . '/header.php';
 require __DIR__ . '/vendor/autoload.php';
-use League\HTMLToMarkdown\HtmlConverter;
+
 
 /*-----------function區--------------*/
 
@@ -36,12 +40,8 @@ function view_page($tbdsn = '')
     $doc_sort = mk_category($category, $page, $paragraph, $sort);
 
     //高亮度語法
-    if (!file_exists(TADTOOLS_PATH . '/syntaxhighlighter.php')) {
-        redirect_header('index.php', 3, _MD_NEED_TADTOOLS);
-    }
-    require_once TADTOOLS_PATH . '/syntaxhighlighter.php';
-    $syntaxhighlighter = new syntaxhighlighter();
-    $syntaxhighlighter_code = $syntaxhighlighter->render();
+    $SyntaxHighlighter = new SyntaxHighlighter();
+    $syntaxhighlighter_code = $SyntaxHighlighter->render();
 
     $main = "
       <h1>{$book['title']}</h1>
@@ -82,8 +82,7 @@ switch ($_REQUEST['op']) {
 }
 
 /*-----------秀出結果區--------------*/
-$xoopsTpl->assign('toolbar', toolbar_bootstrap($interface_menu));
-$xoopsTpl->assign('bootstrap', get_bootstrap());
-$xoopsTpl->assign('jquery', get_jquery(true));
+$xoopsTpl->assign('toolbar', Utility::toolbar_bootstrap($interface_menu));
+$xoopsTpl->assign('jquery', Utility::get_jquery(true));
 $xoopsTpl->assign('isAdmin', $isAdmin);
 require_once XOOPS_ROOT_PATH . '/footer.php';

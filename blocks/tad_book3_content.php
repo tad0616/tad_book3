@@ -1,4 +1,6 @@
 <?php
+use XoopsModules\Tadtools\Utility;
+
 //區塊主函式 (會自動偵測目前閱讀的書籍，並秀出該書目錄)
 function tad_book3_content($options)
 {
@@ -14,7 +16,7 @@ function tad_book3_content($options)
     $all_cate = all_cate();
 
     $sql = 'select * from ' . $xoopsDB->prefix('tad_book3') . " where tbsn='$def_tbsn' and enable='1'";
-    $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
+    $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
 
     $data = $xoopsDB->fetchArray($result);
     foreach ($data as $k => $v) {
@@ -47,7 +49,7 @@ function tad_book3_content($options)
     $block['cate'] = (!isset($tbcsn) || empty($all_cate[$tbcsn])) ? _MB_TADBOOK3_NOT_CLASSIFIED : $all_cate[$tbcsn];
     $book = book_shadow($data);
     $block['book'] = $book;
-    $block['book_content'] = sprintf(_MB_TADBOOK3_BOOK_CONTENT_INDEX, isset($title) ? $title : '');
+    $block['book_content'] = sprintf(_MB_TADBOOK3_BOOK_CONTENT, $title);
 
     if ($xoopsTpl) {
         $xoopsTpl->assign('xoops_pagetitle', isset($title) ? $title : '');
@@ -58,7 +60,7 @@ function tad_book3_content($options)
     $i = 0;
     $docs = [];
     $sql = 'select * from ' . $xoopsDB->prefix('tad_book3_docs') . " where tbsn='{$def_tbsn}' order by category,page,paragraph,sort";
-    $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
+    $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
     $i1 = $i2 = $i3 = $i4 = 0;
     $new_category = $new_page = $new_paragraph = $new_sort = '';
     while (false !== ($data = $xoopsDB->fetchArray($result))) {

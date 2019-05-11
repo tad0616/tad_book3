@@ -1,7 +1,10 @@
 <?php
+use XoopsModules\Tadtools\SyntaxHighlighter;
+use XoopsModules\Tadtools\Utility;
+
 /*-----------引入檔案區--------------*/
 require __DIR__ . '/header.php';
-$GLOBALS['xoopsOption']['template_main'] = 'tadbook3_page.tpl';
+$xoopsOption['template_main'] = 'tadbook3_page.tpl';
 require_once XOOPS_ROOT_PATH . '/header.php';
 /*-----------function區--------------*/
 
@@ -43,17 +46,12 @@ function view_page($tbdsn = '')
 
     $doc_sort = mk_category($category, $page, $paragraph, $sort);
 
-    $facebook_comments = facebook_comments($xoopsModuleConfig['facebook_comments_width'], 'tad_book3', 'page.php', 'tbdsn', $tbdsn);
+    $facebook_comments = Utility::facebook_comments($xoopsModuleConfig['facebook_comments_width'], 'tad_book3', 'page.php', 'tbdsn', $tbdsn);
 
     //高亮度語法
-    if (!file_exists(TADTOOLS_PATH . '/syntaxhighlighter.php')) {
-        redirect_header('index.php', 3, _MD_NEED_TADTOOLS);
-    }
-    require_once TADTOOLS_PATH . '/syntaxhighlighter.php';
-    $syntaxhighlighter = new syntaxhighlighter();
-    $syntaxhighlighter_code = $syntaxhighlighter->render();
+    $SyntaxHighlighter = new SyntaxHighlighter();
+    $SyntaxHighlighter->render();
 
-    $xoopsTpl->assign('syntaxhighlighter_code', $syntaxhighlighter_code);
     $xoopsTpl->assign('tbsn', $tbsn);
     $xoopsTpl->assign('book_title', $book['title']);
     $xoopsTpl->assign('doc_sort_main', $doc_sort['main']);
@@ -64,7 +62,7 @@ function view_page($tbdsn = '')
     $xoopsTpl->assign('n', $n);
     $xoopsTpl->assign('doc_select', $doc_select);
     $xoopsTpl->assign('facebook_comments', $facebook_comments);
-    $xoopsTpl->assign('push_url', push_url());
+    $xoopsTpl->assign('push_url', Utility::push_url());
     $xoopsTpl->assign('tbdsn', $tbdsn);
     $xoopsTpl->assign('needpasswd', $needpasswd);
     $xoopsTpl->assign('use_social_tools', $xoopsModuleConfig['use_social_tools']);
@@ -79,7 +77,7 @@ function add_counter($tbdsn = '')
 {
     global $xoopsDB;
     $sql = 'update ' . $xoopsDB->prefix('tad_book3_docs') . " set  `count` = `count`+1 where tbdsn='$tbdsn'";
-    $xoopsDB->queryF($sql) or web_error($sql, __FILE__, __LINE__);
+    $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
 }
 
 /*-----------執行動作判斷區----------*/
@@ -99,8 +97,7 @@ switch ($op) {
 
 /*-----------秀出結果區--------------*/
 
-$xoopsTpl->assign('toolbar', toolbar_bootstrap($interface_menu));
-$xoopsTpl->assign('bootstrap', get_bootstrap());
-$xoopsTpl->assign('jquery', get_jquery(true));
+$xoopsTpl->assign('toolbar', Utility::toolbar_bootstrap($interface_menu));
+$xoopsTpl->assign('jquery', Utility::get_jquery(true));
 $xoopsTpl->assign('isAdmin', $isAdmin);
 require_once XOOPS_ROOT_PATH . '/footer.php';

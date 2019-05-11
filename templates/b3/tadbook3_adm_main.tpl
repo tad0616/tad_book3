@@ -2,9 +2,7 @@
   <div id="save_msg"></div>
   <div class="row">
     <div class="col-sm-3">
-      <{$sweet_alert_code}>
       <{$ztree_code}>
-      <{$sweet_alert_book_code}>
 
       <{if $tbcsn!="" and $op!="tad_book3_cate_form"}>
         <div>
@@ -47,8 +45,6 @@
       <{/if}>
 
       <{if $op=="tad_book3_cate_form"}>
-
-        <{$formValidator_code}>
         <h3><{$smarty.const._MA_TADBOOK3_CATE_FORM}></h3>
 
         <form action="main.php" method="post" id="myForm" enctype="multipart/form-data" class="form-horizontal" role="form">

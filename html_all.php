@@ -1,4 +1,7 @@
 <?php
+use XoopsModules\Tadtools\SyntaxHighlighter;
+use XoopsModules\Tadtools\Utility;
+
 require_once __DIR__ . '/header.php';
 set_time_limit(0);
 ini_set('memory_limit', '150M');
@@ -17,13 +20,9 @@ if ($xoopsUser) {
 $author_arr = explode(',', $book['author']);
 $my = in_array($uid, $author_arr);
 //高亮度語法
-if (!file_exists(TADTOOLS_PATH . '/syntaxhighlighter.php')) {
-    redirect_header('index.php', 3, _MD_NEED_TADTOOLS);
-}
-require_once TADTOOLS_PATH . '/syntaxhighlighter.php';
-$syntaxhighlighter = new syntaxhighlighter();
-$syntaxhighlighter_code = $syntaxhighlighter->render();
-$bootstrap = get_bootstrap('return');
+$SyntaxHighlighter = new SyntaxHighlighter();
+$syntaxhighlighter_code = $SyntaxHighlighter->render();
+$bootstrap = Utility::get_bootstrap('return');
 
 $html = '<!DOCTYPE html>
 <html lang="zh-Hant-TW">
@@ -62,7 +61,7 @@ $html = '<!DOCTYPE html>
 $i = 0;
 $docs = '';
 $sql = 'select tbdsn,enable from ' . $xoopsDB->prefix('tad_book3_docs') . " where tbsn='{$tbsn}' order by category,page,paragraph,sort";
-$result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
+$result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
 while (false !== ($all = $xoopsDB->fetchArray($result))) {
     foreach ($all as $k => $v) {
         $$k = $v;

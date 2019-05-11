@@ -1,4 +1,10 @@
 <?php
+use XoopsModules\Tadtools\Dtree;
+use XoopsModules\Tadtools\Utility;
+if (!class_exists('XoopsModules\Tadtools\Utility')) {
+    require XOOPS_ROOT_PATH . '/modules/tadtools/preloads/autoloader.php';
+}
+
 //區塊主函式 (會自動偵測目前閱讀的書籍，並秀出該書目錄)
 function tad_book3_index()
 {
@@ -9,7 +15,7 @@ function tad_book3_index()
 
     if (empty($global_tbsn) and !empty($global_tbdsn)) {
         $sql = 'select `tbsn` from ' . $xoopsDB->prefix('tad_book3_docs') . " where tbdsn='{$global_tbdsn}'";
-        $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
+        $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
         list($tbsn) = $xoopsDB->fetchRow($result);
     } else {
         $tbsn = $global_tbsn;
@@ -20,15 +26,14 @@ function tad_book3_index()
     }
 
     if (!file_exists(XOOPS_ROOT_PATH . '/modules/tadtools/dtree.php')) {
-        redirect_header('index.php', 3, _TAD_NEED_TADTOOLS);
-    }
-    require_once XOOPS_ROOT_PATH . '/modules/tadtools/dtree.php';
+        redirect_header('index.php', 3, _MA_NEED_TADTOOLS);
+    include_once XOOPS_ROOT_PATH . '/modules/tadtools/dtree.php';
     $book = block_get_book_content($tbsn);
     $home['sn'] = 0;
     $home['title'] = _MB_TADBOOK3_BOOK_CONTENT;
     $home['url'] = XOOPS_URL . "/modules/tad_book3/index.php?tbsn=$tbsn";
-    $dtree = new dtree("tad_book3_{$global_tbsn}", $home, $book['title'], $book['father_sn'], $book['url']);
-    $block = $dtree->render();
+    $Dtree = new Dtree("tad_book3_{$global_tbsn}", $home, $book['title'], $book['father_sn'], $book['url']);
+    $block = $Dtree->render();
 
     return $block;
 }

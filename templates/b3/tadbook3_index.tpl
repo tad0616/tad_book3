@@ -146,10 +146,6 @@
     </form>
   </div>
 <{elseif $now_op=="list_docs"}>
-  <{if $my}>
-    <{$sweet_alert_docs_code}>
-  <{/if}>
-
   <div class="row">
     <div class="col-sm-3 text-center">
       <{if $book}>
@@ -257,9 +253,6 @@
   <{$jquery}>
 
   <div id="save_msg"></div>
-
-
-  <{$sweet_alert_book_code}>
 
   <{foreach from=$cate key=id item=cate}>
     <{if $cate.books}>

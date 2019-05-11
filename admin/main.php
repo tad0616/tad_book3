@@ -1,8 +1,14 @@
 <?php
+use XoopsModules\Tadtools\CkEditor;
+use XoopsModules\Tadtools\FormValidator;
+use XoopsModules\Tadtools\SweetAlert;
+use XoopsModules\Tadtools\Utility;
+use XoopsModules\Tadtools\Ztree;
 /*-----------引入檔案區--------------*/
-$GLOBALS['xoopsOption']['template_main'] = 'tadbook3_adm_main.tpl';
+$xoopsOption['template_main'] = 'tadbook3_adm_main.tpl';
 require_once __DIR__ . '/header.php';
 require_once dirname(__DIR__) . '/function.php';
+
 
 /*-----------function區--------------*/
 //tad_book3_cate編輯表單
@@ -37,12 +43,8 @@ function tad_book3_cate_form($tbcsn = '')
     $op = (empty($tbcsn)) ? 'insert_tad_book3_cate' : 'update_tad_book3_cate';
     //$op="replace_tad_book3_cate";
 
-    if (!file_exists(TADTOOLS_PATH . '/formValidator.php')) {
-        redirect_header('index.php', 3, _TAD_NEED_TADTOOLS);
-    }
-    require_once TADTOOLS_PATH . '/formValidator.php';
-    $formValidator = new formValidator('#myForm', true);
-    $formValidator_code = $formValidator->render();
+    $FormValidator = new FormValidator('#myForm', true);
+    $FormValidator->render();
 
     $xoopsTpl->assign('op', 'tad_book3_cate_form');
     $xoopsTpl->assign('next_op', $op);
@@ -50,10 +52,8 @@ function tad_book3_cate_form($tbcsn = '')
     $xoopsTpl->assign('sort', $sort);
     $xoopsTpl->assign('title', $title);
     $xoopsTpl->assign('description', $description);
-    $xoopsTpl->assign('formValidator_code', $formValidator_code);
 
-    require_once XOOPS_ROOT_PATH . '/modules/tadtools/ck.php';
-    $ck = new CKEditor('tad_book3', 'description', $description);
+    $ck = new CkEditor('tad_book3', 'description', $description);
     $ck->setHeight(200);
     $editor = $ck->render();
     $xoopsTpl->assign('editor', $editor);
@@ -64,7 +64,7 @@ function insert_tad_book3_cate()
 {
     global $xoopsDB, $xoopsUser;
 
-    $myts = MyTextSanitizer::getInstance();
+    $myts = \MyTextSanitizer::getInstance();
     $_POST['title'] = $myts->addSlashes($_POST['title']);
     $_POST['description'] = $myts->addSlashes($_POST['description']);
     $_POST['of_tbsn'] = (int) $_POST['of_tbsn'];
@@ -73,7 +73,7 @@ function insert_tad_book3_cate()
     $sql = 'insert into ' . $xoopsDB->prefix('tad_book3_cate') . "
     (`of_tbsn` , `title` , `sort` , `description`)
     values('{$_POST['of_tbsn']}' , '{$_POST['title']}' , '{$_POST['sort']}' , '{$_POST['description']}')";
-    $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
+    $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
 
     //取得最後新增資料的流水編號
     $tbcsn = $xoopsDB->getInsertId();
@@ -86,7 +86,7 @@ function update_tad_book3_cate($tbcsn = '')
 {
     global $xoopsDB, $xoopsUser;
 
-    $myts = MyTextSanitizer::getInstance();
+    $myts = \MyTextSanitizer::getInstance();
     $_POST['title'] = $myts->addSlashes($_POST['title']);
     $_POST['description'] = $myts->addSlashes($_POST['description']);
 
@@ -96,7 +96,7 @@ function update_tad_book3_cate($tbcsn = '')
      `sort` = '{$_POST['sort']}' ,
      `description` = '{$_POST['description']}'
     where tbcsn='$tbcsn'";
-    $xoopsDB->queryF($sql) or web_error($sql, __FILE__, __LINE__);
+    $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
 
     return $tbcsn;
 }
@@ -108,7 +108,7 @@ function list_tad_book3_cate_tree($show_tbcsn = 0)
     $path = get_tad_book3_cate_path($show_tbcsn);
     $path_arr = array_keys($path);
     $sql = 'SELECT tbcsn,of_tbsn,title FROM ' . $xoopsDB->prefix('tad_book3_cate') . ' ORDER BY sort';
-    $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
+    $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
 
     $count = tad_book3_cate_count();
     $data[] = "{ id:0, pId:0, name:'All', url:'index.php', target:'_self', open:true}";
@@ -120,12 +120,8 @@ function list_tad_book3_cate_tree($show_tbcsn = 0)
     }
     $json = implode(',', $data);
 
-    if (!file_exists(XOOPS_ROOT_PATH . '/modules/tadtools/ztree.php')) {
-        redirect_header('index.php', 3, _TAD_NEED_TADTOOLS);
-    }
-    require_once XOOPS_ROOT_PATH . '/modules/tadtools/ztree.php';
-    $ztree = new ztree('link_tree', $json, '', 'save_sort.php', 'of_tbsn', 'tbcsn');
-    $ztree_code = $ztree->render();
+    $Ztree = new Ztree('link_tree', $json, '', 'save_sort.php', 'of_tbsn', 'tbcsn');
+    $ztree_code = $Ztree->render();
     $xoopsTpl->assign('ztree_code', $ztree_code);
 }
 
@@ -137,11 +133,11 @@ function list_tad_book3($tbcsn = '')
     $and_tbcsn = !empty($tbcsn) ? "and `tbcsn`='{$tbcsn}'" : '';
     $sql = 'select * from  ' . $xoopsDB->prefix('tad_book3') . " where 1 $and_tbcsn order by sort";
     //getPageBar($原sql語法, 每頁顯示幾筆資料, 最多顯示幾個頁數選項);
-    $PageBar = getPageBar($sql, 10, 10);
+    $PageBar = Utility::getPageBar($sql, 10, 10);
     $bar = $PageBar['bar'];
     $sql = $PageBar['sql'];
     $total = $PageBar['total'];
-    $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
+    $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
     $i = 0;
     $books = [];
     while (false !== ($data = $xoopsDB->fetchArray($result))) {
@@ -155,7 +151,7 @@ function list_tad_book3($tbcsn = '')
             $uid_name[] = $uidname;
         }
         $books[$i]['author'] = implode(' , ', $uid_name);
-        $books[$i]['read_groups'] = txt_to_group_name($read_group, _MD_TADBOOK3_ALL_OPEN);
+        $books[$i]['read_groups'] = Utility::txt_to_group_name($read_group, _MD_TADBOOK3_ALL_OPEN);
         $i++;
     }
     $xoopsTpl->assign('books', $books);
@@ -169,19 +165,12 @@ function list_tad_book3($tbcsn = '')
     $xoopsTpl->assign('cate', $cate);
     $xoopsTpl->assign('tbcsn', $tbcsn);
 
-    //刪除分類
-    if (!file_exists(XOOPS_ROOT_PATH . '/modules/tadtools/sweet_alert.php')) {
-        redirect_header('index.php', 3, _TAD_NEED_TADTOOLS);
-    }
-    require_once XOOPS_ROOT_PATH . '/modules/tadtools/sweet_alert.php';
-    $sweet_alert = new sweet_alert();
-    $sweet_alert_code = $sweet_alert->render('delete_tad_book3_cate_func', 'main.php?op=delete_tad_book3_cate&tbcsn=', 'tbcsn');
-    $xoopsTpl->assign('sweet_alert_code', $sweet_alert_code);
+    $SweetAlert = new SweetAlert();
+    $SweetAlert->render('delete_tad_book3_cate_func', 'main.php?op=delete_tad_book3_cate&tbcsn=', 'tbcsn');
 
     //刪除書籍
-    $sweet_alert_book = new sweet_alert();
-    $sweet_alert_book_code = $sweet_alert_book->render('delete_tad_book3_func', 'main.php?op=delete_tad_book3&tbsn=', 'tbsn');
-    $xoopsTpl->assign('sweet_alert_book_code', $sweet_alert_book_code);
+    $SweetAlert2 = new SweetAlert();
+    $SweetAlert2->render('delete_tad_book3_func', 'main.php?op=delete_tad_book3&tbsn=', 'tbsn');
 }
 
 /*-----------執行動作判斷區----------*/

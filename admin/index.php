@@ -1,6 +1,5 @@
 <?php
 /**
- * Tad Book3
  *
  * You may not change or alter any portion of this comment or credits
  * of supporting developers from this source code or any supporting source code
@@ -11,9 +10,9 @@
  *
  * @copyright    XOOPS Project (https://xoops.org)
  * @license      http://www.fsf.org/copyleft/gpl.html GNU public license
- * @package      Tad Book3
+ * @package
  * @since        2.5.0
- * @author       Tad
+ * @author
  * @version      $Id $
  **/
 

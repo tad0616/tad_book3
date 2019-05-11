@@ -1,4 +1,7 @@
 <?php
+use XoopsModules\Tadtools\Utility;
+use XoopsModules\Tadtools\SyntaxHighlighter;
+
 require_once __DIR__ . '/header.php';
 set_time_limit(0);
 ini_set('memory_limit', '150M');
@@ -12,14 +15,11 @@ foreach ($artical as $key => $value) {
 }
 $doc_sort = mk_category($category, $page, $paragraph, $sort);
 $book = get_tad_book3($tbsn);
+
 //高亮度語法
-if (!file_exists(TADTOOLS_PATH . '/syntaxhighlighter.php')) {
-    redirect_header('index.php', 3, _MD_NEED_TADTOOLS);
-}
-require_once TADTOOLS_PATH . '/syntaxhighlighter.php';
-$syntaxhighlighter = new syntaxhighlighter();
-$syntaxhighlighter_code = $syntaxhighlighter->render();
-$bootstrap = get_bootstrap('return');
+$SyntaxHighlighter = new SyntaxHighlighter();
+$syntaxhighlighter_code = $SyntaxHighlighter->render();
+$bootstrap = Utility::get_bootstrap('return');
 
 $html = '<!DOCTYPE html>
 <html lang="zh-Hant-TW">
