@@ -743,7 +743,9 @@ function chk_edit_power($uid_txt = '')
     return false;
 }
 
-/********************* 預設函數 *********************/
+/********************* 預設函數 ********************
+ * @param string $tbdsn
+ */
 //刪除tad_book3_docs某筆資料資料
 function delete_tad_book3_docs($tbdsn = '')
 {
