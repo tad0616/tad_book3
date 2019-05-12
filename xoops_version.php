@@ -1,4 +1,6 @@
 <?php
+
+global $xoopsConfig;
 $modversion = [];
 
 //---模組基本資訊---//
