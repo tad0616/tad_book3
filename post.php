@@ -2,8 +2,8 @@
 use XoopsModules\Tadtools\Utility;
 
 /*-----------引入檔案區--------------*/
-require 'header.php';
-require 'post_function.php';
+require_once __DIR__ . '/header.php';
+require __DIR__ . '/post_function.php';
 $xoopsOption['template_main'] = 'tadbook3_post.tpl';
 require_once XOOPS_ROOT_PATH . '/header.php';
 /*-----------function區--------------*/

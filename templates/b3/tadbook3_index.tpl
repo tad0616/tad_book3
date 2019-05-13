@@ -1,5 +1,5 @@
 <{$toolbar}>
-<link rel="stylesheet" type="text/css" media="screen" href="module.css" />
+<link rel="stylesheet" type="text/css" media="screen" href="module.css">
 
 <{if $now_op=="tad_book3_form"}>
   <div class="row">

@@ -1,13 +1,13 @@
 <?php
 use League\HTMLToMarkdown\HtmlConverter;
 use XoopsModules\Tadtools\SyntaxHighlighter;
+use XoopsModules\Tadtools\Utility;
 
-
-require_once 'header.php';
+require_once __DIR__ . '/header.php';
 $xoopsOption['template_main'] = 'tadbook3_markdown.tpl';
 require_once XOOPS_ROOT_PATH . '/header.php';
-require 'vendor/autoload.php';
-use XoopsModules\Tadtools\Utility;
+require __DIR__ . '/vendor/autoload.php';
+
 
 /*-----------function區--------------*/
 
@@ -44,8 +44,8 @@ function view_page($tbdsn = '')
     $syntaxhighlighter_code = $SyntaxHighlighter->render();
 
     $main = "
-    <h1>{$book['title']}</h1>
-    $content
+      <h1>{$book['title']}</h1>
+      $content
     ";
 
     $doc_select = doc_select($tbsn, $tbdsn);

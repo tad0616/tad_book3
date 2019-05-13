@@ -1,8 +1,8 @@
 <?php
 
-use XoopsModules\Tadtools\Utility;
-
 namespace XoopsModules\Tad_book3;
+
+use XoopsModules\Tadtools\Utility;
 
 /*
 Update Class Definition
@@ -65,7 +65,7 @@ class Update
         }
 
         //找出目前所有的樣板檔
-        $sql = "SELECT bid,name,visible,show_func,template FROM `" . $xoopsDB->prefix('newblocks') . "`
+        $sql = 'SELECT bid,name,visible,show_func,template FROM `' . $xoopsDB->prefix('newblocks') . "`
         WHERE `dirname` = 'tad_book3' ORDER BY `func_num`";
         $result = $xoopsDB->query($sql);
         while (list($bid, $name, $visible, $show_func, $template) = $xoopsDB->fetchRow($result)) {

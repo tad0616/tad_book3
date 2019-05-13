@@ -2,7 +2,7 @@
 use XoopsModules\Tadtools\Utility;
 use XoopsModules\Tadtools\SyntaxHighlighter;
 
-require_once 'header.php';
+require_once __DIR__ . '/header.php';
 set_time_limit(0);
 ini_set('memory_limit', '150M');
 

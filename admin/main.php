@@ -6,8 +6,9 @@ use XoopsModules\Tadtools\Utility;
 use XoopsModules\Tadtools\Ztree;
 /*-----------引入檔案區--------------*/
 $xoopsOption['template_main'] = 'tadbook3_adm_main.tpl';
-require_once 'header.php';
-require_once '../function.php';
+require_once __DIR__ . '/header.php';
+require_once dirname(__DIR__) . '/function.php';
+
 
 /*-----------function區--------------*/
 //tad_book3_cate編輯表單
@@ -139,13 +140,13 @@ function list_tad_book3($tbcsn = '')
     $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
     $i = 0;
     $books = [];
-    while ($data = $xoopsDB->fetchArray($result)) {
+    while (false !== ($data = $xoopsDB->fetchArray($result))) {
         $books[$i] = $data;
         $books[$i]['cate'] = get_tad_book3_cate($data['tbcsn']);
         $uid_name = [];
         $author_arr = explode(',', $data['author']);
         foreach ($author_arr as $uid) {
-            $uidname = XoopsUser::getUnameFromId($uid, 1);
+            $uidname = \XoopsUser::getUnameFromId($uid, 1);
             $uidname = (empty($uidname)) ? XoopsUser::getUnameFromId($uid, 0) : $uidname;
             $uid_name[] = $uidname;
         }
@@ -225,4 +226,4 @@ switch ($op) {
 }
 
 /*-----------秀出結果區--------------*/
-require_once 'footer.php';
+require_once __DIR__ . '/footer.php';

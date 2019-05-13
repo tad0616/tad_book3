@@ -2,7 +2,7 @@
 use XoopsModules\Tadtools\SyntaxHighlighter;
 use XoopsModules\Tadtools\Utility;
 
-require_once 'header.php';
+require_once __DIR__ . '/header.php';
 set_time_limit(0);
 ini_set('memory_limit', '150M');
 
@@ -62,7 +62,7 @@ $i = 0;
 $docs = '';
 $sql = 'select tbdsn,enable from ' . $xoopsDB->prefix('tad_book3_docs') . " where tbsn='{$tbsn}' order by category,page,paragraph,sort";
 $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
-while ($all = $xoopsDB->fetchArray($result)) {
+while (false !== ($all = $xoopsDB->fetchArray($result))) {
     foreach ($all as $k => $v) {
         $$k = $v;
     }

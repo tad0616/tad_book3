@@ -35,8 +35,8 @@ function tad_book3_list($options)
         $block[$i]['pic'] = (empty($pic_name)) ? XOOPS_URL . '/modules/tad_book3/images/blank.png' : XOOPS_URL . "/uploads/tad_book3/{$pic_name}";
         $i++;
     }
-    $data['books'] = $block;
-    $data['show_pic'] = $options[5];
+    $data['books'] = isset($block) ? $block : '';
+    $data['show_pic'] = isset($options[5]) ? $options[5] : '';
 
     return $data;
 }

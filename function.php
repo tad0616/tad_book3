@@ -77,7 +77,7 @@ function get_tad_book3_cate($tbcsn = '')
     $sql = 'select * from ' . $xoopsDB->prefix('tad_book3_cate') . " where tbcsn='$tbcsn'";
     $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
     $data = $xoopsDB->fetchArray($result);
-    $data['count'] = $counter[$tbcsn];
+    $data['count'] = isset($counter[$tbcsn]) ? $counter[$tbcsn] : 0;
 
     return $data;
 }
@@ -101,6 +101,7 @@ function get_tad_book3_docs($tbdsn = '')
 function tad_book3_cate_count()
 {
     global $xoopsDB;
+    $all = [];
     $sql = 'SELECT tbcsn,count(*) FROM ' . $xoopsDB->prefix('tad_book3') . ' GROUP BY tbcsn';
     $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
     while (list($tbcsn, $count) = $xoopsDB->fetchRow($result)) {
@@ -116,16 +117,17 @@ function list_all_cate_book($isAdmin = '')
     global $xoopsDB, $xoopsTpl, $xoopsUser;
 
     $i = 0;
+    $cate = [];
     $sql = 'SELECT * FROM  ' . $xoopsDB->prefix('tad_book3_cate') . ' ORDER BY sort';
     $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
-    while ($data = $xoopsDB->fetchArray($result)) {
+    while (false !== ($data = $xoopsDB->fetchArray($result))) {
         $cate[$i] = $data;
 
         $sql = 'select * from  ' . $xoopsDB->prefix('tad_book3') . " where tbcsn='{$data['tbcsn']}' and enable='1' order by sort";
         $result2 = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
         $j = 0;
         $books = [];
-        while ($data2 = $xoopsDB->fetchArray($result2)) {
+        while (false !== ($data2 = $xoopsDB->fetchArray($result2))) {
             if (!chk_power($data2['read_group'])) {
                 continue;
             }
@@ -187,7 +189,7 @@ function list_docs($def_tbsn = '')
     $my = in_array($uid, $author_arr);
     $xoopsTpl->assign('my', $my);
     foreach ($author_arr as $uid) {
-        $uidname = XoopsUser::getUnameFromId($uid, 1);
+        $uidname = \XoopsUser::getUnameFromId($uid, 1);
         $uidname = (empty($uidname)) ? XoopsUser::getUnameFromId($uid, 0) : $uidname;
         $uid_name[] = $uidname;
     }
@@ -228,7 +230,7 @@ function list_docs($def_tbsn = '')
     $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
     $i1 = $i2 = $i3 = $i4 = 0;
     $new_category = $new_page = $new_paragraph = $new_sort = '';
-    while ($data = $xoopsDB->fetchArray($result)) {
+    while (false !== ($data = $xoopsDB->fetchArray($result))) {
         foreach ($data as $k => $v) {
             $$k = $v;
         }
@@ -358,20 +360,20 @@ function tad_book3_form($tbsn = '', $tbcsn = '')
 
     $cate_select = cate_select($tbcsn);
 
-    $member_handler = xoops_getHandler('member');
-    $usercount = $member_handler->getUserCount(new Criteria('level', 0, '>'));
+    $memberHandler = xoops_getHandler('member');
+    $usercount = $memberHandler->getUserCount(new \Criteria('level', 0, '>'));
 
     if ($usercount < 1000) {
         $select = new \XoopsFormSelect('', 'author', $author_arr, 5, true);
         $select->setExtra("class='form-control'");
-        $member_handler = xoops_getHandler('member');
-        $criteria = new CriteriaCompo();
+        $memberHandler = xoops_getHandler('member');
+        $criteria = new \CriteriaCompo();
         $criteria->setSort('uname');
         $criteria->setOrder('ASC');
         $criteria->setLimit(1000);
         $criteria->setStart(0);
 
-        $select->addOptionArray($member_handler->getUserList($criteria));
+        $select->addOptionArray($memberHandler->getUserList($criteria));
         $user_menu = $select->render();
     } else {
         $user_menu = "<textarea name='author_str' style='width:100%;'>$author</textarea>
@@ -741,7 +743,9 @@ function chk_edit_power($uid_txt = '')
     return false;
 }
 
-/********************* 預設函數 *********************/
+/********************* 預設函數 ********************
+ * @param string $tbdsn
+ */
 //刪除tad_book3_docs某筆資料資料
 function delete_tad_book3_docs($tbdsn = '')
 {

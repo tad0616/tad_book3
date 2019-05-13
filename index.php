@@ -3,7 +3,7 @@ use XoopsModules\Tadtools\CkEditor;
 use XoopsModules\Tadtools\Utility;
 
 /*-----------引入檔案區--------------*/
-require 'header.php';
+require_once __DIR__ . '/header.php';
 $xoopsOption['template_main'] = 'tadbook3_index.tpl';
 require_once XOOPS_ROOT_PATH . '/header.php';
 /*-----------function區--------------*/
@@ -52,20 +52,20 @@ function import_form($tbsn = '')
 
     $cate_select = cate_select($tbcsn);
 
-    $member_handler = xoops_getHandler('member');
-    $usercount = $member_handler->getUserCount(new Criteria('level', 0, '>'));
+    $memberHandler = xoops_getHandler('member');
+    $usercount = $memberHandler->getUserCount(new \Criteria('level', 0, '>'));
 
     if ($usercount < 1000) {
         $select = new \XoopsFormSelect('', 'author', $author_arr, 5, true);
         $select->setExtra("class='form-control'");
-        $member_handler = xoops_getHandler('member');
-        $criteria = new CriteriaCompo();
+        $memberHandler = xoops_getHandler('member');
+        $criteria = new \CriteriaCompo();
         $criteria->setSort('uname');
         $criteria->setOrder('ASC');
         $criteria->setLimit(1000);
         $criteria->setStart(0);
 
-        $select->addOptionArray($member_handler->getUserList($criteria));
+        $select->addOptionArray($memberHandler->getUserList($criteria));
         $user_menu = $select->render();
     } else {
         $user_menu = "<textarea name='author_str' style='width:100%;'>$author</textarea>
@@ -225,7 +225,7 @@ function tad_book3_export($tbsn = '')
     $sql = 'select * from ' . $xoopsDB->prefix('tad_book3_docs') . " where tbsn='$tbsn' order by category ,  page , paragraph , sort";
     $result = $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
     $all = '';
-    while ($doc = $xoopsDB->fetchArray($result)) {
+    while (false !== ($doc = $xoopsDB->fetchArray($result))) {
         $cols = $vals = '';
         foreach ($doc as $col => $val) {
             if ('tbdsn' === $col) {
@@ -321,7 +321,7 @@ function tad_book3_export($tbsn = '')
     if (file_exists($zip_name)) {
         header('location:' . XOOPS_URL . "/uploads/tad_book3/import_{$tbsn}.zip");
     } else {
-        require_once 'class/pclzip.lib.php';
+        require_once __DIR__ . '/class/pclzip.lib.php';
         $zipfile = new PclZip($zip_name);
         $v_list = $zipfile->create($import_dir, PCLZIP_OPT_REMOVE_PATH, XOOPS_ROOT_PATH . '/uploads/tad_book3');
 

@@ -10,8 +10,8 @@ function tad_book3_index()
 {
     global $xoopsDB;
     require_once XOOPS_ROOT_PATH . '/modules/tad_book3/function_block.php';
-    $global_tbsn = isset($_GET['tbsn']) ? (int) $_GET['tbsn'] : '';
-    $global_tbdsn = isset($_GET['tbdsn']) ? (int) $_GET['tbdsn'] : '';
+    $global_tbsn = isset($_GET['tbsn']) ? (int)$_GET['tbsn'] : '';
+    $global_tbdsn = isset($_GET['tbdsn']) ? (int)$_GET['tbdsn'] : '';
 
     if (empty($global_tbsn) and !empty($global_tbdsn)) {
         $sql = 'select `tbsn` from ' . $xoopsDB->prefix('tad_book3_docs') . " where tbdsn='{$global_tbdsn}'";
@@ -25,6 +25,9 @@ function tad_book3_index()
         return;
     }
 
+    if (!file_exists(XOOPS_ROOT_PATH . '/modules/tadtools/dtree.php')) {
+        redirect_header('index.php', 3, _MA_NEED_TADTOOLS);
+    include_once XOOPS_ROOT_PATH . '/modules/tadtools/dtree.php';
     $book = block_get_book_content($tbsn);
     $home['sn'] = 0;
     $home['title'] = _MB_TADBOOK3_BOOK_CONTENT;
@@ -51,10 +54,10 @@ if (!function_exists('block_get_book_content')) {
 
             $father_sn = 0;
             if (1 == $doc_sort['level']) {
-                $fsn[(string) ($category)] = $tbdsn;
+                $fsn[(string)($category)] = $tbdsn;
             } elseif (2 == $doc_sort['level']) {
                 $fsn["{$category}-{$page}"] = $tbdsn;
-                $father_sn = isset($fsn[(string) ($category)]) ? $fsn[(string) ($category)] : '';
+                $father_sn = isset($fsn[(string)($category)]) ? $fsn[(string)($category)] : '';
             } elseif (3 == $doc_sort['level']) {
                 $fsn["{$category}-{$page}-{$paragraph}"] = $tbdsn;
                 $father_sn = isset($fsn["{$category}-{$page}"]) ? $fsn["{$category}-{$page}"] : '';

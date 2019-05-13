@@ -1,7 +1,7 @@
 <?php
 /*-----------引入檔案區--------------*/
-require '../../mainfile.php';
-require '../function.php';
+require dirname(dirname(__DIR__)) . '/mainfile.php';
+require dirname(__DIR__) . '/function.php';
 require_once $GLOBALS['xoops']->path('/modules/system/include/functions.php');
 $updateRecordsArray = system_CleanVars($_POST, 'tr', '', 'array');
 
