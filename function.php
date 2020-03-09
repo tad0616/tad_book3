@@ -533,7 +533,7 @@ function mk_thumb($tbsn = '', $col_name = '', $width = 100)
     if (file_exists(_TADBOOK3_BOOK_DIR . "/book_{$tbsn}.png")) {
         unlink(_TADBOOK3_BOOK_DIR . "/book_{$tbsn}.png");
     }
-    $handle = new upload($_FILES[$col_name]);
+    $handle = new \Verot\Upload\Upload($_FILES[$col_name]);
     if ($handle->uploaded) {
         $handle->file_new_name_body = "book_{$tbsn}";
         $handle->image_convert = 'png';
