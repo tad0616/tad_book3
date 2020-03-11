@@ -30,11 +30,11 @@ $html = '<!DOCTYPE html>
   <link rel="stylesheet" type="text/css" href="reset.css" >
   <style type="text/css">
     body{
-      font-size: 12pt;
+      font-size: 100%;
     }
 
     .page{
-      font-size: 12pt;
+      font-size: 100%;
       line-height:2;
       padding: 2cm;
       background-image: url(' . XOOPS_URL . '/modules/tad_book3/images/paper_bg.jpg);
@@ -42,7 +42,7 @@ $html = '<!DOCTYPE html>
     }
 
     .page_content{
-      font-size: 12pt;
+      font-size: 100%;
     }
 
     .page_title{

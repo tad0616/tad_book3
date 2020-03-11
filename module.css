@@ -41,18 +41,18 @@ vertical-align: bottom;
 
 .doc_sort_1{
   padding-left: 5px;
-  font-size: 11pt;
+  font-size: 92%;
   font-weight: bolder;
 }
 .doc_sort_2{
   padding-left: 20px;
-  font-size: 11pt;
+  font-size: 92%;
 }
 .doc_sort_3{
   padding-left: 40px;
-  font-size: 12px;
+  font-size: 75%;
 }
 .doc_sort_4{
   padding-left: 60px;
-  font-size: 11px;
+  font-size:  68.75%;
 }

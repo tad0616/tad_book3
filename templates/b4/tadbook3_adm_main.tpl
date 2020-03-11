@@ -93,7 +93,7 @@
                 <tr>
                   <td>
                     <a href="<{$xoops_url}>/modules/tad_book3/index.php?tbsn=<{$book.tbsn}>"><{$book.title}></a>
-                    <span style="color:gray;font-size:12px;"> (<{$book.counter}>)</span>
+                    <span style="color:gray;font-size: 75%;"> (<{$book.counter}>)</span>
                     <{$book.create_date}>
                     <{$book.passwd}>
                   </td>

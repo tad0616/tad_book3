@@ -154,7 +154,7 @@
         <span class="badge badge-success"><{$cate}></span>
         <{$title}>
       </h3>
-      <div style="font-size: 11px; margin: 10px 0px;"><{$smarty.const._MD_TADBOOK3_CREATE_DATE}> <{$create_date}></div>
+      <div style="font-size:  68.75%; margin: 10px 0px;"><{$smarty.const._MD_TADBOOK3_CREATE_DATE}> <{$create_date}></div>
 
       <{if $description}><div class="alert alert-info"><{$description}></div><{/if}>
       <div class="text-right">
@@ -212,7 +212,7 @@
               <{$doc.enable_txt}>
               <a href="<{$xoops_url}>/modules/tad_book3/page.php?tbdsn=<{$doc.tbdsn}>"><{$doc.title}></a>
             </td>
-            <td style="font-size: 10px; color: gray; text-align: right;">
+            <td style="font-size: 62.5%; color: gray; text-align: right;">
               <{$doc.count}>
               <i class="fa fa-user"></i>
               <{$doc.last_modify_date}>
@@ -269,7 +269,7 @@
         });
       </script>
 
-      <h1 style="color:#A0A0A0;margin-top:20px;font-size:24px;"><{$cate.title}></h1>
+      <h1 style="color:#A0A0A0;margin-top:20px;font-size: 150%;"><{$cate.title}></h1>
       <div style='margin-left:20px;' id="books_sort_<{$id}>">
 
       <{foreach from=$cate.books item=book}>

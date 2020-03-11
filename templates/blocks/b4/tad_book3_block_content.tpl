@@ -18,7 +18,7 @@
             <span class="badge badge-success"><{$block.cate}></span>
             <{$block.title}>
         </h3>
-        <div style="font-size: 11px; margin: 10px 0px;"><{$smarty.const._MB_TADBOOK3_CREATE_DATE}> <{$block.create_date}></div>
+        <div style="font-size:  68.75%; margin: 10px 0px;"><{$smarty.const._MB_TADBOOK3_CREATE_DATE}> <{$block.create_date}></div>
         <{if $block.description}><div class="alert alert-info"><{$block.description}></div><{/if}>
     </div>
 </div>
@@ -57,7 +57,7 @@
                     <{$doc.enable_txt}>
                     <a href="<{$xoops_url}>/modules/tad_book3/page.php?tbdsn=<{$doc.tbdsn}>"><{$doc.title}></a>
                 </td>
-                <td style="font-size: 10px; color: gray; text-align: right;">
+                <td style="font-size: 62.5%; color: gray; text-align: right;">
                     <{$doc.count}>
                     <i class="fa fa-user"></i>
                     <{$doc.last_modify_date}>

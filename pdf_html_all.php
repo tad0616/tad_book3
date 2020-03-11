@@ -1,6 +1,6 @@
 <?php
-use XoopsModules\Tadtools\Utility;
 use XoopsModules\Tadtools\SyntaxHighlighter;
+use XoopsModules\Tadtools\Utility;
 
 require_once __DIR__ . '/header.php';
 set_time_limit(0);
@@ -32,18 +32,18 @@ $html = '<!DOCTYPE html>
   <link rel="stylesheet" type="text/css" href="reset.css" >
   <style type="text/css">
     body{
-      font-size: 12pt;
+      font-size: 100%;
     }
 
     .page{
-      font-size: 12pt;
+      font-size: 100%;
       line-height:2;
       background-image: url(' . XOOPS_URL . '/modules/tad_book3/images/paper_bg.jpg);
       background-repeat: repeat-x;
     }
 
     .page_content{
-      font-size: 12pt;
+      font-size: 100%;
     }
 
   </style>
