@@ -1,4 +1,4 @@
-<div style="width: 145px; height: 250px; float: left; padding: 0px; border: 0px; margin: 5px 10px 40px; text-align: center;" id="tr_<{$book.tbsn}>">
+<div style="width: 145px; height: 250px; float: left; padding: 0px; border: 0px; margin: 5px 10px 40px; text-align: center;" id="book_<{$book.tbsn}>">
 
   <a href="<{$xoops_url}>/modules/tad_book3/index.php?op=list_docs&tbsn=<{$book.tbsn}>">
     <img src="<{$book.pic}>" alt="<{$book.title}>" style="width: 120px; height: 170px;" class="img-thumbnail img-responsive">

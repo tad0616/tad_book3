@@ -254,20 +254,18 @@
 
   <{foreach from=$cate key=id item=cate}>
     <{if $cate.books}>
-      <script language="JavaScript">
-        $().ready(function(){
-          $("#books_sort_<{$id}>").sortable({
-            opacity: 0.6,
-            cursor: "move",
-            update: function() {
-              var order = $(this).sortable("serialize") + "&action=updateRecordsListings";
-              $.post("save_book_sort.php", order, function(theResponse){
-                $("#save_msg").html(theResponse);
-              });
+        <script type="text/javascript">
+        $(document).ready(function(){
+            $('#books_sort_<{$id}>').sortable({ opacity: 0.6, cursor: 'move', update: function() {
+                var order = $(this).sortable('serialize');
+                $.post('save_book_sort.php', order, function(theResponse){
+                    $('#save_msg').html(theResponse);
+                });
             }
-          });
+            });
         });
-      </script>
+        </script>
+
 
       <h1 style="color:#A0A0A0;margin-top:20px;font-size: 150%;"><{$cate.title}></h1>
       <div style='margin-left:20px;' id="books_sort_<{$id}>">
