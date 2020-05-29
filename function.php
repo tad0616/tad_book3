@@ -224,6 +224,8 @@ function list_docs($def_tbsn = '')
     $xoopsTpl->assign('logo_img', $book['pic']);
     $xoopsTpl->assign('use_social_tools', $xoopsModuleConfig['use_social_tools']);
 
+    Utility::setup_meta($title, $description, $book['pic_fb']);
+
     $i = 0;
     $docs = [];
     $sql = 'select * from ' . $xoopsDB->prefix('tad_book3_docs') . " where tbsn='{$tbsn}' order by category,page,paragraph,sort";
@@ -532,6 +534,7 @@ function mk_thumb($tbsn = '', $col_name = '', $width = 100)
 
     if (file_exists(_TADBOOK3_BOOK_DIR . "/book_{$tbsn}.png")) {
         unlink(_TADBOOK3_BOOK_DIR . "/book_{$tbsn}.png");
+        unlink(_TADBOOK3_BOOK_DIR . "/fb_book_{$tbsn}.png");
     }
     $handle = new \Verot\Upload\Upload($_FILES[$col_name]);
     if ($handle->uploaded) {
@@ -544,12 +547,18 @@ function mk_thumb($tbsn = '', $col_name = '', $width = 100)
         $handle->process(_TADBOOK3_BOOK_DIR);
         $handle->auto_create_dir = true;
         if ($handle->processed) {
-            $handle->clean();
             $sql = 'update ' . $xoopsDB->prefix('tad_book3') . " set pic_name = 'book_{$tbsn}.png' where tbsn='$tbsn'";
             $xoopsDB->queryF($sql);
+        }
 
+        $handle->file_new_name_body = "fb_book_{$tbsn}";
+        $handle->image_x = 200;
+        $handle->process(_TADBOOK3_BOOK_DIR);
+        if ($handle->processed) {
+            $handle->clean();
             return true;
         }
+
         die($handle->error);
     }
 

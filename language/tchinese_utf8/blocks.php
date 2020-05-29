@@ -22,3 +22,4 @@ define('_MB_TADBOOK3_NOT_CLASSIFIED', '未分類');
 define('_MB_TADBOOK3_BOOK_ALL_CONTENT', '「%s」目錄');
 define('_MB_TADBOOK3_CREATE_DATE', '建立日期');
 define('_MB_TADBOOK3_INPUT_PASSWD', '本書需要密碼，請輸入密碼：');
+define('_MB_TADBOOK3_TAD_BOOK3_CONTENT_EDIT_BITEM0', '選擇書籍');

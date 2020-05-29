@@ -120,6 +120,10 @@ if (!function_exists('book_shadow')) {
 
         $pic = (empty($books['pic_name'])) ? XOOPS_URL . '/modules/tad_book3/images/blank.png' : XOOPS_URL . "/uploads/tad_book3/{$books['pic_name']}";
         $books['pic'] = $pic;
+
+        $pic_fb = (empty($books['pic_name'])) ? XOOPS_URL . '/modules/tad_book3/images/blank.png' : XOOPS_URL . "/uploads/tad_book3/fb_{$books['pic_name']}";
+        $books['pic_fb'] = $pic_fb;
+
         $description = isset($description) ? strip_tags($description) : '';
         $books['description'] = $description;
 

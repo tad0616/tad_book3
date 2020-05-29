@@ -38,13 +38,13 @@ function tad_book3_content($options)
     $block['enable_txt'] = (isset($enable) && '1' == $enable) ? _MB_TADBOOK3_ENABLE : _MB_TADBOOK3_UNABLE;
 
     //共同編輯者
-    $author_arr = isset($author) ? explode(',', $author): [];
+    $author_arr = isset($author) ? explode(',', $author) : [];
     foreach ($author_arr as $uid) {
         $uidname = \XoopsUser::getUnameFromId($uid, 1);
         $uidname = (empty($uidname)) ? XoopsUser::getUnameFromId($uid, 0) : $uidname;
         $uid_name[] = $uidname;
     }
-    $block['author'] = isset($uid_name) ? implode(' , ', $uid_name):'';
+    $block['author'] = isset($uid_name) ? implode(' , ', $uid_name) : '';
     $block['create_date'] = date('Y-m-d H:i:s', xoops_getUserTimestamp(strtotime(isset($create_date) ? $create_date : time())));
     $block['cate'] = (!isset($tbcsn) || empty($all_cate[$tbcsn])) ? _MB_TADBOOK3_NOT_CLASSIFIED : $all_cate[$tbcsn];
     $book = book_shadow($data);
@@ -53,7 +53,7 @@ function tad_book3_content($options)
 
     if ($xoopsTpl) {
         $xoopsTpl->assign('xoops_pagetitle', isset($title) ? $title : '');
-        $xoopsTpl->assign('fb_description', strip_tags(isset($description)?$description:''));
+        $xoopsTpl->assign('fb_description', strip_tags(isset($description) ? $description : ''));
         $xoopsTpl->assign('logo_img', $book['pic']);
     }
 
@@ -150,25 +150,27 @@ function tad_book3_content($options)
 //區塊編輯函式
 function tad_book3_content_edit($options)
 {
-    $chked1_0 = ('1' == $options[1]) ? 'checked' : '';
-    $chked1_1 = ('0' == $options[1]) ? 'checked' : '';
+    global $xoopsDB;
+
+    $sql = 'select * from ' . $xoopsDB->prefix('tad_book3') . " where `enable`='1' order by `sort`";
+    $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+    $option0 = '';
+    while ($book = $xoopsDB->fetchArray($result)) {
+        $checked = ($book['tbsn'] == $options[0]) ? 'checked' : '';
+        $option0 .= "<option value='{$book['tbsn']}' $checked>{$book['title']}</option>";
+    }
 
     $form = "
     <ol class='my-form'>
         <li class='my-row'>
-            <lable class='my-label'>" . _MB_TADBOOK3_TAD_BOOK3_RANDOM_EDIT_BITEM0 . "</lable>
+            <lable class='my-label'>" . _MB_TADBOOK3_TAD_BOOK3_CONTENT_EDIT_BITEM0 . "</lable>
             <div class='my-content'>
-                <input type='text' class='my-input' name='options[0]' value='{$options[0]}' size=6>
+                <select name='options[0]'  class='my-input'>
+                $option0
+                </select>
             </div>
         </li>
-        <li class='my-row'>
-            <lable class='my-label'>" . _MB_TADBOOK3_TAD_BOOK3_RANDOM_EDIT_BITEM1 . "</lable>
-            <div class='my-content'>
-                <INPUT type='radio' $chked1_0 name='options[1]' value='1'>" . _YES . "
-                <INPUT type='radio' $chked1_1 name='options[1]' value='0'>" . _NO . '
-            </div>
-        </li>
-    </ol>';
+    </ol>'";
 
     return $form;
 }
