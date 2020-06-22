@@ -18,13 +18,13 @@ switch ($op) {
     //更新資料
     case 'update_tad_book3_docs':
         update_tad_book3_docs($tbdsn);
-        header("location: page.php?tbdsn={$tbdsn}");
+        header("location: page.php?tbsn={$tbsn}&tbdsn={$tbdsn}");
         exit;
 
     //新增資料
     case 'insert_tad_book3_docs':
         $tbdsn = insert_tad_book3_docs();
-        header("location: page.php?tbdsn={$tbdsn}");
+        header("location: page.php?tbsn={$tbsn}&tbdsn={$tbdsn}");
         exit;
 
     //輸入表格

@@ -13,7 +13,7 @@ function tadbook3_search($queryarray, $andor, $limit, $offset, $userid)
             $queryarray = [];
         }
     }
-    $sql = 'SELECT tbdsn,title,last_modify_date,uid FROM ' . $xoopsDB->prefix('tad_book3_docs') . " WHERE enable='1'";
+    $sql = 'SELECT tbsn,tbdsn,title,last_modify_date,uid FROM ' . $xoopsDB->prefix('tad_book3_docs') . " WHERE enable='1'";
     if (0 != $userid) {
         $sql .= ' AND uid=' . $userid . ' ';
     }
@@ -31,7 +31,7 @@ function tadbook3_search($queryarray, $andor, $limit, $offset, $userid)
     $i = 0;
     while (false !== ($myrow = $xoopsDB->fetchArray($result))) {
         $ret[$i]['image'] = 'images/copy.png';
-        $ret[$i]['link'] = 'page.php?tbdsn=' . $myrow['tbdsn'];
+        $ret[$i]['link'] = 'page.php?tbsn=' . $myrow['tbsn'] . '&tbdsn=' . $myrow['tbdsn'];
         $ret[$i]['title'] = $myrow['title'];
         $last_modify_date = xoops_getUserTimestamp($myrow['last_modify_date']);
         $ret[$i]['time'] = $last_modify_date;

@@ -41,8 +41,8 @@ function view_page($tbdsn = '')
     $prev = explode(';', $near_docs['prev']);
     $next = explode(';', $near_docs['next']);
 
-    $p = (empty($prev[1])) ? '' : "<a href='page.php?tbdsn={$prev[0]}' style='text-decoration: none;'><img src='images/arrow_left.png' alt='prev' title='Prev' border='0' align='absmiddle' hspace=4>{$prev[1]}</a>";
-    $n = (empty($next[1])) ? '' : "<a href='page.php?tbdsn={$next[0]}' style='text-decoration: none;'>{$next[1]}<img src='images/arrow_right.png' alt='next' title='next' border='0' align='absmiddle' hspace=4></a>";
+    $p = (empty($prev[1])) ? '' : "<a href='page.php?tbsn={$tbsn}&tbdsn={$prev[0]}' style='text-decoration: none;'><img src='images/arrow_left.png' alt='prev' title='Prev' border='0' align='absmiddle' hspace=4>{$prev[1]}</a>";
+    $n = (empty($next[1])) ? '' : "<a href='page.php?tbsn={$tbsn}&tbdsn={$next[0]}' style='text-decoration: none;'>{$next[1]}<img src='images/arrow_right.png' alt='next' title='next' border='0' align='absmiddle' hspace=4></a>";
 
     $doc_sort = mk_category($category, $page, $paragraph, $sort);
 
@@ -90,6 +90,7 @@ switch ($op) {
     case 'check_passwd':
         check_passwd($tbsn);
         break;
+
     default:
         view_page($tbdsn);
         break;

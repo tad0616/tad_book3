@@ -69,7 +69,7 @@ if (!function_exists('block_get_book_content')) {
 
             $book['title'][$tbdsn] = "{$doc_sort['main']}{$title}";
             $book['father_sn'][$tbdsn] = $father_sn;
-            $book['url'][$tbdsn] = XOOPS_URL . "/modules/tad_book3/page.php?tbdsn={$tbdsn}";
+            $book['url'][$tbdsn] = XOOPS_URL . "/modules/tad_book3/page.php?tbsn={$tbsn}&tbdsn={$tbdsn}";
         }
 
         return $book;

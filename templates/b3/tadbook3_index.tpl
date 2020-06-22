@@ -212,7 +212,7 @@
                 <{/if}>
               </span>
               <{$doc.enable_txt}>
-              <a href="<{$xoops_url}>/modules/tad_book3/page.php?tbdsn=<{$doc.tbdsn}>"><{$doc.title}></a>
+              <a href="<{$xoops_url}>/modules/tad_book3/page.php?tbsn=<{$tbsn}>&tbdsn=<{$doc.tbdsn}>"><{$doc.title}></a>
             </td>
             <td style="font-size: 62.5%; color: gray; text-align: right;">
               <{$doc.count}>

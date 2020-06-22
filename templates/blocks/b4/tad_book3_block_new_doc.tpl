@@ -7,7 +7,7 @@
     </div>
     <p>
       <{$book.doc_sort}>
-      <a href="<{$xoops_url}>/modules/tad_book3/page.php?tbdsn=<{$book.tbdsn}>"><{$book.title}></a>
+      <a href="<{$xoops_url}>/modules/tad_book3/page.php?tbsn=<{$tbsn}>&tbdsn=<{$book.tbdsn}>"><{$book.title}></a>
     </p>
   </div>
 <{/foreach}>
