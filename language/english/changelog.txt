@@ -1,3 +1,10 @@
+Tad Book3 3.9.6 (Released 2020-08-30)
+=======================================================
+1.Automatically generate pictures for FB.
+2. Modify the book picture style
+3.Merge Template
+4. Fix the problem that anyone can do the book sorting.
+
 Tad Book3 3.9.5 (released 2020-04-09)
 =======================================================
 1. Fix the problem that the "Specified book section" block cannot be displayed correctly.

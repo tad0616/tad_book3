@@ -1,7 +1,9 @@
 <?php
 /*-----------引入檔案區--------------*/
 require dirname(dirname(__DIR__)) . '/mainfile.php';
-// require __DIR__ . '/function.php';
+if (!$_SESSION['tad_book3_adm']) {
+    exit;
+}
 
 $sort = 1;
 foreach ($_POST['book'] as $tbsn) {

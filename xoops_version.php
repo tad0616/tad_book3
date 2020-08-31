@@ -5,7 +5,7 @@ $modversion = [];
 
 //---模組基本資訊---//
 $modversion['name'] = _MI_TADBOOK3_NAME;
-$modversion['version'] = 3.95;
+$modversion['version'] = 3.96;
 $modversion['description'] = _MI_TADBOOK3_DESC;
 $modversion['author'] = _MI_TADBOOK3_AUTHOR;
 $modversion['credits'] = 'geek01 , Michael Beck';
@@ -16,7 +16,7 @@ $modversion['image'] = "images/logo_{$xoopsConfig['language']}.png";
 $modversion['dirname'] = basename(__DIR__);
 
 //---模組狀態資訊---//
-$modversion['release_date'] = '2020/04/09';
+$modversion['release_date'] = '2020/08/30';
 $modversion['module_website_url'] = 'https://tad0616.net/';
 $modversion['module_website_name'] = _MI_TAD_WEB;
 $modversion['module_status'] = 'release';
@@ -61,24 +61,8 @@ $modversion['templates'][$i]['file'] = 'tadbook3_index.tpl';
 $modversion['templates'][$i]['description'] = 'tadbook3_index.tpl';
 
 $i++;
-$modversion['templates'][$i]['file'] = 'tadbook3_page.tpl';
-$modversion['templates'][$i]['description'] = 'tadbook3_page.tpl';
-
-$i++;
-$modversion['templates'][$i]['file'] = 'tadbook3_post.tpl';
-$modversion['templates'][$i]['description'] = 'tadbook3_post.tpl';
-
-$i++;
-$modversion['templates'][$i]['file'] = 'tadbook3_adm_main.tpl';
-$modversion['templates'][$i]['description'] = 'tadbook3_adm_main.tpl';
-
-$i++;
-$modversion['templates'][$i]['file'] = 'tadbook3_book_shadow.tpl';
-$modversion['templates'][$i]['description'] = 'tadbook3_book_shadow.tpl';
-
-$i++;
-$modversion['templates'][$i]['file'] = 'tadbook3_markdown.tpl';
-$modversion['templates'][$i]['description'] = 'tadbook3_markdown.tpl';
+$modversion['templates'][$i]['file'] = 'tadbook3_admin.tpl';
+$modversion['templates'][$i]['description'] = 'tadbook3_admin.tpl';
 
 //---評論設定---//
 $modversion['hasComments'] = 1;

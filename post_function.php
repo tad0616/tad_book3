@@ -10,9 +10,9 @@ function tad_book3_docs_form($tbdsn = '', $tbsn = '')
 
     if ($xoopsUser) {
         $module_id = $xoopsModule->getVar('mid');
-        $isAdmin = $xoopsUser->isAdmin($module_id);
+        $_SESSION['tad_book3_adm'] = $xoopsUser->isAdmin($module_id);
     } else {
-        $isAdmin = false;
+        $_SESSION['tad_book3_adm'] = false;
     }
 
     //抓取預設值
@@ -23,7 +23,7 @@ function tad_book3_docs_form($tbdsn = '', $tbsn = '')
         $DBV = [];
     }
 
-    if (!$isAdmin) {
+    if (!$_SESSION['tad_book3_adm']) {
         $book = get_tad_book3($tbsn);
         //die('author:'.$book['author']);
         if (!chk_edit_power($book['author'])) {
@@ -50,8 +50,8 @@ function tad_book3_docs_form($tbdsn = '', $tbsn = '')
 
     $ck = new CkEditor('tad_book3', 'content', $content);
     $ck->setHeight(400);
-    $ck->setContentCss(XOOPS_URL . '/modules/tad_book3/reset.css');
-    $ck->setContentCss(XOOPS_URL . '/modules/tad_book3/modules.css');
+    $ck->setContentCss(XOOPS_URL . '/modules/tad_book3/css/reset.css');
+    $ck->setContentCss(XOOPS_URL . '/modules/tad_book3/css/modules.css');
     $editor = $ck->render();
 
     $op = (empty($tbdsn)) ? 'insert_tad_book3_docs' : 'update_tad_book3_docs';
@@ -83,12 +83,12 @@ function insert_tad_book3_docs()
     $myts = \MyTextSanitizer::getInstance();
     $_POST['title'] = $myts->addSlashes($_POST['title']);
     $_POST['content'] = $myts->addSlashes($_POST['content']);
-    $_POST['from_tbdsn'] = (int)$_POST['from_tbdsn'];
+    $_POST['from_tbdsn'] = (int) $_POST['from_tbdsn'];
 
-    $_POST['category'] = (int)$_POST['category'];
-    $_POST['page'] = (int)$_POST['page'];
-    $_POST['paragraph'] = (int)$_POST['paragraph'];
-    $_POST['sort'] = (int)$_POST['sort'];
+    $_POST['category'] = (int) $_POST['category'];
+    $_POST['page'] = (int) $_POST['page'];
+    $_POST['paragraph'] = (int) $_POST['paragraph'];
+    $_POST['sort'] = (int) $_POST['sort'];
 
     check_update_cpps_add($_POST['tbsn'], $_POST['category'], $_POST['page'], $_POST['paragraph'], $_POST['sort']);
 
@@ -110,12 +110,12 @@ function update_tad_book3_docs($tbdsn = '')
     $myts = \MyTextSanitizer::getInstance();
     $_POST['title'] = $myts->addSlashes($_POST['title']);
     $_POST['content'] = $myts->addSlashes($_POST['content']);
-    $_POST['from_tbdsn'] = (int)$_POST['from_tbdsn'];
+    $_POST['from_tbdsn'] = (int) $_POST['from_tbdsn'];
 
-    $_POST['category'] = (int)$_POST['category'];
-    $_POST['page'] = (int)$_POST['page'];
-    $_POST['paragraph'] = (int)$_POST['paragraph'];
-    $_POST['sort'] = (int)$_POST['sort'];
+    $_POST['category'] = (int) $_POST['category'];
+    $_POST['page'] = (int) $_POST['page'];
+    $_POST['paragraph'] = (int) $_POST['paragraph'];
+    $_POST['sort'] = (int) $_POST['sort'];
 
     check_update_cpps_add($_POST['tbsn'], $_POST['category'], $_POST['page'], $_POST['paragraph'], $_POST['sort'], $tbdsn);
 

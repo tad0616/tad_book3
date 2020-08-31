@@ -1,17 +1,18 @@
 <?php
-use XoopsModules\Tadtools\Utility;
+use Xmf\Request;
 use XoopsModules\Tadtools\SyntaxHighlighter;
+use XoopsModules\Tadtools\Utility;
 
-
+/*-----------引入檔案區--------------*/
 require_once __DIR__ . '/header.php';
 set_time_limit(0);
 ini_set('memory_limit', '150M');
 
-require_once $GLOBALS['xoops']->path('/modules/system/include/functions.php');
-$op = system_CleanVars($_REQUEST, 'op', '', 'string');
-$tbsn = system_CleanVars($_REQUEST, 'tbsn', 0, 'int');
-$tbdsn = system_CleanVars($_REQUEST, 'tbdsn', 0, 'int');
-$filename = system_CleanVars($_REQUEST, 'filename', '', 'string');
+/*-----------執行動作判斷區----------*/
+$op = Request::getString('op');
+$tbsn = Request::getInt('tbsn');
+$tbdsn = Request::getInt('tbdsn');
+$filename = Request::getString('filename');
 
 $filename = str_replace('..', '.', $filename);
 

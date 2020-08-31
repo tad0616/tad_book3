@@ -1,14 +1,17 @@
 <?php
+use Xmf\Request;
 use XoopsModules\Tadtools\SyntaxHighlighter;
 use XoopsModules\Tadtools\Utility;
 
+/*-----------引入檔案區--------------*/
 require_once __DIR__ . '/header.php';
 set_time_limit(0);
 ini_set('memory_limit', '150M');
 
-require_once $GLOBALS['xoops']->path('/modules/system/include/functions.php');
-$op = system_CleanVars($_REQUEST, 'op', '', 'string');
-$tbsn = system_CleanVars($_REQUEST, 'tbsn', 0, 'int');
+/*-----------執行動作判斷區----------*/
+$op = Request::getString('op');
+$tbsn = Request::getInt('tbsn');
+
 $book = get_tad_book3($tbsn);
 
 if ($xoopsUser) {
@@ -29,7 +32,7 @@ $html = '<!DOCTYPE html>
   <meta charset="utf-8">
   <title>' . $book['title'] . '</title>
   ' . $bootstrap . '
-  <link rel="stylesheet" type="text/css" href="reset.css" >
+  <link rel="stylesheet" type="text/css" href="' . XOOPS_URL . '/modules/tad_book3/css/reset.css" >
   <style type="text/css">
     body{
       font-size: 100%;

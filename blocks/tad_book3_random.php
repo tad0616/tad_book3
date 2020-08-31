@@ -17,10 +17,10 @@ function tad_book3_random($options)
         }
 
         $pic = (empty($pic_name)) ? XOOPS_URL . '/modules/tad_book3/images/blank.png' : XOOPS_URL . "/uploads/tad_book3/{$pic_name}";
-        $booktitle = ('0' == $options[1]) ? '' : "<a href='" . XOOPS_URL . "/modules/tad_book3/index.php?op=list_docs&tbsn=$tbsn'>$title</a> ($counter)";
+        // $booktitle = ('0' == $options[1]) ? '' : "<a href='" . XOOPS_URL . "/modules/tad_book3/index.php?op=list_docs&tbsn=$tbsn'>$title</a> ($counter)";
 
         $block[$i]['tbsn'] = $tbsn;
-        $block[$i]['booktitle'] = $booktitle;
+        $block[$i]['show_title'] = $options[1];
         $block[$i]['counter'] = $counter;
         $block[$i]['pic'] = $pic;
         $block[$i]['title'] = $title;

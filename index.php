@@ -1,4 +1,5 @@
 <?php
+use Xmf\Request;
 use XoopsModules\Tadtools\CkEditor;
 use XoopsModules\Tadtools\Utility;
 
@@ -349,22 +350,22 @@ function update_docs_sort($update_sort = [])
 }
 
 /*-----------執行動作判斷區----------*/
-
-require_once $GLOBALS['xoops']->path('/modules/system/include/functions.php');
-$op = system_CleanVars($_REQUEST, 'op', '', 'string');
-$tbsn = system_CleanVars($_REQUEST, 'tbsn', 0, 'int');
-$tbdsn = system_CleanVars($_REQUEST, 'tbdsn', 0, 'int');
-$enable = system_CleanVars($_REQUEST, 'enable', 0, 'int');
-$tbcsn = system_CleanVars($_REQUEST, 'tbcsn', 0, 'int');
-$update_sort = system_CleanVars($_REQUEST, 'update_sort', '', 'array');
+$op = Request::getString('op');
+$tbsn = Request::getInt('tbsn');
+$tbdsn = Request::getInt('tbdsn');
+$enable = Request::getInt('enable');
+$tbcsn = Request::getInt('tbcsn');
+$update_sort = Request::getArray('update_sort');
 
 switch ($op) {
     case 'check_passwd':
         check_passwd($tbsn);
         break;
+
     case 'list_docs':
         list_docs($tbsn);
         break;
+
     case 'change_enable':
         change_enable($enable, $tbdsn);
         header("location: {$_SERVER['PHP_SELF']}?op=list_docs&tbsn=$tbsn");
@@ -380,10 +381,12 @@ switch ($op) {
     case 'tad_book3_form':
         tad_book3_form($tbsn, $tbcsn);
         break;
+
     //匯入表格
     case 'import_form':
         import_form($tbsn);
         break;
+
     case 'import_book':
         $tbsn = import_book($tbcsn);
         header("location: index.php?op=list_docs&tbsn=$tbsn");
@@ -404,6 +407,7 @@ switch ($op) {
     case 'tad_book3_export':
         tad_book3_export($tbsn);
         break;
+
     case 'update_docs_sort':
         update_docs_sort($update_sort);
         header("location: {$_SERVER['PHP_SELF']}?tbsn={$tbsn}");
@@ -412,14 +416,16 @@ switch ($op) {
     default:
         if (!empty($tbsn)) {
             list_docs($tbsn);
+            $op = 'list_docs';
         } else {
-            list_all_cate_book($isAdmin);
+            list_all_cate_book();
+            $op = 'list_all_cate_book';
         }
         break;
 }
 
 /*-----------秀出結果區--------------*/
 $xoopsTpl->assign('toolbar', Utility::toolbar_bootstrap($interface_menu));
-$xoopsTpl->assign('jquery', Utility::get_jquery(true));
-$xoopsTpl->assign('isAdmin', $isAdmin);
+$xoopsTpl->assign("now_op", $op);
+$xoTheme->addStylesheet(XOOPS_URL . '/modules/tad_book3/css/module.css');
 require_once XOOPS_ROOT_PATH . '/footer.php';

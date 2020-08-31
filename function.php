@@ -82,6 +82,20 @@ function get_tad_book3_cate($tbcsn = '')
     return $data;
 }
 
+//分類底下的書籍數
+function tad_book3_cate_count()
+{
+    global $xoopsDB;
+    $all = [];
+    $sql = 'SELECT tbcsn,count(*) FROM ' . $xoopsDB->prefix('tad_book3') . ' GROUP BY tbcsn';
+    $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+    while (list($tbcsn, $count) = $xoopsDB->fetchRow($result)) {
+        $all[$tbcsn] = (int) ($count);
+    }
+
+    return $all;
+}
+
 //以流水號取得某筆tad_book3_docs資料
 function get_tad_book3_docs($tbdsn = '')
 {
@@ -97,22 +111,8 @@ function get_tad_book3_docs($tbdsn = '')
     return $data;
 }
 
-//分類底下的書籍數
-function tad_book3_cate_count()
-{
-    global $xoopsDB;
-    $all = [];
-    $sql = 'SELECT tbcsn,count(*) FROM ' . $xoopsDB->prefix('tad_book3') . ' GROUP BY tbcsn';
-    $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
-    while (list($tbcsn, $count) = $xoopsDB->fetchRow($result)) {
-        $all[$tbcsn] = (int) ($count);
-    }
-
-    return $all;
-}
-
 //秀出所有分類及書籍
-function list_all_cate_book($isAdmin = '')
+function list_all_cate_book()
 {
     global $xoopsDB, $xoopsTpl, $xoopsUser;
 
@@ -137,8 +137,7 @@ function list_all_cate_book($isAdmin = '')
         $cate[$i]['books'] = $books;
         $i++;
     }
-    //die(var_export($cate));
-    $xoopsTpl->assign('jquery', Utility::get_jquery(true));
+
     $xoopsTpl->assign('cate', $cate);
 
     $SweetAlert = new SweetAlert();
@@ -323,7 +322,7 @@ function list_docs($def_tbsn = '')
 //tad_book3編輯表單
 function tad_book3_form($tbsn = '', $tbcsn = '')
 {
-    global $xoopsDB, $xoopsUser, $xoopsTpl, $isAdmin;
+    global $xoopsDB, $xoopsUser, $xoopsTpl;
     require_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
 
     //抓取預設值
@@ -333,7 +332,7 @@ function tad_book3_form($tbsn = '', $tbcsn = '')
         $DBV = [];
     }
 
-    if (!$isAdmin) {
+    if (!$_SESSION['tad_book3_adm']) {
         if (!chk_edit_power($DBV['author'])) {
             header('location:index.php');
             exit;
@@ -355,7 +354,7 @@ function tad_book3_form($tbsn = '', $tbcsn = '')
     $create_date = (!isset($DBV['create_date'])) ? '' : $DBV['create_date'];
 
     $ck = new CkEditor('tad_book3', 'description', $description);
-    $ck->setHeight(400);
+    $ck->setHeight(150);
     $editor = $ck->render();
 
     $author_arr = (empty($author)) ? [$xoopsUser->getVar('uid')] : explode(',', $author);
@@ -378,7 +377,7 @@ function tad_book3_form($tbsn = '', $tbcsn = '')
         $select->addOptionArray($memberHandler->getUserList($criteria));
         $user_menu = $select->render();
     } else {
-        $user_menu = "<textarea name='author_str' style='width:100%;'>$author</textarea>
+        $user_menu = "<textarea name='author_str' class='form-control'>$author</textarea>
     <div>user uid, ex:\"1,27,103\"</div>";
     }
 
@@ -472,8 +471,8 @@ function tad_book3_cate_max_sort()
 //更新tad_book3某一筆資料
 function update_tad_book3($tbsn = '')
 {
-    global $xoopsDB, $isAdmin;
-    if (!$isAdmin) {
+    global $xoopsDB;
+    if (!$_SESSION['tad_book3_adm']) {
         $book = get_tad_book3($tbsn);
         if (!chk_edit_power($book['author'])) {
             header('location:index.php');
@@ -521,8 +520,8 @@ function get_max_doc_sort($tbcsn = '')
 //縮圖上傳
 function mk_thumb($tbsn = '', $col_name = '', $width = 100)
 {
-    global $xoopsDB, $isAdmin;
-    if (!$isAdmin) {
+    global $xoopsDB;
+    if (!$_SESSION['tad_book3_adm']) {
         $book = get_tad_book3($tbsn);
         if (!chk_edit_power($book['author'])) {
             header('location:index.php');
@@ -647,8 +646,8 @@ function category_menu($num = '')
 //取得前後文章
 function near_docs($tbsn = '', $doc_sn = '')
 {
-    global $xoopsDB, $isAdmin;
-    $and_enable = $isAdmin ? '' : "and enable='1'";
+    global $xoopsDB;
+    $and_enable = $_SESSION['tad_book3_adm'] ? '' : "and enable='1'";
     $sql = 'select tbdsn,title,category,page,paragraph,sort from ' . $xoopsDB->prefix('tad_book3_docs') . " where tbsn='$tbsn' $and_enable order by category,page,paragraph,sort";
     $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
     $get_next = false;
@@ -767,14 +766,14 @@ function delete_tad_book3_docs($tbdsn = '')
 //檢查是否有相同的章節數，若有其他章節往前移動（刪除之意）
 function check_update_cpps_del($tbdsn = 0)
 {
-    global $xoopsDB, $isAdmin;
+    global $xoopsDB;
 
     $sql = 'select tbsn,category, page, paragraph,sort,uid from ' . $xoopsDB->prefix('tad_book3_docs') . " where `tbdsn`='{$tbdsn}'";
 
     $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
     list($tbsn, $category, $page, $paragraph, $sort, $uid) = $xoopsDB->fetchRow($result);
 
-    if (!$isAdmin) {
+    if (!$_SESSION['tad_book3_adm']) {
         if (!chk_edit_power($uid)) {
             header('location:index.php');
             exit;
@@ -800,7 +799,7 @@ function delete_tad_book3($tbsn = '')
 {
     global $xoopsDB;
 
-    if (!$isAdmin) {
+    if (!$_SESSION['tad_book3_adm']) {
         $book = get_tad_book3($tbsn);
         if (!chk_edit_power($book['author'])) {
             header('location:index.php');

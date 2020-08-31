@@ -11,23 +11,20 @@ if ('1' == $xoopsModuleConfig['use_pda'] and false === mb_strpos($_SESSION['them
 }
 
 //判斷是否對該模組有管理權限
-$isAdmin = false;
-if ($xoopsUser) {
-    $module_id = $xoopsModule->getVar('mid');
-    $isAdmin = $xoopsUser->isAdmin($module_id);
+if (!isset($_SESSION['tad_book3_adm'])) {
+    $_SESSION['tad_book3_adm'] = ($xoopsUser) ? $xoopsUser->isAdmin() : false;
 }
-
-$interface_menu[_TAD_TO_MOD] = 'index.php';
+$interface_menu[_MD_TADBOOK3_HOMEPAGE] = 'index.php';
 
 //管理員可以新增書籍
-if ($isAdmin) {
+if ($_SESSION['tad_book3_adm']) {
     $interface_menu[_MD_TADBOOK3_ADD_BOOK] = 'index.php?op=tad_book3_form';
     //$interface_menu[_MD_TADBOOK3_IMPORT]   = "index.php?op=import_form";
 }
 
 if (\Xmf\Request::hasVar('tbdsn', 'GET')) {
-    $tbdsn = \Xmf\Request::getInt('tbdsn', 0,'GET') ;
-   }
+    $tbdsn = \Xmf\Request::getInt('tbdsn', 0, 'GET');
+}
 if (\Xmf\Request::hasVar('tbsn', 'GET')) {
     $tbsn = \Xmf\Request::getInt('tbsn', 0, 'GET');
 }
@@ -58,6 +55,6 @@ if (!empty($tbdsn) or !empty($tbsn)) {
     }
 }
 
-if ($isAdmin) {
+if ($_SESSION['tad_book3_adm']) {
     $interface_menu[_TAD_TO_ADMIN] = 'admin/main.php';
 }

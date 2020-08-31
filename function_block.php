@@ -107,7 +107,7 @@ if (!function_exists('have_sub')) {
 if (!function_exists('book_shadow')) {
     function book_shadow($books = [])
     {
-        global $xoopsUser, $isAdmin;
+        global $xoopsUser;
 
         if ($xoopsUser) {
             $uid = $xoopsUser->uid();
@@ -115,7 +115,7 @@ if (!function_exists('book_shadow')) {
             $uid = 0;
         }
         $authors = explode(',', $books['author']);
-        $tool = ((!empty($uid) && in_array($uid, $authors)) || $isAdmin) ? true : false;
+        $tool = ((!empty($uid) && in_array($uid, $authors)) || $_SESSION['tad_book3_adm']) ? true : false;
         $books['tool'] = $tool;
 
         $pic = (empty($books['pic_name'])) ? XOOPS_URL . '/modules/tad_book3/images/blank.png' : XOOPS_URL . "/uploads/tad_book3/{$books['pic_name']}";

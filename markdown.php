@@ -1,13 +1,13 @@
 <?php
 use League\HTMLToMarkdown\HtmlConverter;
+use Xmf\Request;
 use XoopsModules\Tadtools\SyntaxHighlighter;
 use XoopsModules\Tadtools\Utility;
 
 require_once __DIR__ . '/header.php';
-$xoopsOption['template_main'] = 'tadbook3_markdown.tpl';
+$xoopsOption['template_main'] = 'tadbook3_index.tpl';
 require_once XOOPS_ROOT_PATH . '/header.php';
 require __DIR__ . '/vendor/autoload.php';
-
 
 /*-----------function區--------------*/
 
@@ -65,12 +65,11 @@ function view_page($tbdsn = '')
     return $main;
 }
 /*-----------執行動作判斷區----------*/
-require_once $GLOBALS['xoops']->path('/modules/system/include/functions.php');
-$op = system_CleanVars($_REQUEST, 'op', '', 'string');
-$tbsn = system_CleanVars($_REQUEST, 'tbsn', 0, 'int');
-$tbdsn = system_CleanVars($_REQUEST, 'tbdsn', 0, 'int');
+$op = Request::getString('op');
+$tbsn = Request::getInt('tbsn');
+$tbdsn = Request::getInt('tbdsn');
 
-switch ($_REQUEST['op']) {
+switch ($op) {
     //預設動作
     default:
         global $xoopsTpl;
@@ -78,11 +77,12 @@ switch ($_REQUEST['op']) {
         $html = view_page($tbdsn);
         $markdown = $converter->convert($html);
         $xoopsTpl->assign('markdown', $markdown);
+        $op = 'markdown';
         break;
 }
 
 /*-----------秀出結果區--------------*/
 $xoopsTpl->assign('toolbar', Utility::toolbar_bootstrap($interface_menu));
-$xoopsTpl->assign('jquery', Utility::get_jquery(true));
-$xoopsTpl->assign('isAdmin', $isAdmin);
+$xoopsTpl->assign("now_op", $op);
+$xoTheme->addStylesheet(XOOPS_URL . '/modules/tad_book3/css/module.css');
 require_once XOOPS_ROOT_PATH . '/footer.php';

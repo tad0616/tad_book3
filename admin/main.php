@@ -1,14 +1,14 @@
 <?php
+use Xmf\Request;
 use XoopsModules\Tadtools\CkEditor;
 use XoopsModules\Tadtools\FormValidator;
 use XoopsModules\Tadtools\SweetAlert;
 use XoopsModules\Tadtools\Utility;
 use XoopsModules\Tadtools\Ztree;
 /*-----------引入檔案區--------------*/
-$xoopsOption['template_main'] = 'tadbook3_adm_main.tpl';
+$xoopsOption['template_main'] = 'tadbook3_admin.tpl';
 require_once __DIR__ . '/header.php';
 require_once dirname(__DIR__) . '/function.php';
-
 
 /*-----------function區--------------*/
 //tad_book3_cate編輯表單
@@ -107,7 +107,7 @@ function list_tad_book3_cate_tree($show_tbcsn = 0)
     global $xoopsTpl, $xoopsDB;
     $path = get_tad_book3_cate_path($show_tbcsn);
     $path_arr = array_keys($path);
-    $sql = 'SELECT tbcsn,of_tbsn,title FROM ' . $xoopsDB->prefix('tad_book3_cate') . ' ORDER BY sort';
+    $sql = 'SELECT tbcsn,of_tbsn,title FROM ' . $xoopsDB->prefix('tad_book3_cate') . ' ORDER BY `sort`';
     $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
 
     $count = tad_book3_cate_count();
@@ -131,7 +131,7 @@ function list_tad_book3($tbcsn = '')
     global $xoopsDB, $xoopsTpl;
 
     $and_tbcsn = !empty($tbcsn) ? "and `tbcsn`='{$tbcsn}'" : '';
-    $sql = 'select * from  ' . $xoopsDB->prefix('tad_book3') . " where 1 $and_tbcsn order by sort";
+    $sql = 'select * from  ' . $xoopsDB->prefix('tad_book3') . " where 1 $and_tbcsn order by `sort`";
     //getPageBar($原sql語法, 每頁顯示幾筆資料, 最多顯示幾個頁數選項);
     $PageBar = Utility::getPageBar($sql, 10, 10);
     $bar = $PageBar['bar'];
@@ -174,11 +174,10 @@ function list_tad_book3($tbcsn = '')
 }
 
 /*-----------執行動作判斷區----------*/
-require_once $GLOBALS['xoops']->path('/modules/system/include/functions.php');
-$op = system_CleanVars($_REQUEST, 'op', '', 'string');
-$tbsn = system_CleanVars($_REQUEST, 'tbsn', 0, 'int');
-$tbcsn = system_CleanVars($_REQUEST, 'tbcsn', 0, 'int');
-$link_sn = system_CleanVars($_REQUEST, 'link_sn', 0, 'int');
+$op = Request::getString('op');
+$tbsn = Request::getInt('tbsn');
+$tbdsn = Request::getInt('tbdsn');
+$link_sn = Request::getInt('link_sn');
 
 switch ($op) {
     /*---判斷動作請貼在下方---*/
@@ -217,13 +216,17 @@ switch ($op) {
         list_tad_book3_cate_tree($tbcsn);
         tad_book3_cate_form($tbcsn);
         break;
+
     //預設動作
     default:
         list_tad_book3_cate_tree($tbcsn);
         list_tad_book3($tbcsn);
+        $op = 'list_tad_book3';
         break;
         /*---判斷動作請貼在上方---*/
 }
 
 /*-----------秀出結果區--------------*/
+$xoopsTpl->assign("now_op", $op);
+$xoTheme->addStylesheet(XOOPS_URL . '/modules/tad_book3/css/module.css');
 require_once __DIR__ . '/footer.php';

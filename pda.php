@@ -1,4 +1,5 @@
 <?php
+use Xmf\Request;
 use XoopsModules\Tadtools\Utility;
 
 /*-----------引入檔案區--------------*/
@@ -151,7 +152,7 @@ function show_allbook()
 				<ul class='gallery-entries clearfix'>
 	  ";
         foreach ($book_arr as $book) {
-            $main .= (string)($book);
+            $main .= (string) ($book);
         }
         $main .= '
 				</ul>
@@ -398,10 +399,9 @@ function check_passwd_m($tbsn = '')
 }
 
 /*-----------執行動作判斷區----------*/
-require_once $GLOBALS['xoops']->path('/modules/system/include/functions.php');
-$op = system_CleanVars($_REQUEST, 'op', '', 'string');
-$tbsn = system_CleanVars($_REQUEST, 'tbsn', 0, 'int');
-$tbdsn = system_CleanVars($_REQUEST, 'tbdsn', 0, 'int');
+$op = Request::getString('op');
+$tbsn = Request::getInt('tbsn');
+$tbdsn = Request::getInt('tbdsn');
 $jquery = Utility::get_jquery();
 
 switch ($op) {

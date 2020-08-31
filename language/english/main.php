@@ -1,10 +1,6 @@
 <?php
 xoops_loadLanguage('main', 'tadtools');
 
-if (!defined('_TAD_NEED_TADTOOLS')) {
-define('_TAD_NEED_TADTOOLS', "This module needs TadTools module. You can download TadTools from <a href='http://www.tad0616.net/modules/tad_uploader/index.php?of_cat_sn=50' target='_blank'>Tad's web</a>.");
-}
-
 define('_MD_TADBOOK3_HOMEPAGE', 'All Books');
 
 //index.php
