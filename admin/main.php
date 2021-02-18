@@ -91,10 +91,10 @@ function update_tad_book3_cate($tbcsn = '')
     $_POST['description'] = $myts->addSlashes($_POST['description']);
 
     $sql = 'update ' . $xoopsDB->prefix('tad_book3_cate') . " set
-     `of_tbsn` = '{$_POST['of_tbsn']}' ,
-     `title` = '{$_POST['title']}' ,
-     `sort` = '{$_POST['sort']}' ,
-     `description` = '{$_POST['description']}'
+    `of_tbsn` = '{$_POST['of_tbsn']}' ,
+    `title` = '{$_POST['title']}' ,
+    `sort` = '{$_POST['sort']}' ,
+    `description` = '{$_POST['description']}'
     where tbcsn='$tbcsn'";
     $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
 
@@ -130,6 +130,14 @@ function list_tad_book3($tbcsn = '')
 {
     global $xoopsDB, $xoopsTpl;
 
+    $cate = [];
+    if ($tbcsn) {
+        $cate = get_tad_book3_cate($tbcsn);
+    }
+
+    $xoopsTpl->assign('cate', $cate);
+    $xoopsTpl->assign('tbcsn', $tbcsn);
+
     $and_tbcsn = !empty($tbcsn) ? "and `tbcsn`='{$tbcsn}'" : '';
     $sql = 'select * from  ' . $xoopsDB->prefix('tad_book3') . " where 1 $and_tbcsn order by `sort`";
     //getPageBar($原sql語法, 每頁顯示幾筆資料, 最多顯示幾個頁數選項);
@@ -157,13 +165,6 @@ function list_tad_book3($tbcsn = '')
     $xoopsTpl->assign('books', $books);
     $xoopsTpl->assign('bar', $bar);
     $xoopsTpl->assign('total', $total);
-    $cate = '';
-    if ($tbcsn) {
-        $cate = get_tad_book3_cate($tbcsn);
-    }
-    //die(var_export($cate));
-    $xoopsTpl->assign('cate', $cate);
-    $xoopsTpl->assign('tbcsn', $tbcsn);
 
     $SweetAlert = new SweetAlert();
     $SweetAlert->render('delete_tad_book3_cate_func', 'main.php?op=delete_tad_book3_cate&tbcsn=', 'tbcsn');
@@ -176,7 +177,7 @@ function list_tad_book3($tbcsn = '')
 /*-----------執行動作判斷區----------*/
 $op = Request::getString('op');
 $tbsn = Request::getInt('tbsn');
-$tbdsn = Request::getInt('tbdsn');
+$tbcsn = Request::getInt('tbcsn');
 $link_sn = Request::getInt('link_sn');
 
 switch ($op) {

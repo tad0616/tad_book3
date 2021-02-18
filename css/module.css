@@ -1,5 +1,6 @@
 @import url("https://schoolweb.tn.edu.tw/uploads/fonts/woff2.css");
 @import url("https://fonts.googleapis.com/css?family=Noto+Sans+TC|Noto+Serif+TC&display=swap");
+
 .c {
   text-align: center;
   vertical-align: middle !important;
@@ -193,6 +194,7 @@ code {
   0% {
     transform: rotateY(0deg);
   }
+
   100% {
     transform: rotateY(-27deg);
   }
@@ -212,7 +214,7 @@ code {
   transform: rotateY(0deg);
 }
 
-.book > :first-child {
+.book> :first-child {
   position: absolute;
   top: 0;
   left: 0;
@@ -235,28 +237,27 @@ code {
   height: 166px;
   transform: translateX(103px) rotateY(90deg);
   background: linear-gradient(90deg,
-    #fff 0%,
-    #f9f9f9 5%,
-    #fff 10%,
-    #f9f9f9 15%,
-    #fff 20%,
-    #f9f9f9 25%,
-    #fff 30%,
-    #f9f9f9 35%,
-    #fff 40%,
-    #f9f9f9 45%,
-    #fff 50%,
-    #f9f9f9 55%,
-    #fff 60%,
-    #f9f9f9 65%,
-    #fff 70%,
-    #f9f9f9 75%,
-    #fff 80%,
-    #f9f9f9 85%,
-    #fff 90%,
-    #f9f9f9 95%,
-    #fff 100%
-    );
+      #fff 0%,
+      #f9f9f9 5%,
+      #fff 10%,
+      #f9f9f9 15%,
+      #fff 20%,
+      #f9f9f9 25%,
+      #fff 30%,
+      #f9f9f9 35%,
+      #fff 40%,
+      #f9f9f9 45%,
+      #fff 50%,
+      #f9f9f9 55%,
+      #fff 60%,
+      #f9f9f9 65%,
+      #fff 70%,
+      #f9f9f9 75%,
+      #fff 80%,
+      #f9f9f9 85%,
+      #fff 90%,
+      #f9f9f9 95%,
+      #fff 100%);
 }
 
 .book::after {

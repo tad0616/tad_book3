@@ -4,7 +4,7 @@ use XoopsModules\Tadtools\Utility;
 //區塊主函式 (會隨機出現書的封面)
 function tad_book3_random($options)
 {
-    global $xoopsDB;
+    global $xoopsDB, $xoTheme;
     require_once XOOPS_ROOT_PATH . '/modules/tad_book3/function_block.php';
     $block = [];
 
@@ -26,7 +26,7 @@ function tad_book3_random($options)
         $block[$i]['title'] = $title;
         $i++;
     }
-
+    $xoTheme->addStylesheet(XOOPS_URL . '/modules/tad_book3/css/module.css');
     return $block;
 }
 

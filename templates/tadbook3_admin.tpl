@@ -4,7 +4,7 @@
         <div class="col-sm-3">
             <{$ztree_code}>
 
-            <{if $tbcsn!="" and $op!="tad_book3_cate_form"}>
+            <{if $tbcsn!="" and $now_op!="tad_book3_cate_form"}>
                 <div>
                     <h3 class="my"><{$cate.title}></h3>
                     <ul>
@@ -18,7 +18,7 @@
             </div>
         </div>
         <div class="col-sm-9">
-            <{if $tbcsn!="" and $op!="tad_book3_cate_form"}>
+            <{if $tbcsn!="" and $now_op!="tad_book3_cate_form"}>
                 <div class="row">
                     <div class="col-sm-4">
                     <h3>
@@ -44,7 +44,7 @@
                 <{/if}>
             <{/if}>
 
-            <{if $op=="tad_book3_cate_form"}>
+            <{if $now_op=="tad_book3_cate_form"}>
                 <{includeq file="$xoops_rootpath/modules/tad_book3/templates/op_`$now_op`.tpl"}>
             <{elseif $books}>
                 <form action="main.php" method="post" role="form">

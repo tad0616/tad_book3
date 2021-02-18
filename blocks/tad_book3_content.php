@@ -4,7 +4,7 @@ use XoopsModules\Tadtools\Utility;
 //區塊主函式 (會自動偵測目前閱讀的書籍，並秀出該書目錄)
 function tad_book3_content($options)
 {
-    global $xoopsDB, $xoopsUser, $xoopsTpl;
+    global $xoopsDB, $xoopsUser, $xoopsTpl, $xoTheme;
     require_once XOOPS_ROOT_PATH . '/modules/tad_book3/function_block.php';
 
     $def_tbsn = !empty($options[0]) ? (int) $options[0] : '1';
@@ -143,7 +143,7 @@ function tad_book3_content($options)
     }
 
     $block['docs'] = $docs;
-
+    $xoTheme->addStylesheet(XOOPS_URL . '/modules/tad_book3/css/module.css');
     return $block;
 }
 

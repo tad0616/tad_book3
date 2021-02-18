@@ -1,3 +1,7 @@
+Tad Book3 3.9.7 (Released on 2021-02-18)
+=======================================================
+1. Fix the problem that the category management cannot be edited in the backend
+
 Tad Book3 3.9.6 (Released 2020-08-30)
 =======================================================
 1.Automatically generate pictures for FB.
