@@ -37,7 +37,13 @@ class DefaultConverter implements ConverterInterface, ConfigurationAwareInterfac
             return $element->getValue();
         }
 
-        return html_entity_decode($element->getChildrenAsString());
+        $markdown = html_entity_decode($element->getChildrenAsString());
+
+        if ($element->getTagName() === 'table') {
+            $markdown .= "\n\n";
+        }
+
+        return $markdown;
     }
 
     /**
@@ -45,6 +51,6 @@ class DefaultConverter implements ConverterInterface, ConfigurationAwareInterfac
      */
     public function getSupportedTags()
     {
-        return [self::DEFAULT_CONVERTER];
+        return array(self::DEFAULT_CONVERTER);
     }
 }

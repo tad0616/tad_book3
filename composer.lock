@@ -1,9 +1,14 @@
 {
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "2322584ccf1b061dfc7e9287e38b1045",
     "packages": [
         {
             "name": "alchemy/binary-driver",
             "version": "v5.2.0",
-            "version_normalized": "5.2.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/alchemy-fr/BinaryDriver.git",
@@ -24,9 +29,7 @@
             "require-dev": {
                 "phpunit/phpunit": "^4.0|^5.0"
             },
-            "time": "2020-02-12T19:35:11+00:00",
             "type": "library",
-            "installation-source": "dist",
             "autoload": {
                 "psr-0": {
                     "Alchemy": "src"
@@ -67,12 +70,11 @@
                 "issues": "https://github.com/alchemy-fr/BinaryDriver/issues",
                 "source": "https://github.com/alchemy-fr/BinaryDriver/tree/master"
             },
-            "install-path": "../alchemy/binary-driver"
+            "time": "2020-02-12T19:35:11+00:00"
         },
         {
             "name": "doctrine/cache",
             "version": "v1.6.2",
-            "version_normalized": "1.6.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/cache.git",
@@ -95,14 +97,12 @@
                 "predis/predis": "~1.0",
                 "satooshi/php-coveralls": "~0.6"
             },
-            "time": "2017-07-22T12:49:21+00:00",
             "type": "library",
             "extra": {
                 "branch-alias": {
                     "dev-master": "1.6.x-dev"
                 }
             },
-            "installation-source": "dist",
             "autoload": {
                 "psr-4": {
                     "Doctrine\\Common\\Cache\\": "lib/Doctrine/Common/Cache"
@@ -144,12 +144,11 @@
                 "issues": "https://github.com/doctrine/cache/issues",
                 "source": "https://github.com/doctrine/cache/tree/1.6.x"
             },
-            "install-path": "../doctrine/cache"
+            "time": "2017-07-22T12:49:21+00:00"
         },
         {
             "name": "evenement/evenement",
             "version": "v2.1.0",
-            "version_normalized": "2.1.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/igorw/evenement.git",
@@ -167,14 +166,12 @@
             "require-dev": {
                 "phpunit/phpunit": "^6.0||^5.7||^4.8.35"
             },
-            "time": "2017-07-17T17:39:19+00:00",
             "type": "library",
             "extra": {
                 "branch-alias": {
                     "dev-master": "2.0-dev"
                 }
             },
-            "installation-source": "dist",
             "autoload": {
                 "psr-0": {
                     "Evenement": "src"
@@ -199,12 +196,11 @@
                 "issues": "https://github.com/igorw/evenement/issues",
                 "source": "https://github.com/igorw/evenement/tree/master"
             },
-            "install-path": "../evenement/evenement"
+            "time": "2017-07-17T17:39:19+00:00"
         },
         {
             "name": "league/html-to-markdown",
             "version": "4.10.0",
-            "version_normalized": "4.10.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/html-to-markdown.git",
@@ -226,7 +222,6 @@
                 "phpunit/phpunit": "^4.8|^5.7",
                 "scrutinizer/ocular": "~1.1"
             },
-            "time": "2020-07-01T00:34:03+00:00",
             "bin": [
                 "bin/html-to-markdown"
             ],
@@ -236,7 +231,6 @@
                     "dev-master": "4.10-dev"
                 }
             },
-            "installation-source": "dist",
             "autoload": {
                 "psr-4": {
                     "League\\HTMLToMarkdown\\": "src/"
@@ -288,12 +282,11 @@
                     "type": "patreon"
                 }
             ],
-            "install-path": "../league/html-to-markdown"
+            "time": "2020-07-01T00:34:03+00:00"
         },
         {
             "name": "neutron/temporary-filesystem",
             "version": "2.2.0",
-            "version_normalized": "2.2.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/romainneutron/Temporary-Filesystem.git",
@@ -312,9 +305,7 @@
             "require-dev": {
                 "phpunit/phpunit": "^4.8"
             },
-            "time": "2016-03-05T10:22:50+00:00",
             "type": "library",
-            "installation-source": "dist",
             "autoload": {
                 "psr-0": {
                     "Neutron": "src"
@@ -335,12 +326,11 @@
                 "issues": "https://github.com/romainneutron/Temporary-Filesystem/issues",
                 "source": "https://github.com/romainneutron/Temporary-Filesystem/tree/master"
             },
-            "install-path": "../neutron/temporary-filesystem"
+            "time": "2016-03-05T10:22:50+00:00"
         },
         {
             "name": "php-ffmpeg/php-ffmpeg",
             "version": "v0.18.0",
-            "version_normalized": "0.18.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHP-FFMpeg/PHP-FFMpeg.git",
@@ -367,14 +357,12 @@
             "suggest": {
                 "php-ffmpeg/extras": "A compilation of common audio & video drivers for PHP-FFMpeg"
             },
-            "time": "2021-03-29T20:20:00+00:00",
             "type": "library",
             "extra": {
                 "branch-alias": {
                     "dev-master": "0.x-dev"
                 }
             },
-            "installation-source": "dist",
             "autoload": {
                 "psr-0": {
                     "FFMpeg": "src"
@@ -426,12 +414,11 @@
                 "issues": "https://github.com/PHP-FFMpeg/PHP-FFMpeg/issues",
                 "source": "https://github.com/PHP-FFMpeg/PHP-FFMpeg/tree/v0.18.0"
             },
-            "install-path": "../php-ffmpeg/php-ffmpeg"
+            "time": "2021-03-29T20:20:00+00:00"
         },
         {
             "name": "psr/log",
             "version": "1.1.4",
-            "version_normalized": "1.1.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-fig/log.git",
@@ -446,14 +433,12 @@
             "require": {
                 "php": ">=5.3.0"
             },
-            "time": "2021-05-03T11:20:27+00:00",
             "type": "library",
             "extra": {
                 "branch-alias": {
                     "dev-master": "1.1.x-dev"
                 }
             },
-            "installation-source": "dist",
             "autoload": {
                 "psr-4": {
                     "Psr\\Log\\": "Psr/Log/"
@@ -479,12 +464,11 @@
             "support": {
                 "source": "https://github.com/php-fig/log/tree/1.1.4"
             },
-            "install-path": "../psr/log"
+            "time": "2021-05-03T11:20:27+00:00"
         },
         {
             "name": "symfony/filesystem",
             "version": "v2.8.52",
-            "version_normalized": "2.8.52.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/filesystem.git",
@@ -500,14 +484,12 @@
                 "php": ">=5.3.9",
                 "symfony/polyfill-ctype": "~1.8"
             },
-            "time": "2018-11-11T11:18:13+00:00",
             "type": "library",
             "extra": {
                 "branch-alias": {
                     "dev-master": "2.8-dev"
                 }
             },
-            "installation-source": "dist",
             "autoload": {
                 "psr-4": {
                     "Symfony\\Component\\Filesystem\\": ""
@@ -535,12 +517,11 @@
             "support": {
                 "source": "https://github.com/symfony/filesystem/tree/v2.8.52"
             },
-            "install-path": "../symfony/filesystem"
+            "time": "2018-11-11T11:18:13+00:00"
         },
         {
             "name": "symfony/polyfill-ctype",
             "version": "v1.19.0",
-            "version_normalized": "1.19.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-ctype.git",
@@ -558,7 +539,6 @@
             "suggest": {
                 "ext-ctype": "For best performance"
             },
-            "time": "2020-10-23T09:01:57+00:00",
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -569,7 +549,6 @@
                     "url": "https://github.com/symfony/polyfill"
                 }
             },
-            "installation-source": "dist",
             "autoload": {
                 "psr-4": {
                     "Symfony\\Polyfill\\Ctype\\": ""
@@ -617,12 +596,11 @@
                     "type": "tidelift"
                 }
             ],
-            "install-path": "../symfony/polyfill-ctype"
+            "time": "2020-10-23T09:01:57+00:00"
         },
         {
             "name": "symfony/process",
             "version": "v2.8.52",
-            "version_normalized": "2.8.52.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/process.git",
@@ -637,14 +615,12 @@
             "require": {
                 "php": ">=5.3.9"
             },
-            "time": "2018-11-11T11:18:13+00:00",
             "type": "library",
             "extra": {
                 "branch-alias": {
                     "dev-master": "2.8-dev"
                 }
             },
-            "installation-source": "dist",
             "autoload": {
                 "psr-4": {
                     "Symfony\\Component\\Process\\": ""
@@ -672,9 +648,19 @@
             "support": {
                 "source": "https://github.com/symfony/process/tree/v2.8.50"
             },
-            "install-path": "../symfony/process"
+            "time": "2018-11-11T11:18:13+00:00"
         }
     ],
-    "dev": true,
-    "dev-package-names": []
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": [],
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": [],
+    "platform-dev": [],
+    "platform-overrides": {
+        "php": "5.5"
+    },
+    "plugin-api-version": "2.0.0"
 }

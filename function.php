@@ -1,6 +1,7 @@
 <?php
 use XoopsModules\Tadtools\CkEditor;
 use XoopsModules\Tadtools\SweetAlert;
+use XoopsModules\Tadtools\TadDataCenter;
 use XoopsModules\Tadtools\Utility;
 
 xoops_loadLanguage('main', 'tadtools');
@@ -170,8 +171,7 @@ function list_docs($def_tbsn = '')
     }
 
     if (!chk_power($read_group)) {
-        header('location:index.php');
-        exit;
+        redirect_header('index.php', 3, _MD_TADBOOK3_CANT_READ);
     }
 
     $needpasswd = 0;
@@ -182,6 +182,7 @@ function list_docs($def_tbsn = '')
     $enable_txt = ('1' == $enable) ? _MD_TADBOOK3_ENABLE : _MD_TADBOOK3_UNABLE;
 
     $read_group = Utility::txt_to_group_name($read_group, _MD_TADBOOK3_ALL_OPEN);
+    $video_group = Utility::txt_to_group_name($video_group, _MD_TADBOOK3_ALL_OPEN);
 
     //共同編輯者
     $author_arr = explode(',', $author);
@@ -208,6 +209,7 @@ function list_docs($def_tbsn = '')
     $xoopsTpl->assign('description', $description);
     $xoopsTpl->assign('sort', $sort);
     $xoopsTpl->assign('read_group', $read_group);
+    $xoopsTpl->assign('video_group', $video_group);
     $xoopsTpl->assign('author', $author);
     $xoopsTpl->assign('passwd', $passwd);
     $xoopsTpl->assign('needpasswd', $needpasswd);
@@ -225,6 +227,9 @@ function list_docs($def_tbsn = '')
 
     Utility::setup_meta($title, $description, $book['pic_fb']);
 
+    $lengths = get_video_lengths($def_tbsn);
+    $logs = get_user_logs($def_tbsn);
+    // Utility::dd($logs);
     $i = 0;
     $docs = [];
     $sql = 'select * from ' . $xoopsDB->prefix('tad_book3_docs') . " where tbsn='{$tbsn}' order by category,page,paragraph,sort";
@@ -255,6 +260,9 @@ function list_docs($def_tbsn = '')
         $docs[$i]['enable'] = $enable;
         $docs[$i]['enable_txt'] = $enable_txt;
         $docs[$i]['have_sub'] = $have_sub;
+        $docs[$i]['length'] = $lengths[$tbdsn];
+        $docs[$i]['percentage'] = round($logs[$tbdsn] / $lengths[$tbdsn], 2) * 100;
+        $docs[$i]['time'] = secondsToTime($lengths[$tbdsn]);
 
         if (empty($new_category)) {
             $new_category = $category;
@@ -319,6 +327,46 @@ function list_docs($def_tbsn = '')
     $SweetAlert2->render('delete_tad_book3_docs_func', "index.php?op=delete_tad_book3_docs&tbsn={$def_tbsn}&tbdsn=", 'tbdsn');
 }
 
+// 取得所有影片長度
+function get_video_lengths($tbsn)
+{
+    $TadDataCenter = new TadDataCenter('tad_book3');
+    $TadDataCenter->set_col($tbsn);
+    $data = $TadDataCenter->getData('length');
+    $lengths = [];
+    foreach ($data as $tbdsn => $value) {
+        $lengths[$tbdsn] = $value[0];
+    }
+    return $lengths;
+}
+
+// 取得所有使用者閱讀影片長度
+function get_user_logs($tbsn)
+{
+    global $xoopsUser;
+    $uid = $xoopsUser ? $xoopsUser->uid() : 0;
+    $TadDataCenter = new TadDataCenter('tad_book3');
+    $TadDataCenter->set_col($uid);
+    $data = $TadDataCenter->getData('currentTime');
+    $logs = [];
+    foreach ($data as $tbdsn => $value) {
+        $logs[$tbdsn] = $value[0];
+    }
+    return $logs;
+}
+
+// 查詢某人看到影片的哪裡
+function get_video_start($tbdsn)
+{
+    global $xoopsUser;
+
+    $TadDataCenter = new TadDataCenter('tad_book3');
+    $uid = $xoopsUser ? $xoopsUser->uid() : 0;
+    $TadDataCenter->set_col($uid, $tbdsn);
+    $data = $TadDataCenter->getData('currentTime');
+    return (float) $data['currentTime'][0];
+}
+
 //tad_book3編輯表單
 function tad_book3_form($tbsn = '', $tbcsn = '')
 {
@@ -347,6 +395,7 @@ function tad_book3_form($tbsn = '', $tbcsn = '')
     $description = (!isset($DBV['description'])) ? '' : $DBV['description'];
     $author = (!isset($DBV['author'])) ? '' : $DBV['author'];
     $read_group = (!isset($DBV['read_group'])) ? '' : $DBV['read_group'];
+    $video_group = (!isset($DBV['video_group'])) ? '' : $DBV['video_group'];
     $passwd = (!isset($DBV['passwd'])) ? '' : $DBV['passwd'];
     $enable = (!isset($DBV['enable'])) ? '1' : $DBV['enable'];
     $pic_name = (!isset($DBV['pic_name'])) ? '' : $DBV['pic_name'];
@@ -357,7 +406,7 @@ function tad_book3_form($tbsn = '', $tbcsn = '')
     $ck->setHeight(150);
     $editor = $ck->render();
 
-    $author_arr = (empty($author)) ? [$xoopsUser->getVar('uid')] : explode(',', $author);
+    $author_arr = (empty($author)) ? [$xoopsUser->uid()] : explode(',', $author);
 
     $cate_select = cate_select($tbcsn);
 
@@ -387,6 +436,12 @@ function tad_book3_form($tbsn = '', $tbcsn = '')
     $SelectGroup->addOption('', _MD_TADBOOK3_ALL_OPEN, false);
     $group_menu = $SelectGroup->render();
 
+    $video_group_arr = (empty($video_group)) ? [''] : explode(',', $video_group);
+    $SelectGroup = new \XoopsFormSelectGroup('', 'video_group', false, $video_group_arr, 5, true);
+    $SelectGroup->setExtra("class='form-control'");
+    $SelectGroup->addOption('', _MD_TADBOOK3_ALL_OPEN, false);
+    $video_group_menu = $SelectGroup->render();
+
     $op = (empty($tbsn)) ? 'insert_tad_book3' : 'update_tad_book3';
 
     $xoopsTpl->assign('action', $_SERVER['PHP_SELF']);
@@ -397,6 +452,7 @@ function tad_book3_form($tbsn = '', $tbcsn = '')
     $xoopsTpl->assign('editor', $editor);
     $xoopsTpl->assign('user_menu', $user_menu);
     $xoopsTpl->assign('group_menu', $group_menu);
+    $xoopsTpl->assign('video_group_menu', $video_group_menu);
     $xoopsTpl->assign('enable', $enable);
     $xoopsTpl->assign('passwd', $passwd);
     $xoopsTpl->assign('op', $op);
@@ -421,12 +477,18 @@ function insert_tad_book3()
     }
 
     $myts = \MyTextSanitizer::getInstance();
-    $_POST['title'] = $myts->addSlashes($_POST['title']);
-    $_POST['description'] = $myts->addSlashes($_POST['description']);
+    $title = $myts->addSlashes($_POST['title']);
+    $description = $myts->addSlashes($_POST['description']);
+    $passwd = $myts->addSlashes($_POST['passwd']);
+    $enable = $myts->addSlashes($_POST['enable']);
+    $pic_name = $myts->addSlashes($_POST['pic_name']);
+    $sort = (int) $_POST['sort'];
 
     $read_group = (in_array('', $_POST['read_group'])) ? '' : implode(',', $_POST['read_group']);
+    $video_group = (in_array('', $_POST['video_group'])) ? '' : implode(',', $_POST['video_group']);
+
     $now = date('Y-m-d H:i:s', xoops_getUserTimestamp(time()));
-    $sql = 'insert into ' . $xoopsDB->prefix('tad_book3') . " (`tbcsn`,`sort`,`title`,`description`,`author`,`read_group`,`passwd`,`enable`,`pic_name`,`counter`,`create_date`) values('{$tbcsn}','{$_POST['sort']}','{$_POST['title']}','{$_POST['description']}','{$author}','{$read_group}','{$_POST['passwd']}','{$_POST['enable']}','{$_POST['pic_name']}',0,'{$now}')";
+    $sql = 'insert into ' . $xoopsDB->prefix('tad_book3') . " (`tbcsn`,`sort`,`title`,`description`,`author`,`read_group`,`video_group`,`passwd`,`enable`,`pic_name`,`counter`,`create_date`) values('{$tbcsn}','{$sort}','{$title}','{$description}','{$author}','{$read_group}','{$video_group}','{$passwd}','{$enable}','{$pic_name}',0,'{$now}')";
     $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
     //取得最後新增資料的流水編號
     $tbsn = $xoopsDB->getInsertId();
@@ -492,11 +554,17 @@ function update_tad_book3($tbsn = '')
     }
 
     $myts = \MyTextSanitizer::getInstance();
-    $_POST['title'] = $myts->addSlashes($_POST['title']);
-    $_POST['description'] = $myts->addSlashes($_POST['description']);
+    $title = $myts->addSlashes($_POST['title']);
+    $description = $myts->addSlashes($_POST['description']);
+    $passwd = $myts->addSlashes($_POST['passwd']);
+    $enable = $myts->addSlashes($_POST['enable']);
+    $pic_name = $myts->addSlashes($_POST['pic_name']);
+    $sort = (int) $_POST['sort'];
 
     $read_group = (in_array('', $_POST['read_group'])) ? '' : implode(',', $_POST['read_group']);
-    $sql = 'update ' . $xoopsDB->prefix('tad_book3') . " set  `tbcsn` = '{$tbcsn}', `sort` = '{$_POST['sort']}', `title` = '{$_POST['title']}', `description` = '{$_POST['description']}', `author` = '{$author}', `read_group` = '{$read_group}', `passwd` = '{$_POST['passwd']}', `enable` = '{$_POST['enable']}' where tbsn='$tbsn'";
+    $video_group = (in_array('', $_POST['video_group'])) ? '' : implode(',', $_POST['video_group']);
+
+    $sql = 'update ' . $xoopsDB->prefix('tad_book3') . " set  `tbcsn` = '{$tbcsn}', `sort` = '{$sort}', `title` = '{$title}', `description` = '{$description}', `author` = '{$author}', `read_group` = '{$read_group}', `video_group` = '{$video_group}', `passwd` = '{$passwd}', `enable` = '{$enable}' where tbsn='$tbsn'";
     $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
 
     if (!empty($_FILES['pic_name']['name'])) {
@@ -734,7 +802,7 @@ function chk_edit_power($uid_txt = '')
 
     //取得目前使用者的所屬群組
     if ($xoopsUser) {
-        $user_id = $xoopsUser->getVar('uid');
+        $user_id = $xoopsUser->uid();
     } else {
         $user_id = [];
     }
@@ -825,4 +893,26 @@ function delete_tad_book3_cate($tbcsn = '')
 
     $sql = 'delete from ' . $xoopsDB->prefix('tad_book3_cate') . " where tbcsn='$tbcsn'";
     $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+}
+
+function secondsToTime($seconds = 0)
+{
+    $seconds = (int) $seconds;
+    if (empty($seconds)) {
+        return;
+    }
+
+    $s = sprintf("%02d", $seconds % 60);
+    $m = sprintf("%02d", floor(($seconds % 3600) / 60));
+    $h = sprintf("%02d", floor(($seconds % 86400) / 3600));
+    $d = sprintf("%02d", floor(($seconds % 2592000) / 86400));
+    $M = sprintf("%02d", floor($seconds / 2592000));
+
+    $MM = $M != '00' ? "$M 月" : '';
+    $dd = $d != '00' ? "$d 日" : '';
+    $hh = $h != '00' ? "$h 時" : '';
+    $mm = $m != '00' ? "$m 分" : '';
+    $ss = $s != '00' ? "$s 秒" : '';
+
+    return "{$MM}{$dd}{$hh}{$mm}{$ss}";
 }

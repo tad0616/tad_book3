@@ -39,6 +39,6 @@ class BlockquoteConverter implements ConverterInterface
      */
     public function getSupportedTags()
     {
-        return ['blockquote'];
+        return array('blockquote');
     }
 }

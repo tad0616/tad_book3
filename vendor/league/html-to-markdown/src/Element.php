@@ -27,7 +27,6 @@ class Element implements ElementInterface
         switch ($this->getTagName()) {
             case 'blockquote':
             case 'body':
-            case 'code':
             case 'div':
             case 'h1':
             case 'h2':
@@ -100,7 +99,7 @@ class Element implements ElementInterface
      */
     public function getChildren()
     {
-        $ret = [];
+        $ret = array();
         /** @var \DOMNode $node */
         foreach ($this->node->childNodes as $node) {
             $ret[] = new static($node);
@@ -126,6 +125,7 @@ class Element implements ElementInterface
 
     /**
      * @param \DomNode $node
+     * @param bool $checkChildren
      *
      * @return \DomNode|null
      */
@@ -133,9 +133,13 @@ class Element implements ElementInterface
     {
         if ($checkChildren && $node->firstChild) {
             return $node->firstChild;
-        } elseif ($node->nextSibling) {
+        }
+
+        if ($node->nextSibling) {
             return $node->nextSibling;
-        } elseif ($node->parentNode) {
+        }
+
+        if ($node->parentNode) {
             return $this->getNextNode($node->parentNode, false);
         }
     }
@@ -148,7 +152,7 @@ class Element implements ElementInterface
     public function isDescendantOf($tagNames)
     {
         if (!is_array($tagNames)) {
-            $tagNames = [$tagNames];
+            $tagNames = array($tagNames);
         }
 
         for ($p = $this->node->parentNode; $p !== false; $p = $p->parentNode) {
@@ -202,6 +206,24 @@ class Element implements ElementInterface
         }
 
         return $position;
+    }
+
+    /**
+     * @return int
+     */
+    public function getListItemLevel()
+    {
+        $level = 0;
+        $parent = $this->getParent();
+
+        while ($parent !== null && $parent->node->parentNode) {
+            if ($parent->getTagName() === 'li') {
+                $level++;
+            }
+            $parent = $parent->getParent();
+        }
+
+        return $level;
     }
 
     /**

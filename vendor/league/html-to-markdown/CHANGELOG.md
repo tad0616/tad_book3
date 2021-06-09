@@ -4,6 +4,161 @@ Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) princip
 
 ## [Unreleased][unreleased]
 
+## [4.10.0] - 2020-06-30
+### Added
+
+ - Added the ability to disable autolinking with a configuration option (#187, #188)
+
+## [4.9.1] - 2019-12-27
+### Fixed
+ - Fixed issue with HTML entity escaping in text (#184)
+
+## [4.9.0] - 2019-11-02
+### Added
+ - Added new option to preserve comments (#177, #179)
+
+## [4.8.3] - 2019-10-31
+### Fixed
+ - Fixed whitespace preservation around `<code>` tags (#174, #178)
+
+## [4.8.2] - 2019-08-02
+### Fixed
+ - Fixed headers not being placed onto a new line in some cases (#172)
+ - Fixed handling of links containing spaces (#175)
+
+### Removed
+ - Removed support for HHVM
+
+## [4.8.1] - 2018-12-24
+### Added
+ - Added support for PHP 7.3
+
+### Fixed
+ - Fixed paragraphs following tables (#165, #166)
+ - Fixed incorrect list item escaping (#168, #169)
+
+## [4.8.0] - 2018-09-18
+### Added
+ - Added support for email auto-linking
+ - Added a new interface (`HtmlConverterInterface`) for the main `HtmlConverter` class
+ - Added additional test cases (#14)
+
+### Changed
+ - The `italic_style` option now defaults to `'*'` so that in-word emphasis is handled properly (#75)
+
+### Fixed
+ - Fixed several issues of `<code>` and `<pre>` tags not converting to blocks or inlines properly (#26, #70, #102, #140, #161, #162)
+ - Fixed in-word emphasis using underscores as delimiter (#75)
+ - Fixed character escaping inside of `<div>` elements
+ - Fixed header edge cases
+
+### Deprecated
+ - The `bold_style` and `italic_style` options have been deprecated (#75)
+
+## [4.7.0] - 2018-05-19
+### Added
+ - Added `setOptions()` function for chainable calling (#149)
+ - Added new `list_item_style_alternate` option for converting every-other list with a different character (#155)
+
+### Fixed
+ - Fixed insufficient newlines after code blocks (#144, #148)
+ - Fixed trailing spaces not being preserved in link anchors (#157)
+ - Fixed list-like lines not being escaped inside of lists items (#159)
+
+## [4.6.2]
+### Fixed
+ - Fixed issue with emphasized spaces (#146)
+
+## [4.6.1]
+### Fixed
+ - Fixed conversion of `<pre>` tags (#145)
+
+## [4.6.0]
+### Added
+ - Added support for ordered lists starting at numbers other than 1
+
+### Fixed
+ - Fixed overly-eager escaping of list-like text (#141)
+
+## [4.5.0]
+### Added
+ - Added configuration option for list item style (#135, #136)
+
+## [4.4.1]
+
+### Fixed
+ - Fixed autolinking of invalid URLs (#129)
+
+## [4.4.0]
+
+### Added
+ - Added `hard_break` configuration option (#112, #115)
+ - The `HtmlConverter` can now be instantiated with an `Environment` (#118)
+
+### Fixed
+ - Fixed handling of paragraphs in list item elements (#47, #110)
+ - Fixed phantom spaces when newlines follow `br` elements (#116, #117)
+ - Fixed link converter not sanitizing inner spaces properly (#119, #120)
+
+## [4.3.1]
+### Changed
+ - Revised the sanitization implementation (#109)
+
+### Fixed
+ - Fixed tag-like content not being escaped (#67, #109)
+ - Fixed thematic break-like content not being escaped (#65, #109)
+ - Fixed codefence-like content not being escaped (#64, #109)
+
+## [4.3.0]
+### Added
+ - Added full support for PHP 7.0 and 7.1
+
+### Changed
+ - Changed `<pre>` and `<pre><code>` conversions to use backticks instead of indendation (#102)
+
+### Fixed
+ - Fixed issue where specified code language was not preserved (#70, #102)
+ - Fixed issue where `<code>` tags nested in `<pre>` was not converted properly (#70, #102)
+ - Fixed header-like content not being escaped (#76, #105)
+ - Fixed blockquote-like content not being escaped (#77, #103)
+ - Fixed ordered list-like content not being escaped (#73, #106)
+ - Fixed unordered list-like content not being escaped (#71, #107)
+
+## [4.2.2]
+### Fixed
+ - Fixed sanitization bug which sometimes removes desired content (#63, #101)
+
+## [4.2.1]
+### Fixed
+ - Fixed path to autoload.php when used as a library (#98)
+ - Fixed edge case for tags containing only whitespace (#99)
+
+### Removed
+ - Removed double HTML entity decoding, as this is not desireable (#60)
+
+## [4.2.0]
+
+### Added
+ - Added the ability to invoke HtmlConverter objects as functions (#85)
+
+### Fixed
+ - Fixed improper handling of nested list items (#19 and #84)
+ - Fixed preceeding or trailing spaces within emphasis tags (#83)
+
+## [4.1.1]
+
+### Fixed
+ - Fixed conversion of empty paragraphs (#78)
+ - Fixed `preg_replace` so it wouldn't break UTF-8 characters (#79)
+
+## [4.1.0]
+
+### Added
+ - Added `bin/html-to-markdown` script
+
+### Changed
+ - Changed default italic character to `_` (#58)
+
 ## [4.0.1]
 
 ### Fixed
@@ -113,7 +268,28 @@ not ideally set, so this releases fixes that. Moving forwards this should reduce
 ### Added
  - Initial release
 
-[unreleased]: https://github.com/thephpleague/html-to-markdown/compare/4.0.1...master
+[unreleased]: https://github.com/thephpleague/html-to-markdown/compare/4.10.0...master
+[4.10.0]: https://github.com/thephpleague/html-to-markdown/compare/4.9.1...4.10.0
+[4.9.1]: https://github.com/thephpleague/html-to-markdown/compare/4.9.0...4.9.1
+[4.9.0]: https://github.com/thephpleague/html-to-markdown/compare/4.8.3...4.9.0
+[4.8.3]: https://github.com/thephpleague/html-to-markdown/compare/4.8.2...4.8.3
+[4.8.2]: https://github.com/thephpleague/html-to-markdown/compare/4.8.1...4.8.2
+[4.8.1]: https://github.com/thephpleague/html-to-markdown/compare/4.8.0...4.8.1
+[4.8.0]: https://github.com/thephpleague/html-to-markdown/compare/4.7.0...4.8.0
+[4.7.0]: https://github.com/thephpleague/html-to-markdown/compare/4.6.2...4.7.0
+[4.6.2]: https://github.com/thephpleague/html-to-markdown/compare/4.6.1...4.6.2
+[4.6.1]: https://github.com/thephpleague/html-to-markdown/compare/4.6.0...4.6.1
+[4.6.0]: https://github.com/thephpleague/html-to-markdown/compare/4.5.0...4.6.0
+[4.5.0]: https://github.com/thephpleague/html-to-markdown/compare/4.4.1...4.5.0
+[4.4.1]: https://github.com/thephpleague/html-to-markdown/compare/4.4.0...4.4.1
+[4.4.0]: https://github.com/thephpleague/html-to-markdown/compare/4.3.1...4.4.0
+[4.3.1]: https://github.com/thephpleague/html-to-markdown/compare/4.3.0...4.3.1
+[4.3.0]: https://github.com/thephpleague/html-to-markdown/compare/4.2.2...4.3.0
+[4.2.2]: https://github.com/thephpleague/html-to-markdown/compare/4.2.1...4.2.2
+[4.2.1]: https://github.com/thephpleague/html-to-markdown/compare/4.2.0...4.2.1
+[4.2.0]: https://github.com/thephpleague/html-to-markdown/compare/4.1.1...4.2.0
+[4.1.1]: https://github.com/thephpleague/html-to-markdown/compare/4.1.0...4.1.1
+[4.1.0]: https://github.com/thephpleague/html-to-markdown/compare/4.0.1...4.1.0
 [4.0.1]: https://github.com/thephpleague/html-to-markdown/compare/4.0.0...4.0.1
 [4.0.0]: https://github.com/thephpleague/html-to-markdown/compare/3.1.1...4.0.0
 [3.1.1]: https://github.com/thephpleague/html-to-markdown/compare/3.1.0...3.1.1

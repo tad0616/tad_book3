@@ -39,6 +39,7 @@ function import_form($tbsn = '')
     $description = (!isset($DBV['description'])) ? '' : $DBV['description'];
     $author = (!isset($DBV['author'])) ? '' : $DBV['author'];
     $read_group = (!isset($DBV['read_group'])) ? '' : $DBV['read_group'];
+    $video_group = (!isset($DBV['video_group'])) ? '' : $DBV['video_group'];
     $passwd = (!isset($DBV['passwd'])) ? '' : $DBV['passwd'];
     $enable = (!isset($DBV['enable'])) ? '1' : $DBV['enable'];
     $pic_name = (!isset($DBV['pic_name'])) ? '' : $DBV['pic_name'];
@@ -76,8 +77,14 @@ function import_form($tbsn = '')
     $group_arr = (empty($read_group)) ? [''] : explode(',', $read_group);
     $SelectGroup = new \XoopsFormSelectGroup('', 'read_group', false, $group_arr, 5, true);
     $SelectGroup->addOption('', _MD_TADBOOK3_ALL_OPEN, false);
-    $SelectGroup->setExtra("class='span12'");
+    $SelectGroup->setExtra("class='form-control'");
     $group_menu = $SelectGroup->render();
+
+    $video_group_arr = (empty($video_group)) ? [''] : explode(',', $video_group);
+    $SelectGroup = new \XoopsFormSelectGroup('', 'video_group', false, $video_group_arr, 5, true);
+    $SelectGroup->setExtra("class='form-control'");
+    $SelectGroup->addOption('', _MD_TADBOOK3_ALL_OPEN, false);
+    $video_group_menu = $SelectGroup->render();
 
     $xoopsTpl->assign('action', $_SERVER['PHP_SELF']);
     $xoopsTpl->assign('tbsn', $tbsn);
@@ -113,12 +120,14 @@ function import_book($tbcsn)
         $author = implode(',', $_POST['author']);
     }
     $read_group = (in_array('', $_POST['read_group'])) ? '' : implode(',', $_POST['read_group']);
+    $video_group = (in_array('', $_POST['video_group'])) ? '' : implode(',', $_POST['video_group']);
 
     $book_sql = file_get_contents($_FILES['book']['tmp_name']);
     $book_sql = str_replace('`tad_book3`', '`' . $xoopsDB->prefix('tad_book3') . '`', $book_sql);
     $book_sql = str_replace('{{tbcsn}}', $tbcsn, $book_sql);
     $book_sql = str_replace('{{author}}', $author, $book_sql);
     $book_sql = str_replace('{{read_group}}', $read_group, $book_sql);
+    $book_sql = str_replace('{{video_group}}', $video_group, $book_sql);
     $xoopsDB->queryF($book_sql) or Utility::web_error($sql, __FILE__, __LINE__);
     //取得最後新增資料的流水編號
     $tbsn = $xoopsDB->getInsertId();

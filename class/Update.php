@@ -50,6 +50,109 @@ class Update
         return true;
     }
 
+    //新增files_center
+    public static function chk_chk2()
+    {
+        global $xoopsDB;
+        $sql = "SHOW TABLES LIKE '" . $xoopsDB->prefix('tad_book3_files_center') . "'";
+        $result = $xoopsDB->query($sql);
+        $total = $xoopsDB->getRowsNum($result);
+        if (empty($total)) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public static function go_update2()
+    {
+        global $xoopsDB;
+        $sql = "CREATE TABLE `" . $xoopsDB->prefix('tad_book3_files_center') . "` (
+            `files_sn` SMALLINT(5) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '檔案流水號',
+            `col_name` VARCHAR(255) NOT NULL DEFAULT '' COMMENT '欄位名稱',
+            `col_sn` SMALLINT(5) UNSIGNED NOT NULL DEFAULT 0 COMMENT '欄位編號',
+            `sort` SMALLINT(5) UNSIGNED NOT NULL DEFAULT 0 COMMENT '排序',
+            `kind` enum('img', 'file') NOT NULL DEFAULT 'img' COMMENT '檔案種類',
+            `file_name` VARCHAR(255) NOT NULL DEFAULT '' COMMENT '檔案名稱',
+            `file_type` VARCHAR(255) NOT NULL DEFAULT '' COMMENT '檔案類型',
+            `file_size` INT(10) UNSIGNED NOT NULL DEFAULT 0 COMMENT '檔案大小',
+            `description` text NOT NULL COMMENT '檔案說明',
+            `counter` MEDIUMINT(8) UNSIGNED NOT NULL DEFAULT 0 COMMENT '下載人次',
+            `original_filename` VARCHAR(255) NOT NULL DEFAULT '' COMMENT '檔案名稱',
+            `hash_filename` VARCHAR(255) NOT NULL DEFAULT '' COMMENT '加密檔案名稱',
+            `sub_dir` VARCHAR(255) NOT NULL DEFAULT '' COMMENT '檔案子路徑',
+            `upload_date` datetime NOT NULL COMMENT '上傳時間',
+            `uid` MEDIUMINT(8) UNSIGNED NOT NULL DEFAULT 0 COMMENT '上傳者',
+            `tag` VARCHAR(255) NOT NULL DEFAULT '' COMMENT '註記',
+            PRIMARY KEY (`files_sn`)
+          ) ENGINE = MyISAM;";
+        $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+
+        return true;
+    }
+
+    //新增files_center
+    public static function chk_chk3()
+    {
+        global $xoopsDB;
+        $sql = "SHOW TABLES LIKE '" . $xoopsDB->prefix('tad_book3_data_center') . "'";
+        $result = $xoopsDB->query($sql);
+        $total = $xoopsDB->getRowsNum($result);
+        if (empty($total)) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public static function go_update3()
+    {
+        global $xoopsDB;
+        $sql = "CREATE TABLE `" . $xoopsDB->prefix('tad_book3_data_center') . "` (
+            `mid` mediumint(9) unsigned NOT NULL AUTO_INCREMENT COMMENT '模組編號',
+            `col_name` varchar(100) NOT NULL DEFAULT '' COMMENT '欄位名稱',
+            `col_sn` mediumint(9) unsigned NOT NULL DEFAULT '0' COMMENT '欄位編號',
+            `data_name` varchar(100) NOT NULL DEFAULT '' COMMENT '資料名稱',
+            `data_value` text NOT NULL COMMENT '儲存值',
+            `data_sort` mediumint(9) unsigned NOT NULL DEFAULT '0' COMMENT '排序',
+            `col_id` varchar(100) NOT NULL COMMENT '辨識字串',
+            `sort` mediumint(9) unsigned COMMENT '顯示順序',
+            `update_time` datetime NOT NULL COMMENT '更新時間',
+            PRIMARY KEY (
+              `mid`,
+              `col_name`,
+              `col_sn`,
+              `data_name`,
+              `data_sort`
+            )
+          ) ENGINE = MyISAM;";
+        $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+
+        return true;
+    }
+
+    //新增影片群組欄位
+    public static function chk_chk4()
+    {
+        global $xoopsDB;
+        $sql = 'SELECT count(`video_group`) FROM ' . $xoopsDB->prefix('tad_book3');
+        $result = $xoopsDB->query($sql);
+        if (empty($result)) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public static function go_update4()
+    {
+        global $xoopsDB;
+        $sql = 'ALTER TABLE ' . $xoopsDB->prefix('tad_book3') . " ADD `video_group` VARCHAR(255) NOT NULL DEFAULT '' AFTER `read_group`";
+        $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+
+        return true;
+    }
+
     //刪除錯誤的重複欄位及樣板檔
     public static function chk_tad_book3_block()
     {

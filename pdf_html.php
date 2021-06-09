@@ -72,8 +72,7 @@ function view_page($tbdsn = '')
     }
 
     if (!chk_power($book['read_group'])) {
-        header('location:index.php');
-        exit;
+        redirect_header('index.php', 3, _MD_TADBOOK3_CANT_READ);
     }
 
     if (!empty($book['passwd']) and $_SESSION['passwd'] != $book['passwd']) {

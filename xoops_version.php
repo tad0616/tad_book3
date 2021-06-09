@@ -75,62 +75,87 @@ $modversion['search']['file'] = 'include/search.php';
 $modversion['search']['func'] = 'tadbook3_search';
 
 //---區塊設定---//
-$modversion['blocks'][1]['file'] = 'tad_book3_random.php';
-$modversion['blocks'][1]['name'] = _MI_TADBOOK3_BNAME1;
-$modversion['blocks'][1]['description'] = _MI_TADBOOK3_BDESC1;
-$modversion['blocks'][1]['show_func'] = 'tad_book3_random';
-$modversion['blocks'][1]['template'] = 'tad_book3_block_random.tpl';
-$modversion['blocks'][1]['edit_func'] = 'tad_book3_random_edit';
-$modversion['blocks'][1]['options'] = '1|1';
+$modversion['blocks'][] = [
+    'file' => 'tad_book3_random.php',
+    'name' => _MI_TADBOOK3_BNAME1,
+    'description' => _MI_TADBOOK3_BDESC1,
+    'show_func' => 'tad_book3_random',
+    'template' => 'tad_book3_block_random.tpl',
+    'edit_func' => 'tad_book3_random_edit',
+    'options' => '1|1',
+];
 
-$modversion['blocks'][2]['file'] = 'tad_book3_new_doc.php';
-$modversion['blocks'][2]['name'] = _MI_TADBOOK3_BNAME2;
-$modversion['blocks'][2]['description'] = _MI_TADBOOK3_BDESC2;
-$modversion['blocks'][2]['show_func'] = 'tad_book3_new_doc';
-$modversion['blocks'][2]['template'] = 'tad_book3_block_new_doc.tpl';
-$modversion['blocks'][2]['edit_func'] = 'tad_book3_new_doc_edit';
-$modversion['blocks'][2]['options'] = '5';
+$modversion['blocks'][] = [
+    'file' => 'tad_book3_new_doc.php',
+    'name' => _MI_TADBOOK3_BNAME2,
+    'description' => _MI_TADBOOK3_BDESC2,
+    'show_func' => 'tad_book3_new_doc',
+    'template' => 'tad_book3_block_new_doc.tpl',
+    'edit_func' => 'tad_book3_new_doc_edit',
+    'options' => '5',
+];
 
-$modversion['blocks'][3]['file'] = 'tad_book3_list.php';
-$modversion['blocks'][3]['name'] = _MI_TADBOOK3_BNAME3;
-$modversion['blocks'][3]['description'] = _MI_TADBOOK3_BDESC3;
-$modversion['blocks'][3]['show_func'] = 'tad_book3_list';
-$modversion['blocks'][3]['template'] = 'tad_book3_block_list.tpl';
-$modversion['blocks'][3]['edit_func'] = 'tad_book3_list_edit';
-$modversion['blocks'][3]['options'] = '5|create_date|desc||0';
+$modversion['blocks'][] = [
+    'file' => 'tad_book3_list.php',
+    'name' => _MI_TADBOOK3_BNAME3,
+    'description' => _MI_TADBOOK3_BDESC3,
+    'show_func' => 'tad_book3_list',
+    'template' => 'tad_book3_block_list.tpl',
+    'edit_func' => 'tad_book3_list_edit',
+    'options' => '5|create_date|desc||0',
+];
 
-$modversion['blocks'][4]['file'] = 'tad_book3_index.php';
-$modversion['blocks'][4]['name'] = _MI_TADBOOK3_BNAME4;
-$modversion['blocks'][4]['description'] = _MI_TADBOOK3_BDESC4;
-$modversion['blocks'][4]['show_func'] = 'tad_book3_index';
-$modversion['blocks'][4]['template'] = 'tad_book3_block_index.tpl';
+$modversion['blocks'][] = [
+    'file' => 'tad_book3_index.php',
+    'name' => _MI_TADBOOK3_BNAME4,
+    'description' => _MI_TADBOOK3_BDESC4,
+    'show_func' => 'tad_book3_index',
+    'template' => 'tad_book3_block_index.tpl',
+];
 
-$modversion['blocks'][5]['file'] = 'tad_book3_content.php';
-$modversion['blocks'][5]['name'] = _MI_TADBOOK3_BNAME5;
-$modversion['blocks'][5]['description'] = _MI_TADBOOK3_BDESC5;
-$modversion['blocks'][5]['show_func'] = 'tad_book3_content';
-$modversion['blocks'][5]['template'] = 'tad_book3_block_content.tpl';
-$modversion['blocks'][5]['edit_func'] = 'tad_book3_content_edit';
-$modversion['blocks'][5]['options'] = '';
+$modversion['blocks'][] = [
+    'file' => 'tad_book3_content.php',
+    'name' => _MI_TADBOOK3_BNAME5,
+    'description' => _MI_TADBOOK3_BDESC5,
+    'show_func' => 'tad_book3_content',
+    'template' => 'tad_book3_block_content.tpl',
+    'edit_func' => 'tad_book3_content_edit',
+    'options' => '',
+];
 
 //---偏好設定---//
-$modversion['config'][1]['name'] = 'facebook_comments_width';
-$modversion['config'][1]['title'] = '_MI_FBCOMMENT_TITLE';
-$modversion['config'][1]['description'] = '_MI_FBCOMMENT_TITLE_DESC';
-$modversion['config'][1]['formtype'] = 'yesno';
-$modversion['config'][1]['valuetype'] = 'int';
-$modversion['config'][1]['default'] = '1';
+$modversion['config'][] = [
+    'name' => 'facebook_comments_width',
+    'title' => '_MI_FBCOMMENT_TITLE',
+    'description' => '_MI_FBCOMMENT_TITLE_DESC',
+    'formtype' => 'yesno',
+    'valuetype' => 'int',
+    'default' => '0',
+];
 
-$modversion['config'][2]['name'] = 'use_pda';
-$modversion['config'][2]['title'] = '_MI_USE_PDA_TITLE';
-$modversion['config'][2]['description'] = '_MI_USE_PDA_TITLE_DESC';
-$modversion['config'][2]['formtype'] = 'yesno';
-$modversion['config'][2]['valuetype'] = 'int';
-$modversion['config'][2]['default'] = '0';
+$modversion['config'][] = [
+    'name' => 'use_pda',
+    'title' => '_MI_USE_PDA_TITLE',
+    'description' => '_MI_USE_PDA_TITLE_DESC',
+    'formtype' => 'yesno',
+    'valuetype' => 'int',
+    'default' => '0',
+];
 
-$modversion['config'][3]['name'] = 'use_social_tools';
-$modversion['config'][3]['title'] = '_MI_SOCIALTOOLS_TITLE';
-$modversion['config'][3]['description'] = '_MI_SOCIALTOOLS_TITLE_DESC';
-$modversion['config'][3]['formtype'] = 'yesno';
-$modversion['config'][3]['valuetype'] = 'int';
-$modversion['config'][3]['default'] = '1';
+$modversion['config'][] = [
+    'name' => 'use_social_tools',
+    'title' => '_MI_SOCIALTOOLS_TITLE',
+    'description' => '_MI_SOCIALTOOLS_TITLE_DESC',
+    'formtype' => 'yesno',
+    'valuetype' => 'int',
+    'default' => '1',
+];
+
+$modversion['config'][] = [
+    'name' => 'ffmpeg_path',
+    'title' => '_MI_FFMPEG_PATH',
+    'description' => '_MI_FFMPEG_PATH_DESC',
+    'formtype' => 'textbox',
+    'valuetype' => 'text',
+    'default' => '',
+];

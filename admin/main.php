@@ -160,6 +160,7 @@ function list_tad_book3($tbcsn = '')
         }
         $books[$i]['author'] = implode(' , ', $uid_name);
         $books[$i]['read_groups'] = Utility::txt_to_group_name($read_group, _MD_TADBOOK3_ALL_OPEN);
+        $books[$i]['video_groups'] = Utility::txt_to_group_name($video_group, _MD_TADBOOK3_ALL_OPEN);
         $i++;
     }
     $xoopsTpl->assign('books', $books);

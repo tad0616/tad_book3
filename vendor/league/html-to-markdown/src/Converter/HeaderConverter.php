@@ -34,11 +34,15 @@ class HeaderConverter implements ConverterInterface, ConfigurationAwareInterface
         $level = (int) substr($element->getTagName(), 1, 1);
         $style = $this->config->getOption('header_style', self::STYLE_SETEXT);
 
+        if (strlen($element->getValue()) === 0) {
+            return "\n";
+        }
+
         if (($level === 1 || $level === 2) && !$element->isDescendantOf('blockquote') && $style === self::STYLE_SETEXT) {
             return $this->createSetextHeader($level, $element->getValue());
-        } else {
-            return $this->createAtxHeader($level, $element->getValue());
         }
+
+        return $this->createAtxHeader($level, $element->getValue());
     }
 
     /**
@@ -46,7 +50,7 @@ class HeaderConverter implements ConverterInterface, ConfigurationAwareInterface
      */
     public function getSupportedTags()
     {
-        return ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'];
+        return array('h1', 'h2', 'h3', 'h4', 'h5', 'h6');
     }
 
     /**
@@ -57,7 +61,7 @@ class HeaderConverter implements ConverterInterface, ConfigurationAwareInterface
      */
     private function createSetextHeader($level, $content)
     {
-        $length = (function_exists('mb_strlen')) ? mb_strlen($content, 'utf-8') : strlen($content);
+        $length = function_exists('mb_strlen') ? mb_strlen($content, 'utf-8') : strlen($content);
         $underline = ($level === 1) ? '=' : '-';
 
         return $content . "\n" . str_repeat($underline, $length) . "\n\n";

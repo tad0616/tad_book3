@@ -9,7 +9,8 @@ define('_MD_TADBOOK3_NEW_PCSN', 'Create a new sub-category from the category on 
 define('_MD_TADBOOK3_BOOK_CONTENT', 'Index of %s');
 define('_MD_TADBOOK3_TITLE', 'Title');
 define('_MD_TADBOOK3_AUTHOR', 'Author');
-define('_MD_TADBOOK3_READ_GROUP', 'Readable');
+define('_MD_TADBOOK3_READ_GROUP', 'Read this book groups');
+define('_MD_TADBOOK3_VIDEO_GROUP', 'Watch video groups');
 define('_MD_TADBOOK3_PASSWD', 'Password');
 define('_MD_TADBOOK3_PIC_NAME', 'Cover');
 define('_MD_TADBOOK3_CREATE_DATE', 'Created on');
@@ -39,3 +40,8 @@ define('_MD_TADBOOK3_NEED_AUTHOR', 'You\'re not Author');
 define('_MD_TADBOOK3_FROM_TBDSN', 'link');
 define('_MD_TADBOOK3_FROM_TBDSN_DESC', 'tbdsn number');
 define('_MD_TADBOOK3_MODIFY_ORDER', 'Modify the order (will fix the red part)');
+define('_MD_TADBOOK3_CANT_READ', 'You do not have permission to read this article');
+define('_MD_TADBOOK3_CANT_VIEW_VIDEO', 'You do not have permission to view the video');
+define('_MD_TADBOOK3_AND_SYMBOL', ' & ');
+define('_MD_TADBOOK3_NOT_VIEW_VIDEO_GROUP', 'The video is only available for viewing in groups such as "%s".');
+define('_MD_TADBOOK3_LOGIN_TO_VIEW_VIDEO', 'Please login first. After login, confirm your permission to watch the video.');

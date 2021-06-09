@@ -52,6 +52,7 @@
                     <tr>
                         <th nowrap><{$smarty.const._MA_TADBOOK3_TITLE}></th>
                         <th nowrap><{$smarty.const._MA_TADBOOK3_READ_GROUP}></th>
+                        <th nowrap><{$smarty.const._MA_TADBOOK3_VIDEO_GROUP}></th>
                         <th nowrap><{$smarty.const._MA_TADBOOK3_AUTHOR}></th>
                         <th nowrap><{$smarty.const._TAD_FUNCTION}></th>
                     </tr>
@@ -65,6 +66,7 @@
                             <{$book.passwd}>
                             </td>
                             <td><{$book.read_groups}></td>
+                            <td><{$book.video_groups}></td>
                             <td><{$book.author}></td>
                             <td>
                             <a href="javascript:delete_tad_book3_func(<{$book.tbsn}>);" class="btn btn-sm btn-danger" id="del<{$book.tbsn}>"><{$smarty.const._TAD_DEL}></a>

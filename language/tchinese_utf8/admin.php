@@ -7,6 +7,7 @@ define('_MA_TADBOOK3_SORT', '排序');
 define('_MA_TADBOOK3_TITLE', '書名');
 define('_MA_TADBOOK3_AUTHOR', '可編寫人');
 define('_MA_TADBOOK3_READ_GROUP', '可閱讀群組');
+define('_MA_TADBOOK3_VIDEO_GROUP', '可看影片群組');
 define('_MA_TADBOOK3_PASSWD', '密碼');
 define('_MA_TADBOOK3_STATUS', '狀態');
 define('_MA_TADBOOK3_PIC_NAME', '封面');

@@ -1,7 +1,6 @@
 <?php
 xoops_loadLanguage('modinfo_common', 'tadtools');
 
-
 define('_MI_TADBOOK3_NAME', '線上書籍');
 define('_MI_TADBOOK3_AUTHOR', '線上書籍');
 define('_MI_TADBOOK3_DESC', '此模組是比較簡單易用的線上書籍模組');
@@ -24,3 +23,6 @@ define('_MI_TADBOOK3_BACK_2_ADMIN', '回模組後台：');
 
 //help
 define('_MI_TADBOOK3_HELP_OVERVIEW', '綜覽');
+
+define('_MI_FFMPEG_PATH', 'FFMPEG 執行檔路徑');
+define('_MI_FFMPEG_PATH_DESC', '若欲使用影片自動截圖功能，請安裝 FFMPEG。Linux直接安裝該套件，路徑如「/usr/bin/ffmpeg」。windows可下載解壓：https://www.gyan.dev/ffmpeg/builds/ffmpeg-release-full.7z ');

@@ -19,12 +19,10 @@ class ImageConverter implements ConverterInterface
 
         if ($title !== '') {
             // No newlines added. <img> should be in a block-level element.
-            $markdown = '![' . $alt . '](' . $src . ' "' . $title . '")';
-        } else {
-            $markdown = '![' . $alt . '](' . $src . ')';
+            return '![' . $alt . '](' . $src . ' "' . $title . '")';
         }
 
-        return $markdown;
+        return '![' . $alt . '](' . $src . ')';
     }
 
     /**
@@ -32,6 +30,6 @@ class ImageConverter implements ConverterInterface
      */
     public function getSupportedTags()
     {
-        return ['img'];
+        return array('img');
     }
 }

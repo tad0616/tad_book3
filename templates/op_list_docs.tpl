@@ -86,7 +86,15 @@
                         <a href="<{$xoops_url}>/modules/tad_book3/page.php?tbsn=<{$tbsn}>&tbdsn=<{$doc.tbdsn}>"><{$doc.title}></a>
                     </span>
                 </td>
-                <td style="font-size: 0.7rem; color: gray; text-align: right;white-space: nowrap;">
+                <td style="font-size: 0.765rem; color: gray; text-align: right;white-space: nowrap;">
+                    <{if $doc.time}>
+                        <i class="fa fa-clock-o" aria-hidden="true"></i>
+                        <{$doc.percentage}>%
+                        <i class="fa fa-youtube-play" aria-hidden="true"></i>
+                        <{$doc.time}>
+                    <{/if}>
+                </td>
+                <td style="font-size: 0.765rem; color: gray; text-align: right;white-space: nowrap;">
                     <{$doc.count}>
                     <i class="fa fa-user"></i>
                     <{$doc.last_modify_date}>

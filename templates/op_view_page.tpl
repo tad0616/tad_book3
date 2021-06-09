@@ -46,6 +46,33 @@
                     <{$doc_sort_main}>
                     <{$title}>
                 </h<{$doc_sort_level}>>
+                <{if $player}>
+                    <{if $now_uid}>
+                        <{if $view_video}>
+                            <{$player}>
+                        <{else}>
+                            <div class="card bg-dark text-white">
+                                <img class="card-img" src="<{$video_thumb}>" alt="<{$smarty.const._MD_TADBOOK3_CANT_VIEW_VIDEO}>">
+                                <div class="card-img-overlay row align-items-center justify-content-center text-center">
+                                    <div class="alert alert-danger">
+                                        <h2 class="card-title"><{$smarty.const._MD_TADBOOK3_CANT_VIEW_VIDEO}></h2>
+                                        <p class="card-text"><{$smarty.const._MD_TADBOOK3_NOT_VIEW_VIDEO_GROUP|sprintf:$video_group_txt}></p>
+                                    </div>
+                                </div>
+                            </div>
+                        <{/if}>
+                    <{else}>
+                        <div class="card bg-dark text-white">
+                            <img class="card-img" src="<{$video_thumb}>" alt="<{$smarty.const._MD_TADBOOK3_CANT_VIEW_VIDEO}>">
+                            <div class="card-img-overlay row align-items-center justify-content-center text-center">
+                                <div class="alert alert-danger">
+                                    <h2 class="card-title"><{$smarty.const._MD_TADBOOK3_CANT_VIEW_VIDEO}></h2>
+                                    <p class="card-text">請先登入，登入後，確認您的權限後，即可觀看影片。</p>
+                                </div>
+                            </div>
+                        </div>
+                    <{/if}>
+                <{/if}>
                 <{$content}>
             </div>
         </div>

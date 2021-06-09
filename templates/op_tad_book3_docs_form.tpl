@@ -75,6 +75,26 @@
         </div>
     </div>
 
+    <div class="form-group row">
+        <label class="col-sm-1 control-label col-form-label text-md-right">
+            mp4影片
+        </label>
+        <div class="col-sm-11">
+            <{$upform}>
+        </div>
+    </div>
+
+    <{if $upform_pic}>
+        <div class="form-group row">
+            <label class="col-sm-1 control-label col-form-label text-md-right">
+                影片截圖
+            </label>
+            <div class="col-sm-11">
+                <{$upform_pic}>
+            </div>
+        </div>
+    <{/if}>
+
     <div class="bar">
         <input type="hidden" name="tbdsn" value="<{$tbdsn}>">
         <input type="hidden" name="op" value="<{$op}>">

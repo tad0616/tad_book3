@@ -7,6 +7,7 @@ define('_MA_TADBOOK3_SORT', 'Sort');
 define('_MA_TADBOOK3_TITLE', 'Title');
 define('_MA_TADBOOK3_AUTHOR', 'Author');
 define('_MA_TADBOOK3_READ_GROUP', 'Readable');
+define('_MA_TADBOOK3_VIDEO_GROUP', 'Watch video groups');
 define('_MA_TADBOOK3_PASSWD', 'Password');
 define('_MA_TADBOOK3_STATUS', 'Status');
 define('_MA_TADBOOK3_PIC_NAME', 'Cover');

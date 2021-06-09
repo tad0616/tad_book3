@@ -3,6 +3,7 @@
 namespace League\HTMLToMarkdown;
 
 use League\HTMLToMarkdown\Converter\BlockquoteConverter;
+use League\HTMLToMarkdown\Converter\CodeConverter;
 use League\HTMLToMarkdown\Converter\CommentConverter;
 use League\HTMLToMarkdown\Converter\ConverterInterface;
 use League\HTMLToMarkdown\Converter\DefaultConverter;
@@ -29,9 +30,9 @@ final class Environment
     /**
      * @var ConverterInterface[]
      */
-    protected $converters = [];
+    protected $converters = array();
 
-    public function __construct(array $config = [])
+    public function __construct(array $config = array())
     {
         $this->config = new Configuration($config);
         $this->addConverter(new DefaultConverter());
@@ -78,11 +79,12 @@ final class Environment
      *
      * @return Environment
      */
-    public static function createDefaultEnvironment(array $config = [])
+    public static function createDefaultEnvironment(array $config = array())
     {
         $environment = new static($config);
 
         $environment->addConverter(new BlockquoteConverter());
+        $environment->addConverter(new CodeConverter());
         $environment->addConverter(new CommentConverter());
         $environment->addConverter(new DivConverter());
         $environment->addConverter(new EmphasisConverter());

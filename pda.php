@@ -207,8 +207,7 @@ function list_docs_m($tbsn = '')
     list($tbsn, $tbcsn, $sort, $title, $description, $author, $read_group, $passwd, $enable, $pic_name, $counter, $create_date) = $xoopsDB->fetchRow($result);
 
     if (!chk_power($read_group)) {
-        header("location:{$_SEREVR['PHP_SELF']}");
-        exit;
+        redirect_header('index.php', 3, _MD_TADBOOK3_CANT_READ);
     }
 
     $enable_txt = ('1' == $enable) ? _MD_TADBOOK3_ENABLE : _MD_TADBOOK3_UNABLE;
@@ -289,8 +288,7 @@ function view_page($tbdsn = '')
 
     $book = get_tad_book3($tbsn);
     if (!chk_power($book['read_group'])) {
-        header("location:{$_SERVER['PHP_SELF']}");
-        exit;
+        redirect_header('index.php', 3, _MD_TADBOOK3_CANT_READ);
     }
 
     if (!empty($book['passwd']) and $_SESSION['passwd'] != $book['passwd']) {

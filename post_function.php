@@ -1,15 +1,17 @@
 <?php
 use XoopsModules\Tadtools\CkEditor;
+use XoopsModules\Tadtools\TadUpFiles;
 use XoopsModules\Tadtools\Utility;
+require __DIR__ . '/vendor/autoload.php';
 
 //tad_book3_docs編輯表單
 function tad_book3_docs_form($tbdsn = '', $tbsn = '')
 {
-    global $xoopsDB, $xoopsUser, $xoopsModule, $xoopsTpl;
+    global $xoopsDB, $xoopsUser, $xoopsModule, $xoopsModuleConfig, $xoopsTpl;
     require_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
 
     if ($xoopsUser) {
-        $module_id = $xoopsModule->getVar('mid');
+        $module_id = $xoopsModule->mid();
         $_SESSION['tad_book3_adm'] = $xoopsUser->isAdmin($module_id);
     } else {
         $_SESSION['tad_book3_adm'] = false;
@@ -25,28 +27,17 @@ function tad_book3_docs_form($tbdsn = '', $tbsn = '')
 
     if (!$_SESSION['tad_book3_adm']) {
         $book = get_tad_book3($tbsn);
-        //die('author:'.$book['author']);
         if (!chk_edit_power($book['author'])) {
             header('location:index.php');
         }
     }
 
-    //預設值設定
-
-    $tbdsn = (!isset($DBV['tbdsn'])) ? '' : $DBV['tbdsn'];
-    $tbsn = (!isset($DBV['tbsn'])) ? $tbsn : $DBV['tbsn'];
-    $category = (!isset($DBV['category'])) ? '' : $DBV['category'];
-    $page = (!isset($DBV['page'])) ? '' : $DBV['page'];
-    $paragraph = (!isset($DBV['paragraph'])) ? '' : $DBV['paragraph'];
-    $sort = (!isset($DBV['sort'])) ? '' : $DBV['sort'];
-    $title = (!isset($DBV['title'])) ? '' : $DBV['title'];
-    $content = (!isset($DBV['content'])) ? '' : $DBV['content'];
-    $add_date = (!isset($DBV['add_date'])) ? '' : $DBV['add_date'];
-    $last_modify_date = (!isset($DBV['last_modify_date'])) ? '' : $DBV['last_modify_date'];
-    $uid = (!isset($DBV['uid'])) ? '' : $DBV['uid'];
-    $count = (!isset($DBV['count'])) ? '' : $DBV['count'];
-    $enable = (!isset($DBV['enable'])) ? '1' : $DBV['enable'];
-    $from_tbdsn = (!isset($DBV['from_tbdsn'])) ? '' : $DBV['from_tbdsn'];
+    $tbsn = !isset($DBV['tbsn']) ? $tbsn : $DBV['tbsn'];
+    $enable = !isset($DBV['enable']) ? '1' : $DBV['enable'];
+    foreach ($DBV as $name => $value) {
+        $xoopsTpl->assign($name, $value);
+        $$name = $value;
+    }
 
     $ck = new CkEditor('tad_book3', 'content', $content);
     $ck->setHeight(400);
@@ -55,73 +46,130 @@ function tad_book3_docs_form($tbdsn = '', $tbsn = '')
     $editor = $ck->render();
 
     $op = (empty($tbdsn)) ? 'insert_tad_book3_docs' : 'update_tad_book3_docs';
-    //$op="replace_tad_book3_docs";
-    $main = '
-	$';
 
     $xoopsTpl->assign('action', $_SERVER['PHP_SELF']);
-    $xoopsTpl->assign('tbdsn', $tbdsn);
     $xoopsTpl->assign('book_select', book_select($tbsn));
-    $xoopsTpl->assign('enable', $enable);
     $xoopsTpl->assign('op', $op);
-    $xoopsTpl->assign('title', $title);
     $xoopsTpl->assign('category_menu_category', category_menu($category));
     $xoopsTpl->assign('category_menu_page', category_menu($page));
     $xoopsTpl->assign('category_menu_paragraph', category_menu($paragraph));
     $xoopsTpl->assign('category_menu_sort', category_menu($sort));
     $xoopsTpl->assign('editor', $editor);
     $xoopsTpl->assign('from_tbdsn', $from_tbdsn);
+
+    Utility::mk_dir(XOOPS_ROOT_PATH . "/uploads/tad_book3/$tbsn");
+    Utility::mk_dir(XOOPS_ROOT_PATH . "/uploads/tad_book3/$tbsn/$uid");
+
+    $TadUpFiles = new TadUpFiles("tad_book3", "/$tbsn/$uid");
+    $TadUpFiles->set_var("show_tip", false); //不顯示提示
+    $TadUpFiles->set_col('tbdsn', $tbdsn); //若 $show_list_del_file ==true 時一定要有
+    $upform = $TadUpFiles->upform(true, 'video', 1, true, '.mp4');
+    $xoopsTpl->assign('upform', $upform);
+
+    $upform_pic = '';
+    if (empty($xoopsModuleConfig['ffmpeg_path']) || !file_exists($xoopsModuleConfig['ffmpeg_path'])) {
+        $upform_pic = $TadUpFiles->upform(true, 'video_thumb', 1, true, '.jpg,.png');
+    }
+    $xoopsTpl->assign('upform_pic', $upform_pic);
+
 }
 
 //新增資料到tad_book3_docs中
 function insert_tad_book3_docs()
 {
-    global $xoopsDB, $xoopsUser;
+    global $xoopsDB, $xoopsUser, $xoopsModuleConfig;
     $time = time();
     //$time=xoops_getUserTimestamp(time());
 
     $myts = \MyTextSanitizer::getInstance();
-    $_POST['title'] = $myts->addSlashes($_POST['title']);
-    $_POST['content'] = $myts->addSlashes($_POST['content']);
-    $_POST['from_tbdsn'] = (int) $_POST['from_tbdsn'];
+    $title = $myts->addSlashes($_POST['title']);
+    $content = $myts->addSlashes($_POST['content']);
+    $from_tbdsn = (int) $_POST['from_tbdsn'];
 
-    $_POST['category'] = (int) $_POST['category'];
-    $_POST['page'] = (int) $_POST['page'];
-    $_POST['paragraph'] = (int) $_POST['paragraph'];
-    $_POST['sort'] = (int) $_POST['sort'];
+    $category = (int) $_POST['category'];
+    $page = (int) $_POST['page'];
+    $paragraph = (int) $_POST['paragraph'];
+    $sort = (int) $_POST['sort'];
+    $tbsn = (int) $_POST['tbsn'];
 
-    check_update_cpps_add($_POST['tbsn'], $_POST['category'], $_POST['page'], $_POST['paragraph'], $_POST['sort']);
+    check_update_cpps_add($$tbsn, $category, $page, $paragraph, $sort);
 
-    $uid = $xoopsUser->getVar('uid');
-    $sql = 'insert into ' . $xoopsDB->prefix('tad_book3_docs') . " (`tbsn`,`category`,`page`,`paragraph`,`sort`,`title`,`content`,`add_date`,`last_modify_date`,`uid`,`count`,`enable`,`from_tbdsn`) values('{$_POST['tbsn']}','{$_POST['category']}','{$_POST['page']}','{$_POST['paragraph']}','{$_POST['sort']}','{$_POST['title']}','{$_POST['content']}','{$time}','{$time}','{$uid}','0','{$_POST['enable']}','{$_POST['from_tbdsn']}')";
+    $uid = $xoopsUser->uid();
+    $sql = 'insert into ' . $xoopsDB->prefix('tad_book3_docs') . " (`tbsn`,`category`,`page`,`paragraph`,`sort`,`title`,`content`,`add_date`,`last_modify_date`,`uid`,`count`,`enable`,`from_tbdsn`) values('{$tbsn}','{$category}','{$page}','{$paragraph}','{$sort}','{$title}','{$content}','{$time}','{$time}','{$uid}','0','{$_POST['enable']}','{$from_tbdsn}')";
     $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
     //取得最後新增資料的流水編號
     $tbdsn = $xoopsDB->getInsertId();
 
+    $TadUpFiles = new TadUpFiles("tad_book3", "/$tbsn/$uid");
+    $TadUpFiles->set_col('tbdsn', $tbdsn);
+    $TadUpFiles->upload_file('video', 1920, 480, null, $title, true, true);
+    if (empty($xoopsModuleConfig['ffmpeg_path']) || !file_exists($xoopsModuleConfig['ffmpeg_path'])) {
+        $TadUpFiles->upload_file('video_thumb', 1920, 480, null, $title, true, false);
+    } else {
+        $mp4_path = $TadUpFiles->get_pic_file('file', 'dir', '', true);
+        // 建立物件
+        $ffmpeg = FFMpeg\FFMpeg::create(array(
+            'ffmpeg.binaries' => $xoopsModuleConfig['ffmpeg_path'],
+            'ffprobe.binaries' => dirname($xoopsModuleConfig['ffmpeg_path']) . '/ffprobe.exe',
+            'timeout' => 3600, // 底層進程的時間上限
+            'ffmpeg.threads' => 12, // FFMpeg 應該使用的線程數
+        ));
+
+        // 開啟影片
+        $video = $ffmpeg->open($mp4_path);
+        // 擷取第N秒的話格，並存檔
+        $video
+            ->frame(FFMpeg\Coordinate\TimeCode::fromSeconds(10))
+            ->save(XOOPS_ROOT_PATH . "/uploads/tad_book3/{$tbsn}/{$uid}/image/{$tbdsn}.jpg");
+    }
     return $tbdsn;
 }
 
 //更新tad_book3_docs某一筆資料
 function update_tad_book3_docs($tbdsn = '')
 {
-    global $xoopsDB;
+    global $xoopsDB, $xoopsUser, $xoopsModuleConfig;
     $time = time();
     //$time=xoops_getUserTimestamp(time());
     $myts = \MyTextSanitizer::getInstance();
-    $_POST['title'] = $myts->addSlashes($_POST['title']);
-    $_POST['content'] = $myts->addSlashes($_POST['content']);
-    $_POST['from_tbdsn'] = (int) $_POST['from_tbdsn'];
+    $title = $myts->addSlashes($_POST['title']);
+    $content = $myts->addSlashes($_POST['content']);
+    $from_tbdsn = (int) $_POST['from_tbdsn'];
 
-    $_POST['category'] = (int) $_POST['category'];
-    $_POST['page'] = (int) $_POST['page'];
-    $_POST['paragraph'] = (int) $_POST['paragraph'];
-    $_POST['sort'] = (int) $_POST['sort'];
+    $category = (int) $_POST['category'];
+    $page = (int) $_POST['page'];
+    $paragraph = (int) $_POST['paragraph'];
+    $sort = (int) $_POST['sort'];
+    $tbsn = (int) $_POST['tbsn'];
 
-    check_update_cpps_add($_POST['tbsn'], $_POST['category'], $_POST['page'], $_POST['paragraph'], $_POST['sort'], $tbdsn);
+    check_update_cpps_add($$tbsn, $category, $page, $paragraph, $sort, $tbdsn);
 
-    $sql = 'update ' . $xoopsDB->prefix('tad_book3_docs') . " set  `tbsn` = '{$_POST['tbsn']}', `category` = '{$_POST['category']}', `page` = '{$_POST['page']}', `paragraph` = '{$_POST['paragraph']}', `sort` = '{$_POST['sort']}', `title` = '{$_POST['title']}', `content` = '{$_POST['content']}', `last_modify_date` = '{$time}', `enable` = '{$_POST['enable']}', `from_tbdsn` = '{$_POST['from_tbdsn']}' where tbdsn='$tbdsn'";
+    $sql = 'update ' . $xoopsDB->prefix('tad_book3_docs') . " set  `tbsn` = '{$tbsn}', `category` = '{$category}', `page` = '{$page}', `paragraph` = '{$paragraph}', `sort` = '{$sort}', `title` = '{$title}', `content` = '{$content}', `last_modify_date` = '{$time}', `enable` = '{$_POST['enable']}', `from_tbdsn` = '{$from_tbdsn}' where tbdsn='$tbdsn'";
     $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
 
+    $uid = $xoopsUser->uid();
+    $TadUpFiles = new TadUpFiles("tad_book3", "/$tbsn/$uid");
+    $TadUpFiles->set_col('tbdsn', $tbdsn);
+    $TadUpFiles->upload_file('video', 1920, 480, null, $title, true, true);
+    if (empty($xoopsModuleConfig['ffmpeg_path']) || !file_exists($xoopsModuleConfig['ffmpeg_path'])) {
+        $TadUpFiles->upload_file('video_thumb', 1920, 480, null, $title, true, false);
+    } else {
+        $mp4_path = $TadUpFiles->get_pic_file('file', 'dir', '', true);
+        // 建立物件
+        $ffmpeg = FFMpeg\FFMpeg::create(array(
+            'ffmpeg.binaries' => $xoopsModuleConfig['ffmpeg_path'],
+            'ffprobe.binaries' => dirname($xoopsModuleConfig['ffmpeg_path']) . '/ffprobe.exe',
+            'timeout' => 3600, // 底層進程的時間上限
+            'ffmpeg.threads' => 12, // FFMpeg 應該使用的線程數
+        ));
+
+        // 開啟影片
+        $video = $ffmpeg->open($mp4_path);
+        // 擷取第N秒的話格，並存檔
+        $video
+            ->frame(FFMpeg\Coordinate\TimeCode::fromSeconds(10))
+            ->save(XOOPS_ROOT_PATH . "/uploads/tad_book3/{$tbsn}/{$uid}/image/{$tbdsn}.jpg");
+    }
     return $tbdsn;
 }
 

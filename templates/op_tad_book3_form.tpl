@@ -51,22 +51,22 @@
         </div>
     </div>
 
-    <div class="form-group row">
-
-        <label class="col-sm-1 control-label col-form-label text-md-right"><{$smarty.const._MD_TADBOOK3_AUTHOR}></label>
-        <div class="col-sm-3">
+    <div class="row">
+        <div class="col-md-3">
+            <label><{$smarty.const._MD_TADBOOK3_AUTHOR}></label>
             <{$user_menu}>
         </div>
-
-        <label class="col-sm-1 control-label col-form-label text-md-right"><{$smarty.const._MD_TADBOOK3_READ_GROUP}></label>
-        <div class="col-sm-3">
+        <div class="col-md-3">
+            <label><{$smarty.const._MD_TADBOOK3_READ_GROUP}></label>
             <{$group_menu}>
         </div>
+        <div class="col-md-3">
+            <label><{$smarty.const._MD_TADBOOK3_VIDEO_GROUP}></label>
+            <{$video_group_menu}>
+        </div>
+        <div class="col-md-3">
+            <label><{$smarty.const._MD_TADBOOK3_PASSWD}></label>
 
-        <label class="col-sm-1 control-label col-form-label text-md-right">
-            <{$smarty.const._MD_TADBOOK3_PASSWD}>
-        </label>
-        <div class="col-sm-3">
             <input type="text" name="passwd" class="form-control" value="<{$passwd}>">
 
             <div class="bar">
