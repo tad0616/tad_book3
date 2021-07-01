@@ -256,6 +256,7 @@ function list_docs($def_tbsn = '')
         $docs[$i]['doc_sort_level'] = $doc_sort['level'];
         $docs[$i]['doc_sort_main'] = $doc_sort['main'];
         $docs[$i]['title'] = $title;
+        $docs[$i]['content'] = $content;
         $docs[$i]['count'] = $count;
         $docs[$i]['enable'] = $enable;
         $docs[$i]['enable_txt'] = $enable_txt;
@@ -716,7 +717,7 @@ function near_docs($tbsn = '', $doc_sn = '')
 {
     global $xoopsDB;
     $and_enable = $_SESSION['tad_book3_adm'] ? '' : "and enable='1'";
-    $sql = 'select tbdsn,title,category,page,paragraph,sort from ' . $xoopsDB->prefix('tad_book3_docs') . " where tbsn='$tbsn' $and_enable order by category,page,paragraph,sort";
+    $sql = 'select tbdsn,title,category,page,paragraph,sort from ' . $xoopsDB->prefix('tad_book3_docs') . " where tbsn='$tbsn' and content!='' $and_enable order by category,page,paragraph,sort";
     $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
     $get_next = false;
     while (list($tbdsn, $title, $category, $page, $paragraph, $sort) = $xoopsDB->fetchRow($result)) {
@@ -752,9 +753,9 @@ function doc_select($tbsn = '', $doc_sn = '')
 
     $main = '';
 
-    $sql = 'select tbdsn,title,category,page,paragraph,sort,enable,uid from ' . $xoopsDB->prefix('tad_book3_docs') . " where tbsn='$tbsn' $andenable order by category,page,paragraph,sort";
+    $sql = 'select tbdsn,title,content,category,page,paragraph,sort,enable,uid from ' . $xoopsDB->prefix('tad_book3_docs') . " where tbsn='$tbsn' $andenable order by category,page,paragraph,sort";
     $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
-    while (list($tbdsn, $title, $category, $page, $paragraph, $sort, $enable, $uid) = $xoopsDB->fetchRow($result)) {
+    while (list($tbdsn, $title, $content, $category, $page, $paragraph, $sort, $enable, $uid) = $xoopsDB->fetchRow($result)) {
         $selected = ($doc_sn == $tbdsn) ? 'selected' : '';
         $doc_sort = mk_category($category, $page, $paragraph, $sort);
 
@@ -768,7 +769,8 @@ function doc_select($tbsn = '', $doc_sn = '')
         } else {
             $style = " style='color:black;'";
         }
-        $main .= "<option value=$tbdsn $selected $style>" . str_repeat('&nbsp;', ($doc_sort['level'] - 1) * 2) . "{$doc_sort['main']} {$stat}{$title}</option>";
+        $disabled = empty($content) ? 'disabled' : '';
+        $main .= "<option value=$tbdsn $selected $style $disabled>" . str_repeat('&nbsp;', ($doc_sort['level'] - 1) * 2) . "{$doc_sort['main']} {$stat}{$title}</option>";
     }
 
     return $main;

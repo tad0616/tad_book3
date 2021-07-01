@@ -84,6 +84,15 @@
         </div>
     </div>
 
+    <div class="form-group row">
+        <label class="col-sm-1 control-label col-form-label text-md-right">
+            VTT字幕
+        </label>
+        <div class="col-sm-11">
+            <{$upform_vtt}>
+        </div>
+    </div>
+
     <{if $upform_pic}>
         <div class="form-group row">
             <label class="col-sm-1 control-label col-form-label text-md-right">

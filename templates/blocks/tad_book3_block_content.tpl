@@ -47,7 +47,11 @@
                         <{/if}>
                     </span>
                     <{$doc.enable_txt}>
-                    <a href="<{$xoops_url}>/modules/tad_book3/page.php?tbsn=<{$tbsn}>&tbdsn=<{$doc.tbdsn}>"><{$doc.title}></a>
+                    <{if $doc.content}>
+                        <a href="<{$xoops_url}>/modules/tad_book3/page.php?tbsn=<{$tbsn}>&tbdsn=<{$doc.tbdsn}>"><{$doc.title}></a>
+                    <{else}>
+                        <{$doc.title}>
+                    <{/if}>
                 </td>
             </tr>
         <{/foreach}>

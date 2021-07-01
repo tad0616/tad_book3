@@ -22,6 +22,11 @@ function view_page($tbdsn = '')
         $$key = $value;
     }
 
+    if (empty($content)) {
+        header("location: index.php?op=list_docs&tbsn=$tbsn");
+        exit;
+    }
+
     if (!empty($from_tbdsn)) {
         $form_page = get_tad_book3_docs($from_tbdsn);
         $content .= $form_page['content'];
@@ -78,17 +83,28 @@ function view_page($tbdsn = '')
     $now_uid = $xoopsUser ? $xoopsUser->uid() : 0;
     $xoopsTpl->assign('now_uid', $now_uid);
 
-    $TadUpFiles = new TadUpFiles("tad_book3", "/$tbsn/$uid");
-    $TadUpFiles->set_col('tbdsn', $tbdsn);
-    $mp4_path = $TadUpFiles->get_pic_file('file', 'url', '', true);
+    $TadUpFilesMp4 = new TadUpFiles("tad_book3", "/$tbsn/$uid");
+    $TadUpFilesMp4->set_col('mp4', $tbdsn);
+    $mp4_path = $TadUpFilesMp4->get_pic_file('file', 'url', '', true);
     if ($mp4_path) {
-        $video_thumb = $TadUpFiles->get_pic_file('images', 'url', '', true);
+        $TadUpFilesPic = new TadUpFiles("tad_book3", "/$tbsn/$uid");
+        $TadUpFilesPic->set_col('pic', $tbdsn);
+        $video_thumb = $TadUpFilesPic->get_pic_file('images', 'url', '', true);
 
         if (empty($video_thumb)) {
             $video_thumb = XOOPS_URL . "/uploads/tad_book3/{$tbsn}/{$uid}/image/{$tbdsn}.jpg";
         }
         $xoopsTpl->assign('video_thumb', $video_thumb);
         $VideoJs = new VideoJs('tad_book3_video', $mp4_path, $video_thumb, '', false, false);
+
+        // 找出字幕
+        $TadUpFilesVtt = new TadUpFiles("tad_book3", "/$tbsn/$uid");
+        $TadUpFilesVtt->set_col('vtt', $tbdsn);
+        $video_vtt = $TadUpFilesVtt->get_pic_file('file', 'url', '', true);
+
+        if ($video_vtt) {
+            $VideoJs->set_var('vtt', $video_vtt);
+        }
         $length['col_name'] = $tbsn;
         $length['col_sn'] = $tbdsn;
         $log['col_name'] = $now_uid;

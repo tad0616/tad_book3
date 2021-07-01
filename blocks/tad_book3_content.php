@@ -83,6 +83,7 @@ function tad_book3_content($options)
         $docs[$i]['doc_sort_level'] = $doc_sort['level'];
         $docs[$i]['doc_sort_main'] = $doc_sort['main'];
         $docs[$i]['title'] = $title;
+        $docs[$i]['content'] = $content;
         $docs[$i]['count'] = $count;
         $docs[$i]['enable'] = $enable;
         $docs[$i]['enable_txt'] = $enable_txt;

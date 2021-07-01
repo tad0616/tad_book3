@@ -18,6 +18,7 @@ function tad_book3_docs_form($tbdsn = '', $tbsn = '')
     }
 
     //抓取預設值
+    $tbsn = !isset($DBV['tbsn']) ? $tbsn : $DBV['tbsn'];
     if (!empty($tbdsn)) {
         $DBV = get_tad_book3_docs($tbdsn);
         $tbsn = $DBV['tbsn'];
@@ -32,8 +33,7 @@ function tad_book3_docs_form($tbdsn = '', $tbsn = '')
         }
     }
 
-    $tbsn = !isset($DBV['tbsn']) ? $tbsn : $DBV['tbsn'];
-    $enable = !isset($DBV['enable']) ? '1' : $DBV['enable'];
+    $DBV['enable'] = !isset($DBV['enable']) ? '1' : $DBV['enable'];
     foreach ($DBV as $name => $value) {
         $xoopsTpl->assign($name, $value);
         $$name = $value;
@@ -60,15 +60,22 @@ function tad_book3_docs_form($tbdsn = '', $tbsn = '')
     Utility::mk_dir(XOOPS_ROOT_PATH . "/uploads/tad_book3/$tbsn");
     Utility::mk_dir(XOOPS_ROOT_PATH . "/uploads/tad_book3/$tbsn/$uid");
 
-    $TadUpFiles = new TadUpFiles("tad_book3", "/$tbsn/$uid");
-    $TadUpFiles->set_var("show_tip", false); //不顯示提示
-    $TadUpFiles->set_col('tbdsn', $tbdsn); //若 $show_list_del_file ==true 時一定要有
-    $upform = $TadUpFiles->upform(true, 'video', 1, true, '.mp4');
+    $TadUpFilesMp4 = new TadUpFiles("tad_book3", "/$tbsn/$uid");
+    $TadUpFilesMp4->set_var("show_tip", false); //不顯示提示
+    $TadUpFilesMp4->set_col('mp4', $tbdsn); //若 $show_list_del_file ==true 時一定要有
+    $upform = $TadUpFilesMp4->upform(true, 'video', 1, true, '.mp4');
     $xoopsTpl->assign('upform', $upform);
 
+    $TadUpFilesVtt = new TadUpFiles("tad_book3", "/$tbsn/$uid");
+    $TadUpFilesVtt->set_col('vtt', $tbdsn);
+    $upform_vtt = $TadUpFilesVtt->upform(true, 'video_vtt', 1, true, '.vtt');
+    $xoopsTpl->assign('upform_vtt', $upform_vtt);
+
+    $TadUpFilesPic = new TadUpFiles("tad_book3", "/$tbsn/$uid");
+    $TadUpFilesPic->set_col('pic', $tbdsn);
     $upform_pic = '';
     if (empty($xoopsModuleConfig['ffmpeg_path']) || !file_exists($xoopsModuleConfig['ffmpeg_path'])) {
-        $upform_pic = $TadUpFiles->upform(true, 'video_thumb', 1, true, '.jpg,.png');
+        $upform_pic = $TadUpFilesPic->upform(true, 'video_thumb', 1, true, '.jpg,.png');
     }
     $xoopsTpl->assign('upform_pic', $upform_pic);
 
@@ -92,7 +99,7 @@ function insert_tad_book3_docs()
     $sort = (int) $_POST['sort'];
     $tbsn = (int) $_POST['tbsn'];
 
-    check_update_cpps_add($$tbsn, $category, $page, $paragraph, $sort);
+    check_update_cpps_add($tbsn, $category, $page, $paragraph, $sort);
 
     $uid = $xoopsUser->uid();
     $sql = 'insert into ' . $xoopsDB->prefix('tad_book3_docs') . " (`tbsn`,`category`,`page`,`paragraph`,`sort`,`title`,`content`,`add_date`,`last_modify_date`,`uid`,`count`,`enable`,`from_tbdsn`) values('{$tbsn}','{$category}','{$page}','{$paragraph}','{$sort}','{$title}','{$content}','{$time}','{$time}','{$uid}','0','{$_POST['enable']}','{$from_tbdsn}')";
@@ -100,13 +107,21 @@ function insert_tad_book3_docs()
     //取得最後新增資料的流水編號
     $tbdsn = $xoopsDB->getInsertId();
 
-    $TadUpFiles = new TadUpFiles("tad_book3", "/$tbsn/$uid");
-    $TadUpFiles->set_col('tbdsn', $tbdsn);
-    $TadUpFiles->upload_file('video', 1920, 480, null, $title, true, true);
+    $TadUpFilesMp4 = new TadUpFiles("tad_book3", "/$tbsn/$uid");
+    $TadUpFilesMp4->set_col('mp4', $tbdsn);
+    $TadUpFilesMp4->upload_file('video', null, null, null, $title, true, true);
+
+    $TadUpFilesVtt = new TadUpFiles("tad_book3", "/$tbsn/$uid");
+    $TadUpFilesVtt->set_col('vtt', $tbdsn);
+    $TadUpFilesVtt->set_col('vtt', $tbdsn);
+    $TadUpFilesVtt->upload_file('video_vtt', null, null, null, $title, true, true);
+
     if (empty($xoopsModuleConfig['ffmpeg_path']) || !file_exists($xoopsModuleConfig['ffmpeg_path'])) {
-        $TadUpFiles->upload_file('video_thumb', 1920, 480, null, $title, true, false);
+        $TadUpFilesPic = new TadUpFiles("tad_book3", "/$tbsn/$uid");
+        $TadUpFilesPic->set_col('pic', $tbdsn);
+        $TadUpFilesPic->upload_file('video_thumb', 1920, 480, null, $title, true, false);
     } else {
-        $mp4_path = $TadUpFiles->get_pic_file('file', 'dir', '', true);
+        $mp4_path = $TadUpFilesMp4->get_pic_file('file', 'dir', '', true);
         // 建立物件
         $ffmpeg = FFMpeg\FFMpeg::create(array(
             'ffmpeg.binaries' => $xoopsModuleConfig['ffmpeg_path'],
@@ -142,19 +157,26 @@ function update_tad_book3_docs($tbdsn = '')
     $sort = (int) $_POST['sort'];
     $tbsn = (int) $_POST['tbsn'];
 
-    check_update_cpps_add($$tbsn, $category, $page, $paragraph, $sort, $tbdsn);
+    check_update_cpps_add($tbsn, $category, $page, $paragraph, $sort, $tbdsn);
 
     $sql = 'update ' . $xoopsDB->prefix('tad_book3_docs') . " set  `tbsn` = '{$tbsn}', `category` = '{$category}', `page` = '{$page}', `paragraph` = '{$paragraph}', `sort` = '{$sort}', `title` = '{$title}', `content` = '{$content}', `last_modify_date` = '{$time}', `enable` = '{$_POST['enable']}', `from_tbdsn` = '{$from_tbdsn}' where tbdsn='$tbdsn'";
     $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
 
     $uid = $xoopsUser->uid();
-    $TadUpFiles = new TadUpFiles("tad_book3", "/$tbsn/$uid");
-    $TadUpFiles->set_col('tbdsn', $tbdsn);
-    $TadUpFiles->upload_file('video', 1920, 480, null, $title, true, true);
+    $TadUpFilesMp4 = new TadUpFiles("tad_book3", "/$tbsn/$uid");
+    $TadUpFilesMp4->set_col('mp4', $tbdsn);
+    $TadUpFilesMp4->upload_file('video', null, null, null, $title, true, true);
+
+    $TadUpFilesVtt = new TadUpFiles("tad_book3", "/$tbsn/$uid");
+    $TadUpFilesVtt->set_col('vtt', $tbdsn);
+    $TadUpFilesVtt->upload_file('video_vtt', null, null, null, $title, true, true);
+
     if (empty($xoopsModuleConfig['ffmpeg_path']) || !file_exists($xoopsModuleConfig['ffmpeg_path'])) {
-        $TadUpFiles->upload_file('video_thumb', 1920, 480, null, $title, true, false);
+        $TadUpFilesPic = new TadUpFiles("tad_book3", "/$tbsn/$uid");
+        $TadUpFilesPic->set_col('pic', $tbdsn);
+        $TadUpFilesPic->upload_file('video_thumb', 1920, 480, null, $title, true, false);
     } else {
-        $mp4_path = $TadUpFiles->get_pic_file('file', 'dir', '', true);
+        $mp4_path = $TadUpFilesMp4->get_pic_file('file', 'dir', '', true);
         // 建立物件
         $ffmpeg = FFMpeg\FFMpeg::create(array(
             'ffmpeg.binaries' => $xoopsModuleConfig['ffmpeg_path'],
