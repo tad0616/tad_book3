@@ -5,7 +5,7 @@ $modversion = [];
 
 //---模組基本資訊---//
 $modversion['name'] = _MI_TADBOOK3_NAME;
-$modversion['version'] = 3.97;
+$modversion['version'] = 3.98;
 $modversion['description'] = _MI_TADBOOK3_DESC;
 $modversion['author'] = _MI_TADBOOK3_AUTHOR;
 $modversion['credits'] = 'geek01 , Michael Beck';
@@ -16,7 +16,7 @@ $modversion['image'] = "images/logo_{$xoopsConfig['language']}.png";
 $modversion['dirname'] = basename(__DIR__);
 
 //---模組狀態資訊---//
-$modversion['release_date'] = '2021/02/18';
+$modversion['release_date'] = '2021/07/31';
 $modversion['module_website_url'] = 'https://tad0616.net/';
 $modversion['module_website_name'] = _MI_TAD_WEB;
 $modversion['module_status'] = 'release';

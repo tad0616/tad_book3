@@ -45,3 +45,4 @@ define('_MD_TADBOOK3_CANT_VIEW_VIDEO', 'You do not have permission to view the v
 define('_MD_TADBOOK3_AND_SYMBOL', ' & ');
 define('_MD_TADBOOK3_NOT_VIEW_VIDEO_GROUP', 'The video is only available for viewing in groups such as "%s".');
 define('_MD_TADBOOK3_LOGIN_TO_VIEW_VIDEO', 'Please login first. After login, confirm your permission to watch the video.');
+define('_MD_TADBOOK3_VIEW_LOG', 'All videos are %s, you have watched %s, %s%% complete');

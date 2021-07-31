@@ -1,7 +1,7 @@
 <?php
+use Xmf\Request;
 use XoopsModules\Tadtools\Dtree;
 use XoopsModules\Tadtools\Utility;
-
 if (!class_exists('XoopsModules\Tadtools\Utility')) {
     require XOOPS_ROOT_PATH . '/modules/tadtools/preloads/autoloader.php';
 }
@@ -11,8 +11,8 @@ function tad_book3_index()
 {
     global $xoopsDB;
     require_once XOOPS_ROOT_PATH . '/modules/tad_book3/function_block.php';
-    $global_tbsn = isset($_GET['tbsn']) ? (int) $_GET['tbsn'] : '';
-    $global_tbdsn = isset($_GET['tbdsn']) ? (int) $_GET['tbdsn'] : '';
+    $global_tbsn = Request::getInt('tbsn');
+    $global_tbdsn = Request::getInt('tbdsn');
 
     if (empty($global_tbsn) and !empty($global_tbdsn)) {
         $sql = 'select `tbsn` from ' . $xoopsDB->prefix('tad_book3_docs') . " where tbdsn='{$global_tbdsn}'";
@@ -27,10 +27,11 @@ function tad_book3_index()
     }
 
     $book = block_get_book_content($tbsn);
+
     $home['sn'] = 0;
     $home['title'] = _MB_TADBOOK3_BOOK_CONTENT;
     $home['url'] = XOOPS_URL . "/modules/tad_book3/index.php?tbsn=$tbsn";
-    $Dtree = new Dtree("tad_book3_{$global_tbsn}", $home, $book['title'], $book['father_sn'], $book['url']);
+    $Dtree = new Dtree("tad_book3_{$tbsn}", $home, $book['title'], $book['father_sn'], $book['url']);
     $block = $Dtree->render();
 
     return $block;

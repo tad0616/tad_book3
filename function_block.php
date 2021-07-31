@@ -59,23 +59,35 @@ if (!function_exists('mk_category')) {
     function mk_category($category = '', $page = '', $paragraph = '', $sort = '')
     {
         if (!empty($sort)) {
-            $main = "{$category}-${page}-{$paragraph}-{$sort}";
+            $main = "{$category}-{$page}-{$paragraph}-{$sort}";
+            $ttid = "{$category}0{$page}0{$paragraph}0{$sort}";
+            $parent = "{$category}0{$page}0{$paragraph}";
             $level = 4;
         } elseif (!empty($paragraph)) {
-            $main = "{$category}-${page}-{$paragraph}";
+            $main = "{$category}-{$page}-{$paragraph}";
+            $ttid = "{$category}0{$page}0{$paragraph}";
+            $parent = "{$category}0{$page}";
             $level = 3;
         } elseif (!empty($page)) {
-            $main = "{$category}-${page}";
+            $main = "{$category}-{$page}";
+            $ttid = "{$category}0{$page}";
+            $parent = "{$category}";
             $level = 2;
         } elseif (!empty($category)) {
             $main = "{$category}.";
+            $ttid = "{$category}";
+            $parent = '';
             $level = 1;
         } else {
             $main = '';
+            $ttid = '';
             $level = 0;
+            $parent = '';
         }
         $all['main'] = $main;
         $all['level'] = $level;
+        $all['ttid'] = $ttid;
+        $all['parent'] = $parent;
 
         return $all;
     }

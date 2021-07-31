@@ -20,7 +20,7 @@
     <div class="row" style="background-image: url('images/relink_bg.gif'); padding: 10px 0px;">
         <div class="col-sm-4 text-left"><{$p}></div>
         <div class="col-sm-4 text-center">
-            <select onChange="window.location.href='markdown.php?tbdsn='+this.value" class="form-control">
+            <select onChange="window.location.href='markdown.php?tbdsn='+this.value" class="form-control" title="Select Document">
             <{$doc_select}>
             </select>
         </div>

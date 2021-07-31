@@ -23,7 +23,7 @@ function view_page($tbdsn = '')
     }
 
     if (empty($content)) {
-        header("location: index.php?op=list_docs&tbsn=$tbsn");
+        header("location: index.php?op=list_docs&tbsn=$tbsn#doc{$tbdsn}");
         exit;
     }
 
@@ -89,7 +89,7 @@ function view_page($tbdsn = '')
     if ($mp4_path) {
         $TadUpFilesPic = new TadUpFiles("tad_book3", "/$tbsn/$uid");
         $TadUpFilesPic->set_col('pic', $tbdsn);
-        $video_thumb = $TadUpFilesPic->get_pic_file('images', 'url', '', true);
+        $video_thumb = $TadUpFilesPic->get_pic_file('images', 'url');
 
         if (empty($video_thumb)) {
             $video_thumb = XOOPS_URL . "/uploads/tad_book3/{$tbsn}/{$uid}/image/{$tbdsn}.jpg";

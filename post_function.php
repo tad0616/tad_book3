@@ -156,11 +156,17 @@ function update_tad_book3_docs($tbdsn = '')
     $paragraph = (int) $_POST['paragraph'];
     $sort = (int) $_POST['sort'];
     $tbsn = (int) $_POST['tbsn'];
-
+    $category_old = (int) $_POST['category_old'];
+    $page_old = (int) $_POST['page_old'];
+    $paragraph_old = (int) $_POST['paragraph_old'];
+    $sort_old = (int) $_POST['sort_old'];
     check_update_cpps_add($tbsn, $category, $page, $paragraph, $sort, $tbdsn);
 
     $sql = 'update ' . $xoopsDB->prefix('tad_book3_docs') . " set  `tbsn` = '{$tbsn}', `category` = '{$category}', `page` = '{$page}', `paragraph` = '{$paragraph}', `sort` = '{$sort}', `title` = '{$title}', `content` = '{$content}', `last_modify_date` = '{$time}', `enable` = '{$_POST['enable']}', `from_tbdsn` = '{$from_tbdsn}' where tbdsn='$tbdsn'";
     $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+
+    // 修改子文件編號
+    // check_update_child($tbsn, $category, $page, $paragraph, $category_old, $page_old, $paragraph_old);
 
     $uid = $xoopsUser->uid();
     $TadUpFilesMp4 = new TadUpFiles("tad_book3", "/$tbsn/$uid");
@@ -217,6 +223,46 @@ function check_update_cpps_add($tbsn = 0, $category = 0, $page = 0, $paragraph =
         } elseif (!empty($category) and empty($page) and empty($paragraph) and empty($sort)) {
             $sql = 'update ' . $xoopsDB->prefix('tad_book3_docs') . " set `category` = `category` + 1 where tbsn='{$tbsn}' and  `category` >= '{$category}' ";
             $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+        }
+    }
+}
+
+//檢查底下的章節數，若有父編號要跟著變
+function check_update_child($tbsn, $category, $page, $paragraph, $category_old, $page_old, $paragraph_old)
+{
+    global $xoopsDB;
+
+    if ($category == $category_old && $page == $page_old && $paragraph != $paragraph_old) {
+        // 2-5-4 改為 2-5-5（要把 2-5-4-1 改為 2-5-5-1）
+        $sql = 'select tbdsn from ' . $xoopsDB->prefix('tad_book3_docs') . " where tbsn='{$tbsn}' and `category`='{$category}' and `page`='{$page}' and `paragraph`='{$paragraph_old}'";
+        $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+        while (list($tbdsn) = $xoopsDB->fetchRow($result)) {
+            $sql = 'update ' . $xoopsDB->prefix('tad_book3_docs') . " set `paragraph` = '{$paragraph}' where  tbdsn='{$tbdsn}'";
+            $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+        }
+    } elseif ($category == $category_old && $page != $page_old && $paragraph == $paragraph_old) {
+        // 2-5-4 改為 2-6-4（要把 2-5-4-1 改為 2-6-4-1）
+        $sql = 'select tbdsn from ' . $xoopsDB->prefix('tad_book3_docs') . " where tbsn='{$tbsn}' and `category`='{$category}' and `page`='{$page_old}'";
+        $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+        while (list($tbdsn) = $xoopsDB->fetchRow($result)) {
+            $sql = 'update ' . $xoopsDB->prefix('tad_book3_docs') . " set `page` = '{$page}' where  tbdsn='{$tbdsn}'";
+            $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+        }
+    } elseif ($category != $category_old && $page == $page_old && $paragraph == $paragraph_old) {
+        // 2-5-4 改為 3-5-4（要把 2-5-4-1 改為 3-5-4-1）
+        $sql = 'select tbdsn from ' . $xoopsDB->prefix('tad_book3_docs') . " where tbsn='{$tbsn}' and `category`='{$category_old}' ";
+        $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+        while (list($tbdsn) = $xoopsDB->fetchRow($result)) {
+            $sql = 'update ' . $xoopsDB->prefix('tad_book3_docs') . " set `category` = '{$category}' where  tbdsn='{$tbdsn}'";
+            $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+        }
+    } elseif ($category != $category_old && $page != $page_old && $paragraph == $paragraph_old) {
+        // 2-5-4 改為 3-6-4（要把 2-5-4-1 改為 3-5-4-1）
+        $sql = 'select tbdsn from ' . $xoopsDB->prefix('tad_book3_docs') . " where tbsn='{$tbsn}' and `category`='{$category_old}' and `page`='{$page_old}'";
+        $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+        while (list($tbdsn) = $xoopsDB->fetchRow($result)) {
+            $sql = 'update ' . $xoopsDB->prefix('tad_book3_docs') . " set `category` = '{$category}', `page` = '{$page}' where  tbdsn='{$tbdsn}'";
+            $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
         }
     }
 }

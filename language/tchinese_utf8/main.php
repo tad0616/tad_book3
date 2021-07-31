@@ -45,3 +45,4 @@ define('_MD_TADBOOK3_CANT_VIEW_VIDEO', '您沒有觀看影片的權限');
 define('_MD_TADBOOK3_AND_SYMBOL', '、');
 define('_MD_TADBOOK3_NOT_VIEW_VIDEO_GROUP', '影片僅開放「%s」等群組可觀看');
 define('_MD_TADBOOK3_LOGIN_TO_VIEW_VIDEO', '請先登入，登入後，確認您的權限後，即可觀看影片。');
+define('_MD_TADBOOK3_VIEW_LOG', '所有影片共 %s，您已觀看 %s，完成 %s%%');

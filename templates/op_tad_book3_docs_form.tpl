@@ -56,15 +56,19 @@
             <select name="category" size=1 class="form-control" style="width: 23%; display: inline;">
                 <{$category_menu_category}>
             </select>
+            <input type="hidden" name="category_old" value="<{$category}>">
             <select name="page" size=1 class="form-control" style="width: 23%; display: inline;">
                 <{$category_menu_page}>
             </select>
+            <input type="hidden" name="page_old" value="<{$page}>">
             <select name="paragraph" size=1 class="form-control" style="width: 23%; display: inline;">
                 <{$category_menu_paragraph}>
             </select>
+            <input type="hidden" name="paragraph_old" value="<{$paragraph}>">
             <select name="sort" size=1 class="form-control" style="width: 23%; display: inline;">
                 <{$category_menu_sort}>
             </select>
+            <input type="hidden" name="sort_old" value="<{$sort}>">
         </div>
     </div>
 

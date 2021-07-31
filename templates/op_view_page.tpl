@@ -24,7 +24,7 @@
             <{$p}>
         </div>
         <div class="col-sm-4 text-center">
-            <select onChange="window.location.href='page.php?tbsn=<{$tbsn}>&tbdsn='+this.value" class="form-control">
+            <select onChange="window.location.href='page.php?tbsn=<{$tbsn}>&tbdsn='+this.value" class="form-control" title="Select Document">
                 <{$doc_select}>
             </select>
         </div>
@@ -83,7 +83,7 @@
             <{$p}>
         </div>
         <div class="col-sm-4 text-center">
-            <select onChange="window.location.href='page.php?tbsn=<{$tbsn}>&tbdsn='+this.value" class="form-control">
+            <select onChange="window.location.href='page.php?tbsn=<{$tbsn}>&tbdsn='+this.value" class="form-control" title="Select Document">
                 <{$doc_select}>
             </select>
         </div>

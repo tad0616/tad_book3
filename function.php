@@ -2,6 +2,7 @@
 use XoopsModules\Tadtools\CkEditor;
 use XoopsModules\Tadtools\SweetAlert;
 use XoopsModules\Tadtools\TadDataCenter;
+use XoopsModules\Tadtools\TreeTable;
 use XoopsModules\Tadtools\Utility;
 
 xoops_loadLanguage('main', 'tadtools');
@@ -230,11 +231,11 @@ function list_docs($def_tbsn = '')
     $lengths = get_video_lengths($def_tbsn);
     $logs = get_user_logs($def_tbsn);
     // Utility::dd($logs);
-    $i = 0;
+
     $docs = [];
     $sql = 'select * from ' . $xoopsDB->prefix('tad_book3_docs') . " where tbsn='{$tbsn}' order by category,page,paragraph,sort";
     $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
-    $i1 = $i2 = $i3 = $i4 = 0;
+    $i = $i1 = $i2 = $i3 = $i4 = $total_time = $total_view = 0;
     $new_category = $new_page = $new_paragraph = $new_sort = '';
     while (false !== ($data = $xoopsDB->fetchArray($result))) {
         foreach ($data as $k => $v) {
@@ -255,6 +256,8 @@ function list_docs($def_tbsn = '')
         $docs[$i]['last_modify_date'] = $last_modify_date;
         $docs[$i]['doc_sort_level'] = $doc_sort['level'];
         $docs[$i]['doc_sort_main'] = $doc_sort['main'];
+        $docs[$i]['ttid'] = $doc_sort['ttid'];
+        $docs[$i]['doc_sort_parent'] = $doc_sort['parent'];
         $docs[$i]['title'] = $title;
         $docs[$i]['content'] = $content;
         $docs[$i]['count'] = $count;
@@ -264,6 +267,8 @@ function list_docs($def_tbsn = '')
         $docs[$i]['length'] = $lengths[$tbdsn];
         $docs[$i]['percentage'] = round($logs[$tbdsn] / $lengths[$tbdsn], 2) * 100;
         $docs[$i]['time'] = secondsToTime($lengths[$tbdsn]);
+        $total_time += $lengths[$tbdsn];
+        $total_view += $logs[$tbdsn];
 
         if (empty($new_category)) {
             $new_category = $category;
@@ -320,12 +325,26 @@ function list_docs($def_tbsn = '')
     }
 
     $xoopsTpl->assign('docs', $docs);
+    $percentage = round($total_view / $total_time, 4) * 100;
+    $total_view = secondsToTime($total_view);
+    $total_time = secondsToTime($total_time);
+
+    $xoopsTpl->assign('total_view', $total_view);
+    $xoopsTpl->assign('total_time', $total_time);
+    $xoopsTpl->assign('percentage', $percentage);
+
+    $view_info = sprintf(_MD_TADBOOK3_VIEW_LOG, $total_time, $total_view, $percentage);
+    $xoopsTpl->assign('view_info', $view_info);
 
     $SweetAlert = new SweetAlert();
     $SweetAlert->render('delete_tad_book3_func', 'admin/main.php?op=delete_tad_book3&tbsn=', 'tbsn');
 
     $SweetAlert2 = new SweetAlert();
     $SweetAlert2->render('delete_tad_book3_docs_func', "index.php?op=delete_tad_book3_docs&tbsn={$def_tbsn}&tbdsn=", 'tbdsn');
+
+    //treetable($show_jquery=true , $sn="cat_sn" , $of_sn="of_cat_sn" , $tbl_id="#tbl" , $post_url="save_drag.php" ,$folder_class=".folder", $msg="#save_msg" ,$expanded=true,$sort_id="", $sort_url="save_sort.php", $sort_msg="#save_msg2")
+    $TreeTable = new TreeTable(false, '', '', '#content_tbl');
+    $TreeTable->render();
 }
 
 // 取得所有影片長度

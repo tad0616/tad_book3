@@ -1,3 +1,11 @@
+Tad Book3 3.9.8 (released on 2021-07-31)
+==================================================================
+1. Add the video function, you can limit the group of video watching, and record the progress of watching video.
+2. If there is no content page, you can't connect to watch it.
+3. Compliant with the new Accessibility AA Standard 2021/07
+4. Add automatic video cutscene function
+
+
 Tad Book3 3.9.7 (Released on 2021-02-18)
 =======================================================
 1. Fix the problem that the category management cannot be edited in the backend
