@@ -27,5 +27,5 @@
         <div class="col-sm-4 text-right"><{$n}></div>
     </div>
 
-    <textarea name="markdown" id="markdown" rows="50" class="form-control"><{$markdown}></textarea>
+    <textarea name="markdown" id="markdown" title="markdown code" rows="50" class="form-control"><{$markdown}></textarea>
 <{/if}>

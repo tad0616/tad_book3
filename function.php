@@ -157,6 +157,11 @@ function list_docs($def_tbsn = '')
         $uid = 0;
     }
 
+    if (empty($def_tbsn)) {
+        header("location: index.php");
+        exit;
+    }
+
     add_book_counter($def_tbsn);
 
     $xoopsTpl->assign('now_op', 'list_docs');
@@ -267,6 +272,7 @@ function list_docs($def_tbsn = '')
         $docs[$i]['length'] = $lengths[$tbdsn];
         $docs[$i]['percentage'] = round($logs[$tbdsn] / $lengths[$tbdsn], 2) * 100;
         $docs[$i]['time'] = secondsToTime($lengths[$tbdsn]);
+        $docs[$i]['from_tbdsn'] = $from_tbdsn;
         $total_time += $lengths[$tbdsn];
         $total_view += $logs[$tbdsn];
 
@@ -736,7 +742,7 @@ function near_docs($tbsn = '', $doc_sn = '')
 {
     global $xoopsDB;
     $and_enable = $_SESSION['tad_book3_adm'] ? '' : "and enable='1'";
-    $sql = 'select tbdsn,title,category,page,paragraph,sort from ' . $xoopsDB->prefix('tad_book3_docs') . " where tbsn='$tbsn' and content!='' $and_enable order by category,page,paragraph,sort";
+    $sql = 'select tbdsn,title,category,page,paragraph,sort from ' . $xoopsDB->prefix('tad_book3_docs') . " where tbsn='$tbsn' and (`content` != '' or `from_tbdsn` != 0) $and_enable order by category,page,paragraph,sort";
     $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
     $get_next = false;
     while (list($tbdsn, $title, $category, $page, $paragraph, $sort) = $xoopsDB->fetchRow($result)) {
@@ -772,9 +778,9 @@ function doc_select($tbsn = '', $doc_sn = '')
 
     $main = '';
 
-    $sql = 'select tbdsn,title,content,category,page,paragraph,sort,enable,uid from ' . $xoopsDB->prefix('tad_book3_docs') . " where tbsn='$tbsn' $andenable order by category,page,paragraph,sort";
+    $sql = 'select tbdsn,title,content,category,page,paragraph,sort,enable,uid,from_tbdsn from ' . $xoopsDB->prefix('tad_book3_docs') . " where tbsn='$tbsn' $andenable order by category,page,paragraph,sort";
     $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
-    while (list($tbdsn, $title, $content, $category, $page, $paragraph, $sort, $enable, $uid) = $xoopsDB->fetchRow($result)) {
+    while (list($tbdsn, $title, $content, $category, $page, $paragraph, $sort, $enable, $uid, $from_tbdsn) = $xoopsDB->fetchRow($result)) {
         $selected = ($doc_sn == $tbdsn) ? 'selected' : '';
         $doc_sort = mk_category($category, $page, $paragraph, $sort);
 
@@ -788,7 +794,7 @@ function doc_select($tbsn = '', $doc_sn = '')
         } else {
             $style = " style='color:black;'";
         }
-        $disabled = empty($content) ? 'disabled' : '';
+        $disabled = (empty($content) and empty($from_tbdsn)) ? 'disabled' : '';
         $main .= "<option value=$tbdsn $selected $style $disabled>" . str_repeat('&nbsp;', ($doc_sort['level'] - 1) * 2) . "{$doc_sort['main']} {$stat}{$title}</option>";
     }
 

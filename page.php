@@ -22,7 +22,7 @@ function view_page($tbdsn = '')
         $$key = $value;
     }
 
-    if (empty($content)) {
+    if (empty($content) and empty($from_tbdsn)) {
         header("location: index.php?op=list_docs&tbsn=$tbsn#doc{$tbdsn}");
         exit;
     }

@@ -9,9 +9,11 @@
     <div class="clearfix"></div>
 
     <div class="col-sm-9">
-        <h2 class="my">
-            <{$title}>
-        </h2>
+        <{if $title}>
+            <h2 class="my"><{$title}></h2>
+        <{else}>
+            <h2 class="sr-only">Contents</h2>
+        <{/if}>
         <div style="font-size: 0.8rem; margin: 10px 0px;">
             <span class="badge badge-success"><{$cate}></span>
             <{$smarty.const._MD_TADBOOK3_CREATE_DATE}> <{$create_date}>
@@ -60,7 +62,8 @@
             <div class="text-right">
                 <a href="#" onclick="jQuery('#content_tbl').treetable('expandAll'); return false;" class="btn btn-sm btn-info"><i class="fa fa-plus-square-o" aria-hidden="true"></i> 全部展開</a>
                 <a href="#" onclick="jQuery('#content_tbl').treetable('collapseAll'); return false;" class="btn btn-sm btn-warning"><i class="fa fa-minus-square-o" aria-hidden="true"></i> 全部闔起</a>
-                <{if $total_time}><a href="page.php?op=view_log" target="_blank" class="btn btn-sm btn-primary"><i class="fa fa-pie-chart" aria-hidden="true"></i> 觀看紀錄</a><{/if}>
+                <!--
+                <{if $total_time}><a href="page.php?op=view_log" target="_blank" class="btn btn-sm btn-primary"><i class="fa fa-pie-chart" aria-hidden="true"></i> 觀看紀錄</a><{/if}>-->
                 <a href="https://www.addtoany.com/add_to/printfriendly?linkurl=<{$xoops_url}>%2Fmodules%2Ftad_book3%2Fhtml_all.php%3Ftbsn%3D<{$tbsn}>&amp;linkname=" target="_blank" class="btn btn-sm btn-success">
                     <i class="fa fa-file-pdf-o"></i>
                     <{$smarty.const._MD_TADBOOK3_DL_HTML}> &
@@ -88,7 +91,7 @@
                             <input type="hidden" name="update_sort[<{$doc.tbdsn}>]" value="<{$doc.new_sort.main}>">
                         <{/if}>
                         <{$doc.enable_txt}>
-                        <{if $doc.content}>
+                        <{if $doc.content || $doc.from_tbdsn}>
                             <a href="<{$xoops_url}>/modules/tad_book3/page.php?tbsn=<{$tbsn}>&tbdsn=<{$doc.tbdsn}>"><{$doc.title}></a>
                         <{else}>
                             <{$doc.title}>

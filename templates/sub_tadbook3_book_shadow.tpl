@@ -2,7 +2,7 @@
 
     <a class="book-container" href="<{$xoops_url}>/modules/tad_book3/index.php?op=list_docs&tbsn=<{$book.tbsn}>" rel="noreferrer noopener">
         <div class="book">
-            <img alt="<{$book.title}>" src="<{$book.pic}>">
+            <img alt="<{$book.title}>" src="<{$book.pic}>"><span class="sr-only">book:<{$book.title}></span>
         </div>
     </a>
 
@@ -15,6 +15,10 @@
     <{/if}>
 
     <div style="margin: 10px auto;line-height: 1.5;margin-bottom: 10px;">
-        <a href="index.php?op=list_docs&tbsn=<{$book.tbsn}>"><{$book.title}></a>
+        <{if $book.title}>
+            <a href="index.php?op=list_docs&tbsn=<{$book.tbsn}>"><{$book.title}></a>
+        <{else}>
+            <a href="index.php?op=list_docs&tbsn=<{$book.tbsn}>"><{$book.tbsn}></a>
+        <{/if}>
     </div>
 </div>

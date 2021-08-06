@@ -88,6 +88,7 @@ function tad_book3_content($options)
         $docs[$i]['enable'] = $enable;
         $docs[$i]['enable_txt'] = $enable_txt;
         $docs[$i]['have_sub'] = $have_sub;
+        $docs[$i]['from_tbdsn'] = $from_tbdsn;
 
         if (empty($new_category)) {
             $new_category = $category;

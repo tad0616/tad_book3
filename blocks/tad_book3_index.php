@@ -42,13 +42,13 @@ if (!function_exists('block_get_book_content')) {
     {
         global $xoopsDB;
 
-        $sql = 'select `tbdsn`,`tbsn`,`category`,`page`,`paragraph`,`sort`,`title`,`content` from ' . $xoopsDB->prefix('tad_book3_docs') . " where tbsn='{$tbsn}' and enable='1' order by category,page,paragraph,sort";
+        $sql = 'select `tbdsn`,`tbsn`,`category`,`page`,`paragraph`,`sort`,`title`,`content`,`from_tbdsn` from ' . $xoopsDB->prefix('tad_book3_docs') . " where tbsn='{$tbsn}' and enable='1' order by category,page,paragraph,sort";
 
         $result = $xoopsDB->query($sql);
 
         $father_sn = $old_sn = $old_level = 0;
         $fsn = [];
-        while (list($tbdsn, $tbsn, $category, $page, $paragraph, $sort, $title, $content) = $xoopsDB->fetchRow($result)) {
+        while (list($tbdsn, $tbsn, $category, $page, $paragraph, $sort, $title, $content, $from_tbdsn) = $xoopsDB->fetchRow($result)) {
             $doc_sort = block_category($tbdsn, $category, $page, $paragraph, $sort);
 
             $father_sn = 0;
@@ -70,7 +70,7 @@ if (!function_exists('block_get_book_content')) {
 
             $book['title'][$tbdsn] = "{$doc_sort['main']}{$title}";
             $book['father_sn'][$tbdsn] = $father_sn;
-            $book['url'][$tbdsn] = $content ? XOOPS_URL . "/modules/tad_book3/page.php?tbsn={$tbsn}&tbdsn={$tbdsn}" : '';
+            $book['url'][$tbdsn] = ($content || $from_tbdsn) ? XOOPS_URL . "/modules/tad_book3/page.php?tbsn={$tbsn}&tbdsn={$tbdsn}" : '';
         }
 
         return $book;

@@ -4,7 +4,7 @@
 
         <a class="book-container" href="<{$xoops_url}>/modules/tad_book3/index.php?op=list_docs&tbsn=<{$block.book.tbsn}>" rel="noreferrer noopener">
             <div class="book">
-                <img alt="<{$block.book.title}>" src="<{$block.book.pic}>">
+                <img alt="<{$block.book.title}>" src="<{$block.book.pic}>"><span class="sr-only">book:<{$book.title}></span>
             </div>
         </a>
         <div style="margin: 10px auto;text-align:center;line-height: 1.5;margin-bottom: 10px;">
@@ -47,7 +47,7 @@
                         <{/if}>
                     </span>
                     <{$doc.enable_txt}>
-                    <{if $doc.content}>
+                    <{if $doc.content || $doc.from_tbdsn}>
                         <a href="<{$xoops_url}>/modules/tad_book3/page.php?tbsn=<{$tbsn}>&tbdsn=<{$doc.tbdsn}>"><{$doc.title}></a>
                     <{else}>
                         <{$doc.title}>

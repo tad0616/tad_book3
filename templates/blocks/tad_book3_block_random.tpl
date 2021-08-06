@@ -3,7 +3,7 @@
 
         <a class="book-container" href="<{$xoops_url}>/modules/tad_book3/index.php?op=list_docs&tbsn=<{$book.tbsn}>" rel="noreferrer noopener">
             <div class="book">
-                <img alt="<{$book.title}>" src="<{$book.pic}>">
+                <img alt="<{$book.title}>" src="<{$book.pic}>"><span class="sr-only">book:<{$book.title}></span>
             </div>
         </a>
         <{if $book.show_title}>

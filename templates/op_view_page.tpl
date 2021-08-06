@@ -37,9 +37,11 @@
     <div class="row page">
         <div class="col-sm-12">
             <div class="page_title">
-                <a href="index.php?op=list_docs&tbsn=<{$tbsn}>">
-                <{$book_title}>
-                </a>
+                <{if $book_title}>
+                <a href="index.php?op=list_docs&tbsn=<{$tbsn}>"><{$book_title}></a>
+                <{else}>
+                <a href="index.php?op=list_docs&tbsn=<{$tbsn}>"><{$tbsn}></a>
+                <{/if}>
             </div>
             <div class="page_content">
                 <h<{$doc_sort_level}>>
