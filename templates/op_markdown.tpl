@@ -1,3 +1,5 @@
+<h2 class="sr-only">MarkDown</h2>
+
 <{if $needpasswd=='1'}>
     <div class="alert alert-danger">
         <form action="page.php" method="post" id="myForm">

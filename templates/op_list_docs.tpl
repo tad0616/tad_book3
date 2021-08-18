@@ -98,15 +98,15 @@
                         <{/if}>
                     </span>
                 </td>
-                <td style="font-size: 0.765rem; color: gray; text-align: right;white-space: nowrap;">
+                <td style="font-size: 0.8rem; color: gray; text-align: right;white-space: nowrap;">
                     <{if $doc.time}>
-                        <i class="fa fa-clock-o" aria-hidden="true"></i>
+                        <i class="fa fa-bar-chart-o" aria-hidden="true"></i>
                         <{$doc.percentage}>%
-                        <i class="fa fa-youtube-play" aria-hidden="true"></i>
+                        <i class="fa fa-clock-o" aria-hidden="true"></i>
                         <{$doc.time}>
                     <{/if}>
                 </td>
-                <td style="font-size: 0.765rem; color: gray; text-align: right;white-space: nowrap;">
+                <td style="font-size: 0.8rem; color: gray; text-align: right;white-space: nowrap;">
                     <{$doc.count}>
                     <i class="fa fa-user"></i>
                     <{$doc.last_modify_date}>

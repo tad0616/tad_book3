@@ -1,4 +1,5 @@
-<{if $needpasswd=='1' }>
+<{if $needpasswd=='1'}>
+    <h3 class="sr-only">Need Password</h3>
     <div class="alert alert-danger">
         <form action="page.php" method="post" id="myForm">
             <div class="input-group">
@@ -38,16 +39,21 @@
         <div class="col-sm-12">
             <div class="page_title">
                 <{if $book_title}>
-                <a href="index.php?op=list_docs&tbsn=<{$tbsn}>"><{$book_title}></a>
+                    <a href="index.php?op=list_docs&tbsn=<{$tbsn}>"><{$book_title}></a>
                 <{else}>
-                <a href="index.php?op=list_docs&tbsn=<{$tbsn}>"><{$tbsn}></a>
+                    <a href="index.php?op=list_docs&tbsn=<{$tbsn}>"><{$tbsn}></a>
                 <{/if}>
             </div>
             <div class="page_content">
-                <h<{$doc_sort_level}>>
-                    <{$doc_sort_main}>
-                    <{$title}>
-                </h<{$doc_sort_level}>>
+                <{if $doc_sort_level}>
+                    <h<{$doc_sort_level}>>
+                        <{$doc_sort_main}>
+                        <{$title}>
+                    </h<{$doc_sort_level}>>
+                <{else}>
+                    <h3 class="sr-only">Empty Title</h3>
+                <{/if}>
+
                 <{if $player}>
                     <{if $now_uid}>
                         <{if $view_video}>
