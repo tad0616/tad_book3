@@ -2,6 +2,7 @@
 use XoopsModules\Tadtools\CkEditor;
 use XoopsModules\Tadtools\TadUpFiles;
 use XoopsModules\Tadtools\Utility;
+use XoopsModules\Tadtools\Wcag;
 require __DIR__ . '/vendor/autoload.php';
 
 //tad_book3_docs編輯表單
@@ -91,6 +92,7 @@ function insert_tad_book3_docs()
     $myts = \MyTextSanitizer::getInstance();
     $title = $myts->addSlashes($_POST['title']);
     $content = $myts->addSlashes($_POST['content']);
+    $content = Wcag::amend($content);
     $from_tbdsn = (int) $_POST['from_tbdsn'];
 
     $category = (int) $_POST['category'];
@@ -149,6 +151,7 @@ function update_tad_book3_docs($tbdsn = '')
     $myts = \MyTextSanitizer::getInstance();
     $title = $myts->addSlashes($_POST['title']);
     $content = $myts->addSlashes($_POST['content']);
+    $content = Wcag::amend($content);
     $from_tbdsn = (int) $_POST['from_tbdsn'];
 
     $category = (int) $_POST['category'];

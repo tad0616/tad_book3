@@ -4,6 +4,7 @@ use XoopsModules\Tadtools\SweetAlert;
 use XoopsModules\Tadtools\TadDataCenter;
 use XoopsModules\Tadtools\TreeTable;
 use XoopsModules\Tadtools\Utility;
+use XoopsModules\Tadtools\Wcag;
 
 xoops_loadLanguage('main', 'tadtools');
 
@@ -505,6 +506,7 @@ function insert_tad_book3()
     $myts = \MyTextSanitizer::getInstance();
     $title = $myts->addSlashes($_POST['title']);
     $description = $myts->addSlashes($_POST['description']);
+    $description = Wcag::amend($description);
     $passwd = $myts->addSlashes($_POST['passwd']);
     $enable = $myts->addSlashes($_POST['enable']);
     $pic_name = $myts->addSlashes($_POST['pic_name']);
@@ -582,6 +584,7 @@ function update_tad_book3($tbsn = '')
     $myts = \MyTextSanitizer::getInstance();
     $title = $myts->addSlashes($_POST['title']);
     $description = $myts->addSlashes($_POST['description']);
+    $description = Wcag::amend($description);
     $passwd = $myts->addSlashes($_POST['passwd']);
     $enable = $myts->addSlashes($_POST['enable']);
     $pic_name = $myts->addSlashes($_POST['pic_name']);

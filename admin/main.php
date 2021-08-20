@@ -4,6 +4,7 @@ use XoopsModules\Tadtools\CkEditor;
 use XoopsModules\Tadtools\FormValidator;
 use XoopsModules\Tadtools\SweetAlert;
 use XoopsModules\Tadtools\Utility;
+use XoopsModules\Tadtools\Wcag;
 use XoopsModules\Tadtools\Ztree;
 /*-----------引入檔案區--------------*/
 $xoopsOption['template_main'] = 'tadbook3_admin.tpl';
@@ -67,6 +68,7 @@ function insert_tad_book3_cate()
     $myts = \MyTextSanitizer::getInstance();
     $_POST['title'] = $myts->addSlashes($_POST['title']);
     $_POST['description'] = $myts->addSlashes($_POST['description']);
+    $_POST['description'] = Wcag::amend($_POST['description']);
     $_POST['of_tbsn'] = (int) $_POST['of_tbsn'];
     $_POST['sort'] = (int) $_POST['sort'];
 
@@ -89,6 +91,7 @@ function update_tad_book3_cate($tbcsn = '')
     $myts = \MyTextSanitizer::getInstance();
     $_POST['title'] = $myts->addSlashes($_POST['title']);
     $_POST['description'] = $myts->addSlashes($_POST['description']);
+    $_POST['description'] = Wcag::amend($_POST['description']);
 
     $sql = 'update ' . $xoopsDB->prefix('tad_book3_cate') . " set
     `of_tbsn` = '{$_POST['of_tbsn']}' ,
