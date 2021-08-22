@@ -1,3 +1,9 @@
+Tad Book3 4.0 (Released 2021-08-22)
+====================================
+1. Fix for 2021/07 new version of Accessibility AA standard
+2. Add barrier-free 2.1 AA auto-correction function
+
+
 Tad Book3 3.9.9 (released on 2021-08-06)
 ====================================
 1. Fix for 2021/07 new version of AA accessibility standard
