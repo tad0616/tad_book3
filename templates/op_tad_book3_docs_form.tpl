@@ -81,7 +81,7 @@
 
     <div class="form-group row">
         <label class="col-sm-1 control-label col-form-label text-md-right">
-            mp4影片
+            <{$smarty.const._MD_TADBOOK3_MP4}>
         </label>
         <div class="col-sm-11">
             <{$upform}>
@@ -90,7 +90,7 @@
 
     <div class="form-group row">
         <label class="col-sm-1 control-label col-form-label text-md-right">
-            VTT字幕
+            <{$smarty.const._MD_TADBOOK3_VTT}>
         </label>
         <div class="col-sm-11">
             <{$upform_vtt}>
@@ -100,13 +100,100 @@
     <{if $upform_pic}>
         <div class="form-group row">
             <label class="col-sm-1 control-label col-form-label text-md-right">
-                影片截圖
+                <{$smarty.const._MD_TADBOOK3_SCREENSHOT}>
             </label>
             <div class="col-sm-11">
                 <{$upform_pic}>
             </div>
         </div>
     <{/if}>
+
+    <div class="form-group row">
+        <label class="col-sm-1 control-label col-form-label text-md-right">
+            <{$smarty.const._MD_TADBOOK3_READ_GROUP}>
+        </label>
+        <div class="col-md-3">
+            <{$group_menu}>
+        </div>
+        <div class="col-md-7">
+            <ol>
+                <li><{$smarty.const._MD_TADBOOK3_READ_GROUP}><{$smarty.const._MD_TADBOOK3_START_DATE_SETUP}>
+                    <table class="table table-sm">
+                        <tbody>
+                            <{foreach from=$read_group_arr key=i item=gid name=read_group_arr}>
+                                <{if $gid==''}>
+                                    <tr>
+                                        <td style="width:30%"><{$smarty.const._MD_TADBOOK3_ALL_GROUP}></td>
+                                        <td style="width:70%"><input class="form-control form-control-sm" type="text" name="read_group_date[]" onClick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss' , startDate:'%y-%M-%d %H:%m:00}'})" value="<{if $read_group_date.0}><{$read_group_date.0.0}><{else}><{$now}><{/if}>"></td>
+                                    </tr>
+                                <{else}>
+                                    <tr>
+                                        <td style="width:30%"><{$groups.$gid}></td>
+                                        <td style="width:70%"><input class="form-control form-control-sm" type="text" name="read_group_date[<{$gid}>]" onClick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss' , startDate:'%y-%M-%d %H:%m:00}'})" value="<{if $read_group_date.$gid}><{$read_group_date.$gid.0}><{else}><{$now}><{/if}>"></td>
+                                    </tr>
+                                <{/if}>
+                            <{/foreach}>
+                        </tbody>
+                    </table>
+                </li>
+            <ol>
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label class="col-sm-1 control-label col-form-label text-md-right">
+            <{$smarty.const._MD_TADBOOK3_VIDEO_GROUP}>
+        </label>
+        <div class="col-md-3">
+            <{$video_group_menu}>
+        </div>
+        <div class="col-md-7">
+            <ol>
+                <li><{$smarty.const._MD_TADBOOK3_VIDEO_GROUP}><{$smarty.const._MD_TADBOOK3_START_DATE_SETUP}>
+                    <table class="table table-sm">
+                        <tbody>
+                            <{foreach from=$video_group_arr key=i item=gid name=video_group_arr}>
+                                <{if $gid==''}>
+                                    <tr>
+                                        <td style="width:30%"><{$smarty.const._MD_TADBOOK3_ALL_GROUP}></td>
+                                        <td style="width:70%"><input class="form-control form-control-sm" type="text" name="video_group_date[]" onClick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss' , startDate:'%y-%M-%d %H:%m:00}'})" value="<{if $video_group_date.0}><{$video_group_date.0.0}><{else}><{$now}><{/if}>"></td>
+                                    </tr>
+                                <{else}>
+                                    <tr>
+                                        <td style="width:30%"><{$groups.$gid}></td>
+                                        <td style="width:70%"><input class="form-control form-control-sm" type="text" name="video_group_date[<{$gid}>]" onClick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss' , startDate:'%y-%M-%d %H:%m:00}'})" value="<{if $video_group_date.$gid}><{$video_group_date.$gid.0}><{else}><{$now}><{/if}>"></td>
+                                    </tr>
+                                <{/if}>
+                            <{/foreach}>
+                        </tbody>
+                    </table>
+                </li>
+            <ol>
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label class="col-sm-1 control-label col-form-label text-md-right">
+            <{$smarty.const._MD_TADBOOK3_ABOUT}>
+        </label>
+        <div class="col-md-10">
+            <ol>
+            <li><{$smarty.const._MD_TADBOOK3_ABOUT_1}></li>
+            <li><{$smarty.const._MD_TADBOOK3_ABOUT_2}></li>
+            <{if $tbdsn}>
+                <li><{$smarty.const._MD_TADBOOK3_ABOUT_3}>
+                    <div class="form-check-inline checkbox-inline">
+                        <label class="form-check-label">
+                            <input class="form-check-input" type="checkbox" name="update_child_power" value="1" checked>
+                            <{$smarty.const._MD_TADBOOK3_APPLY_ALL}>
+                        </label>
+                    </div>
+                </li>
+            <{/if}>
+            <ol>
+        </div>
+    </div>
+
 
     <div class="bar">
         <input type="hidden" name="tbdsn" value="<{$tbdsn}>">

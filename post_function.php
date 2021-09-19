@@ -1,8 +1,11 @@
 <?php
 use XoopsModules\Tadtools\CkEditor;
+use XoopsModules\Tadtools\My97DatePicker;
+use XoopsModules\Tadtools\TadDataCenter;
 use XoopsModules\Tadtools\TadUpFiles;
 use XoopsModules\Tadtools\Utility;
 use XoopsModules\Tadtools\Wcag;
+
 require __DIR__ . '/vendor/autoload.php';
 
 //tad_book3_docs編輯表單
@@ -20,21 +23,27 @@ function tad_book3_docs_form($tbdsn = '', $tbsn = '')
 
     //抓取預設值
     $tbsn = !isset($DBV['tbsn']) ? $tbsn : $DBV['tbsn'];
+
+    $book = get_tad_book3($tbsn);
+    if (!$_SESSION['tad_book3_adm']) {
+        if (!chk_edit_power($book['author'])) {
+            header('location:index.php');
+            exit;
+        }
+    }
+
     if (!empty($tbdsn)) {
         $DBV = get_tad_book3_docs($tbdsn);
         $tbsn = $DBV['tbsn'];
     } else {
         $DBV = [];
-    }
-
-    if (!$_SESSION['tad_book3_adm']) {
-        $book = get_tad_book3($tbsn);
-        if (!chk_edit_power($book['author'])) {
-            header('location:index.php');
-        }
+        $DBV['read_group'] = $book['read_group'];
+        $DBV['video_group'] = $book['video_group'];
     }
 
     $DBV['enable'] = !isset($DBV['enable']) ? '1' : $DBV['enable'];
+    $DBV['read_group_arr'] = explode(',', $DBV['read_group']);
+    $DBV['video_group_arr'] = explode(',', $DBV['video_group']);
     foreach ($DBV as $name => $value) {
         $xoopsTpl->assign($name, $value);
         $$name = $value;
@@ -57,6 +66,8 @@ function tad_book3_docs_form($tbdsn = '', $tbsn = '')
     $xoopsTpl->assign('category_menu_sort', category_menu($sort));
     $xoopsTpl->assign('editor', $editor);
     $xoopsTpl->assign('from_tbdsn', $from_tbdsn);
+    $xoopsTpl->assign('now', date("Y-m-d H:i:s"));
+    $xoopsTpl->assign('groups', Utility::get_all_groups());
 
     Utility::mk_dir(XOOPS_ROOT_PATH . "/uploads/tad_book3/$tbsn");
     Utility::mk_dir(XOOPS_ROOT_PATH . "/uploads/tad_book3/$tbsn/$uid");
@@ -79,6 +90,26 @@ function tad_book3_docs_form($tbdsn = '', $tbsn = '')
         $upform_pic = $TadUpFilesPic->upform(true, 'video_thumb', 1, true, '.jpg,.png');
     }
     $xoopsTpl->assign('upform_pic', $upform_pic);
+
+    $SelectGroup = new \XoopsFormSelectGroup('', 'read_group', false, $read_group_arr, 5, true);
+    $SelectGroup->setExtra("class='form-control'");
+    $SelectGroup->addOption('', _MD_TADBOOK3_ALL_OPEN, false);
+    $group_menu = $SelectGroup->render();
+
+    $SelectGroup = new \XoopsFormSelectGroup('', 'video_group', false, $video_group_arr, 5, true);
+    $SelectGroup->setExtra("class='form-control'");
+    $SelectGroup->addOption('', _MD_TADBOOK3_ALL_OPEN, false);
+    $video_group_menu = $SelectGroup->render();
+    $xoopsTpl->assign('group_menu', $group_menu);
+    $xoopsTpl->assign('video_group_menu', $video_group_menu);
+    My97DatePicker::render();
+
+    $TadDataCenter = new TadDataCenter('tad_book3');
+    $TadDataCenter->set_col('video_tbdsn_date', $tbdsn);
+    $xoopsTpl->assign('video_group_date', $TadDataCenter->getData());
+
+    $TadDataCenter->set_col('read_tbdsn_date', $tbdsn);
+    $xoopsTpl->assign('read_group_date', $TadDataCenter->getData());
 
 }
 
@@ -103,8 +134,11 @@ function insert_tad_book3_docs()
 
     check_update_cpps_add($tbsn, $category, $page, $paragraph, $sort);
 
+    $read_group = (in_array('', $_POST['read_group'])) ? '' : implode(',', $_POST['read_group']);
+    $video_group = (in_array('', $_POST['video_group'])) ? '' : implode(',', $_POST['video_group']);
+
     $uid = $xoopsUser->uid();
-    $sql = 'insert into ' . $xoopsDB->prefix('tad_book3_docs') . " (`tbsn`,`category`,`page`,`paragraph`,`sort`,`title`,`content`,`add_date`,`last_modify_date`,`uid`,`count`,`enable`,`from_tbdsn`) values('{$tbsn}','{$category}','{$page}','{$paragraph}','{$sort}','{$title}','{$content}','{$time}','{$time}','{$uid}','0','{$_POST['enable']}','{$from_tbdsn}')";
+    $sql = 'insert into ' . $xoopsDB->prefix('tad_book3_docs') . " (`tbsn`,`category`,`page`,`paragraph`,`sort`,`title`,`content`,`add_date`,`last_modify_date`,`uid`,`count`,`enable`,`read_group`,`video_group`,`from_tbdsn`) values('{$tbsn}','{$category}','{$page}','{$paragraph}','{$sort}','{$title}','{$content}','{$time}','{$time}','{$uid}','0','{$_POST['enable']}','{$read_group}','{$video_group}','{$from_tbdsn}')";
     $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
     //取得最後新增資料的流水編號
     $tbdsn = $xoopsDB->getInsertId();
@@ -163,13 +197,27 @@ function update_tad_book3_docs($tbdsn = '')
     $page_old = (int) $_POST['page_old'];
     $paragraph_old = (int) $_POST['paragraph_old'];
     $sort_old = (int) $_POST['sort_old'];
+    $update_child_power = (int) $_POST['update_child_power'];
     check_update_cpps_add($tbsn, $category, $page, $paragraph, $sort, $tbdsn);
+    $read_group = (in_array('', $_POST['read_group'])) ? '' : implode(',', $_POST['read_group']);
+    $video_group = (in_array('', $_POST['video_group'])) ? '' : implode(',', $_POST['video_group']);
 
-    $sql = 'update ' . $xoopsDB->prefix('tad_book3_docs') . " set  `tbsn` = '{$tbsn}', `category` = '{$category}', `page` = '{$page}', `paragraph` = '{$paragraph}', `sort` = '{$sort}', `title` = '{$title}', `content` = '{$content}', `last_modify_date` = '{$time}', `enable` = '{$_POST['enable']}', `from_tbdsn` = '{$from_tbdsn}' where tbdsn='$tbdsn'";
+    $sql = 'update ' . $xoopsDB->prefix('tad_book3_docs') . " set  `tbsn` = '{$tbsn}', `category` = '{$category}', `page` = '{$page}', `paragraph` = '{$paragraph}', `sort` = '{$sort}', `title` = '{$title}', `content` = '{$content}', `last_modify_date` = '{$time}', `enable` = '{$_POST['enable']}', `read_group` = '{$read_group}', `video_group` = '{$video_group}', `from_tbdsn` = '{$from_tbdsn}' where tbdsn='$tbdsn'";
     $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
 
     // 修改子文件編號
     // check_update_child($tbsn, $category, $page, $paragraph, $category_old, $page_old, $paragraph_old);
+
+    // 修改子文件權限
+    if ($update_child_power) {
+        update_child_power($tbsn, $category, $page, $paragraph, $read_group, $video_group);
+    }
+
+    // 修改可觀看日期
+    update_view_date($tbdsn, $_POST['read_group_date'], $_POST['video_group_date']);
+    if ($update_child_power) {
+        update_child_date($tbsn, $category, $page, $paragraph, $_POST['read_group_date'], $_POST['video_group_date']);
+    }
 
     $uid = $xoopsUser->uid();
     $TadUpFilesMp4 = new TadUpFiles("tad_book3", "/$tbsn/$uid");
@@ -201,6 +249,7 @@ function update_tad_book3_docs($tbdsn = '')
             ->frame(FFMpeg\Coordinate\TimeCode::fromSeconds(10))
             ->save(XOOPS_ROOT_PATH . "/uploads/tad_book3/{$tbsn}/{$uid}/image/{$tbdsn}.jpg");
     }
+
     return $tbdsn;
 }
 
@@ -227,6 +276,63 @@ function check_update_cpps_add($tbsn = 0, $category = 0, $page = 0, $paragraph =
             $sql = 'update ' . $xoopsDB->prefix('tad_book3_docs') . " set `category` = `category` + 1 where tbsn='{$tbsn}' and  `category` >= '{$category}' ";
             $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
         }
+    }
+}
+
+//檢查底下的章節數，若有父編號要跟著變觀看起始日期
+function update_child_date($tbsn, $category, $page, $paragraph, $read_group_date = [], $video_group_date = [])
+{
+    global $xoopsDB;
+    if (!empty($category) and !empty($page) and !empty($paragraph)) {
+        $and = "and `category`='{$category}' and `page`='{$page}' and `paragraph`='{$paragraph}'";
+    } elseif (!empty($category) and !empty($page) and empty($paragraph)) {
+        $and = "and `category`='{$category}' and `page`='{$page}' ";
+    } elseif (!empty($category) and empty($page) and empty($paragraph)) {
+        $and = "and `category`='{$category}' ";
+    }
+
+    $sql = 'select tbdsn from ' . $xoopsDB->prefix('tad_book3_docs') . " where tbsn='{$tbsn}' $and ";
+    $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+    while (list($tbdsn) = $xoopsDB->fetchRow($result)) {
+        update_view_date($tbdsn, $read_group_date, $video_group_date);
+    }
+
+}
+
+//更新觀看起始日期
+function update_view_date($tbdsn, $read_group_date = [], $video_group_date = [])
+{
+    $TadDataCenter = new TadDataCenter('tad_book3');
+    $TadDataCenter->set_col('read_tbdsn_date', $tbdsn);
+    foreach ($read_group_date as $gid => $read_start_date) {
+        $read_group_date_arr[$gid] = [$read_start_date];
+    }
+    $TadDataCenter->saveCustomData($read_group_date_arr);
+
+    $TadDataCenter->set_col('video_tbdsn_date', $tbdsn);
+    foreach ($video_group_date as $gid => $video_start_date) {
+        $video_group_date_arr[$gid] = [$video_start_date];
+    }
+    $TadDataCenter->saveCustomData($video_group_date_arr);
+}
+
+//檢查底下的章節數，若有父編號要跟著變
+function update_child_power($tbsn, $category, $page, $paragraph, $read_group, $video_group)
+{
+    global $xoopsDB;
+    if (!empty($category) and !empty($page) and !empty($paragraph)) {
+        $and = "and `category`='{$category}' and `page`='{$page}' and `paragraph`='{$paragraph}'";
+    } elseif (!empty($category) and !empty($page) and empty($paragraph)) {
+        $and = "and `category`='{$category}' and `page`='{$page}' ";
+    } elseif (!empty($category) and empty($page) and empty($paragraph)) {
+        $and = "and `category`='{$category}' ";
+    }
+
+    $sql = 'select tbdsn from ' . $xoopsDB->prefix('tad_book3_docs') . " where tbsn='{$tbsn}' $and ";
+    $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+    while (list($tbdsn) = $xoopsDB->fetchRow($result)) {
+        $sql = 'update ' . $xoopsDB->prefix('tad_book3_docs') . " set `read_group` = '{$read_group}', `video_group` = '{$video_group}' where  tbdsn='{$tbdsn}'";
+        $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
     }
 }
 

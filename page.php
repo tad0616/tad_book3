@@ -34,8 +34,15 @@ function view_page($tbdsn = '')
 
     $book = get_tad_book3($tbsn);
 
-    if (!chk_power($book['read_group'])) {
+    if (!chk_power($book['read_group'], $read_group)) {
         redirect_header('index.php', 3, _MD_TADBOOK3_CANT_READ);
+    } else {
+        $now = time();
+        $start_ts = get_start_ts($tbdsn, 'read', $read_group);
+        if ($start_ts && $start_ts > $now) {
+            $start_time = date('Y-m-d H:i:s', $start_ts);
+            redirect_header('index.php', 3, sprintf(_MD_TADBOOK3_READ_DATE, $start_time));
+        }
     }
 
     $needpasswd = 0;
@@ -72,7 +79,11 @@ function view_page($tbdsn = '')
     $xoopsTpl->assign('push_url', Utility::push_url());
     $xoopsTpl->assign('tbdsn', $tbdsn);
     $xoopsTpl->assign('needpasswd', $needpasswd);
-    $xoopsTpl->assign('view_video', chk_power($book['video_group']));
+    $xoopsTpl->assign('view_video', chk_power($book['video_group'], $video_group));
+    $video_start_ts = get_start_ts($tbdsn, 'video', $video_group);
+    $xoopsTpl->assign('view_video_ts', $video_start_ts);
+    $xoopsTpl->assign('view_video_date', date('Y-m-d H:i:s', $video_start_ts));
+    $xoopsTpl->assign('now', time());
     $xoopsTpl->assign('video_group_txt', Utility::txt_to_group_name($book['video_group'], '', _MD_TADBOOK3_AND_SYMBOL));
     $xoopsTpl->assign('use_social_tools', $xoopsModuleConfig['use_social_tools']);
 
@@ -128,6 +139,65 @@ function add_counter($tbdsn = '')
     $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
 }
 
+//觀看紀錄
+function view_log($tbsn = '')
+{
+    global $xoopsDB, $xoopsModuleConfig, $xoopsTpl, $xoopsUser;
+
+    $book = get_tad_book3($tbsn);
+    $xoopsTpl->assign('book', $book);
+
+    if (!chk_power($book['read_group'], $read_group)) {
+        redirect_header('index.php', 3, _MD_TADBOOK3_CANT_READ);
+    } else {
+        $now = time();
+        $start_ts = get_start_ts($tbdsn, 'read', $read_group);
+        if ($start_ts && $start_ts > $now) {
+            $start_time = date('Y-m-d H:i:s', $start_ts);
+            redirect_header('index.php', 3, sprintf(_MD_TADBOOK3_READ_DATE, $start_time));
+        }
+    }
+
+    // 找出可閱讀群組及使用者
+    $video_group_arr = explode(',', $book['video_group']);
+    $member_handler = xoops_gethandler('member');
+    $group_handler = xoops_getHandler('group');
+    $group_users = [];
+    foreach ($video_group_arr as $group_id) {
+        $group = $group_handler->get($group_id);
+        $group_name = $group->name();
+        $users_uid = $member_handler->getUsersByGroup($group_id);
+        foreach ($users_uid as $uid) {
+            $group_users[$group_name][$uid]['name'] = $member_handler->getUser($uid)->name();
+            $group_users[$group_name][$uid]['log'] = get_user_logs($tbsn, $uid);
+        }
+
+    }
+    $xoopsTpl->assign('group_users', $group_users);
+
+    // 找出所本書所有單元
+    list($docs, $total_time, $total_view) = get_docs($tbsn, true);
+    $xoopsTpl->assign('docs', $docs);
+    $level = $count1 = $count2 = [];
+    foreach ($docs as $doc) {
+        $category = $doc['category'];
+        $page = $doc['page'];
+        $paragraph = $doc['paragraph'];
+        $sort = $doc['sort'];
+        $level[$category][$page][$paragraph][$sort] = $doc;
+
+        $count1[$category]++;
+        $count2[$category][$page]++;
+    }
+    $xoopsTpl->assign('level', $level);
+    $xoopsTpl->assign('count1', $count1);
+    $xoopsTpl->assign('count2', $count2);
+    if ($_GET['test']) {
+        Utility::dd($docs);
+    }
+
+}
+
 /*-----------執行動作判斷區----------*/
 $op = Request::getString('op');
 $tbsn = Request::getInt('tbsn');
@@ -136,6 +206,10 @@ $tbdsn = Request::getInt('tbdsn');
 switch ($op) {
     case 'check_passwd':
         check_passwd($tbsn);
+        break;
+
+    case 'view_log':
+        view_log($tbsn);
         break;
 
     default:

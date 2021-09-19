@@ -1,3 +1,7 @@
+Tad Book3 4.0.1 (Released 2021-08-24)
+====================================
+1.Search function security correction
+
 Tad Book3 4.0 (Released 2021-08-22)
 ====================================
 1. Fix for 2021/07 new version of Accessibility AA standard

@@ -153,6 +153,28 @@ class Update
         return true;
     }
 
+    //新增影片群組欄位
+    public static function chk_chk5()
+    {
+        global $xoopsDB;
+        $sql = 'SELECT count(`video_group`) FROM ' . $xoopsDB->prefix('tad_book3_docs');
+        $result = $xoopsDB->query($sql);
+        if (empty($result)) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public static function go_update5()
+    {
+        global $xoopsDB;
+        $sql = 'ALTER TABLE ' . $xoopsDB->prefix('tad_book3_docs') . " ADD `read_group` VARCHAR(255) NOT NULL DEFAULT '' AFTER `enable`, ADD `video_group` VARCHAR(255) NOT NULL DEFAULT '' AFTER `read_group`";
+        $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+
+        return true;
+    }
+
     //刪除錯誤的重複欄位及樣板檔
     public static function chk_tad_book3_block()
     {

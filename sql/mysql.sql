@@ -39,6 +39,8 @@ CREATE TABLE tad_book3_docs (
   `uid` MEDIUMINT(8) NOT NULL DEFAULT 0,
   `count` SMALLINT(6) NOT NULL DEFAULT 0,
   `enable` enum('1', '0') NOT NULL DEFAULT '1',
+  `read_group` VARCHAR(255) NOT NULL DEFAULT '',
+  `video_group` VARCHAR(255) NOT NULL DEFAULT '',
   `from_tbdsn` INT(10) UNSIGNED NOT NULL DEFAULT 0,
   PRIMARY KEY (`tbdsn`),
   KEY category (`category`, `page`, `paragraph`),

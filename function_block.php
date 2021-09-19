@@ -1,13 +1,13 @@
 <?php
-
+use XoopsModules\Tadtools\TadDataCenter;
 use XoopsModules\Tadtools\Utility;
 
 //判斷本文是否允許該用戶之所屬群組觀看
 if (!function_exists('chk_power')) {
-    function chk_power($enable_group = '')
+    function chk_power($book_enable_group = '', $page_enable_group = '')
     {
         global $xoopsDB, $xoopsUser;
-        if (empty($enable_group)) {
+        if (empty($book_enable_group) and empty($doc_enable_group)) {
             return true;
         }
 
@@ -18,14 +18,58 @@ if (!function_exists('chk_power')) {
             $User_Groups = [];
         }
 
-        $news_enable_group = explode(',', $enable_group);
+        $news_book_enable_group = explode(',', $book_enable_group);
+        $news_page_enable_group = explode(',', $page_enable_group);
         foreach ($User_Groups as $gid) {
-            if (in_array($gid, $news_enable_group)) {
-                return true;
+            if (empty($book_enable_group) or in_array($gid, $news_book_enable_group)) {
+                if (empty($page_enable_group) or in_array($gid, $news_page_enable_group)) {
+                    return true;
+                }
             }
         }
 
         return false;
+    }
+}
+
+if (!function_exists('get_start_ts')) {
+    function get_start_ts($tbdsn = '', $type = 'read', $ok_group = '')
+    {
+        global $xoopsDB, $xoopsUser;
+
+        $TadDataCenter = new TadDataCenter('tad_book3');
+        if ($type == 'video') {
+            $TadDataCenter->set_col('video_tbdsn_date', $tbdsn);
+        } else {
+            $TadDataCenter->set_col('read_tbdsn_date', $tbdsn);
+        }
+        $start_date_arr = $TadDataCenter->getData();
+
+        //取得目前使用者的所屬群組
+        if ($xoopsUser) {
+            $User_Groups = $xoopsUser->getGroups();
+        } else {
+            $User_Groups = [];
+        }
+
+        $ok_group_arr = explode(',', $ok_group);
+        $start_time = 0;
+        $view = false;
+        foreach ($User_Groups as $gid) {
+            if (in_array($gid, $ok_group_arr) && isset($start_date_arr[$gid])) {
+                $view = true;
+                $new_start_time = strtotime($start_date_arr[$gid][0]);
+                if ($start_time == 0 || $new_start_time < $start_time) {
+                    $start_time = $new_start_time;
+                }
+            }
+        }
+
+        if ($view) {
+            return $start_time;
+        } else {
+            return false;
+        }
     }
 }
 

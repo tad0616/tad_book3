@@ -28,6 +28,10 @@ function xoops_module_update_tad_book3(&$module, $old_version)
         Update::go_update4();
     }
 
+    if (Update::chk_chk5()) {
+        Update::go_update5();
+    }
+
     if (Update::chk_uid()) {
         Update::go_update_uid();
     }
