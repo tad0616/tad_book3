@@ -262,7 +262,7 @@ function list_docs($def_tbsn = '')
 // 找出所本書所有單元
 function get_docs($def_tbsn, $have_content = false)
 {
-    global $xoopsDB, $xoopsUser, $xoopsModule, $xoopsTpl, $xoopsModuleConfig;
+    global $xoopsDB;
 
     $lengths = get_video_lengths($def_tbsn);
     $logs = get_user_logs($def_tbsn);
@@ -305,11 +305,10 @@ function get_docs($def_tbsn, $have_content = false)
         $docs[$i]['have_sub'] = $have_sub;
         $docs[$i]['from_tbdsn'] = $from_tbdsn;
         $docs[$i]['lengths'] = $lengths[$tbdsn];
+        $docs[$i]['time'] = secondsToTime($lengths[$tbdsn]);
+        $total_time += $lengths[$tbdsn];
         if ($logs[$tbdsn] && $lengths[$tbdsn]) {
-            $docs[$i]['length'] = $lengths[$tbdsn];
             $docs[$i]['percentage'] = round($logs[$tbdsn] / $lengths[$tbdsn], 2) * 100;
-            $docs[$i]['time'] = secondsToTime($lengths[$tbdsn]);
-            $total_time += $lengths[$tbdsn];
             $total_view += $logs[$tbdsn];
         }
 

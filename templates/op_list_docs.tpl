@@ -63,13 +63,13 @@
                 <{if $smarty.session.tad_book3_adm}>
                     <a href="page.php?tbsn=<{$tbsn}>&op=view_log" class="btn btn-sm btn-primary">
                         <i class="fa fa-pie-chart" aria-hidden="true"></i>
-                        觀看紀錄
+                        <{$smarty.const._MD_TADBOOK3_READING_STATUS}>
                     </a>
                 <{/if}>
                 <a href="#" onclick="jQuery('#content_tbl').treetable('expandAll'); return false;" class="btn btn-sm btn-info"><i class="fa fa-plus-square-o" aria-hidden="true"></i> <{$smarty.const._MD_TADBOOK3_EXPAND_ALL}></a>
                 <a href="#" onclick="jQuery('#content_tbl').treetable('collapseAll'); return false;" class="btn btn-sm btn-warning"><i class="fa fa-minus-square-o" aria-hidden="true"></i> <{$smarty.const._MD_TADBOOK3_CLOSED_ALL}></a>
                 <!--
-                <{if $total_time}><a href="page.php?op=view_log" target="_blank" class="btn btn-sm btn-primary"><i class="fa fa-pie-chart" aria-hidden="true"></i> 觀看紀錄</a><{/if}>-->
+                <{if $total_time}><a href="page.php?op=view_log" target="_blank" class="btn btn-sm btn-primary"><i class="fa fa-pie-chart" aria-hidden="true"></i> <{$smarty.const._MD_TADBOOK3_READING_STATUS}></a><{/if}>-->
                 <a href="https://www.addtoany.com/add_to/printfriendly?linkurl=<{$xoops_url}>%2Fmodules%2Ftad_book3%2Fhtml_all.php%3Ftbsn%3D<{$tbsn}>&amp;linkname=" target="_blank" class="btn btn-sm btn-success">
                     <i class="fa fa-file-pdf-o"></i>
                     <{$smarty.const._MD_TADBOOK3_DL_HTML}> &
@@ -109,10 +109,12 @@
                         <{if $doc.percentage==100}>
                             <span style="padding: 0px 2px; color: green";><i class="fa fa-check-circle" aria-hidden="true"></i></span>
                         <{/if}>
-                        <span style="padding:0px;color: <{if $doc.percentage==100}>#1800ba<{elseif $doc.percentage >= 75}>#00a8b7<{elseif $doc.percentage >= 50}>#b58100<{elseif $doc.percentage >= 25}>#b22f00<{else}>gray<{/if}>;">
-                            <i class="fa fa-bar-chart-o" aria-hidden="true"></i>
-                            <{$doc.percentage}>%
-                        </span>
+                        <{if $doc.percentage}>
+                            <span style="padding:0px;color: <{if $doc.percentage==100}>#1800ba<{elseif $doc.percentage >= 75}>#00a8b7<{elseif $doc.percentage >= 50}>#b58100<{elseif $doc.percentage >= 25}>#b22f00<{else}>gray<{/if}>;">
+                                <i class="fa fa-bar-chart-o" aria-hidden="true"></i>
+                                <{$doc.percentage}>%
+                            </span>
+                        <{/if}>
                         <i class="fa fa-clock-o" aria-hidden="true"></i>
                         <{$doc.time}>
                     <{/if}>
