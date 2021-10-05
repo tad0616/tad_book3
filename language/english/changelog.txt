@@ -1,3 +1,9 @@
+Tad Book3 4.0.2 (Released 2021-10-05)
+====================================
+1.Add group settings for watching articles and videos
+2.Add the start time setting for articles and videos
+3.Add the list of viewing history
+
 Tad Book3 4.0.1 (Released 2021-08-24)
 ====================================
 1.Search function security correction

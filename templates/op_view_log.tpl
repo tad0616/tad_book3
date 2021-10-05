@@ -1,4 +1,6 @@
-<h2><{$book.title}> <{$smarty.const._MD_TADBOOK3_READING_STATUS}></h2>
+<h2>
+    <a href="index.php?op=list_docs&tbsn=<{$book.tbsn}>" target="_blank"><{$book.title}></a>
+    <{$smarty.const._MD_TADBOOK3_READING_STATUS}></h2>
 <style>
     #tad_book3_log td{
         font-size: 0.825rem;
@@ -9,7 +11,7 @@
     <table class="table table-sm table-bordered table-responsive" id="tad_book3_log">
         <tbody>
             <tr>
-                <th class="c" rowspan=4>學員</th>
+                <th class="c" rowspan=4><{$smarty.const._MD_TADBOOK3_VIEWER}></th>
                 <{foreach from=$level key=category item=category_docs}>
                     <td class="c" colspan=<{$count1.$category}>><{$category}></td>
                 <{/foreach}>

@@ -62,3 +62,4 @@ define('_MD_TADBOOK3_ABOUT_2', 'For example, if you want to open the file conten
 define('_MD_TADBOOK3_ABOUT_3', 'When modifying, if you do not want to automatically modify the permissions of the following sub-files, please uncheck the box below:');
 define('_MD_TADBOOK3_APPLY_ALL', 'Apply to the bottom subfile at the same time');
 define('_MD_TADBOOK3_READING_STATUS', 'Reading Status');
+define('_MD_TADBOOK3_VIEWER', 'Viewer');

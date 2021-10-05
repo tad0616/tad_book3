@@ -62,3 +62,4 @@ define('_MD_TADBOOK3_ABOUT_2', '例如，若想分週開放文件內容，書籍
 define('_MD_TADBOOK3_ABOUT_3', '修改時，若不想自動修改底下子文件權限，請取消下方的勾選：');
 define('_MD_TADBOOK3_APPLY_ALL', '同時套用到底下子文件');
 define('_MD_TADBOOK3_READING_STATUS', '觀看紀錄');
+define('_MD_TADBOOK3_VIEWER', '觀看者');
