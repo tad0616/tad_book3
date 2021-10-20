@@ -142,7 +142,7 @@ function add_counter($tbdsn = '')
 //觀看紀錄
 function view_log($tbsn = '')
 {
-    global $xoopsDB, $xoopsModuleConfig, $xoopsTpl, $xoopsUser;
+    global $xoopsTpl;
 
     $book = get_tad_book3($tbsn);
     $xoopsTpl->assign('book', $book);
@@ -162,38 +162,65 @@ function view_log($tbsn = '')
     $video_group_arr = explode(',', $book['video_group']);
     $member_handler = xoops_gethandler('member');
     $group_handler = xoops_getHandler('group');
-    $group_users = [];
+    $group_users = $logs = [];
     foreach ($video_group_arr as $group_id) {
         $group = $group_handler->get($group_id);
         $group_name = $group->name();
         $users_uid = $member_handler->getUsersByGroup($group_id);
         foreach ($users_uid as $uid) {
             $group_users[$group_name][$uid]['name'] = $member_handler->getUser($uid)->name();
-            $group_users[$group_name][$uid]['log'] = get_user_logs($tbsn, $uid);
+            $group_users[$group_name][$uid]['log'] = $logs[$group_name][$uid] = get_user_logs($tbsn, $uid);
         }
 
     }
     $xoopsTpl->assign('group_users', $group_users);
 
+    // 紀錄哪個單元被誰讀過
+    $tbdsn_log = $uids_times = [];
+    foreach ($logs as $group_name => $group_uids) {
+        foreach ($group_uids as $uid => $log) {
+            foreach ($log as $tbdsn => $time) {
+                $tbdsn_log[$tbdsn][$group_name][$uid] = $time;
+                $uids_times[$uid] += (int) $time;
+            }
+        }
+    }
+
     // 找出所本書所有單元
+    $category_log = [];
     list($docs, $total_time, $total_view) = get_docs($tbsn, true);
     $xoopsTpl->assign('docs', $docs);
     $level = $count1 = $count2 = [];
     foreach ($docs as $doc) {
+        $tbdsn = $doc['tbdsn'];
         $category = $doc['category'];
         $page = $doc['page'];
         $paragraph = $doc['paragraph'];
         $sort = $doc['sort'];
         $level[$category][$page][$paragraph][$sort] = $doc;
 
+        if ($tbdsn_log[$tbdsn]) {
+            foreach ($tbdsn_log[$tbdsn] as $group_name => $group_uids) {
+                foreach ($group_uids as $uid => $time) {
+                    $category_log[$group_name][$category][$uid] = $time;
+                }
+            }
+        }
+
         $count1[$category]++;
         $count2[$category][$page]++;
     }
+
+    rsort($uids_times);
+
     $xoopsTpl->assign('level', $level);
     $xoopsTpl->assign('count1', $count1);
     $xoopsTpl->assign('count2', $count2);
+    $xoopsTpl->assign('category_log', $category_log);
+    $xoopsTpl->assign('category_log', $category_log);
+
     if ($_GET['test']) {
-        Utility::dd($docs);
+        Utility::dd($category_log);
     }
 
 }

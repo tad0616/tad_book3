@@ -12,6 +12,10 @@ function xoops_module_update_tad_book3(&$module, $old_version)
 {
     global $xoopsDB;
 
+    if (Update::chk_chk5()) {
+        Update::go_update5();
+    }
+
     if (Update::chk_chk1()) {
         Update::go_update1();
     }
@@ -27,11 +31,6 @@ function xoops_module_update_tad_book3(&$module, $old_version)
     if (Update::chk_chk4()) {
         Update::go_update4();
     }
-
-    if (Update::chk_chk5()) {
-        Update::go_update5();
-    }
-
     if (Update::chk_uid()) {
         Update::go_update_uid();
     }

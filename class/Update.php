@@ -159,11 +159,11 @@ class Update
         global $xoopsDB;
         $sql = 'SELECT count(`video_group`) FROM ' . $xoopsDB->prefix('tad_book3_docs');
         $result = $xoopsDB->query($sql);
-        if (empty($result)) {
-            return true;
+        if (!empty($result)) {
+            return false;
         }
 
-        return false;
+        return true;
     }
 
     public static function go_update5()
