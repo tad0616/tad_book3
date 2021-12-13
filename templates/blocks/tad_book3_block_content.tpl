@@ -4,7 +4,7 @@
 
         <a class="book-container" href="<{$xoops_url}>/modules/tad_book3/index.php?op=list_docs&tbsn=<{$block.book.tbsn}>" rel="noreferrer noopener">
             <div class="book">
-                <img alt="<{$block.book.title}>" src="<{$block.book.pic}>"><span class="sr-only">book:<{$book.title}></span>
+                <img alt="<{$block.book.title}>" src="<{$block.book.pic}>"><span class="sr-only visually-hidden">book:<{$book.title}></span>
             </div>
         </a>
         <div style="margin: 10px auto;text-align:center;line-height: 1.5;margin-bottom: 10px;">

@@ -13,7 +13,7 @@
                 </div>
             <{/if}>
 
-            <div class="text-center">
+            <div class="text-center d-grid gap-2">
                 <a href="main.php?op=tad_book3_cate_form" class="btn btn-info btn-block"><{$smarty.const._MA_TADBOOK3_ADD_CATE}></a>
             </div>
         </div>
@@ -25,7 +25,7 @@
                         <{$cate.title}>
                     </h3>
                     </div>
-                    <div class="col-sm-8 text-right">
+                    <div class="col-sm-8 text-right text-end">
                     <div style="margin-top: 10px;">
                         <{if $now_op!="tad_book3_cate_form" and $tbcsn}>
                         <a href="javascript:delete_tad_book3_cate_func(<{$cate.tbcsn}>);" class="btn btn-sm btn-danger <{if $cate.count > 0}>disabled<{/if}>"><{$smarty.const._TAD_DEL}></a>

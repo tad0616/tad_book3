@@ -12,7 +12,7 @@
         <{if $title}>
             <h2 class="my"><{$title}></h2>
         <{else}>
-            <h2 class="sr-only">Contents</h2>
+            <h2 class="sr-only visually-hidden">Contents</h2>
         <{/if}>
         <div style="font-size: 0.8rem; margin: 10px 0px;">
             <span class="badge badge-success"><{$cate}></span>
@@ -23,7 +23,7 @@
             <div class="alert alert-info"><{$description}></div>
         <{/if}>
 
-        <div class="text-right">
+        <div class="text-right text-end">
             <{if $my}>
                 <!--a href="index.php?op=tad_book3_export&tbsn=<{$tbsn}>" class="btn btn-sm btn-info"><{$smarty.const._MD_TADBOOK3_EXPORT}></a-->
             <{/if}>
@@ -59,7 +59,7 @@
             </h3>
         </div>
         <div class="col-sm-5">
-            <div class="text-right">
+            <div class="text-right text-end">
                 <{if $smarty.session.tad_book3_adm}>
                     <a href="page.php?tbsn=<{$tbsn}>&op=view_log" class="btn btn-sm btn-primary">
                         <i class="fa fa-pie-chart" aria-hidden="true"></i>

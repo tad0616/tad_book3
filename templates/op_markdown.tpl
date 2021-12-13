@@ -1,4 +1,4 @@
-<h2 class="sr-only">MarkDown</h2>
+<h2 class="sr-only visually-hidden">MarkDown</h2>
 
 <{if $needpasswd=='1'}>
     <div class="alert alert-danger">
@@ -20,13 +20,13 @@
     </div>
 <{else}>
     <div class="row" style="background-image: url('images/relink_bg.gif'); padding: 10px 0px;">
-        <div class="col-sm-4 text-left"><{$p}></div>
+        <div class="col-sm-4 text-left text-start"><{$p}></div>
         <div class="col-sm-4 text-center">
             <select onChange="window.location.href='markdown.php?tbdsn='+this.value" class="form-control" title="Select Document">
             <{$doc_select}>
             </select>
         </div>
-        <div class="col-sm-4 text-right"><{$n}></div>
+        <div class="col-sm-4 text-right text-end"><{$n}></div>
     </div>
 
     <textarea name="markdown" id="markdown" title="markdown code" rows="50" class="form-control"><{$markdown}></textarea>

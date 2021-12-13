@@ -1,5 +1,5 @@
 <div id="save_msg"></div>
-<h1 class="sr-only">All Books</h1>
+<h1 class="sr-only visually-hidden">All Books</h1>
 <{foreach from=$cate key=id item=cate}>
     <{if $cate.books}>
         <{if $smarty.session.tad_book3_adm}>

@@ -1,5 +1,5 @@
 <{if $needpasswd=='1'}>
-    <h3 class="sr-only">Need Password</h3>
+    <h3 class="sr-only visually-hidden">Need Password</h3>
     <div class="alert alert-danger">
         <form action="page.php" method="post" id="myForm">
             <div class="input-group">
@@ -21,7 +21,7 @@
 <{else}>
 
     <div class="row" style="background-image: url('images/relink_bg.gif'); padding: 10px 0px;">
-        <div class="col-sm-4 text-left">
+        <div class="col-sm-4 text-left text-start">
             <{$p}>
         </div>
         <div class="col-sm-4 text-center">
@@ -29,7 +29,7 @@
                 <{$doc_select}>
             </select>
         </div>
-        <div class="col-sm-4 text-right">
+        <div class="col-sm-4 text-right text-end">
             <{$n}>
         </div>
     </div>
@@ -51,7 +51,7 @@
                         <{$title}>
                     </h<{$doc_sort_level}>>
                 <{else}>
-                    <h3 class="sr-only">Empty Title</h3>
+                    <h3 class="sr-only visually-hidden">Empty Title</h3>
                 <{/if}>
 
                 <{if $player}>
@@ -98,7 +98,7 @@
     </div>
 
     <div class="row" style="background-image: url(images/relink_bg.gif); padding: 10px 0px;">
-        <div class="col-sm-4 text-left">
+        <div class="col-sm-4 text-left text-start">
             <{$p}>
         </div>
         <div class="col-sm-4 text-center">
@@ -106,7 +106,7 @@
                 <{$doc_select}>
             </select>
         </div>
-        <div class="col-sm-4 text-right">
+        <div class="col-sm-4 text-right text-end">
             <{$n}>
         </div>
     </div>

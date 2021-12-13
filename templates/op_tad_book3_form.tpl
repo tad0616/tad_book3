@@ -1,6 +1,6 @@
 <h2 class="my"><{$smarty.const._MD_INPUT_BOOK_FORM}></h2>
 <form action="<{$action}>" method="post" id="myForm" enctype="multipart/form-data" role="form" class="form-horizontal">
-    <div class="form-group row">
+    <div class="form-group row mb-3">
         <label class="col-sm-2 control-label col-form-label text-md-right"><{$smarty.const._MD_TADBOOK3_TBCSN_MENU}></label>
         <div class="col-sm-3">
             <select name="tbcsn" size=1 class="form-control">
@@ -29,7 +29,7 @@
         </div>
     </div>
 
-    <div class="form-group row">
+    <div class="form-group row mb-3">
         <label class="col-sm-2 control-label col-form-label text-md-right">
             <{$smarty.const._MD_TADBOOK3_TITLE}>
         </label>
@@ -45,7 +45,7 @@
         </div>
     </div>
 
-    <div class="form-group row">
+    <div class="form-group row mb-3">
         <div class="col-sm-12">
             <{$editor}>
         </div>

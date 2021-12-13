@@ -9,7 +9,7 @@ define('_MD_TADBOOK3_NEW_PCSN', '在左邊分類下新增分類：');
 define('_MD_TADBOOK3_BOOK_CONTENT', '「%s」目錄');
 define('_MD_TADBOOK3_TITLE', '書名');
 define('_MD_TADBOOK3_AUTHOR', '可編寫人');
-define('_MD_TADBOOK3_READ_GROUP', '可閱讀本書群組');
+define('_MD_TADBOOK3_READ_GROUP', '可閱讀本文群組');
 define('_MD_TADBOOK3_VIDEO_GROUP', '可觀看影片群組');
 define('_MD_TADBOOK3_PASSWD', '密碼');
 define('_MD_TADBOOK3_PIC_NAME', '封面');

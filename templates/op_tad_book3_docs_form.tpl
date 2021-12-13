@@ -2,7 +2,7 @@
 
 <form action="<{$action}>" method="post" id="myForm" enctype="multipart/form-data" role="form" class="form-horizontal">
 
-    <div class="form-group row">
+    <div class="form-group row mb-3">
         <label class="col-sm-1 control-label col-form-label text-md-right">
             <{$smarty.const._MD_TADBOOK3_TITLE}>
         </label>
@@ -41,7 +41,7 @@
         </div>
     </div>
 
-    <div class="form-group row">
+    <div class="form-group row mb-3">
         <label class="col-sm-1 control-label col-form-label text-md-right">
             <{$smarty.const._MD_TADBOOK3_DOC_TITLE}>
         </label>
@@ -73,13 +73,13 @@
     </div>
 
 
-    <div class="form-group row">
+    <div class="form-group row mb-3">
         <div class="col-sm-12">
         <{$editor}>
         </div>
     </div>
 
-    <div class="form-group row">
+    <div class="form-group row mb-3">
         <label class="col-sm-1 control-label col-form-label text-md-right">
             <{$smarty.const._MD_TADBOOK3_MP4}>
         </label>
@@ -88,7 +88,7 @@
         </div>
     </div>
 
-    <div class="form-group row">
+    <div class="form-group row mb-3">
         <label class="col-sm-1 control-label col-form-label text-md-right">
             <{$smarty.const._MD_TADBOOK3_VTT}>
         </label>
@@ -98,7 +98,7 @@
     </div>
 
     <{if $upform_pic}>
-        <div class="form-group row">
+        <div class="form-group row mb-3">
             <label class="col-sm-1 control-label col-form-label text-md-right">
                 <{$smarty.const._MD_TADBOOK3_SCREENSHOT}>
             </label>
@@ -108,7 +108,7 @@
         </div>
     <{/if}>
 
-    <div class="form-group row">
+    <div class="form-group row mb-3">
         <label class="col-sm-1 control-label col-form-label text-md-right">
             <{$smarty.const._MD_TADBOOK3_READ_GROUP}>
         </label>
@@ -140,7 +140,7 @@
         </div>
     </div>
 
-    <div class="form-group row">
+    <div class="form-group row mb-3">
         <label class="col-sm-1 control-label col-form-label text-md-right">
             <{$smarty.const._MD_TADBOOK3_VIDEO_GROUP}>
         </label>
@@ -172,7 +172,7 @@
         </div>
     </div>
 
-    <div class="form-group row">
+    <div class="form-group row mb-3">
         <label class="col-sm-1 control-label col-form-label text-md-right">
             <{$smarty.const._MD_TADBOOK3_ABOUT}>
         </label>

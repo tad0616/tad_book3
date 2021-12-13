@@ -1,7 +1,7 @@
 <h3 class="my"><{$smarty.const._MA_TADBOOK3_CATE_FORM}></h3>
 
 <form action="main.php" method="post" id="myForm" enctype="multipart/form-data" role="form" class="form-horizontal">
-    <div class="form-group row">
+    <div class="form-group row mb-3">
         <label class="col-sm-2 control-label col-form-label text-md-right">
             <{$smarty.const._MA_TADBOOK3_CATE_TITLE}>
         </label>
@@ -10,7 +10,7 @@
         </div>
     </div>
 
-    <div class="form-group row">
+    <div class="form-group row mb-3">
         <label class="col-sm-2 control-label col-form-label text-md-right">
             <{$smarty.const._MA_TADBOOK3_CATE_DESCRIPTION}>
         </label>
