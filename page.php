@@ -14,7 +14,7 @@ require_once XOOPS_ROOT_PATH . '/header.php';
 //觀看某一頁
 function view_page($tbdsn = '')
 {
-    global $xoopsDB, $xoopsModuleConfig, $xoopsTpl, $xoopsUser;
+    global $xoopsModuleConfig, $xoopsTpl, $xoopsUser;
 
     add_counter($tbdsn);
     $all = get_tad_book3_docs($tbdsn);
@@ -33,6 +33,9 @@ function view_page($tbdsn = '')
     }
 
     $book = get_tad_book3($tbsn);
+    if ($enable != 1 && !chk_edit_power($book['author'])) {
+        redirect_header("index.php?op=list_docs&tbsn=$tbsn#doc{$tbdsn}", 3, _MD_TADBOOK3_CANT_READ);
+    }
 
     if (!chk_power($book['read_group'], $read_group)) {
         redirect_header('index.php', 3, _MD_TADBOOK3_CANT_READ);
@@ -219,9 +222,9 @@ function view_log($tbsn = '')
     $xoopsTpl->assign('category_log', $category_log);
     $xoopsTpl->assign('category_log', $category_log);
 
-    if ($_GET['test']) {
-        Utility::dd($category_log);
-    }
+    // if ($_GET['test']) {
+    //     Utility::dd($category_log);
+    // }
 
 }
 

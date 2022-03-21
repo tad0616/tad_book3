@@ -1,3 +1,7 @@
+Tad Book3 4.0.2 (Released 2022-03-21)
+====================================
+1.Fix the problem that the author cannot open the hidden article
+
 Tad Book3 4.0.3 (Released 2021-12-13)
 ====================================
 1.Support BootStrap5

@@ -117,7 +117,7 @@ function get_tad_book3_docs($tbdsn = '')
 //秀出所有分類及書籍
 function list_all_cate_book()
 {
-    global $xoopsDB, $xoopsTpl, $xoopsUser;
+    global $xoopsDB, $xoopsTpl;
 
     $i = 0;
     $cate = [];
@@ -150,7 +150,7 @@ function list_all_cate_book()
 //列出某書資料
 function list_docs($def_tbsn = '')
 {
-    global $xoopsDB, $xoopsUser, $xoopsModule, $xoopsTpl, $xoopsModuleConfig;
+    global $xoopsDB, $xoopsUser, $xoopsTpl, $xoopsModuleConfig;
 
     if ($xoopsUser) {
         $uid = $xoopsUser->uid();
@@ -234,7 +234,7 @@ function list_docs($def_tbsn = '')
 
     Utility::setup_meta($title, $description, $book['pic_fb']);
 
-    list($docs, $total_time, $total_view) = get_docs($def_tbsn);
+    list($docs, $total_time, $total_view) = get_docs($def_tbsn, false, $my);
 
     $xoopsTpl->assign('docs', $docs);
     $percentage = round($total_view / $total_time, 4) * 100;
@@ -260,7 +260,7 @@ function list_docs($def_tbsn = '')
 }
 
 // 找出所本書所有單元
-function get_docs($def_tbsn, $have_content = false)
+function get_docs($def_tbsn, $have_content = false, $my = true)
 {
     global $xoopsDB;
 

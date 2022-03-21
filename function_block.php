@@ -6,7 +6,7 @@ use XoopsModules\Tadtools\Utility;
 if (!function_exists('chk_power')) {
     function chk_power($book_enable_group = '', $page_enable_group = '')
     {
-        global $xoopsDB, $xoopsUser;
+        global $xoopsUser;
         if (empty($book_enable_group) and empty($doc_enable_group)) {
             return true;
         }
