@@ -63,3 +63,4 @@ define('_MD_TADBOOK3_ABOUT_3', 'When modifying, if you do not want to automatica
 define('_MD_TADBOOK3_APPLY_ALL', 'Apply to the bottom subfile at the same time');
 define('_MD_TADBOOK3_READING_STATUS', 'Reading Status');
 define('_MD_TADBOOK3_VIEWER', 'Viewer');
+define('_MD_TADBOOK3_UNABLE_LOG', 'You cannot use the view history function when the viewable video group is "All Open".');

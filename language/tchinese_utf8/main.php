@@ -63,3 +63,4 @@ define('_MD_TADBOOK3_ABOUT_3', '修改時，若不想自動修改底下子文件
 define('_MD_TADBOOK3_APPLY_ALL', '同時套用到底下子文件');
 define('_MD_TADBOOK3_READING_STATUS', '觀看紀錄');
 define('_MD_TADBOOK3_VIEWER', '觀看者');
+define('_MD_TADBOOK3_UNABLE_LOG', '可觀看影片群組為「全部開放」時，無法使用觀看紀錄功能');

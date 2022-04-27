@@ -814,7 +814,7 @@ function doc_select($tbsn = '', $doc_sn = '')
         } else {
             $style = " style='color:black;'";
         }
-        $disabled = (empty($content) and empty($from_tbdsn)) ? 'disabled' : '';
+        // $disabled = (empty($content) and empty($from_tbdsn)) ? 'disabled' : '';
         $main .= "<option value=$tbdsn $selected $style $disabled>" . str_repeat('&nbsp;', ($doc_sort['level'] - 1) * 2) . "{$doc_sort['main']} {$stat}{$title}</option>";
     }
 

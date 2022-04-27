@@ -1,4 +1,9 @@
-Tad Book3 4.0.2 (Released 2022-03-21)
+Tad Book3 4.0.5 (Released 2022-04-26)
+====================================
+1. Fix an error in the viewing history when all videos are open
+2. Remove the restriction that the page cannot be read without content
+
+Tad Book3 4.0.4 (Released 2022-03-21)
 ====================================
 1.Fix the problem that the author cannot open the hidden article
 

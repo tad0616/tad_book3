@@ -22,10 +22,10 @@ function view_page($tbdsn = '')
         $$key = $value;
     }
 
-    if (empty($content) and empty($from_tbdsn)) {
-        header("location: index.php?op=list_docs&tbsn=$tbsn#doc{$tbdsn}");
-        exit;
-    }
+    // if (empty($content) and empty($from_tbdsn)) {
+    //     header("location: index.php?op=list_docs&tbsn=$tbsn#doc{$tbdsn}");
+    //     exit;
+    // }
 
     if (!empty($from_tbdsn)) {
         $form_page = get_tad_book3_docs($from_tbdsn);
@@ -162,19 +162,23 @@ function view_log($tbsn = '')
     }
 
     // 找出可閱讀群組及使用者
-    $video_group_arr = explode(',', $book['video_group']);
-    $member_handler = xoops_gethandler('member');
-    $group_handler = xoops_getHandler('group');
-    $group_users = $logs = [];
-    foreach ($video_group_arr as $group_id) {
-        $group = $group_handler->get($group_id);
-        $group_name = $group->name();
-        $users_uid = $member_handler->getUsersByGroup($group_id);
-        foreach ($users_uid as $uid) {
-            $group_users[$group_name][$uid]['name'] = $member_handler->getUser($uid)->name();
-            $group_users[$group_name][$uid]['log'] = $logs[$group_name][$uid] = get_user_logs($tbsn, $uid);
-        }
+    if ($book['video_group']) {
+        $video_group_arr = explode(',', $book['video_group']);
+        $member_handler = xoops_gethandler('member');
+        $group_handler = xoops_getHandler('group');
+        $group_users = $logs = [];
+        foreach ($video_group_arr as $group_id) {
+            $group = $group_handler->get($group_id);
+            $group_name = $group->name();
+            $users_uid = $member_handler->getUsersByGroup($group_id);
+            foreach ($users_uid as $uid) {
+                $group_users[$group_name][$uid]['name'] = $member_handler->getUser($uid)->name();
+                $group_users[$group_name][$uid]['log'] = $logs[$group_name][$uid] = get_user_logs($tbsn, $uid);
+            }
 
+        }
+    } else {
+        $group_users = [];
     }
     $xoopsTpl->assign('group_users', $group_users);
 
@@ -219,7 +223,6 @@ function view_log($tbsn = '')
     $xoopsTpl->assign('level', $level);
     $xoopsTpl->assign('count1', $count1);
     $xoopsTpl->assign('count2', $count2);
-    $xoopsTpl->assign('category_log', $category_log);
     $xoopsTpl->assign('category_log', $category_log);
 
     // if ($_GET['test']) {

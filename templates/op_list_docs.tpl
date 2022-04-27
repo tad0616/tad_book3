@@ -97,11 +97,9 @@
                             <input type="hidden" name="update_sort[<{$doc.tbdsn}>]" value="<{$doc.new_sort.main}>">
                         <{/if}>
                         <{$doc.enable_txt}>
-                        <{if $doc.content || $doc.from_tbdsn}>
-                            <a href="<{$xoops_url}>/modules/tad_book3/page.php?tbsn=<{$tbsn}>&tbdsn=<{$doc.tbdsn}>"><{$doc.title}></a>
-                        <{else}>
-                            <{$doc.title}>
-                        <{/if}>
+
+                        <a href="<{$xoops_url}>/modules/tad_book3/page.php?tbsn=<{$tbsn}>&tbdsn=<{$doc.tbdsn}>"><{$doc.title}></a>
+
                     </span>
                 </td>
                 <td style="font-size: 0.8rem; color: gray; text-align: right;white-space: nowrap;">
