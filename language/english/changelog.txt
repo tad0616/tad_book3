@@ -1,3 +1,9 @@
+Tad Book3 4.0.6 (Released on 2022-08-13)
+====================================
+1. CSS reduce the introduction of external style files
+2. Fix font
+
+
 Tad Book3 4.0.5 (Released 2022-04-26)
 ====================================
 1. Fix an error in the viewing history when all videos are open
