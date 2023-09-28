@@ -37,6 +37,8 @@ $modversion['sqlfile']['mysql'] = 'sql/mysql.sql';
 $modversion['tables'][1] = 'tad_book3';
 $modversion['tables'][2] = 'tad_book3_cate';
 $modversion['tables'][3] = 'tad_book3_docs';
+$modversion['tables'][4] = 'tad_book3_files_center';
+$modversion['tables'][5] = 'tad_book3_data_center';
 
 //---安裝設定---//
 $modversion['onInstall'] = 'include/onInstall.php';
