@@ -96,12 +96,12 @@
                             <{foreach from=$category_docs key=page item=page_docs}>
                                 <{foreach from=$page_docs key=paragraph item=paragraph_docs}>
                                     <{foreach from=$paragraph_docs key=sort item=doc}>
-                                        <{assign var=tbdsn value=$doc.tbdsn}>
+                                        <{assign var="tbdsn" value=$doc.tbdsn}>
                                         <td class="c" style="background:<{$bgcolor}>;">
                                             <{if $user.log.$tbdsn && $doc.lengths}>
-                                                <{assign var=v value=$user.log.$tbdsn/$doc.lengths}>
-                                                <{assign var=vv value=$v|round:2}>
-                                                <{assign var=percentage value=$vv*100}>
+                                                <{assign var="v" value=$user.log.$tbdsn/$doc.lengths}>
+                                                <{assign var="vv" value=$v|round:2}>
+                                                <{assign var="percentage" value=$vv*100}>
                                                 <{$percentage}>
                                             <{elseif $doc.lengths}>
                                             <{else}>

@@ -2,11 +2,10 @@
     <div class="col-sm-3">
         <{if $book}>
             <div class="text-center">
-                <{includeq file="$xoops_rootpath/modules/tad_book3/templates/sub_tadbook3_book_shadow.tpl"}>
+                <{include file="$xoops_rootpath/modules/tad_book3/templates/sub_tadbook3_book_shadow.tpl"}>
             </div>
         <{/if}>
     </div>
-    <div class="clearfix"></div>
 
     <div class="col-sm-9">
         <{if $title}>
@@ -15,7 +14,7 @@
             <h2 class="sr-only visually-hidden">Contents</h2>
         <{/if}>
         <div style="font-size: 0.8rem; margin: 10px 0px;">
-            <span class="badge badge-success"><{$cate}></span>
+            <span class="badge badge-success bg-success"><{$cate}></span>
             <{$smarty.const._MD_TADBOOK3_CREATE_DATE}> <{$create_date}>
         </div>
 
@@ -87,59 +86,58 @@
     <form action="index.php" method="post">
         <table id="content_tbl" class="table table-hover">
             <{foreach from=$docs item=doc}>
-            <tr id="doc<{$doc.tbdsn}>" <{if $doc.ttid}>data-tt-id="<{$doc.ttid}>"<{/if}> <{if $doc.doc_sort_parent}>data-tt-parent-id="<{$doc.doc_sort_parent}>"<{/if}>>
-                <td>
-                    <span class="doc_sort_<{$doc.doc_sort_level}>">
-                        <{if $doc.doc_sort_main==$doc.new_sort.main}>
-                            <{$doc.doc_sort_main}>
-                        <{else}>
-                            <span style="color:red;" title="<{$doc.doc_sort_main}>"><{$doc.new_sort.main}></span>
-                            <input type="hidden" name="update_sort[<{$doc.tbdsn}>]" value="<{$doc.new_sort.main}>">
-                        <{/if}>
-                        <{$doc.enable_txt}>
+                <tr id="doc<{$doc.tbdsn}>" <{if $doc.ttid}>data-tt-id="<{$doc.ttid}>"<{/if}> <{if $doc.doc_sort_parent}>data-tt-parent-id="<{$doc.doc_sort_parent}>"<{/if}>>
+                    <td>
+                        <span class="doc_sort_<{$doc.doc_sort_level}>">
+                            <{if $doc.doc_sort_main != $doc.new_sort.main && $smarty.session.tad_book3_adm}>
+                                <span style="color:red;" title="<{$doc.doc_sort_main}>"><{$doc.new_sort.main}></span>
+                                <input type="hidden" name="update_sort[<{$doc.tbdsn}>]" value="<{$doc.new_sort.main}>">
+                            <{else}>
+                                <{$doc.new_sort.main}>
+                            <{/if}>
+                            <{$doc.enable_txt}>
 
-                        <a href="<{$xoops_url}>/modules/tad_book3/page.php?tbsn=<{$tbsn}>&tbdsn=<{$doc.tbdsn}>"><{$doc.title}></a>
-
-                    </span>
-                </td>
-                <td style="font-size: 0.8rem; color: gray; text-align: right;white-space: nowrap;">
-                    <{if $doc.time}>
-                        <{if $doc.percentage==100}>
-                            <span style="padding: 0px 2px; color: green";><i class="fa fa-check-circle" aria-hidden="true"></i></span>
-                        <{/if}>
-                        <{if $doc.percentage}>
-                            <span style="padding:0px;color: <{if $doc.percentage==100}>#1800ba<{elseif $doc.percentage >= 75}>#00a8b7<{elseif $doc.percentage >= 50}>#b58100<{elseif $doc.percentage >= 25}>#b22f00<{else}>gray<{/if}>;">
-                                <i class="fa fa-bar-chart-o" aria-hidden="true"></i>
-                                <{$doc.percentage}>%
-                            </span>
-                        <{/if}>
-                        <i class="fa fa-clock-o" aria-hidden="true"></i>
-                        <{$doc.time}>
-                    <{/if}>
-                </td>
-                <td style="font-size: 0.8rem; color: gray; text-align: right;white-space: nowrap;">
-                    <{$doc.count}>
-                    <i class="fa fa-user"></i>
-                    <{$doc.last_modify_date}>
-                </td>
-
-                <{if $my}>
-                    <td style="white-space: nowrap;">
-                        <a href="<{$xoops_url}>/modules/tad_book3/post.php?op=tad_book3_docs_form&tbdsn=<{$doc.tbdsn}>" class="btn btn-sm btn-xs btn-warning"><{$smarty.const._TAD_EDIT}></a>
-
-                        <{if $doc.enable=='1'}>
-                            <a href="<{$xoops_url}>/modules/tad_book3/index.php?op=change_enable&enable=0&tbdsn=<{$doc.tbdsn}>&tbsn=<{$tbsn}>" class="btn btn-sm btn-xs btn-secondary btn-default"><{$smarty.const._TAD_UNABLE}></a>
-                        <{else}>
-                            <a href="<{$xoops_url}>/modules/tad_book3/post.php?op=change_enable&enable=1&tbdsn=<{$doc.tbdsn}>&tbsn=<{$tbsn}>" class="btn btn-sm btn-xs btn-success"><{$smarty.const._TAD_ENABLE}></a>
-                        <{/if}>
-
-                        <{if $doc.have_sub == 0}>
-                            <a href="javascript:delete_tad_book3_docs_func(<{$doc.tbdsn}>);" class="btn btn-sm btn-xs btn-danger"><{$smarty.const._TAD_DEL}></a>
+                            <a href="<{$xoops_url}>/modules/tad_book3/page.php?tbsn=<{$tbsn}>&tbdsn=<{$doc.tbdsn}>"><{$doc.title}></a>
+                        </span>
+                    </td>
+                    <td style="font-size: 0.8rem; color: gray; text-align: right;white-space: nowrap;">
+                        <{if $doc.time}>
+                            <{if $doc.percentage==100}>
+                                <span style="padding: 0px 2px; color: green";><i class="fa fa-check-circle" aria-hidden="true"></i></span>
+                            <{/if}>
+                            <{if $doc.percentage}>
+                                <span style="padding:0px;color: <{if $doc.percentage==100}>#1800ba<{elseif $doc.percentage >= 75}>#00a8b7<{elseif $doc.percentage >= 50}>#b58100<{elseif $doc.percentage >= 25}>#b22f00<{else}>gray<{/if}>;">
+                                    <i class="fa fa-bar-chart-o" aria-hidden="true"></i>
+                                    <{$doc.percentage}>%
+                                </span>
+                            <{/if}>
+                            <i class="fa fa-clock-o" aria-hidden="true"></i>
+                            <{$doc.time}>
                         <{/if}>
                     </td>
-                <{/if}>
+                    <td style="font-size: 0.8rem; color: gray; text-align: right;white-space: nowrap;">
+                        <{$doc.count}>
+                        <i class="fa fa-user"></i>
+                        <{$doc.last_modify_date}>
+                    </td>
 
-            </tr>
+                    <{if $my}>
+                        <td style="white-space: nowrap;">
+                            <a href="<{$xoops_url}>/modules/tad_book3/post.php?op=tad_book3_docs_form&tbdsn=<{$doc.tbdsn}>" class="btn btn-sm btn-xs btn-warning"><{$smarty.const._TAD_EDIT}></a>
+
+                            <{if $doc.enable=='1'}>
+                                <a href="<{$xoops_url}>/modules/tad_book3/index.php?op=change_enable&enable=0&tbdsn=<{$doc.tbdsn}>&tbsn=<{$tbsn}>" class="btn btn-sm btn-xs btn-secondary btn-default"><{$smarty.const._TAD_UNABLE}></a>
+                            <{else}>
+                                <a href="<{$xoops_url}>/modules/tad_book3/post.php?op=change_enable&enable=1&tbdsn=<{$doc.tbdsn}>&tbsn=<{$tbsn}>" class="btn btn-sm btn-xs btn-success"><{$smarty.const._TAD_ENABLE}></a>
+                            <{/if}>
+
+                            <{if $doc.have_sub == 0}>
+                                <a href="javascript:delete_tad_book3_docs_func(<{$doc.tbdsn}>);" class="btn btn-sm btn-xs btn-danger"><{$smarty.const._TAD_DEL}></a>
+                            <{/if}>
+                        </td>
+                    <{/if}>
+
+                </tr>
             <{/foreach}>
         </table>
         <{if $my}>

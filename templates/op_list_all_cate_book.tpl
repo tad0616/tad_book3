@@ -1,7 +1,6 @@
 <div id="save_msg"></div>
 <h1 class="sr-only visually-hidden">All Books</h1>
-<{foreach from=$cate key=id item=cate}>
-    <{if $cate.books}>
+<{foreach from=$cates key=id item=cate}>
         <{if $smarty.session.tad_book3_adm}>
             <script type="text/javascript">
                 $(document).ready(function(){
@@ -21,10 +20,10 @@
         <div id="books_sort_<{$id}>">
             <{foreach from=$cate.books item=book}>
                 <{if $book}>
-                    <{includeq file="$xoops_rootpath/modules/tad_book3/templates/sub_tadbook3_book_shadow.tpl"}>
+                    <{include file="$xoops_rootpath/modules/tad_book3/templates/sub_tadbook3_book_shadow.tpl"}>
                 <{/if}>
             <{/foreach}>
         </div>
         <div class="clearfix"></div>
-    <{/if}>
+
 <{/foreach}>

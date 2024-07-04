@@ -134,8 +134,6 @@
         </div>
     </div>
 
-    <{$facebook_comments}>
-
 
     <p style="clear: both">
         <div style="text-align: center; padding: 3px; margin: 3px;">

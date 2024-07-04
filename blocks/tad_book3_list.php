@@ -120,7 +120,7 @@ if (!function_exists('block_book_cate')) {
     function block_book_cate($selected = '')
     {
         global $xoopsDB;
-
+        $sc = [];
         if (!empty($selected)) {
             $sc = explode(',', $selected);
         }

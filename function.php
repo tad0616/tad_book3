@@ -120,11 +120,11 @@ function list_all_cate_book()
     global $xoopsDB, $xoopsTpl;
 
     $i = 0;
-    $cate = [];
+    $cates = [];
     $sql = 'SELECT * FROM  ' . $xoopsDB->prefix('tad_book3_cate') . ' ORDER BY sort';
     $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
     while (false !== ($data = $xoopsDB->fetchArray($result))) {
-        $cate[$i] = $data;
+        $cates[$i] = $data;
 
         $sql = 'select * from  ' . $xoopsDB->prefix('tad_book3') . " where tbcsn='{$data['tbcsn']}' and enable='1' order by sort";
         $result2 = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
@@ -137,11 +137,11 @@ function list_all_cate_book()
             $books[$j] = book_shadow($data2);
             $j++;
         }
-        $cate[$i]['books'] = $books;
+        $cates[$i]['books'] = $books;
         $i++;
     }
-
-    $xoopsTpl->assign('cate', $cate);
+    // Utility::dd($cates);
+    $xoopsTpl->assign('cates', $cates);
 
     $SweetAlert = new SweetAlert();
     $SweetAlert->render('delete_tad_book3_func', 'admin/main.php?op=delete_tad_book3&tbsn=', 'tbsn');
@@ -205,13 +205,13 @@ function list_docs($def_tbsn = '')
 
     $create_date = date('Y-m-d H:i:s', xoops_getUserTimestamp(strtotime($create_date)));
 
-    $cate = (empty($all_cate[$tbcsn])) ? _MD_TADBOOK3_NOT_CLASSIFIED : $all_cate[$tbcsn];
+    $cates = (empty($all_cate[$tbcsn])) ? _MD_TADBOOK3_NOT_CLASSIFIED : $all_cate[$tbcsn];
 
     $book = book_shadow($data);
 
     $xoopsTpl->assign('book', $book);
     $xoopsTpl->assign('tbsn', $def_tbsn);
-    $xoopsTpl->assign('cate', $cate);
+    $xoopsTpl->assign('cates', $cates);
     $xoopsTpl->assign('title', $title);
     $xoopsTpl->assign('description', $description);
     $xoopsTpl->assign('sort', $sort);
@@ -237,7 +237,7 @@ function list_docs($def_tbsn = '')
     list($docs, $total_time, $total_view) = get_docs($def_tbsn, false, $my);
 
     $xoopsTpl->assign('docs', $docs);
-    $percentage = round($total_view / $total_time, 4) * 100;
+    $percentage = $total_time ? round($total_view / $total_time, 4) * 100 : 0;
     $total_view = secondsToTime($total_view);
     $total_time = secondsToTime($total_time);
 
@@ -268,7 +268,8 @@ function get_docs($def_tbsn, $have_content = false, $my = true)
     $logs = get_user_logs($def_tbsn);
     $docs = [];
     $and = $have_content ? "and `content`!=''" : '';
-    $sql = 'select * from ' . $xoopsDB->prefix('tad_book3_docs') . " where tbsn='{$def_tbsn}' $and order by category,page,paragraph,sort";
+    $sql = 'select * from ' . $xoopsDB->prefix('tad_book3_docs') . " where tbsn='{$def_tbsn}' $and order by category, page, paragraph, sort";
+
     $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
     $i = $i1 = $i2 = $i3 = $i4 = $total_time = $total_view = 0;
     $new_category = $new_page = $new_paragraph = $new_sort = '';
@@ -304,12 +305,16 @@ function get_docs($def_tbsn, $have_content = false, $my = true)
         $docs[$i]['enable_txt'] = $enable_txt;
         $docs[$i]['have_sub'] = $have_sub;
         $docs[$i]['from_tbdsn'] = $from_tbdsn;
-        $docs[$i]['lengths'] = $lengths[$tbdsn];
-        $docs[$i]['time'] = secondsToTime($lengths[$tbdsn]);
-        $total_time += $lengths[$tbdsn];
-        if ($logs[$tbdsn] && $lengths[$tbdsn]) {
-            $docs[$i]['percentage'] = round($logs[$tbdsn] / $lengths[$tbdsn], 2) * 100;
-            $total_view += $logs[$tbdsn];
+        if (is_array($lengths) && isset($lengths[$tbdsn])) {
+            $docs[$i]['lengths'] = $lengths[$tbdsn];
+            $docs[$i]['time'] = secondsToTime($lengths[$tbdsn]);
+            $total_time += $lengths[$tbdsn];
+            if ($logs[$tbdsn] && $lengths[$tbdsn]) {
+                $docs[$i]['percentage'] = round($logs[$tbdsn] / $lengths[$tbdsn], 2) * 100;
+                $total_view += $logs[$tbdsn];
+            }
+        } else {
+            $docs[$i]['lengths'] = $docs[$i]['time'] = $docs[$i]['percentage'] = '';
         }
 
         if (empty($new_category)) {

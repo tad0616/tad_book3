@@ -1,12 +1,11 @@
-<link rel="stylesheet" type="text/css" media="screen" href="<{$xoops_url}>/modules/tad_book3/css/module.css">
 <{if $block.book}>
     <div style="width: 145px; height: 230px; display:inline-block; padding: 0px; border: 0px; margin: 5px 10px 10px; text-align: center;" id="book_<{$block.book.tbsn}>">
-
-        <a class="book-container" href="<{$xoops_url}>/modules/tad_book3/index.php?op=list_docs&tbsn=<{$block.book.tbsn}>" rel="noreferrer noopener">
-            <div class="book">
-                <img alt="<{$block.book.title}>" src="<{$block.book.pic}>"><span class="sr-only visually-hidden">book:<{$book.title}></span>
-            </div>
-        </a>
+        <div class="book">
+            <a class="book-container" href="<{$xoops_url}>/modules/tad_book3/index.php?op=list_docs&tbsn=<{$block.book.tbsn}>" rel="noreferrer noopener">
+                <img alt="<{$block.book.title}>" src="<{$block.book.pic}>">
+                <span class="sr-only visually-hidden">book:<{$book.title}></span>
+            </a>
+        </div>
         <div style="margin: 10px auto;text-align:center;line-height: 1.5;margin-bottom: 10px;">
             <a href="<{$xoops_url}>/modules/tad_book3/index.php?op=list_docs&tbsn=<{$block.book.tbsn}>"><{$block.book.title}></a>
         </div>

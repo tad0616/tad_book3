@@ -7,6 +7,88 @@ use XoopsModules\Tadtools\Utility;
 require_once __DIR__ . '/header.php';
 $xoopsOption['template_main'] = 'tadbook3_index.tpl';
 require_once XOOPS_ROOT_PATH . '/header.php';
+
+/*-----------執行動作判斷區----------*/
+$op = Request::getString('op');
+$tbsn = Request::getInt('tbsn');
+$tbdsn = Request::getInt('tbdsn');
+$enable = Request::getInt('enable');
+$tbcsn = Request::getInt('tbcsn');
+$update_sort = Request::getArray('update_sort');
+
+switch ($op) {
+    case 'check_passwd':
+        check_passwd($tbsn);
+        break;
+
+    case 'list_docs':
+        list_docs($tbsn);
+        break;
+
+    case 'change_enable':
+        change_enable($enable, $tbdsn);
+        header("location: {$_SERVER['PHP_SELF']}?op=list_docs&tbsn=$tbsn");
+        exit;
+
+    //新增資料
+    case 'insert_tad_book3':
+        insert_tad_book3();
+        header("location: {$_SERVER['PHP_SELF']}");
+        exit;
+
+    //輸入表格
+    case 'tad_book3_form':
+        tad_book3_form($tbsn, $tbcsn);
+        break;
+
+    //匯入表格
+    case 'import_form':
+        import_form($tbsn);
+        break;
+
+    case 'import_book':
+        $tbsn = import_book($tbcsn);
+        header("location: index.php?op=list_docs&tbsn=$tbsn");
+        exit;
+
+    case 'update_tad_book3':
+        update_tad_book3($tbsn);
+        header("location: {$_SERVER['PHP_SELF']}");
+        exit;
+
+    //刪除文章
+    case 'delete_tad_book3_docs':
+        delete_tad_book3_docs($tbdsn);
+        header("location: {$_SERVER['PHP_SELF']}?tbsn={$tbsn}");
+        exit;
+
+    //匯出書籍
+    case 'tad_book3_export':
+        tad_book3_export($tbsn);
+        break;
+
+    case 'update_docs_sort':
+        update_docs_sort($update_sort);
+        header("location: {$_SERVER['PHP_SELF']}?tbsn={$tbsn}");
+        exit;
+
+    default:
+        if (!empty($tbsn)) {
+            list_docs($tbsn);
+            $op = 'list_docs';
+        } else {
+            list_all_cate_book();
+            $op = 'list_all_cate_book';
+        }
+        break;
+}
+
+/*-----------秀出結果區--------------*/
+$xoopsTpl->assign('toolbar', Utility::toolbar_bootstrap($interface_menu));
+$xoopsTpl->assign("now_op", $op);
+$xoTheme->addStylesheet(XOOPS_URL . '/modules/tad_book3/css/module.css');
+require_once XOOPS_ROOT_PATH . '/footer.php';
+
 /*-----------function區--------------*/
 
 //更新狀態
@@ -357,84 +439,3 @@ function update_docs_sort($update_sort = [])
         $result = $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
     }
 }
-
-/*-----------執行動作判斷區----------*/
-$op = Request::getString('op');
-$tbsn = Request::getInt('tbsn');
-$tbdsn = Request::getInt('tbdsn');
-$enable = Request::getInt('enable');
-$tbcsn = Request::getInt('tbcsn');
-$update_sort = Request::getArray('update_sort');
-
-switch ($op) {
-    case 'check_passwd':
-        check_passwd($tbsn);
-        break;
-
-    case 'list_docs':
-        list_docs($tbsn);
-        break;
-
-    case 'change_enable':
-        change_enable($enable, $tbdsn);
-        header("location: {$_SERVER['PHP_SELF']}?op=list_docs&tbsn=$tbsn");
-        exit;
-
-    //新增資料
-    case 'insert_tad_book3':
-        insert_tad_book3();
-        header("location: {$_SERVER['PHP_SELF']}");
-        exit;
-
-    //輸入表格
-    case 'tad_book3_form':
-        tad_book3_form($tbsn, $tbcsn);
-        break;
-
-    //匯入表格
-    case 'import_form':
-        import_form($tbsn);
-        break;
-
-    case 'import_book':
-        $tbsn = import_book($tbcsn);
-        header("location: index.php?op=list_docs&tbsn=$tbsn");
-        exit;
-
-    case 'update_tad_book3':
-        update_tad_book3($tbsn);
-        header("location: {$_SERVER['PHP_SELF']}");
-        exit;
-
-    //刪除文章
-    case 'delete_tad_book3_docs':
-        delete_tad_book3_docs($tbdsn);
-        header("location: {$_SERVER['PHP_SELF']}?tbsn={$tbsn}");
-        exit;
-
-    //匯出書籍
-    case 'tad_book3_export':
-        tad_book3_export($tbsn);
-        break;
-
-    case 'update_docs_sort':
-        update_docs_sort($update_sort);
-        header("location: {$_SERVER['PHP_SELF']}?tbsn={$tbsn}");
-        exit;
-
-    default:
-        if (!empty($tbsn)) {
-            list_docs($tbsn);
-            $op = 'list_docs';
-        } else {
-            list_all_cate_book();
-            $op = 'list_all_cate_book';
-        }
-        break;
-}
-
-/*-----------秀出結果區--------------*/
-$xoopsTpl->assign('toolbar', Utility::toolbar_bootstrap($interface_menu));
-$xoopsTpl->assign("now_op", $op);
-$xoTheme->addStylesheet(XOOPS_URL . '/modules/tad_book3/css/module.css');
-require_once XOOPS_ROOT_PATH . '/footer.php';

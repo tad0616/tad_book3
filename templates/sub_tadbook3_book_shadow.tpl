@@ -5,7 +5,6 @@
             <img alt="<{$book.title}>" src="<{$book.pic}>"><span class="sr-only visually-hidden">book:<{$book.title}></span>
         </div>
     </a>
-
     <{if $book.tool}>
         <div style="margin: 10px auto;  ">
             <a href="<{$xoops_url}>/modules/tad_book3/index.php?op=tad_book3_form&tbsn=<{$book.tbsn}>" class="btn btn-sm btn-warning" title="<{$smarty.const._TAD_EDIT}>"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>

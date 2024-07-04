@@ -1,11 +1,11 @@
 <?php
-
 global $xoopsConfig;
 $modversion = [];
 
 //---模組基本資訊---//
 $modversion['name'] = _MI_TADBOOK3_NAME;
-$modversion['version'] = 4.06;
+// $modversion['version'] = 4.06;
+$modversion['version'] = $_SESSION['xoops_version'] >= 20511 ? '5.0.0-Stable' : '5.0';
 $modversion['description'] = _MI_TADBOOK3_DESC;
 $modversion['author'] = _MI_TADBOOK3_AUTHOR;
 $modversion['credits'] = 'geek01 , Michael Beck';
@@ -123,25 +123,6 @@ $modversion['blocks'][] = [
     'template' => 'tad_book3_block_content.tpl',
     'edit_func' => 'tad_book3_content_edit',
     'options' => '',
-];
-
-//---偏好設定---//
-$modversion['config'][] = [
-    'name' => 'facebook_comments_width',
-    'title' => '_MI_FBCOMMENT_TITLE',
-    'description' => '_MI_FBCOMMENT_TITLE_DESC',
-    'formtype' => 'yesno',
-    'valuetype' => 'int',
-    'default' => '0',
-];
-
-$modversion['config'][] = [
-    'name' => 'use_pda',
-    'title' => '_MI_USE_PDA_TITLE',
-    'description' => '_MI_USE_PDA_TITLE_DESC',
-    'formtype' => 'yesno',
-    'valuetype' => 'int',
-    'default' => '0',
 ];
 
 $modversion['config'][] = [

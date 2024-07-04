@@ -172,7 +172,7 @@ function tad_book3_content_edit($options)
                 </select>
             </div>
         </li>
-    </ol>'";
+    </ol>";
 
     return $form;
 }

@@ -45,7 +45,7 @@
             <{/if}>
 
             <{if $now_op=="tad_book3_cate_form"}>
-                <{includeq file="$xoops_rootpath/modules/tad_book3/templates/op_`$now_op`.tpl"}>
+                <{include file="$xoops_rootpath/modules/tad_book3/templates/op_`$now_op`.tpl"}>
             <{elseif $books}>
                 <form action="main.php" method="post" role="form">
                     <table class="table table-striped table-bordered">
@@ -57,7 +57,7 @@
                         <th nowrap><{$smarty.const._TAD_FUNCTION}></th>
                     </tr>
                     <tbody>
-                        <{foreach item=book from=$books}>
+                        <{foreach from=$books item=book}>
                         <tr>
                             <td>
                             <a href="<{$xoops_url}>/modules/tad_book3/index.php?tbsn=<{$book.tbsn}>"><{$book.title}></a>

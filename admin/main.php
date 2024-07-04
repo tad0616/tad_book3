@@ -233,5 +233,4 @@ switch ($op) {
 
 /*-----------秀出結果區--------------*/
 $xoopsTpl->assign("now_op", $op);
-$xoTheme->addStylesheet(XOOPS_URL . '/modules/tad_book3/css/module.css');
 require_once __DIR__ . '/footer.php';

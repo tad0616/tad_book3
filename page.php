@@ -63,8 +63,6 @@ function view_page($tbdsn = '')
 
     $doc_sort = mk_category($category, $page, $paragraph, $sort);
 
-    $facebook_comments = Utility::facebook_comments($xoopsModuleConfig['facebook_comments_width'], 'tad_book3', 'page.php', 'tbdsn', $tbdsn);
-
     //高亮度語法
     $SyntaxHighlighter = new SyntaxHighlighter();
     $SyntaxHighlighter->render();
@@ -78,7 +76,6 @@ function view_page($tbdsn = '')
     $xoopsTpl->assign('p', $p);
     $xoopsTpl->assign('n', $n);
     $xoopsTpl->assign('doc_select', $doc_select);
-    $xoopsTpl->assign('facebook_comments', $facebook_comments);
     $xoopsTpl->assign('push_url', Utility::push_url());
     $xoopsTpl->assign('tbdsn', $tbdsn);
     $xoopsTpl->assign('needpasswd', $needpasswd);
@@ -150,15 +147,8 @@ function view_log($tbsn = '')
     $book = get_tad_book3($tbsn);
     $xoopsTpl->assign('book', $book);
 
-    if (!chk_power($book['read_group'], $read_group)) {
+    if (!chk_power($book['video_group'])) {
         redirect_header('index.php', 3, _MD_TADBOOK3_CANT_READ);
-    } else {
-        $now = time();
-        $start_ts = get_start_ts($tbdsn, 'read', $read_group);
-        if ($start_ts && $start_ts > $now) {
-            $start_time = date('Y-m-d H:i:s', $start_ts);
-            redirect_header('index.php', 3, sprintf(_MD_TADBOOK3_READ_DATE, $start_time));
-        }
     }
 
     // 找出可閱讀群組及使用者
@@ -180,6 +170,7 @@ function view_log($tbsn = '')
     } else {
         $group_users = [];
     }
+
     $xoopsTpl->assign('group_users', $group_users);
 
     // 紀錄哪個單元被誰讀過
@@ -195,7 +186,8 @@ function view_log($tbsn = '')
 
     // 找出所本書所有單元
     $category_log = [];
-    list($docs, $total_time, $total_view) = get_docs($tbsn, true);
+    list($docs, $total_time, $total_view) = get_docs($tbsn);
+
     $xoopsTpl->assign('docs', $docs);
     $level = $count1 = $count2 = [];
     foreach ($docs as $doc) {
@@ -205,6 +197,19 @@ function view_log($tbsn = '')
         $paragraph = $doc['paragraph'];
         $sort = $doc['sort'];
         $level[$category][$page][$paragraph][$sort] = $doc;
+
+        if (!chk_power($book['read_group'], $doc['read_group'])) {
+            // redirect_header('index.php', 3, _MD_TADBOOK3_CANT_READ);
+            continue;
+        } else {
+            $now = time();
+            $start_ts = get_start_ts($tbdsn, 'read', $doc['read_group']);
+            if ($start_ts && $start_ts > $now) {
+                $start_time = date('Y-m-d H:i:s', $start_ts);
+                // redirect_header('index.php', 3, sprintf(_MD_TADBOOK3_READ_DATE, $start_time));
+                continue;
+            }
+        }
 
         if ($tbdsn_log[$tbdsn]) {
             foreach ($tbdsn_log[$tbdsn] as $group_name => $group_uids) {
@@ -224,10 +229,6 @@ function view_log($tbsn = '')
     $xoopsTpl->assign('count1', $count1);
     $xoopsTpl->assign('count2', $count2);
     $xoopsTpl->assign('category_log', $category_log);
-
-    // if ($_GET['test']) {
-    //     Utility::dd($category_log);
-    // }
 
 }
 

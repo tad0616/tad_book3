@@ -1,7 +1,7 @@
 <{foreach from=$block item=book}>
     <div>
         <div>
-            <span class="badge badge-success">
+            <span class="badge badge-success bg-success">
                 <a href="<{$xoops_url}>/modules/tad_book3/index.php?tbsn=<{$book.tbsn}>" style="color: white;"><{$book.book_title}></a>
             </span>
         </div>
