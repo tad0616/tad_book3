@@ -526,12 +526,12 @@ function insert_tad_book3()
     }
 
     $myts = \MyTextSanitizer::getInstance();
-    $title = $myts->addSlashes($_POST['title']);
-    $description = $myts->addSlashes($_POST['description']);
+    $title = $xoopsDB->escape($_POST['title']);
+    $description = $xoopsDB->escape($_POST['description']);
     $description = Wcag::amend($description);
-    $passwd = $myts->addSlashes($_POST['passwd']);
-    $enable = $myts->addSlashes($_POST['enable']);
-    $pic_name = $myts->addSlashes($_POST['pic_name']);
+    $passwd = $xoopsDB->escape($_POST['passwd']);
+    $enable = $xoopsDB->escape($_POST['enable']);
+    $pic_name = $xoopsDB->escape($_POST['pic_name']);
     $sort = (int) $_POST['sort'];
 
     $read_group = (in_array('', $_POST['read_group'])) ? '' : implode(',', $_POST['read_group']);
@@ -559,7 +559,7 @@ function add_tad_book3_cate()
     }
 
     $myts = \MyTextSanitizer::getInstance();
-    $title = $myts->addSlashes($_POST['new_tbcsn']);
+    $title = $xoopsDB->escape($_POST['new_tbcsn']);
     $sort = tad_book3_cate_max_sort();
     $sql = 'insert into ' . $xoopsDB->prefix('tad_book3_cate') . " (`of_tbsn`,`sort`,`title`) values('0','{$sort}','{$title}')";
     $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
@@ -604,12 +604,12 @@ function update_tad_book3($tbsn = '')
     }
 
     $myts = \MyTextSanitizer::getInstance();
-    $title = $myts->addSlashes($_POST['title']);
-    $description = $myts->addSlashes($_POST['description']);
+    $title = $xoopsDB->escape($_POST['title']);
+    $description = $xoopsDB->escape($_POST['description']);
     $description = Wcag::amend($description);
-    $passwd = $myts->addSlashes($_POST['passwd']);
-    $enable = $myts->addSlashes($_POST['enable']);
-    $pic_name = $myts->addSlashes($_POST['pic_name']);
+    $passwd = $xoopsDB->escape($_POST['passwd']);
+    $enable = $xoopsDB->escape($_POST['enable']);
+    $pic_name = $xoopsDB->escape($_POST['pic_name']);
     $sort = (int) $_POST['sort'];
 
     $read_group = (in_array('', $_POST['read_group'])) ? '' : implode(',', $_POST['read_group']);

@@ -66,8 +66,8 @@ function insert_tad_book3_cate()
     global $xoopsDB, $xoopsUser;
 
     $myts = \MyTextSanitizer::getInstance();
-    $_POST['title'] = $myts->addSlashes($_POST['title']);
-    $_POST['description'] = $myts->addSlashes($_POST['description']);
+    $_POST['title'] = $xoopsDB->escape($_POST['title']);
+    $_POST['description'] = $xoopsDB->escape($_POST['description']);
     $_POST['description'] = Wcag::amend($_POST['description']);
     $_POST['of_tbsn'] = (int) $_POST['of_tbsn'];
     $_POST['sort'] = (int) $_POST['sort'];
@@ -89,8 +89,8 @@ function update_tad_book3_cate($tbcsn = '')
     global $xoopsDB, $xoopsUser;
 
     $myts = \MyTextSanitizer::getInstance();
-    $_POST['title'] = $myts->addSlashes($_POST['title']);
-    $_POST['description'] = $myts->addSlashes($_POST['description']);
+    $_POST['title'] = $xoopsDB->escape($_POST['title']);
+    $_POST['description'] = $xoopsDB->escape($_POST['description']);
     $_POST['description'] = Wcag::amend($_POST['description']);
 
     $sql = 'update ' . $xoopsDB->prefix('tad_book3_cate') . " set

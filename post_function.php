@@ -121,8 +121,8 @@ function insert_tad_book3_docs()
     //$time=xoops_getUserTimestamp(time());
 
     $myts = \MyTextSanitizer::getInstance();
-    $title = $myts->addSlashes($_POST['title']);
-    $content = $myts->addSlashes($_POST['content']);
+    $title = $xoopsDB->escape($_POST['title']);
+    $content = $xoopsDB->escape($_POST['content']);
     $content = Wcag::amend($content);
     $from_tbdsn = (int) $_POST['from_tbdsn'];
 
@@ -183,8 +183,8 @@ function update_tad_book3_docs($tbdsn = '')
     $time = time();
     //$time=xoops_getUserTimestamp(time());
     $myts = \MyTextSanitizer::getInstance();
-    $title = $myts->addSlashes($_POST['title']);
-    $content = $myts->addSlashes($_POST['content']);
+    $title = $xoopsDB->escape($_POST['title']);
+    $content = $xoopsDB->escape($_POST['content']);
     $content = Wcag::amend($content);
     $from_tbdsn = (int) $_POST['from_tbdsn'];
 

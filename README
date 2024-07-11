@@ -2,6 +2,7 @@ Tad Book3 5.0 (尚未釋出)
 ====================================
 1.支援XOOPS 2.5.11
 2.移除pda.php、FaceBook留言之設定及相關界面
+3.用$xoopsDB->escape()取代$xoopsDB->escape()
 
 
 Tad Book3 4.0.6 (2022-08-13 釋出)
