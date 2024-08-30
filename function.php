@@ -229,7 +229,7 @@ function list_docs($def_tbsn = '')
 
     $xoopsTpl->assign('xoops_pagetitle', $title);
     $xoopsTpl->assign('fb_description', strip_tags($description));
-    $xoopsTpl->assign('logo_img', $book['pic']);
+    // $xoopsTpl->assign('logo_img', $book['pic']);
     $xoopsTpl->assign('use_social_tools', $xoopsModuleConfig['use_social_tools']);
 
     Utility::setup_meta($title, $description, $book['pic_fb']);

@@ -10,7 +10,10 @@ if (!class_exists('XoopsModules\Tad_book3\Update')) {
 }
 function xoops_module_update_tad_book3(&$module, $old_version)
 {
-    global $xoopsDB;
+    Utility::mk_dir(XOOPS_ROOT_PATH . '/uploads/tad_book3');
+    Utility::mk_dir(XOOPS_ROOT_PATH . '/uploads/tad_book3/file');
+    Utility::mk_dir(XOOPS_ROOT_PATH . '/uploads/tad_book3/image');
+    Utility::mk_dir(XOOPS_ROOT_PATH . '/uploads/tad_book3/image/.thumbs');
 
     if (Update::chk_chk5()) {
         Update::go_update5();

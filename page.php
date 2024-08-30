@@ -9,6 +9,35 @@ use XoopsModules\Tadtools\VideoJs;
 require __DIR__ . '/header.php';
 $xoopsOption['template_main'] = 'tadbook3_index.tpl';
 require_once XOOPS_ROOT_PATH . '/header.php';
+
+/*-----------執行動作判斷區----------*/
+$op = Request::getString('op');
+$tbsn = Request::getInt('tbsn');
+$tbdsn = Request::getInt('tbdsn');
+
+switch ($op) {
+    case 'check_passwd':
+        check_passwd($tbsn);
+        break;
+
+    case 'view_log':
+        view_log($tbsn);
+        break;
+
+    default:
+        view_page($tbdsn);
+        $op = 'view_page';
+        break;
+}
+
+/*-----------秀出結果區--------------*/
+
+$xoopsTpl->assign('toolbar', Utility::toolbar_bootstrap($interface_menu));
+$xoopsTpl->assign("now_op", $op);
+$xoTheme->addStylesheet(XOOPS_URL . '/modules/tad_book3/css/reset.css');
+$xoTheme->addStylesheet(XOOPS_URL . '/modules/tad_book3/css/module.css');
+require_once XOOPS_ROOT_PATH . '/footer.php';
+
 /*-----------function區--------------*/
 
 //觀看某一頁
@@ -33,10 +62,10 @@ function view_page($tbdsn = '')
     }
 
     $book = get_tad_book3($tbsn);
+
     if ($enable != 1 && !chk_edit_power($book['author'])) {
         redirect_header("index.php?op=list_docs&tbsn=$tbsn#doc{$tbdsn}", 3, _MD_TADBOOK3_CANT_READ);
     }
-
     if (!chk_power($book['read_group'], $read_group)) {
         redirect_header('index.php', 3, _MD_TADBOOK3_CANT_READ);
     } else {
@@ -231,31 +260,3 @@ function view_log($tbsn = '')
     $xoopsTpl->assign('category_log', $category_log);
 
 }
-
-/*-----------執行動作判斷區----------*/
-$op = Request::getString('op');
-$tbsn = Request::getInt('tbsn');
-$tbdsn = Request::getInt('tbdsn');
-
-switch ($op) {
-    case 'check_passwd':
-        check_passwd($tbsn);
-        break;
-
-    case 'view_log':
-        view_log($tbsn);
-        break;
-
-    default:
-        view_page($tbdsn);
-        $op = 'view_page';
-        break;
-}
-
-/*-----------秀出結果區--------------*/
-
-$xoopsTpl->assign('toolbar', Utility::toolbar_bootstrap($interface_menu));
-$xoopsTpl->assign("now_op", $op);
-$xoTheme->addStylesheet(XOOPS_URL . '/modules/tad_book3/css/reset.css');
-$xoTheme->addStylesheet(XOOPS_URL . '/modules/tad_book3/css/module.css');
-require_once XOOPS_ROOT_PATH . '/footer.php';

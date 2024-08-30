@@ -54,7 +54,7 @@ function tad_book3_content($options)
     if ($xoopsTpl) {
         $xoopsTpl->assign('xoops_pagetitle', isset($title) ? $title : '');
         $xoopsTpl->assign('fb_description', strip_tags(isset($description) ? $description : ''));
-        $xoopsTpl->assign('logo_img', $book['pic']);
+        // $xoopsTpl->assign('logo_img', $book['pic']);
     }
 
     $i = 0;

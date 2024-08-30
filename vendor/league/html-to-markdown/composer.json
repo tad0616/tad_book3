@@ -30,19 +30,39 @@
         }
     },
     "require": {
-        "php": ">=5.3.3",
+        "php": "^7.2.5 || ^8.0",
         "ext-dom": "*",
         "ext-xml": "*"
     },
     "require-dev": {
-        "mikehaertl/php-shellcommand": "~1.1.0",
-        "phpunit/phpunit": "^4.8|^5.7",
-        "scrutinizer/ocular": "~1.1"
+        "mikehaertl/php-shellcommand": "^1.1.0",
+        "phpstan/phpstan": "^1.8.8",
+        "phpunit/phpunit": "^8.5 || ^9.2",
+        "scrutinizer/ocular": "^1.6",
+        "unleashedtech/php-coding-standard": "^2.7 || ^3.0",
+        "vimeo/psalm": "^4.22 || ^5.0"
     },
     "bin": ["bin/html-to-markdown"],
+    "scripts": {
+        "phpcs": "phpcs",
+        "phpstan": "phpstan analyse",
+        "phpunit": "phpunit --no-coverage",
+        "psalm": "psalm --stats",
+        "test": [
+            "@phpcs",
+            "@phpstan",
+            "@psalm",
+            "@phpunit"
+        ]
+    },
     "extra": {
         "branch-alias": {
-            "dev-master": "4.10-dev"
+            "dev-master": "5.2-dev"
+        }
+    },
+    "config": {
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true
         }
     }
 }

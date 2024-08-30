@@ -7,16 +7,11 @@ if (!function_exists('chk_power')) {
     function chk_power($book_enable_group = '', $page_enable_group = '')
     {
         global $xoopsUser;
-        if (empty($book_enable_group) and empty($doc_enable_group)) {
+        if (empty($book_enable_group) and empty($page_enable_group)) {
             return true;
         }
 
-        //取得目前使用者的所屬群組
-        if ($xoopsUser) {
-            $User_Groups = $xoopsUser->getGroups();
-        } else {
-            $User_Groups = [];
-        }
+        $User_Groups = ($xoopsUser) ? $xoopsUser->getGroups() : [];
 
         $news_book_enable_group = explode(',', $book_enable_group);
         $news_page_enable_group = explode(',', $page_enable_group);

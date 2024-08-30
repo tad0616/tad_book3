@@ -7,12 +7,12 @@
         }
     ],
     "require": {
-        "league/html-to-markdown": "^4.10",
-        "php-ffmpeg/php-ffmpeg": "^0.18.0"
+        "league/html-to-markdown": "^5.1.1",
+        "php-ffmpeg/php-ffmpeg": "^0.19.0"
     },
     "config": {
         "platform": {
-            "php": "5.5"
+            "php": "7.4"
         }
     }
 }
