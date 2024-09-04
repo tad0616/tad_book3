@@ -67,9 +67,7 @@ $modversion['templates'][$i]['file'] = 'tadbook3_admin.tpl';
 $modversion['templates'][$i]['description'] = 'tadbook3_admin.tpl';
 
 //---評論設定---//
-$modversion['hasComments'] = 1;
-$modversion['comments']['pageName'] = 'page.php';
-$modversion['comments']['itemName'] = 'tbdsn';
+$modversion['hasComments'] = 0;
 
 //---搜尋設定---//
 $modversion['hasSearch'] = 1;
