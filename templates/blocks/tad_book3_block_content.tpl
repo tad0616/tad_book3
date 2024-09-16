@@ -1,4 +1,4 @@
-<{if $block.book}>
+<{if $block.book|default:false}>
     <div style="width: 145px; height: 230px; display:inline-block; padding: 0px; border: 0px; margin: 5px 10px 10px; text-align: center;" id="book_<{$block.book.tbsn}>">
         <div class="book">
             <a class="book-container" href="<{$xoops_url}>/modules/tad_book3/index.php?op=list_docs&tbsn=<{$block.book.tbsn}>" rel="noreferrer noopener">
@@ -10,7 +10,7 @@
             <a href="<{$xoops_url}>/modules/tad_book3/index.php?op=list_docs&tbsn=<{$block.book.tbsn}>"><{$block.book.title}></a>
         </div>
         <span style="font-size: 0.8rem; margin: 10px 0px;display: inline-block;"><{$smarty.const._MB_TADBOOK3_CREATE_DATE}> <{$block.create_date}></span>
-        <{if $block.description}><div class="alert alert-info"><{$block.description}></div><{/if}>
+        <{if $block.description|default:false}><div class="alert alert-info"><{$block.description}></div><{/if}>
     </div>
 <{/if}>
 

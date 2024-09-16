@@ -38,14 +38,14 @@
     <div class="row page">
         <div class="col-sm-12">
             <div class="page_title">
-                <{if $book_title}>
+                <{if $book_title|default:false}>
                     <a href="index.php?op=list_docs&tbsn=<{$tbsn}>"><{$book_title}></a>
                 <{else}>
                     <a href="index.php?op=list_docs&tbsn=<{$tbsn}>"><{$tbsn}></a>
                 <{/if}>
             </div>
             <div class="page_content">
-                <{if $doc_sort_level}>
+                <{if $doc_sort_level|default:false}>
                     <h<{$doc_sort_level}>>
                         <{$doc_sort_main}>
                         <{$title}>
@@ -54,9 +54,9 @@
                     <h3 class="sr-only visually-hidden">Empty Title</h3>
                 <{/if}>
 
-                <{if $player}>
-                    <{if $now_uid}>
-                        <{if $view_video}>
+                <{if $player|default:false}>
+                    <{if $now_uid|default:false}>
+                        <{if $view_video|default:false}>
                             <{if $view_video_ts && $view_video_ts > $now}>
                                 <div class="card bg-dark text-white">
                                     <img class="card-img" src="<{$video_thumb}>" alt="<{$smarty.const._MD_TADBOOK3_CANT_VIEW_VIDEO}>">
@@ -128,7 +128,7 @@
             </a>
         </div>
         <div class="col-sm-6" style="text-align:right;vertical-align:bottom;">
-            <{if $use_social_tools1}>
+            <{if $use_social_tools1|default:false}>
                 <{$push_url}>
             <{/if}>
         </div>

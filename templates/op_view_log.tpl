@@ -3,7 +3,7 @@
 <{$smarty.const._MD_TADBOOK3_READING_STATUS}>
 </h2>
 
-<{if $group_users}>
+<{if $group_users|default:false}>
 
     <link href="class/ScrollTable/superTables.css" rel="stylesheet" type="text/css" />
     <script type="text/javascript" src="class/ScrollTable/superTables.js"></script>
@@ -50,7 +50,7 @@
                             <{assign var='bgcolor' value='#f2fbfc'}>
                         <{/if}>
                         <{foreach from=$category_docs key=page item=page_docs}>
-                            <td class="c" style="background:<{$bgcolor}>;" colspan=<{$count2.$category.$page}>><{if $page}><{$page}><{/if}></td>
+                            <td class="c" style="background:<{$bgcolor}>;" colspan=<{$count2.$category.$page}>><{if $page|default:false}><{$page}><{/if}></td>
                         <{/foreach}>
                     <{/foreach}>
                 </tr>
@@ -63,7 +63,7 @@
                         <{/if}>
                         <{foreach from=$category_docs key=page item=page_docs}>
                             <{foreach from=$page_docs key=paragraph item=paragraph_docs}>
-                                <td class="c" style="background:<{$bgcolor}>;" colspan=<{$paragraph_docs|@count}>><{if $paragraph}><{$paragraph}><{/if}></td>
+                                <td class="c" style="background:<{$bgcolor}>;" colspan=<{$paragraph_docs|@count}>><{if $paragraph|default:false}><{$paragraph}><{/if}></td>
                             <{/foreach}>
                         <{/foreach}>
                     <{/foreach}>
@@ -78,7 +78,7 @@
                         <{foreach from=$category_docs key=page item=page_docs}>
                             <{foreach from=$page_docs key=paragraph item=paragraph_docs}>
                                 <{foreach from=$paragraph_docs key=sort item=doc}>
-                                    <td class="c" style="background:<{$bgcolor}>;"><{if $sort}><{$sort}><{/if}></td>
+                                    <td class="c" style="background:<{$bgcolor}>;"><{if $sort|default:false}><{$sort}><{/if}></td>
                                 <{/foreach}>
                             <{/foreach}>
                         <{/foreach}>

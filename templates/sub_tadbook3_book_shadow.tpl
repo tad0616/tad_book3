@@ -5,7 +5,7 @@
             <img alt="<{$book.title}>" src="<{$book.pic}>"><span class="sr-only visually-hidden">book:<{$book.title}></span>
         </div>
     </a>
-    <{if $book.tool}>
+    <{if $book.tool|default:false}>
         <div style="margin: 10px auto;  ">
             <a href="<{$xoops_url}>/modules/tad_book3/index.php?op=tad_book3_form&tbsn=<{$book.tbsn}>" class="btn btn-sm btn-warning" title="<{$smarty.const._TAD_EDIT}>"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
             <a href="javascript:delete_tad_book3_func(<{$book.tbsn}>);" class="btn btn-sm btn-danger" title="<{$smarty.const._TAD_DEL}>"><i class="fa fa-times" aria-hidden="true"></i></a>
@@ -14,7 +14,7 @@
     <{/if}>
 
     <div style="margin: 10px auto;line-height: 1.5;margin-bottom: 10px;">
-        <{if $book.title}>
+        <{if $book.title|default:false}>
             <a href="index.php?op=list_docs&tbsn=<{$book.tbsn}>"><{$book.title}></a>
         <{else}>
             <a href="index.php?op=list_docs&tbsn=<{$book.tbsn}>"><{$book.tbsn}></a>

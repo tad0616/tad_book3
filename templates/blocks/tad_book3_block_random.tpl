@@ -6,7 +6,7 @@
                 <img alt="<{$book.title}>" src="<{$book.pic}>"><span class="sr-only visually-hidden">book:<{$book.title}></span>
             </div>
         </a>
-        <{if $book.show_title}>
+        <{if $book.show_title|default:false}>
             <div style="margin: 10px auto;text-align:center;line-height: 1.5;margin-bottom: 10px;">
                 <a href="<{$xoops_url}>/modules/tad_book3/index.php?op=list_docs&tbsn=<{$book.tbsn}>"><{$book.title}></a> (<{$book.counter}>)
             </div>

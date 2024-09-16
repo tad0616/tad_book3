@@ -30,7 +30,7 @@
             </div>
         </div>
         <label class="col-sm-1 control-label col-form-label text-md-right">
-            <{if $from_tbdsn}>
+            <{if $from_tbdsn|default:false}>
                 <a href="page.php?tbdsn=<{$from_tbdsn}>" target="_blank"><{$smarty.const._MD_TADBOOK3_FROM_TBDSN}></a>
             <{else}>
                 <{$smarty.const._MD_TADBOOK3_FROM_TBDSN}>
@@ -97,7 +97,7 @@
         </div>
     </div>
 
-    <{if $upform_pic}>
+    <{if $upform_pic|default:false}>
         <div class="form-group row mb-3">
             <label class="col-sm-1 control-label col-form-label text-md-right">
                 <{$smarty.const._MD_TADBOOK3_SCREENSHOT}>
@@ -180,7 +180,7 @@
             <ol>
             <li><{$smarty.const._MD_TADBOOK3_ABOUT_1}></li>
             <li><{$smarty.const._MD_TADBOOK3_ABOUT_2}></li>
-            <{if $tbdsn}>
+            <{if $tbdsn|default:false}>
                 <li><{$smarty.const._MD_TADBOOK3_ABOUT_3}>
                     <div class="form-check-inline checkbox-inline">
                         <label class="form-check-label">
