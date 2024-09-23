@@ -17,7 +17,7 @@
                 <{if $hh > 600}>
                     <{assign var='hh' value=600}>
                 <{/if}>
-                $('#tad_book3_log<{$smarty.foreach.group_users.index}>').toSuperTable({'width': '100%','height': '<{$hh}>px', 'headerRows':4 , fixedCols: 1 });
+                $('#tad_book3_log<{$smarty.foreach.group_users.index}>').toSuperTable({'width': '100%','height': '<{$hh|default:''}>px', 'headerRows':4 , fixedCols: 1 });
             <{/foreach}>
         });
     </script>
@@ -28,7 +28,7 @@
     </style>
     <{foreach from=$group_users key=group_name item=users name=group_users}>
 
-        <h3><{$group_name}>(<{$users|@count}>)</h3>
+        <h3><{$group_name|default:''}>(<{$users|@count}>)</h3>
         <table id="tad_book3_log<{$smarty.foreach.group_users.index}>">
             <tbody>
                 <tr>
@@ -39,7 +39,7 @@
                         <{else}>
                             <{assign var='bgcolor' value='#f2fbfc'}>
                         <{/if}>
-                        <td class="c" style="background:<{$bgcolor}>;" colspan=<{$count1.$category}>><{$category}> (<{$category_log.$group_name.$category|@count}>)</td>
+                        <td class="c" style="background:<{$bgcolor|default:''}>;" colspan=<{$count1.$category}>><{$category|default:''}> (<{$category_log.$group_name.$category|@count}>)</td>
                     <{/foreach}>
                 </tr>
                 <tr>
@@ -50,7 +50,7 @@
                             <{assign var='bgcolor' value='#f2fbfc'}>
                         <{/if}>
                         <{foreach from=$category_docs key=page item=page_docs}>
-                            <td class="c" style="background:<{$bgcolor}>;" colspan=<{$count2.$category.$page}>><{if $page|default:false}><{$page}><{/if}></td>
+                            <td class="c" style="background:<{$bgcolor|default:''}>;" colspan=<{$count2.$category.$page}>><{if $page|default:false}><{$page|default:''}><{/if}></td>
                         <{/foreach}>
                     <{/foreach}>
                 </tr>
@@ -63,7 +63,7 @@
                         <{/if}>
                         <{foreach from=$category_docs key=page item=page_docs}>
                             <{foreach from=$page_docs key=paragraph item=paragraph_docs}>
-                                <td class="c" style="background:<{$bgcolor}>;" colspan=<{$paragraph_docs|@count}>><{if $paragraph|default:false}><{$paragraph}><{/if}></td>
+                                <td class="c" style="background:<{$bgcolor|default:''}>;" colspan=<{$paragraph_docs|@count}>><{if $paragraph|default:false}><{$paragraph|default:''}><{/if}></td>
                             <{/foreach}>
                         <{/foreach}>
                     <{/foreach}>
@@ -78,7 +78,7 @@
                         <{foreach from=$category_docs key=page item=page_docs}>
                             <{foreach from=$page_docs key=paragraph item=paragraph_docs}>
                                 <{foreach from=$paragraph_docs key=sort item=doc}>
-                                    <td class="c" style="background:<{$bgcolor}>;"><{if $sort|default:false}><{$sort}><{/if}></td>
+                                    <td class="c" style="background:<{$bgcolor|default:''}>;"><{if $sort|default:false}><{$sort|default:''}><{/if}></td>
                                 <{/foreach}>
                             <{/foreach}>
                         <{/foreach}>
@@ -97,12 +97,12 @@
                                 <{foreach from=$page_docs key=paragraph item=paragraph_docs}>
                                     <{foreach from=$paragraph_docs key=sort item=doc}>
                                         <{assign var="tbdsn" value=$doc.tbdsn}>
-                                        <td class="c" style="background:<{$bgcolor}>;">
+                                        <td class="c" style="background:<{$bgcolor|default:''}>;">
                                             <{if $user.log.$tbdsn && $doc.lengths}>
                                                 <{assign var="v" value=$user.log.$tbdsn/$doc.lengths}>
                                                 <{assign var="vv" value=$v|round:2}>
                                                 <{assign var="percentage" value=$vv*100}>
-                                                <{$percentage}>
+                                                <{$percentage|default:''}>
                                             <{elseif $doc.lengths}>
                                             <{else}>
                                                 -

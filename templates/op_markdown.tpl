@@ -9,7 +9,7 @@
                 </div>
                 <input type="text" name="passwd" class="form-control" >
                 <div class="input-group-append input-group-btn">
-                    <input type="hidden" name="tbsn" value=<{$tbsn}>>
+                    <input type="hidden" name="tbsn" value=<{$tbsn|default:''}>>
                     <input type="hidden" name="op" value="check_passwd">
                     <button type="submit" class="btn btn-primary">
                     <{$smarty.const._TAD_SUBMIT}>
@@ -20,14 +20,14 @@
     </div>
 <{else}>
     <div class="row" style="background-image: url('images/relink_bg.gif'); padding: 10px 0px;">
-        <div class="col-sm-4 text-left text-start"><{$p}></div>
+        <div class="col-sm-4 text-left text-start"><{$p|default:''}></div>
         <div class="col-sm-4 text-center">
             <select onChange="window.location.href='markdown.php?tbdsn='+this.value" class="form-control" title="Select Document">
-            <{$doc_select}>
+            <{$doc_select|default:''}>
             </select>
         </div>
-        <div class="col-sm-4 text-right text-end"><{$n}></div>
+        <div class="col-sm-4 text-right text-end"><{$n|default:''}></div>
     </div>
 
-    <textarea name="markdown" id="markdown" title="markdown code" rows="50" class="form-control"><{$markdown}></textarea>
+    <textarea name="markdown" id="markdown" title="markdown code" rows="50" class="form-control"><{$markdown|default:''}></textarea>
 <{/if}>

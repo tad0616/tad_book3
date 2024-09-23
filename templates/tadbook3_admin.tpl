@@ -2,13 +2,13 @@
     <div id="save_msg"></div>
     <div class="row">
         <div class="col-sm-3">
-            <{$ztree_code}>
+            <{$ztree_code|default:''}>
 
             <{if $tbcsn!="" and $now_op!="tad_book3_cate_form"}>
                 <div>
                     <h3 class="my"><{$cate.title}></h3>
                     <ul>
-                        <li style="line-height:2;"><{$smarty.const._MA_TADBOOK3_COUNT}><{$smarty.const._TAD_FOR}><{$total}></li>
+                        <li style="line-height:2;"><{$smarty.const._MA_TADBOOK3_COUNT}><{$smarty.const._TAD_FOR}><{$total|default:''}></li>
                     </ul>
                 </div>
             <{/if}>
@@ -29,7 +29,7 @@
                     <div style="margin-top: 10px;">
                         <{if $now_op!="tad_book3_cate_form" and $tbcsn}>
                         <a href="javascript:delete_tad_book3_cate_func(<{$cate.tbcsn}>);" class="btn btn-sm btn-danger <{if $cate.count > 0}>disabled<{/if}>"><{$smarty.const._TAD_DEL}></a>
-                        <a href="main.php?op=tad_book3_cate_form&tbcsn=<{$tbcsn}>" class="btn btn-sm btn-warning"><{$smarty.const._TAD_EDIT}></a>
+                        <a href="main.php?op=tad_book3_cate_form&tbcsn=<{$tbcsn|default:''}>" class="btn btn-sm btn-warning"><{$smarty.const._TAD_EDIT}></a>
                         <{/if}>
                     </div>
                     </div>
@@ -76,7 +76,7 @@
                         <{/foreach}>
                     </tbody>
                     </table>
-                    <{$bar}>
+                    <{$bar|default:''}>
                 </form>
             <{else}>
                 <div class="alert alert-danger text-center">

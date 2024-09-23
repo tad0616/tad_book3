@@ -6,7 +6,7 @@
             <{$smarty.const._MA_TADBOOK3_CATE_TITLE}>
         </label>
         <div class="col-sm-10">
-            <input type="text" name="title" size="20" value="<{$title}>" id="title" class="validate[required] form-control">
+            <input type="text" name="title" size="20" value="<{$title|default:''}>" id="title" class="validate[required] form-control">
         </div>
     </div>
 
@@ -15,15 +15,15 @@
             <{$smarty.const._MA_TADBOOK3_CATE_DESCRIPTION}>
         </label>
         <div class="col-sm-10">
-            <{$editor}>
+            <{$editor|default:''}>
         </div>
     </div>
 
 
     <div class="bar">
-        <input type="hidden" name="tbcsn" value="<{$tbcsn}>">
-        <input type="hidden" name="sort" value="<{$sort}>">
-        <input type="hidden" name="op" value="<{$next_op}>">
+        <input type="hidden" name="tbcsn" value="<{$tbcsn|default:''}>">
+        <input type="hidden" name="sort" value="<{$sort|default:''}>">
+        <input type="hidden" name="op" value="<{$next_op|default:''}>">
         <button type="submit" class="btn btn-primary"><{$smarty.const._TAD_SAVE}></button>
     </div>
 
