@@ -15,8 +15,8 @@ function tad_book3_content($options)
 
     $all_cate = all_cate();
 
-    $sql = 'select * from ' . $xoopsDB->prefix('tad_book3') . " where tbsn='$def_tbsn' and enable='1'";
-    $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+    $sql = 'SELECT * FROM `' . $xoopsDB->prefix('tad_book3') . '` WHERE `tbsn` =? AND `enable` = ?';
+    $result = Utility::query($sql, 'is', [$def_tbsn, 1]) or Utility::web_error($sql, __FILE__, __LINE__);
 
     $data = $xoopsDB->fetchArray($result);
     foreach ($data as $k => $v) {
@@ -59,8 +59,9 @@ function tad_book3_content($options)
 
     $i = 0;
     $docs = [];
-    $sql = 'select * from ' . $xoopsDB->prefix('tad_book3_docs') . " where tbsn='{$def_tbsn}' order by category,page,paragraph,sort";
-    $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+    $sql = 'SELECT * FROM `' . $xoopsDB->prefix('tad_book3_docs') . '` WHERE `tbsn`=? ORDER BY `category`, `page`, `paragraph`, `sort`';
+    $result = Utility::query($sql, 'i', [$def_tbsn]) or Utility::web_error($sql, __FILE__, __LINE__);
+
     $i1 = $i2 = $i3 = $i4 = 0;
     $new_category = $new_page = $new_paragraph = $new_sort = '';
     while (false !== ($data = $xoopsDB->fetchArray($result))) {
@@ -154,8 +155,9 @@ function tad_book3_content_edit($options)
 {
     global $xoopsDB;
 
-    $sql = 'select * from ' . $xoopsDB->prefix('tad_book3') . " where `enable`='1' order by `sort`";
-    $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+    $sql = 'SELECT * FROM `' . $xoopsDB->prefix('tad_book3') . '` WHERE `enable`=? ORDER BY `sort`';
+    $result = Utility::query($sql, 's', '1') or Utility::web_error($sql, __FILE__, __LINE__);
+
     $option0 = '';
     while ($book = $xoopsDB->fetchArray($result)) {
         $checked = ($book['tbsn'] == $options[0]) ? 'checked' : '';

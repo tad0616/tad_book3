@@ -20,13 +20,16 @@ function tad_book3_list($options)
     }
 
     $show_ncsn = isset($options[4]) ? $options[4] : '';
-    // $ncsn_arr  = explode(',', $show_ncsn);
 
     $i = 0;
-    $and_tbcsn = empty($show_ncsn) ? '' : "and tbcsn in($show_ncsn)";
-    $sql = 'select `tbsn`,`title`,`counter`,`pic_name` from ' . $xoopsDB->prefix('tad_book3') . " where enable='1' $and_tbcsn order by {$options[1]} {$options[2]} limit 0,{$options[0]}";
+    $and_tbcsn = empty($show_ncsn) ? '' : ' AND `tbcsn` IN(?)';
+    $sql = 'SELECT `tbsn`, `title`, `counter`, `pic_name` FROM `' . $xoopsDB->prefix('tad_book3') . '` WHERE `enable`=? ' . $and_tbcsn . ' ORDER BY ' . $options[1] . ' ' . $options[2] . ' LIMIT 0, ?';
 
-    $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+    $params = empty($show_ncsn) ? [1, $options[0]] : [1, $show_ncsn, $options[0]];
+    $types = empty($show_ncsn) ? 'si' : 'ssi';
+
+    $result = Utility::query($sql, $types, $params) or Utility::web_error($sql, __FILE__, __LINE__);
+
     while (list($tbsn, $title, $counter, $pic_name) = $xoopsDB->fetchRow($result)) {
         $block[$i]['tbsn'] = $tbsn;
         $block[$i]['title'] = $title;
@@ -129,9 +132,9 @@ if (!function_exists('block_book_cate')) {
             function bbv(){
                 i=0;
                 var arr = new Array();';
+        $sql = 'SELECT `tbcsn`, `title` FROM `' . $xoopsDB->prefix('tad_book3_cate') . '` ORDER BY `sort`';
+        $result = Utility::query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
 
-        $sql = 'SELECT tbcsn,title FROM ' . $xoopsDB->prefix('tad_book3_cate') . ' ORDER BY sort';
-        $result = $xoopsDB->query($sql);
         $option = '';
         while (list($tbcsn, $title) = $xoopsDB->fetchRow($result)) {
             $js .= "if(document.getElementById('c{$tbcsn}').checked){

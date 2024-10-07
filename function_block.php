@@ -73,8 +73,9 @@ if (!function_exists('add_book_counter')) {
     function add_book_counter($tbsn = '')
     {
         global $xoopsDB;
-        $sql = 'update ' . $xoopsDB->prefix('tad_book3') . " set  `counter` = `counter`+1 where tbsn='$tbsn'";
-        $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+        $sql = 'UPDATE `' . $xoopsDB->prefix('tad_book3') . '` SET `counter` = `counter`+1 WHERE `tbsn` = ?';
+        Utility::query($sql, 'i', [$tbsn]) or Utility::web_error($sql, __FILE__, __LINE__);
+
     }
 }
 
@@ -82,9 +83,10 @@ if (!function_exists('add_book_counter')) {
 if (!function_exists('all_cate')) {
     function all_cate()
     {
-        global $xoopsDB, $xoopsModule;
-        $sql = 'SELECT tbcsn,title FROM ' . $xoopsDB->prefix('tad_book3_cate') . ' ORDER BY sort';
-        $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+        global $xoopsDB;
+        $sql = 'SELECT `tbcsn`, `title` FROM `' . $xoopsDB->prefix('tad_book3_cate') . '` ORDER BY `sort`';
+        $result = Utility::query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+
         while (list($tbcsn, $title) = $xoopsDB->fetchRow($result)) {
             $main[$tbcsn] = $title;
         }
@@ -141,12 +143,17 @@ if (!function_exists('have_sub')) {
             return 0;
         }
 
-        $and_category = $category ? "and `category`= $category" : '';
-        $and_page = $page ? "and `page`= $page" : '';
-        $and_paragraph = $paragraph ? "and `paragraph`= $paragraph" : '';
+        $and_category = $category ? "AND `category` = ?" : '';
+        $and_page = $page ? "AND `page` = ?" : '';
+        $and_paragraph = $paragraph ? "AND `paragraph` = ?" : '';
 
-        $sql = 'select count(*) from ' . $xoopsDB->prefix('tad_book3_docs') . " where tbsn='{$tbsn}' $and_category $and_page $and_paragraph";
-        $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+        $sql = 'SELECT COUNT(*)
+                FROM `' . $xoopsDB->prefix('tad_book3_docs') . '`
+                WHERE `tbsn` = ? ' . $and_category . ' ' . $and_page . ' ' . $and_paragraph;
+
+        $params = array_filter([$tbsn, $category, $page, $paragraph]);
+        $result = Utility::query($sql, str_repeat('i', count($params)), $params) or Utility::web_error($sql, __FILE__, __LINE__);
+
         list($count) = $xoopsDB->fetchRow($result);
         $count--;
 

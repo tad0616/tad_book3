@@ -67,7 +67,7 @@ die($html);
 //觀看某一頁
 function view_page($tbdsn = '', $header = 1)
 {
-    global $xoopsDB, $book, $artical, $doc_sort;
+    global $book, $artical, $doc_sort;
 
     foreach ($artical as $key => $value) {
         $$key = $value;

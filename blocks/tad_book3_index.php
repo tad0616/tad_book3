@@ -15,8 +15,9 @@ function tad_book3_index()
     $global_tbdsn = Request::getInt('tbdsn');
 
     if (empty($global_tbsn) and !empty($global_tbdsn)) {
-        $sql = 'select `tbsn` from ' . $xoopsDB->prefix('tad_book3_docs') . " where tbdsn='{$global_tbdsn}'";
-        $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+        $sql = 'SELECT `tbsn` FROM `' . $xoopsDB->prefix('tad_book3_docs') . '` WHERE `tbdsn`=?';
+        $result = Utility::query($sql, 'i', [$global_tbdsn]) or Utility::web_error($sql, __FILE__, __LINE__);
+
         list($tbsn) = $xoopsDB->fetchRow($result);
     } else {
         $tbsn = $global_tbsn;
@@ -41,10 +42,8 @@ if (!function_exists('block_get_book_content')) {
     function block_get_book_content($tbsn)
     {
         global $xoopsDB;
-
-        $sql = 'select `tbdsn`,`tbsn`,`category`,`page`,`paragraph`,`sort`,`title`,`content`,`from_tbdsn` from ' . $xoopsDB->prefix('tad_book3_docs') . " where tbsn='{$tbsn}' and enable='1' order by category,page,paragraph,sort";
-
-        $result = $xoopsDB->query($sql);
+        $sql = 'SELECT `tbdsn`, `tbsn`, `category`, `page`, `paragraph`, `sort`, `title`, `content`, `from_tbdsn` FROM `' . $xoopsDB->prefix('tad_book3_docs') . '` WHERE `tbsn`=? AND `enable`=1 ORDER BY `category`, `page`, `paragraph`, `sort`';
+        $result = Utility::query($sql, 'i', [$tbsn]) or Utility::web_error($sql, __FILE__, __LINE__);
 
         $father_sn = $old_sn = $old_level = 0;
         $fsn = [];

@@ -1,5 +1,6 @@
 <?php
 use Xmf\Request;
+use XoopsModules\Tadtools\CategoryHelper;
 use XoopsModules\Tadtools\CkEditor;
 use XoopsModules\Tadtools\FormValidator;
 use XoopsModules\Tadtools\SweetAlert;
@@ -63,19 +64,14 @@ function tad_book3_cate_form($tbcsn = '')
 //新增資料到tad_book3_cate中
 function insert_tad_book3_cate()
 {
-    global $xoopsDB, $xoopsUser;
+    global $xoopsDB;
 
-    $myts = \MyTextSanitizer::getInstance();
-    $_POST['title'] = $xoopsDB->escape($_POST['title']);
-    $_POST['description'] = $xoopsDB->escape($_POST['description']);
     $_POST['description'] = Wcag::amend($_POST['description']);
-    $_POST['of_tbsn'] = (int) $_POST['of_tbsn'];
-    $_POST['sort'] = (int) $_POST['sort'];
 
-    $sql = 'insert into ' . $xoopsDB->prefix('tad_book3_cate') . "
-    (`of_tbsn` , `title` , `sort` , `description`)
-    values('{$_POST['of_tbsn']}' , '{$_POST['title']}' , '{$_POST['sort']}' , '{$_POST['description']}')";
-    $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+    $sql = 'INSERT INTO `' . $xoopsDB->prefix('tad_book3_cate') . '`
+    (`of_tbsn`, `title`, `sort`, `description`)
+    VALUES (?, ?, ?, ?)';
+    Utility::query($sql, 'isis', [$_POST['of_tbsn'], $_POST['title'], $_POST['sort'], $_POST['description']]) or Utility::web_error($sql, __FILE__, __LINE__);
 
     //取得最後新增資料的流水編號
     $tbcsn = $xoopsDB->getInsertId();
@@ -86,20 +82,16 @@ function insert_tad_book3_cate()
 //更新tad_book3_cate某一筆資料
 function update_tad_book3_cate($tbcsn = '')
 {
-    global $xoopsDB, $xoopsUser;
+    global $xoopsDB;
 
-    $myts = \MyTextSanitizer::getInstance();
-    $_POST['title'] = $xoopsDB->escape($_POST['title']);
-    $_POST['description'] = $xoopsDB->escape($_POST['description']);
     $_POST['description'] = Wcag::amend($_POST['description']);
-
-    $sql = 'update ' . $xoopsDB->prefix('tad_book3_cate') . " set
-    `of_tbsn` = '{$_POST['of_tbsn']}' ,
-    `title` = '{$_POST['title']}' ,
-    `sort` = '{$_POST['sort']}' ,
-    `description` = '{$_POST['description']}'
-    where tbcsn='$tbcsn'";
-    $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+    $sql = 'UPDATE `' . $xoopsDB->prefix('tad_book3_cate') . '` SET
+    `of_tbsn` = ? ,
+    `title` = ? ,
+    `sort` = ? ,
+    `description` = ?
+    WHERE `tbcsn` = ?';
+    Utility::query($sql, 'isisi', [$_POST['of_tbsn'], $_POST['title'], $_POST['sort'], $_POST['description'], $tbcsn]) or Utility::web_error($sql, __FILE__, __LINE__);
 
     return $tbcsn;
 }
@@ -108,10 +100,13 @@ function update_tad_book3_cate($tbcsn = '')
 function list_tad_book3_cate_tree($show_tbcsn = 0)
 {
     global $xoopsTpl, $xoopsDB;
-    $path = get_tad_book3_cate_path($show_tbcsn);
+
+    $categoryHelper = new CategoryHelper('tad_book3_cate', 'tbcsn', 'of_tbsn', 'title');
+    $path = $categoryHelper->getCategoryPath($show_tbcsn);
+
     $path_arr = array_keys($path);
-    $sql = 'SELECT tbcsn,of_tbsn,title FROM ' . $xoopsDB->prefix('tad_book3_cate') . ' ORDER BY `sort`';
-    $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+    $sql = 'SELECT `tbcsn`, `of_tbsn`, `title` FROM `' . $xoopsDB->prefix('tad_book3_cate') . '` ORDER BY `sort`';
+    $result = Utility::query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
 
     $count = tad_book3_cate_count();
     $data[] = "{ id:0, pId:0, name:'All', url:'index.php', target:'_self', open:true}";
@@ -162,8 +157,8 @@ function list_tad_book3($tbcsn = '')
             $uid_name[] = $uidname;
         }
         $books[$i]['author'] = implode(' , ', $uid_name);
-        $books[$i]['read_groups'] = Utility::txt_to_group_name($read_group, _MD_TADBOOK3_ALL_OPEN);
-        $books[$i]['video_groups'] = Utility::txt_to_group_name($video_group, _MD_TADBOOK3_ALL_OPEN);
+        $books[$i]['read_groups'] = Utility::txt_to_group_name($data['read_group'], _MD_TADBOOK3_ALL_OPEN);
+        $books[$i]['video_groups'] = Utility::txt_to_group_name($data['video_group'], _MD_TADBOOK3_ALL_OPEN);
         $i++;
     }
     $xoopsTpl->assign('books', $books);

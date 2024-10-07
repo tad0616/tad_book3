@@ -1,4 +1,5 @@
 <?php
+use XoopsModules\Tadtools\Utility;
 //區塊主函式 (會列出最新發表的文章)
 function tad_book3_new_doc($options)
 {
@@ -8,9 +9,8 @@ function tad_book3_new_doc($options)
     $now = date('Y-m-d H:i:s', xoops_getUserTimestamp(time()));
 
     $block = [];
-    $sql = 'select a.`tbdsn`,a.`tbsn`,a.`category`,a.`page`,a.`paragraph`,a.`sort`,a.`title`,a.`last_modify_date`,b.`title` from ' . $xoopsDB->prefix('tad_book3_docs') . ' as a left join ' . $xoopsDB->prefix('tad_book3') . " as b on a.`tbsn`=b.`tbsn` where a.`enable`='1' and  TO_DAYS('{$now}') - TO_DAYS( FROM_UNIXTIME(a.`last_modify_date`)) <= {$options[0]} order by a.`last_modify_date` desc";
-    //die($sql);
-    $result = $xoopsDB->query($sql);
+    $sql = 'SELECT a.`tbdsn`, a.`tbsn`, a.`category`, a.`page`, a.`paragraph`, a.`sort`, a.`title`, a.`last_modify_date`, b.`title` FROM `' . $xoopsDB->prefix('tad_book3_docs') . '` AS a LEFT JOIN `' . $xoopsDB->prefix('tad_book3') . '` AS b ON a.`tbsn` = b.`tbsn` WHERE a.`enable` = 1 AND TO_DAYS(?) - TO_DAYS(FROM_UNIXTIME(a.`last_modify_date`)) <= ? ORDER BY a.`last_modify_date` DESC';
+    $result = Utility::query($sql, 'si', [$now, $options[0]]) or Utility::web_error($sql, __FILE__, __LINE__);
 
     //$today=date("Y-m-d H:i:s",xoops_getUserTimestamp(time()));
     $i = 0;

@@ -8,8 +8,9 @@ function tad_book3_random($options)
     require_once XOOPS_ROOT_PATH . '/modules/tad_book3/function_block.php';
     $block = [];
 
-    $sql = 'select `tbsn`,`title`,`counter`,`pic_name`, `read_group` from ' . $xoopsDB->prefix('tad_book3') . " where enable='1' order by rand() limit 0, {$options[0]}";
-    $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+    $sql = 'SELECT `tbsn`, `title`, `counter`, `pic_name`, `read_group` FROM `' . $xoopsDB->prefix('tad_book3') . '` WHERE `enable`=1 ORDER BY RAND() LIMIT 0, ?';
+    $result = Utility::query($sql, 'i', [$options[0]]) or Utility::web_error($sql, __FILE__, __LINE__);
+
     $i = 0;
     while (list($tbsn, $title, $counter, $pic_name, $read_group) = $xoopsDB->fetchRow($result)) {
         if (!chk_power($read_group)) {

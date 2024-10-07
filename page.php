@@ -51,11 +51,6 @@ function view_page($tbdsn = '')
         $$key = $value;
     }
 
-    // if (empty($content) and empty($from_tbdsn)) {
-    //     header("location: index.php?op=list_docs&tbsn=$tbsn#doc{$tbdsn}");
-    //     exit;
-    // }
-
     if (!empty($from_tbdsn)) {
         $form_page = get_tad_book3_docs($from_tbdsn);
         $content .= $form_page['content'];
@@ -164,8 +159,9 @@ function view_page($tbdsn = '')
 function add_counter($tbdsn = '')
 {
     global $xoopsDB;
-    $sql = 'update ' . $xoopsDB->prefix('tad_book3_docs') . " set  `count` = `count`+1 where tbdsn='$tbdsn'";
-    $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+    $sql = 'UPDATE `' . $xoopsDB->prefix('tad_book3_docs') . '` SET `count` = `count`+1 WHERE `tbdsn` = ?';
+    Utility::query($sql, 'i', [$tbdsn]) or Utility::web_error($sql, __FILE__, __LINE__);
+
 }
 
 //觀看紀錄
