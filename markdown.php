@@ -1,7 +1,6 @@
 <?php
 use League\HTMLToMarkdown\HtmlConverter;
 use Xmf\Request;
-use XoopsModules\Tadtools\SyntaxHighlighter;
 use XoopsModules\Tadtools\Utility;
 
 require_once __DIR__ . '/header.php';
@@ -39,8 +38,7 @@ function view_page($tbdsn = '')
     $doc_sort = mk_category($category, $page, $paragraph, $sort);
 
     //高亮度語法
-    $SyntaxHighlighter = new SyntaxHighlighter();
-    $syntaxhighlighter_code = $SyntaxHighlighter->render();
+    Utility::prism();
 
     $main = "
       <h1>{$book['title']}</h1>

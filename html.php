@@ -1,6 +1,5 @@
 <?php
 use Xmf\Request;
-use XoopsModules\Tadtools\SyntaxHighlighter;
 use XoopsModules\Tadtools\Utility;
 
 /*-----------引入檔案區--------------*/
@@ -20,8 +19,7 @@ foreach ($artical as $key => $value) {
 $doc_sort = mk_category($category, $page, $paragraph, $sort);
 $book = get_tad_book3($tbsn);
 //高亮度語法
-$SyntaxHighlighter = new SyntaxHighlighter();
-$syntaxhighlighter_code = $SyntaxHighlighter->render();
+$prism = Utility::prism('return');
 $bootstrap = Utility::get_bootstrap('return');
 
 $html = '<!DOCTYPE html>
@@ -56,7 +54,7 @@ $html = '<!DOCTYPE html>
     }
   </style>
   </head>
-  <body>' . $syntaxhighlighter_code;
+  <body>' . $prism;
 
 $html .= view_page($tbdsn, $header);
 $html .= '

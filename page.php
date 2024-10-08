@@ -1,6 +1,5 @@
 <?php
 use Xmf\Request;
-use XoopsModules\Tadtools\SyntaxHighlighter;
 use XoopsModules\Tadtools\TadUpFiles;
 use XoopsModules\Tadtools\Utility;
 use XoopsModules\Tadtools\VideoJs;
@@ -88,8 +87,7 @@ function view_page($tbdsn = '')
     $doc_sort = mk_category($category, $page, $paragraph, $sort);
 
     //高亮度語法
-    $SyntaxHighlighter = new SyntaxHighlighter();
-    $SyntaxHighlighter->render();
+    Utility::prism();
 
     $xoopsTpl->assign('tbsn', $tbsn);
     $xoopsTpl->assign('book_title', $book['title']);

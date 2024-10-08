@@ -1,6 +1,5 @@
 <?php
 use Xmf\Request;
-use XoopsModules\Tadtools\SyntaxHighlighter;
 use XoopsModules\Tadtools\Utility;
 
 /*-----------引入檔案區--------------*/
@@ -24,8 +23,7 @@ if ($xoopsUser) {
 $author_arr = explode(',', $book['author']);
 $my = in_array($uid, $author_arr);
 //高亮度語法
-$SyntaxHighlighter = new SyntaxHighlighter();
-$syntaxhighlighter_code = $SyntaxHighlighter->render();
+$prism = Utility::prism('return');
 $bootstrap = Utility::get_bootstrap('return');
 
 $html = '<!DOCTYPE html>
@@ -60,7 +58,7 @@ $html = '<!DOCTYPE html>
     }
   </style>
   </head>
-  <body>' . $syntaxhighlighter_code;
+  <body>' . $prism;
 
 $i = 0;
 $docs = '';
