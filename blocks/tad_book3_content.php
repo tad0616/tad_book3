@@ -146,7 +146,7 @@ function tad_book3_content($options)
     }
 
     $block['docs'] = $docs;
-    $xoTheme->addStylesheet(XOOPS_URL . '/modules/tad_book3/css/module.css');
+    $xoTheme->addStylesheet('modules/tad_book3/css/module.css');
     return $block;
 }
 

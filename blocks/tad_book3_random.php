@@ -26,7 +26,7 @@ function tad_book3_random($options)
         $block[$i]['title'] = $title;
         $i++;
     }
-    $xoTheme->addStylesheet(XOOPS_URL . '/modules/tad_book3/css/module.css');
+    $xoTheme->addStylesheet('modules/tad_book3/css/module.css');
     return $block;
 }
 

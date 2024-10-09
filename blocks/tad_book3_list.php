@@ -40,7 +40,7 @@ function tad_book3_list($options)
     }
     $data['books'] = isset($block) ? $block : '';
     $data['show_pic'] = isset($options[5]) ? $options[5] : '';
-    $xoTheme->addStylesheet(XOOPS_URL . '/modules/tad_book3/css/module.css');
+    $xoTheme->addStylesheet('modules/tad_book3/css/module.css');
     return $data;
 }
 

@@ -1,5 +1,5 @@
 <?php
-
+use Xmf\Request;
 use XoopsModules\Tadtools\Utility;
 
 require_once dirname(dirname(__DIR__)) . '/mainfile.php';
@@ -11,19 +11,16 @@ if (!isset($_SESSION['tad_book3_adm'])) {
     $_SESSION['tad_book3_adm'] = ($xoopsUser) ? $xoopsUser->isAdmin() : false;
 }
 $interface_menu[_MD_TADBOOK3_HOMEPAGE] = 'index.php';
+$interface_icon[_MD_TADBOOK3_HOMEPAGE] = "fa-book";
 
 //管理員可以新增書籍
 if ($_SESSION['tad_book3_adm']) {
     $interface_menu[_MD_TADBOOK3_ADD_BOOK] = 'index.php?op=tad_book3_form';
-    //$interface_menu[_MD_TADBOOK3_IMPORT]   = "index.php?op=import_form";
+    $interface_icon[_MD_TADBOOK3_ADD_BOOK] = "fa-plus-circle";
 }
 
-if (\Xmf\Request::hasVar('tbdsn', 'GET')) {
-    $tbdsn = \Xmf\Request::getInt('tbdsn', 0, 'GET');
-}
-if (\Xmf\Request::hasVar('tbsn', 'GET')) {
-    $tbsn = \Xmf\Request::getInt('tbsn', 0, 'GET');
-}
+$tbdsn = Request::getInt('tbdsn', 0, 'GET');
+$tbsn = Request::getInt('tbsn', 0, 'GET');
 
 if (!empty($tbdsn) or !empty($tbsn)) {
     if (!empty($tbdsn)) {
@@ -35,10 +32,13 @@ if (!empty($tbdsn) or !empty($tbsn)) {
         $all_books = all_books();
         $txt = sprintf(_MD_TADBOOK3_BOOK_CONTENT, $all_books[$tbsn]);
         $interface_menu[$txt] = "index.php?op=list_docs&tbsn={$tbsn}";
+        $interface_icon[$txt] = "fa-list";
 
         if (chk_edit_power($author)) {
             $interface_menu[_MD_TADBOOK3_ADD_DOC] = "post.php?op=tad_book3_docs_form&tbsn={$tbsn}";
+            $interface_icon[_MD_TADBOOK3_ADD_DOC] = "fa-plus-square";
             $interface_menu[_MD_TADBOOK3_MODIFY_DOC] = "post.php?op=tad_book3_docs_form&tbsn={$tbsn}&tbdsn={$tbdsn}";
+            $interface_icon[_MD_TADBOOK3_MODIFY_DOC] = "fa-pencil-square-o";
         }
 
         $category = mk_category($category, $page, $paragraph, $sort);
@@ -49,10 +49,7 @@ if (!empty($tbdsn) or !empty($tbsn)) {
         list($tbsn, $author) = $xoopsDB->fetchRow($result);
         if (chk_edit_power($author)) {
             $interface_menu[_MD_TADBOOK3_ADD_DOC] = "post.php?op=tad_book3_docs_form&tbsn={$tbsn}";
+            $interface_icon[_MD_TADBOOK3_ADD_DOC] = "fa-plus";
         }
     }
-}
-
-if ($_SESSION['tad_book3_adm']) {
-    $interface_menu[_TAD_TO_ADMIN] = 'admin/main.php';
 }

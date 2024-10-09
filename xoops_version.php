@@ -1,7 +1,6 @@
 <?php
 global $xoopsConfig;
 $modversion = [];
-global $xoopsConfig;
 
 //---模組基本資訊---//
 $modversion['name'] = _MI_TADBOOK3_NAME;
@@ -27,19 +26,22 @@ $modversion['min_php'] = 5.4;
 $modversion['min_xoops'] = '2.5';
 
 //---paypal資訊---//
-$modversion['paypal'] = [];
-$modversion['paypal']['business'] = 'tad0616@gmail.com';
-$modversion['paypal']['item_name'] = 'Donation : ' . _MI_TAD_WEB;
-$modversion['paypal']['amount'] = 0;
-$modversion['paypal']['currency_code'] = 'USD';
+$modversion['paypal'] = [
+    'business' => 'tad0616@gmail.com',
+    'item_name' => 'Donation : ' . _MI_TAD_WEB,
+    'amount' => 0,
+    'currency_code' => 'USD',
+];
 
 //---資料表架構---//
 $modversion['sqlfile']['mysql'] = 'sql/mysql.sql';
-$modversion['tables'][1] = 'tad_book3';
-$modversion['tables'][2] = 'tad_book3_cate';
-$modversion['tables'][3] = 'tad_book3_docs';
-$modversion['tables'][4] = 'tad_book3_files_center';
-$modversion['tables'][5] = 'tad_book3_data_center';
+$modversion['tables'] = [
+    'tad_book3',
+    'tad_book3_cate',
+    'tad_book3_docs',
+    'tad_book3_files_center',
+    'tad_book3_data_center',
+];
 
 //---安裝設定---//
 $modversion['onInstall'] = 'include/onInstall.php';
@@ -58,86 +60,83 @@ $modversion['hasMain'] = 1;
 $modversion['system_menu'] = 1;
 
 //---樣板設定---//
-$modversion['templates'] = [];
-$i = 1;
-$modversion['templates'][$i]['file'] = 'tadbook3_index.tpl';
-$modversion['templates'][$i]['description'] = 'tadbook3_index.tpl';
-
-$i++;
-$modversion['templates'][$i]['file'] = 'tadbook3_admin.tpl';
-$modversion['templates'][$i]['description'] = 'tadbook3_admin.tpl';
+$modversion['templates'] = [
+    ['file' => 'tadbook3_index.tpl', 'description' => 'tadbook3_index.tpl'],
+    ['file' => 'tadbook3_admin.tpl', 'description' => 'tadbook3_admin.tpl'],
+];
 
 //---評論設定---//
 $modversion['hasComments'] = 0;
 
 //---搜尋設定---//
 $modversion['hasSearch'] = 1;
-$modversion['search']['file'] = 'include/search.php';
-$modversion['search']['func'] = 'tadbook3_search';
+$modversion['search'] = [
+    'file' => 'include/search.php',
+    'func' => 'tadbook3_search',
+];
 
 //---區塊設定---//
-$modversion['blocks'][] = [
-    'file' => 'tad_book3_random.php',
-    'name' => _MI_TADBOOK3_BNAME1,
-    'description' => _MI_TADBOOK3_BDESC1,
-    'show_func' => 'tad_book3_random',
-    'template' => 'tad_book3_block_random.tpl',
-    'edit_func' => 'tad_book3_random_edit',
-    'options' => '1|1',
+$modversion['blocks'] = [
+    [
+        'file' => 'tad_book3_random.php',
+        'name' => _MI_TADBOOK3_BNAME1,
+        'description' => _MI_TADBOOK3_BDESC1,
+        'show_func' => 'tad_book3_random',
+        'template' => 'tad_book3_block_random.tpl',
+        'edit_func' => 'tad_book3_random_edit',
+        'options' => '1|1',
+    ],
+    [
+        'file' => 'tad_book3_new_doc.php',
+        'name' => _MI_TADBOOK3_BNAME2,
+        'description' => _MI_TADBOOK3_BDESC2,
+        'show_func' => 'tad_book3_new_doc',
+        'template' => 'tad_book3_block_new_doc.tpl',
+        'edit_func' => 'tad_book3_new_doc_edit',
+        'options' => '5',
+    ],
+    [
+        'file' => 'tad_book3_list.php',
+        'name' => _MI_TADBOOK3_BNAME3,
+        'description' => _MI_TADBOOK3_BDESC3,
+        'show_func' => 'tad_book3_list',
+        'template' => 'tad_book3_block_list.tpl',
+        'edit_func' => 'tad_book3_list_edit',
+        'options' => '5|create_date|desc||0',
+    ],
+    [
+        'file' => 'tad_book3_index.php',
+        'name' => _MI_TADBOOK3_BNAME4,
+        'description' => _MI_TADBOOK3_BDESC4,
+        'show_func' => 'tad_book3_index',
+        'template' => 'tad_book3_block_index.tpl',
+    ],
+    [
+        'file' => 'tad_book3_content.php',
+        'name' => _MI_TADBOOK3_BNAME5,
+        'description' => _MI_TADBOOK3_BDESC5,
+        'show_func' => 'tad_book3_content',
+        'template' => 'tad_book3_block_content.tpl',
+        'edit_func' => 'tad_book3_content_edit',
+        'options' => '',
+    ],
 ];
 
-$modversion['blocks'][] = [
-    'file' => 'tad_book3_new_doc.php',
-    'name' => _MI_TADBOOK3_BNAME2,
-    'description' => _MI_TADBOOK3_BDESC2,
-    'show_func' => 'tad_book3_new_doc',
-    'template' => 'tad_book3_block_new_doc.tpl',
-    'edit_func' => 'tad_book3_new_doc_edit',
-    'options' => '5',
-];
-
-$modversion['blocks'][] = [
-    'file' => 'tad_book3_list.php',
-    'name' => _MI_TADBOOK3_BNAME3,
-    'description' => _MI_TADBOOK3_BDESC3,
-    'show_func' => 'tad_book3_list',
-    'template' => 'tad_book3_block_list.tpl',
-    'edit_func' => 'tad_book3_list_edit',
-    'options' => '5|create_date|desc||0',
-];
-
-$modversion['blocks'][] = [
-    'file' => 'tad_book3_index.php',
-    'name' => _MI_TADBOOK3_BNAME4,
-    'description' => _MI_TADBOOK3_BDESC4,
-    'show_func' => 'tad_book3_index',
-    'template' => 'tad_book3_block_index.tpl',
-];
-
-$modversion['blocks'][] = [
-    'file' => 'tad_book3_content.php',
-    'name' => _MI_TADBOOK3_BNAME5,
-    'description' => _MI_TADBOOK3_BDESC5,
-    'show_func' => 'tad_book3_content',
-    'template' => 'tad_book3_block_content.tpl',
-    'edit_func' => 'tad_book3_content_edit',
-    'options' => '',
-];
-
-$modversion['config'][] = [
-    'name' => 'use_social_tools',
-    'title' => '_MI_SOCIALTOOLS_TITLE',
-    'description' => '_MI_SOCIALTOOLS_TITLE_DESC',
-    'formtype' => 'yesno',
-    'valuetype' => 'int',
-    'default' => '1',
-];
-
-$modversion['config'][] = [
-    'name' => 'ffmpeg_path',
-    'title' => '_MI_FFMPEG_PATH',
-    'description' => '_MI_FFMPEG_PATH_DESC',
-    'formtype' => 'textbox',
-    'valuetype' => 'text',
-    'default' => '',
+$modversion['config'] = [
+    [
+        'name' => 'use_social_tools',
+        'title' => '_MI_SOCIALTOOLS_TITLE',
+        'description' => '_MI_SOCIALTOOLS_TITLE_DESC',
+        'formtype' => 'yesno',
+        'valuetype' => 'int',
+        'default' => '1',
+    ],
+    [
+        'name' => 'ffmpeg_path',
+        'title' => '_MI_FFMPEG_PATH',
+        'description' => '_MI_FFMPEG_PATH_DESC',
+        'formtype' => 'textbox',
+        'valuetype' => 'text',
+        'default' => '',
+    ],
 ];
