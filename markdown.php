@@ -2,6 +2,7 @@
 use League\HTMLToMarkdown\HtmlConverter;
 use Xmf\Request;
 use XoopsModules\Tadtools\Utility;
+use XoopsModules\Tad_book3\Tools;
 
 require_once __DIR__ . '/header.php';
 $xoopsOption['template_main'] = 'tadbook3_index.tpl';
@@ -26,7 +27,7 @@ function view_page($tbdsn = '')
     }
 
     $book = get_tad_book3($tbsn);
-    if (!chk_power($book['read_group'])) {
+    if (!Tools::chk_power($book['read_group'])) {
         redirect_header('index.php', 3, _MD_TADBOOK3_CANT_READ);
     }
 
@@ -34,8 +35,6 @@ function view_page($tbdsn = '')
     if (!empty($book['passwd']) and $_SESSION['passwd'] != $book['passwd']) {
         $needpasswd = 1;
     }
-
-    $doc_sort = mk_category($category, $page, $paragraph, $sort);
 
     //高亮度語法
     Utility::prism();
@@ -53,7 +52,6 @@ function view_page($tbdsn = '')
     $p = (empty($prev[1])) ? '' : "<a href='markdown.php?tbdsn={$prev[0]}' style='text-decoration: none;'><img src='images/arrow_left.png' alt='prev' title='Prev' border='0' align='absmiddle' hspace=4>{$prev[1]}</a>";
     $n = (empty($next[1])) ? '' : "<a href='markdown.php?tbdsn={$next[0]}' style='text-decoration: none;'>{$next[1]}<img src='images/arrow_right.png' alt='next' title='next' border='0' align='absmiddle' hspace=4></a>";
 
-    $doc_sort = mk_category($category, $page, $paragraph, $sort);
     $xoopsTpl->assign('p', $p);
     $xoopsTpl->assign('n', $n);
     $xoopsTpl->assign('doc_select', $doc_select);

@@ -5,12 +5,12 @@ use XoopsModules\Tadtools\TadDataCenter;
 use XoopsModules\Tadtools\TreeTable;
 use XoopsModules\Tadtools\Utility;
 use XoopsModules\Tadtools\Wcag;
+use XoopsModules\Tad_book3\Tools;
 
 xoops_loadLanguage('main', 'tadtools');
 
 define('_TADBOOK3_BOOK_DIR', XOOPS_ROOT_PATH . '/uploads/tad_book3');
 define('_TADBOOK3_BOOK_URL', XOOPS_URL . '/uploads/tad_book3');
-require_once XOOPS_ROOT_PATH . '/modules/tad_book3/function_block.php';
 
 //以流水號取得某筆tad_book3_cate資料
 function get_tad_book3_cate($tbcsn = '')
@@ -79,10 +79,10 @@ function list_all_cate_book()
         $j = 0;
         $books = [];
         while (false !== ($data2 = $xoopsDB->fetchArray($result2))) {
-            if (!chk_power($data2['read_group'])) {
+            if (!Tools::chk_power($data2['read_group'])) {
                 continue;
             }
-            $books[$j] = book_shadow($data2);
+            $books[$j] = Tools::book_shadow($data2);
             $j++;
         }
         $cates[$i]['books'] = $books;
@@ -111,11 +111,11 @@ function list_docs($def_tbsn = '')
         exit;
     }
 
-    add_book_counter($def_tbsn);
+    Tools::add_book_counter($def_tbsn);
 
     $xoopsTpl->assign('now_op', 'list_docs');
 
-    $all_cate = all_cate();
+    $all_cate = Tools::all_cate();
 
     $sql = 'SELECT * FROM `' . $xoopsDB->prefix('tad_book3') . '` WHERE `tbsn` =? AND `enable`=?';
     $result = Utility::query($sql, 'is', [$def_tbsn, 1]) or Utility::web_error($sql, __FILE__, __LINE__);
@@ -125,7 +125,7 @@ function list_docs($def_tbsn = '')
         $$k = $v;
     }
 
-    if (!chk_power($read_group)) {
+    if (!Tools::chk_power($read_group)) {
         redirect_header('index.php', 3, _MD_TADBOOK3_CANT_READ);
     }
 
@@ -155,7 +155,7 @@ function list_docs($def_tbsn = '')
 
     $cates = (empty($all_cate[$tbcsn])) ? _MD_TADBOOK3_NOT_CLASSIFIED : $all_cate[$tbcsn];
 
-    $book = book_shadow($data);
+    $book = Tools::book_shadow($data);
 
     $xoopsTpl->assign('book', $book);
     $xoopsTpl->assign('tbsn', $def_tbsn);
@@ -226,8 +226,8 @@ function get_docs($def_tbsn, $have_content = false, $my = true)
             $$k = $v;
         }
 
-        $doc_sort = mk_category($category, $page, $paragraph, $sort);
-        $have_sub = have_sub($def_tbsn, $category, $page, $paragraph, $sort);
+        $doc_sort = Tools::mk_category($category, $page, $paragraph, $sort);
+        $have_sub = Tools::have_sub($def_tbsn, $category, $page, $paragraph, $sort);
         $last_modify_date = date('Y-m-d H:i:s', xoops_getUserTimestamp($last_modify_date));
 
         if ('1' != $enable and !$my) {
@@ -315,7 +315,7 @@ function get_docs($def_tbsn, $have_content = false, $my = true)
             $i4 = 0;
         }
 
-        $docs[$i]['new_sort'] = mk_category($i1, $i2, $i3, $i4);
+        $docs[$i]['new_sort'] = Tools::mk_category($i1, $i2, $i3, $i4);
         $i++;
     }
     return [$docs, $total_time, $total_view];
@@ -668,7 +668,7 @@ function get_tad_book3($tbsn = '')
 //分類選單
 function cate_select($def_tbcsn = '')
 {
-    $all_cate = all_cate();
+    $all_cate = Tools::all_cate();
     $main = '';
     foreach ($all_cate as $tbcsn => $title) {
         $selected = ($tbcsn == $def_tbcsn) ? 'selected' : '';
@@ -730,7 +730,7 @@ function near_docs($tbsn = '', $doc_sn = '')
 
     $get_next = false;
     while (list($tbdsn, $title, $category, $page, $paragraph, $sort) = $xoopsDB->fetchRow($result)) {
-        $doc_sort = mk_category($category, $page, $paragraph, $sort);
+        $doc_sort = Tools::mk_category($category, $page, $paragraph, $sort);
         if ($doc_sn == $tbdsn) {
             $doc['main'] = "{$tbdsn};{$doc_sort['main']} {$title}";
             $get_next = true;
@@ -771,7 +771,7 @@ function doc_select($tbsn = '', $doc_sn = '')
     $main = '';
     while (list($tbdsn, $title, $category, $page, $paragraph, $sort, $enable, $uid) = $xoopsDB->fetchRow($result)) {
         $selected = ($doc_sn == $tbdsn) ? 'selected' : '';
-        $doc_sort = mk_category($category, $page, $paragraph, $sort);
+        $doc_sort = Tools::mk_category($category, $page, $paragraph, $sort);
 
         $stat = '';
         if ('1' != $enable) {

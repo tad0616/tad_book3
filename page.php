@@ -3,6 +3,7 @@ use Xmf\Request;
 use XoopsModules\Tadtools\TadUpFiles;
 use XoopsModules\Tadtools\Utility;
 use XoopsModules\Tadtools\VideoJs;
+use XoopsModules\Tad_book3\Tools;
 
 /*-----------引入檔案區--------------*/
 require __DIR__ . '/header.php';
@@ -60,11 +61,11 @@ function view_page($tbdsn = '')
     if ($enable != 1 && !chk_edit_power($book['author'])) {
         redirect_header("index.php?op=list_docs&tbsn=$tbsn#doc{$tbdsn}", 3, _MD_TADBOOK3_CANT_READ);
     }
-    if (!chk_power($book['read_group'], $read_group)) {
+    if (!Tools::chk_power($book['read_group'], $read_group)) {
         redirect_header('index.php', 3, _MD_TADBOOK3_CANT_READ);
     } else {
         $now = time();
-        $start_ts = get_start_ts($tbdsn, 'read', $read_group);
+        $start_ts = Tools::get_start_ts($tbdsn, 'read', $read_group);
         if ($start_ts && $start_ts > $now) {
             $start_time = date('Y-m-d H:i:s', $start_ts);
             redirect_header('index.php', 3, sprintf(_MD_TADBOOK3_READ_DATE, $start_time));
@@ -84,7 +85,7 @@ function view_page($tbdsn = '')
     $p = (empty($prev[1])) ? '' : "<a href='page.php?tbsn={$tbsn}&tbdsn={$prev[0]}' style='text-decoration: none;'><img src='images/arrow_left.png' alt='prev' title='Prev' border='0' align='absmiddle' hspace=4>{$prev[1]}</a>";
     $n = (empty($next[1])) ? '' : "<a href='page.php?tbsn={$tbsn}&tbdsn={$next[0]}' style='text-decoration: none;'>{$next[1]}<img src='images/arrow_right.png' alt='next' title='next' border='0' align='absmiddle' hspace=4></a>";
 
-    $doc_sort = mk_category($category, $page, $paragraph, $sort);
+    $doc_sort = Tools::mk_category($category, $page, $paragraph, $sort);
 
     //高亮度語法
     Utility::prism();
@@ -101,8 +102,8 @@ function view_page($tbdsn = '')
     $xoopsTpl->assign('push_url', Utility::push_url());
     $xoopsTpl->assign('tbdsn', $tbdsn);
     $xoopsTpl->assign('needpasswd', $needpasswd);
-    $xoopsTpl->assign('view_video', chk_power($book['video_group'], $video_group));
-    $video_start_ts = get_start_ts($tbdsn, 'video', $video_group);
+    $xoopsTpl->assign('view_video', Tools::chk_power($book['video_group'], $video_group));
+    $video_start_ts = Tools::get_start_ts($tbdsn, 'video', $video_group);
     $xoopsTpl->assign('view_video_ts', $video_start_ts);
     $xoopsTpl->assign('view_video_date', date('Y-m-d H:i:s', $video_start_ts));
     $xoopsTpl->assign('now', time());
@@ -170,7 +171,7 @@ function view_log($tbsn = '')
     $book = get_tad_book3($tbsn);
     $xoopsTpl->assign('book', $book);
 
-    if (!chk_power($book['video_group'])) {
+    if (!Tools::chk_power($book['video_group'])) {
         redirect_header('index.php', 3, _MD_TADBOOK3_CANT_READ);
     }
 
@@ -221,12 +222,12 @@ function view_log($tbsn = '')
         $sort = $doc['sort'];
         $level[$category][$page][$paragraph][$sort] = $doc;
 
-        if (!chk_power($book['read_group'], $doc['read_group'])) {
+        if (!Tools::chk_power($book['read_group'], $doc['read_group'])) {
             // redirect_header('index.php', 3, _MD_TADBOOK3_CANT_READ);
             continue;
         } else {
             $now = time();
-            $start_ts = get_start_ts($tbdsn, 'read', $doc['read_group']);
+            $start_ts = Tools::get_start_ts($tbdsn, 'read', $doc['read_group']);
             if ($start_ts && $start_ts > $now) {
                 $start_time = date('Y-m-d H:i:s', $start_ts);
                 // redirect_header('index.php', 3, sprintf(_MD_TADBOOK3_READ_DATE, $start_time));

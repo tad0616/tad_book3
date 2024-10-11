@@ -1,6 +1,7 @@
 <?php
 use Xmf\Request;
 use XoopsModules\Tadtools\Utility;
+use XoopsModules\Tad_book3\Tools;
 
 /*-----------引入檔案區--------------*/
 require_once __DIR__ . '/header.php';
@@ -87,7 +88,7 @@ function view_page($tbdsn = '')
         $content .= $form_page['content'];
     }
 
-    if (!chk_power($book['read_group'])) {
+    if (!Tools::chk_power($book['read_group'])) {
         redirect_header('index.php', 3, _MD_TADBOOK3_CANT_READ);
     }
 
@@ -98,7 +99,7 @@ function view_page($tbdsn = '')
         exit;
     }
 
-    $doc_sort = mk_category($category, $page, $paragraph, $sort);
+    $doc_sort = Tools::mk_category($category, $page, $paragraph, $sort);
     $main = "
     <div class='page'>
       <div class='page_content'>

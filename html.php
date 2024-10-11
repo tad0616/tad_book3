@@ -1,6 +1,7 @@
 <?php
 use Xmf\Request;
 use XoopsModules\Tadtools\Utility;
+use XoopsModules\Tad_book3\Tools;
 
 /*-----------引入檔案區--------------*/
 require_once __DIR__ . '/header.php';
@@ -16,7 +17,7 @@ $artical = get_tad_book3_docs($tbdsn);
 foreach ($artical as $key => $value) {
     $$key = $value;
 }
-$doc_sort = mk_category($category, $page, $paragraph, $sort);
+$doc_sort = Tools::mk_category($category, $page, $paragraph, $sort);
 $book = get_tad_book3($tbsn);
 //高亮度語法
 $prism = Utility::prism('return');
@@ -76,7 +77,7 @@ function view_page($tbdsn = '', $header = 1)
         $content .= $form_page['content'];
     }
 
-    if (!chk_power($book['read_group'])) {
+    if (!Tools::chk_power($book['read_group'])) {
         redirect_header('index.php', 3, _MD_TADBOOK3_CANT_READ);
     }
 

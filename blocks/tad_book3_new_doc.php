@@ -1,10 +1,10 @@
 <?php
 use XoopsModules\Tadtools\Utility;
+use XoopsModules\Tad_book3\Tools;
 //區塊主函式 (會列出最新發表的文章)
 function tad_book3_new_doc($options)
 {
     global $xoopsDB;
-    require_once XOOPS_ROOT_PATH . '/modules/tad_book3/function_block.php';
 
     $now = date('Y-m-d H:i:s', xoops_getUserTimestamp(time()));
 
@@ -17,7 +17,7 @@ function tad_book3_new_doc($options)
     while (list($tbdsn, $tbsn, $category, $page, $paragraph, $sort, $title, $last_modify_date, $book_title) = $xoopsDB->fetchRow($result)) {
         $last_modify_date = date('Y-m-d', xoops_getUserTimestamp($last_modify_date));
         //if($today > $show_time+$last_modify_date)continue;
-        $doc_sort = mk_category($category, $page, $paragraph, $sort);
+        $doc_sort = Tools::mk_category($category, $page, $paragraph, $sort);
         $block[$i]['doc_sort'] = $doc_sort['main'];
         $block[$i]['tbsn'] = $tbsn;
         $block[$i]['tbdsn'] = $tbdsn;

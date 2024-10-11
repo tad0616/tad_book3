@@ -1,6 +1,7 @@
 <?php
 use Xmf\Request;
 use XoopsModules\Tadtools\Utility;
+use XoopsModules\Tad_book3\Tools;
 
 require_once dirname(dirname(__DIR__)) . '/mainfile.php';
 
@@ -41,7 +42,7 @@ if (!empty($tbdsn) or !empty($tbsn)) {
             $interface_icon[_MD_TADBOOK3_MODIFY_DOC] = "fa-pencil-square-o";
         }
 
-        $category = mk_category($category, $page, $paragraph, $sort);
+        $category = Tools::mk_category($category, $page, $paragraph, $sort);
     } elseif (!empty($tbsn)) {
         $sql = 'SELECT `tbsn`, `author` FROM `' . $xoopsDB->prefix('tad_book3') . '` WHERE `tbsn` = ?';
         $result = Utility::query($sql, 'i', [$tbsn]) or Utility::web_error($sql, __FILE__, __LINE__);

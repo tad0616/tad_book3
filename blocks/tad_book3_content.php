@@ -1,19 +1,19 @@
 <?php
 use XoopsModules\Tadtools\Utility;
+use XoopsModules\Tad_book3\Tools;
 
 //區塊主函式 (會自動偵測目前閱讀的書籍，並秀出該書目錄)
 function tad_book3_content($options)
 {
     global $xoopsDB, $xoopsUser, $xoopsTpl, $xoTheme;
-    require_once XOOPS_ROOT_PATH . '/modules/tad_book3/function_block.php';
 
     $def_tbsn = !empty($options[0]) ? (int) $options[0] : '1';
 
     $uid = ($xoopsUser) ? $xoopsUser->uid() : 0;
 
-    add_book_counter($def_tbsn);
+    Tools::add_book_counter($def_tbsn);
 
-    $all_cate = all_cate();
+    $all_cate = Tools::all_cate();
 
     $sql = 'SELECT * FROM `' . $xoopsDB->prefix('tad_book3') . '` WHERE `tbsn` =? AND `enable` = ?';
     $result = Utility::query($sql, 'is', [$def_tbsn, 1]) or Utility::web_error($sql, __FILE__, __LINE__);
@@ -24,7 +24,7 @@ function tad_book3_content($options)
         $block[$k] = $v;
     }
 
-    if (isset($read_group) && !chk_power($read_group)) {
+    if (isset($read_group) && !Tools::chk_power($read_group)) {
         $block['msg'] = _MB_TADBOOK3_NO_READ_ACCESS;
 
         return $block;
@@ -47,7 +47,7 @@ function tad_book3_content($options)
     $block['author'] = isset($uid_name) ? implode(' , ', $uid_name) : '';
     $block['create_date'] = date('Y-m-d H:i:s', xoops_getUserTimestamp(strtotime(isset($create_date) ? $create_date : time())));
     $block['cate'] = (!isset($tbcsn) || empty($all_cate[$tbcsn])) ? _MB_TADBOOK3_NOT_CLASSIFIED : $all_cate[$tbcsn];
-    $book = book_shadow($data);
+    $book = Tools::book_shadow($data);
     $block['book'] = $book;
     $block['book_content'] = sprintf(_MB_TADBOOK3_BOOK_CONTENT, $title);
 
@@ -69,8 +69,8 @@ function tad_book3_content($options)
             $$k = $v;
         }
 
-        $doc_sort = mk_category($category, $page, $paragraph, $sort);
-        $have_sub = have_sub($def_tbsn, $category, $page, $paragraph, $sort);
+        $doc_sort = Tools::mk_category($category, $page, $paragraph, $sort);
+        $have_sub = Tools::have_sub($def_tbsn, $category, $page, $paragraph, $sort);
         $last_modify_date = date('Y-m-d H:i:s', xoops_getUserTimestamp($last_modify_date));
 
         if ('1' != $enable) {
@@ -141,7 +141,7 @@ function tad_book3_content($options)
             $i4 = 0;
         }
 
-        $docs[$i]['new_sort'] = mk_category($i1, $i2, $i3, $i4);
+        $docs[$i]['new_sort'] = Tools::mk_category($i1, $i2, $i3, $i4);
         $i++;
     }
 

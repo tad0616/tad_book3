@@ -1,11 +1,11 @@
 <?php
 use XoopsModules\Tadtools\Utility;
+use XoopsModules\Tad_book3\Tools;
 
 //區塊主函式 (會隨機出現書的封面)
 function tad_book3_random($options)
 {
     global $xoopsDB, $xoTheme;
-    require_once XOOPS_ROOT_PATH . '/modules/tad_book3/function_block.php';
     $block = [];
 
     $sql = 'SELECT `tbsn`, `title`, `counter`, `pic_name`, `read_group` FROM `' . $xoopsDB->prefix('tad_book3') . '` WHERE `enable`=1 ORDER BY RAND() LIMIT 0, ?';
@@ -13,7 +13,7 @@ function tad_book3_random($options)
 
     $i = 0;
     while (list($tbsn, $title, $counter, $pic_name, $read_group) = $xoopsDB->fetchRow($result)) {
-        if (!chk_power($read_group)) {
+        if (!Tools::chk_power($read_group)) {
             continue;
         }
 
