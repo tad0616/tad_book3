@@ -1,6 +1,7 @@
 <?php
 namespace XoopsModules\Tad_book3;
 
+use XoopsModules\Tadtools\TadDataCenter;
 use XoopsModules\Tadtools\Utility;
 
 /**

@@ -5,6 +5,8 @@ require dirname(dirname(__DIR__)) . '/mainfile.php';
 if (!$_SESSION['tad_book3_adm']) {
     exit;
 }
+error_reporting(0);
+$xoopsLogger->activated = false;
 
 $sort = 1;
 foreach ($_POST['book'] as $tbsn) {
