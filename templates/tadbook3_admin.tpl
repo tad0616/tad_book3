@@ -28,8 +28,8 @@
                     <div class="col-sm-8 text-right text-end">
                     <div style="margin-top: 10px;">
                         <{if $now_op!="tad_book3_cate_form" and $tbcsn}>
-                        <a href="javascript:delete_tad_book3_cate_func(<{$cate.tbcsn}>);" class="btn btn-sm btn-danger <{if $cate.count > 0}>disabled<{/if}>"><{$smarty.const._TAD_DEL}></a>
-                        <a href="main.php?op=tad_book3_cate_form&tbcsn=<{$tbcsn|default:''}>" class="btn btn-sm btn-warning"><{$smarty.const._TAD_EDIT}></a>
+                        <a href="javascript:delete_tad_book3_cate_func(<{$cate.tbcsn}>);" class="btn btn-sm btn-danger <{if $cate.count > 0}>disabled<{/if}>"><i class="fa fa-trash" aria-hidden="true"></i> <{$smarty.const._TAD_DEL}></a>
+                        <a href="main.php?op=tad_book3_cate_form&tbcsn=<{$tbcsn|default:''}>" class="btn btn-sm btn-warning"><i class="fa fa-pencil-square-o" aria-hidden="true"></i>  <{$smarty.const._TAD_EDIT}></a>
                         <{/if}>
                     </div>
                     </div>
@@ -69,8 +69,8 @@
                             <td><{$book.video_groups}></td>
                             <td><{$book.author}></td>
                             <td>
-                            <a href="javascript:delete_tad_book3_func(<{$book.tbsn}>);" class="btn btn-sm btn-danger" id="del<{$book.tbsn}>"><{$smarty.const._TAD_DEL}></a>
-                            <a href="<{$xoops_url}>/modules/tad_book3/index.php?op=tad_book3_form&tbsn=<{$book.tbsn}>" class="btn btn-sm btn-info" id="update<{$book.tbsn}>"><{$smarty.const._TAD_EDIT}></a>
+                            <a href="javascript:delete_tad_book3_func(<{$book.tbsn}>);" class="btn btn-sm btn-danger" id="del<{$book.tbsn}>"><i class="fa fa-trash" aria-hidden="true"></i> <{$smarty.const._TAD_DEL}></a>
+                            <a href="<{$xoops_url}>/modules/tad_book3/index.php?op=tad_book3_form&tbsn=<{$book.tbsn}>" class="btn btn-sm btn-info" id="update<{$book.tbsn}>"><i class="fa fa-pencil-square-o" aria-hidden="true"></i>  <{$smarty.const._TAD_EDIT}></a>
                             </td>
                         </tr>
                         <{/foreach}>

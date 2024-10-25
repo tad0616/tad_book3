@@ -12,6 +12,63 @@ $xoopsOption['template_main'] = 'tadbook3_admin.tpl';
 require_once __DIR__ . '/header.php';
 require_once dirname(__DIR__) . '/function.php';
 
+/*-----------執行動作判斷區----------*/
+$op = Request::getString('op');
+$tbsn = Request::getInt('tbsn');
+$tbcsn = Request::getInt('tbcsn');
+$link_sn = Request::getInt('link_sn');
+
+switch ($op) {
+
+    //替換資料
+    case 'replace_tad_book3_cate':
+        replace_tad_book3_cate();
+        header("location: {$_SERVER['PHP_SELF']}");
+        exit;
+
+    //新增資料
+    case 'insert_tad_book3_cate':
+        $tbcsn = insert_tad_book3_cate();
+        header("location: {$_SERVER['PHP_SELF']}");
+        exit;
+
+    //更新資料
+    case 'update_tad_book3_cate':
+        update_tad_book3_cate($tbcsn);
+        header("location: {$_SERVER['PHP_SELF']}");
+        exit;
+
+    //刪除資料
+    case 'delete_tad_book3_cate':
+        delete_tad_book3_cate($tbcsn);
+        header("location: {$_SERVER['PHP_SELF']}");
+        exit;
+
+    //刪除資料
+    case 'delete_tad_book3':
+        delete_tad_book3($tbsn);
+        header('location: ../index.php');
+        exit;
+
+    //輸入表格
+    case 'tad_book3_cate_form':
+        list_tad_book3_cate_tree($tbcsn);
+        tad_book3_cate_form($tbcsn);
+        break;
+
+    //預設動作
+    default:
+        list_tad_book3_cate_tree($tbcsn);
+        list_tad_book3($tbcsn);
+        $op = 'list_tad_book3';
+        break;
+
+}
+
+/*-----------秀出結果區--------------*/
+$xoopsTpl->assign("now_op", $op);
+require_once __DIR__ . '/footer.php';
+
 /*-----------function區--------------*/
 //tad_book3_cate編輯表單
 function tad_book3_cate_form($tbcsn = '')
@@ -172,60 +229,3 @@ function list_tad_book3($tbcsn = '')
     $SweetAlert2 = new SweetAlert();
     $SweetAlert2->render('delete_tad_book3_func', 'main.php?op=delete_tad_book3&tbsn=', 'tbsn');
 }
-
-/*-----------執行動作判斷區----------*/
-$op = Request::getString('op');
-$tbsn = Request::getInt('tbsn');
-$tbcsn = Request::getInt('tbcsn');
-$link_sn = Request::getInt('link_sn');
-
-switch ($op) {
-    /*---判斷動作請貼在下方---*/
-    //替換資料
-    case 'replace_tad_book3_cate':
-        replace_tad_book3_cate();
-        header("location: {$_SERVER['PHP_SELF']}");
-        exit;
-
-    //新增資料
-    case 'insert_tad_book3_cate':
-        $tbcsn = insert_tad_book3_cate();
-        header("location: {$_SERVER['PHP_SELF']}");
-        exit;
-
-    //更新資料
-    case 'update_tad_book3_cate':
-        update_tad_book3_cate($tbcsn);
-        header("location: {$_SERVER['PHP_SELF']}");
-        exit;
-
-    //刪除資料
-    case 'delete_tad_book3_cate':
-        delete_tad_book3_cate($tbcsn);
-        header("location: {$_SERVER['PHP_SELF']}");
-        exit;
-
-    //刪除資料
-    case 'delete_tad_book3':
-        delete_tad_book3($tbsn);
-        header('location: ../index.php');
-        exit;
-
-    //輸入表格
-    case 'tad_book3_cate_form':
-        list_tad_book3_cate_tree($tbcsn);
-        tad_book3_cate_form($tbcsn);
-        break;
-
-    //預設動作
-    default:
-        list_tad_book3_cate_tree($tbcsn);
-        list_tad_book3($tbcsn);
-        $op = 'list_tad_book3';
-        break;
-        /*---判斷動作請貼在上方---*/
-}
-
-/*-----------秀出結果區--------------*/
-$xoopsTpl->assign("now_op", $op);
-require_once __DIR__ . '/footer.php';

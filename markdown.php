@@ -9,6 +9,29 @@ $xoopsOption['template_main'] = 'tadbook3_index.tpl';
 require_once XOOPS_ROOT_PATH . '/header.php';
 require __DIR__ . '/vendor/autoload.php';
 
+/*-----------執行動作判斷區----------*/
+$op = Request::getString('op');
+$tbsn = Request::getInt('tbsn');
+$tbdsn = Request::getInt('tbdsn');
+
+switch ($op) {
+    //預設動作
+    default:
+        global $xoopsTpl;
+        $converter = new HtmlConverter();
+        $html = view_page($tbdsn);
+        $markdown = $converter->convert($html);
+        $xoopsTpl->assign('markdown', $markdown);
+        $op = 'markdown';
+        break;
+}
+
+/*-----------秀出結果區--------------*/
+$xoopsTpl->assign('toolbar', Utility::toolbar_bootstrap($interface_menu, false, $interface_icon));
+$xoopsTpl->assign("now_op", $op);
+$xoTheme->addStylesheet('modules/tad_book3/css/module.css');
+require_once XOOPS_ROOT_PATH . '/footer.php';
+
 /*-----------function區--------------*/
 
 //觀看某一頁
@@ -59,25 +82,3 @@ function view_page($tbdsn = '')
 
     return $main;
 }
-/*-----------執行動作判斷區----------*/
-$op = Request::getString('op');
-$tbsn = Request::getInt('tbsn');
-$tbdsn = Request::getInt('tbdsn');
-
-switch ($op) {
-    //預設動作
-    default:
-        global $xoopsTpl;
-        $converter = new HtmlConverter();
-        $html = view_page($tbdsn);
-        $markdown = $converter->convert($html);
-        $xoopsTpl->assign('markdown', $markdown);
-        $op = 'markdown';
-        break;
-}
-
-/*-----------秀出結果區--------------*/
-$xoopsTpl->assign('toolbar', Utility::toolbar_bootstrap($interface_menu, false, $interface_icon));
-$xoopsTpl->assign("now_op", $op);
-$xoTheme->addStylesheet('modules/tad_book3/css/module.css');
-require_once XOOPS_ROOT_PATH . '/footer.php';

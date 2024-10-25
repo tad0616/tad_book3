@@ -26,7 +26,7 @@
                 <div class="input-group-append input-group-btn">
                     <input type="hidden" name="tbsn" value=<{$tbsn|default:''}>>
                     <input type="hidden" name="op" value="check_passwd">
-                    <button type="submit" class="btn btn-primary"><{$smarty.const._TAD_SUBMIT}></button>
+                    <button type="submit" class="btn btn-primary"><i class="fa fa-floppy-o" aria-hidden="true"></i>  <{$smarty.const._TAD_SUBMIT}></button>
                 </div>
             </div>
         </form>

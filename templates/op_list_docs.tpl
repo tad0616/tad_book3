@@ -45,7 +45,7 @@
                 <div class="input-group-append input-group-btn">
                     <input type="hidden" name="tbsn" value=<{$tbsn|default:''}>>
                     <input type="hidden" name="op" value="check_passwd">
-                    <button type="submit" class="btn btn-primary"><{$smarty.const._TAD_SUBMIT}></button>
+                    <button type="submit" class="btn btn-primary"><i class="fa fa-floppy-o" aria-hidden="true"></i>  <{$smarty.const._TAD_SUBMIT}></button>
                 </div>
             </div>
         </form>
@@ -123,7 +123,7 @@
 
                     <{if $my|default:false}>
                         <td style="white-space: nowrap;">
-                            <a href="<{$xoops_url}>/modules/tad_book3/post.php?op=tad_book3_docs_form&tbdsn=<{$doc.tbdsn}>" class="btn btn-sm btn-xs btn-warning"><{$smarty.const._TAD_EDIT}></a>
+                            <a href="<{$xoops_url}>/modules/tad_book3/post.php?op=tad_book3_docs_form&tbdsn=<{$doc.tbdsn}>" class="btn btn-sm btn-xs btn-warning"><i class="fa fa-pencil-square-o" aria-hidden="true"></i>  <{$smarty.const._TAD_EDIT}></a>
 
                             <{if $doc.enable=='1'}>
                                 <a href="<{$xoops_url}>/modules/tad_book3/index.php?op=change_enable&enable=0&tbdsn=<{$doc.tbdsn}>&tbsn=<{$tbsn|default:''}>" class="btn btn-sm btn-xs btn-secondary btn-default"><{$smarty.const._TAD_UNABLE}></a>
@@ -132,7 +132,7 @@
                             <{/if}>
 
                             <{if $doc.have_sub == 0}>
-                                <a href="javascript:delete_tad_book3_docs_func(<{$doc.tbdsn}>);" class="btn btn-sm btn-xs btn-danger"><{$smarty.const._TAD_DEL}></a>
+                                <a href="javascript:delete_tad_book3_docs_func(<{$doc.tbdsn}>);" class="btn btn-sm btn-xs btn-danger"><i class="fa fa-trash" aria-hidden="true"></i> <{$smarty.const._TAD_DEL}></a>
                             <{/if}>
                         </td>
                     <{/if}>

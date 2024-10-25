@@ -1,10 +1,9 @@
 <?php
 use Xmf\Request;
 use XoopsModules\Tadtools\TadDataCenter;
-use XoopsModules\Tadtools\TadUpFiles;
 
 require_once __DIR__ . '/header.php';
-error_reporting(0);
+// 關閉除錯訊息
 $xoopsLogger->activated = false;
 
 $op = Request::getString('op');
