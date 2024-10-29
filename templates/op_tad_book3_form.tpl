@@ -1,16 +1,16 @@
 <h2 class="my"><{$smarty.const._MD_INPUT_BOOK_FORM}></h2>
 <form action="<{$action|default:''}>" method="post" id="myForm" enctype="multipart/form-data" role="form" class="form-horizontal">
     <div class="form-group row mb-3">
-        <label class="col-sm-2 control-label col-form-label text-md-right"><{$smarty.const._MD_TADBOOK3_TBCSN_MENU}></label>
+        <label class="col-sm-2 control-label col-form-label text-md-right text-md-end"><{$smarty.const._MD_TADBOOK3_TBCSN_MENU}></label>
         <div class="col-sm-3">
-            <select name="tbcsn" size=1 class="form-control">
+            <select name="tbcsn" size=1 class="form-select">
             <{$cate_select|default:''}>
             </select>
         </div>
         <div class="col-sm-3">
             <input type="text" name="new_tbcsn"  class="form-control" placeholder="<{$smarty.const._MD_TADBOOK3_NEW_PCSN}>">
         </div>
-        <label class="col-sm-1 control-label col-form-label text-md-right">
+        <label class="col-sm-1 control-label col-form-label text-md-right text-md-end">
             <{$smarty.const._MD_TADBOOK3_STATUS}>
         </label>
         <div class="col-sm-3">
@@ -30,14 +30,14 @@
     </div>
 
     <div class="form-group row mb-3">
-        <label class="col-sm-2 control-label col-form-label text-md-right">
+        <label class="col-sm-2 control-label col-form-label text-md-right text-md-end">
             <{$smarty.const._MD_TADBOOK3_TITLE}>
         </label>
         <div class="col-sm-6">
             <input type="text" name="title" value="<{$title|default:''}>" class="form-control" placeholder="<{$smarty.const._MD_TADBOOK3_TITLE}>">
         </div>
 
-        <label class="col-sm-1 control-label col-form-label text-md-right">
+        <label class="col-sm-1 control-label col-form-label text-md-right text-md-end">
             <{$smarty.const._MD_TADBOOK3_PIC_NAME}>
         </label>
         <div class="col-sm-3">

@@ -277,7 +277,7 @@ function tad_book3_export($tbsn = '')
     $rand = Utility::randStr();
 
     $tadbook3_dir = XOOPS_ROOT_PATH . '/uploads/tad_book3';
-    $import_dir = "{$tadbook3_dir}/import_{$tbsn}";
+    $import_dir = str_replace(['|', '%', ' ', '<', '>'], '', "{$tadbook3_dir}/import_{$tbsn}");
     $from_file_dir = "{$tadbook3_dir}/file";
     $from_image_dir = "{$tadbook3_dir}/image";
     $import_file_dir = "{$import_dir}/file/{$rand}";
@@ -411,7 +411,7 @@ function tad_book3_export($tbsn = '')
 
     file_put_contents($docsfile, $current);
 
-    $zip_name = XOOPS_ROOT_PATH . "/uploads/tad_book3/import_{$tbsn}.zip";
+    $zip_name = str_replace(['|', '%', ' ', '<', '>'], '', XOOPS_ROOT_PATH . "/uploads/tad_book3/import_{$tbsn}.zip");
     if (file_exists($zip_name)) {
         unlink($zip_name);
     }

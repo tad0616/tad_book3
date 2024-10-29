@@ -3,16 +3,16 @@
 <form action="<{$action|default:''}>" method="post" id="myForm" enctype="multipart/form-data" role="form" class="form-horizontal">
 
     <div class="form-group row mb-3">
-        <label class="col-sm-1 control-label col-form-label text-md-right">
+        <label class="col-sm-1 control-label col-form-label text-md-right text-md-end">
             <{$smarty.const._MD_TADBOOK3_TITLE}>
         </label>
         <div class="col-sm-5">
-            <select name="tbsn" class="form-control">
+            <select name="tbsn" class="form-select">
                 <{$book_select|default:''}>
             </select>
         </div>
 
-        <label class="col-sm-1 control-label col-form-label text-md-right">
+        <label class="col-sm-1 control-label col-form-label text-md-right text-md-end">
             <{$smarty.const._MD_TADBOOK3_STATUS}>
         </label>
         <div class="col-sm-2">
@@ -29,7 +29,7 @@
                 </label>
             </div>
         </div>
-        <label class="col-sm-1 control-label col-form-label text-md-right">
+        <label class="col-sm-1 control-label col-form-label text-md-right text-md-end">
             <{if $from_tbdsn|default:false}>
                 <a href="page.php?tbdsn=<{$from_tbdsn|default:''}>" target="_blank"><{$smarty.const._MD_TADBOOK3_FROM_TBDSN}></a>
             <{else}>
@@ -42,30 +42,30 @@
     </div>
 
     <div class="form-group row mb-3">
-        <label class="col-sm-1 control-label col-form-label text-md-right">
+        <label class="col-sm-1 control-label col-form-label text-md-right text-md-end">
             <{$smarty.const._MD_TADBOOK3_DOC_TITLE}>
         </label>
         <div class="col-sm-5">
             <input type="text" name="title" id="title" value="<{$title|default:''}>" class="form-control" placeholder="<{$smarty.const._MD_TADBOOK3_DOC_TITLE}>">
         </div>
 
-        <label class="col-sm-1 control-label col-form-label text-md-right">
+        <label class="col-sm-1 control-label col-form-label text-md-right text-md-end">
         <{$smarty.const._MD_TADBOOK3_CATEGORY}>
         </label>
         <div class="col-sm-5">
-            <select name="category" size=1 class="form-control" style="width: 23%; display: inline;">
+            <select name="category" size=1 class="form-select" style="width: 23%; display: inline;">
                 <{$category_menu_category|default:''}>
             </select>
             <input type="hidden" name="category_old" value="<{$category|default:''}>">
-            <select name="page" size=1 class="form-control" style="width: 23%; display: inline;">
+            <select name="page" size=1 class="form-select" style="width: 23%; display: inline;">
                 <{$category_menu_page|default:''}>
             </select>
             <input type="hidden" name="page_old" value="<{$page|default:''}>">
-            <select name="paragraph" size=1 class="form-control" style="width: 23%; display: inline;">
+            <select name="paragraph" size=1 class="form-select" style="width: 23%; display: inline;">
                 <{$category_menu_paragraph|default:''}>
             </select>
             <input type="hidden" name="paragraph_old" value="<{$paragraph|default:''}>">
-            <select name="sort" size=1 class="form-control" style="width: 23%; display: inline;">
+            <select name="sort" size=1 class="form-select" style="width: 23%; display: inline;">
                 <{$category_menu_sort|default:''}>
             </select>
             <input type="hidden" name="sort_old" value="<{$sort|default:''}>">
@@ -80,7 +80,7 @@
     </div>
 
     <div class="form-group row mb-3">
-        <label class="col-sm-1 control-label col-form-label text-md-right">
+        <label class="col-sm-1 control-label col-form-label text-md-right text-md-end">
             <{$smarty.const._MD_TADBOOK3_MP4}>
         </label>
         <div class="col-sm-11">
@@ -89,7 +89,7 @@
     </div>
 
     <div class="form-group row mb-3">
-        <label class="col-sm-1 control-label col-form-label text-md-right">
+        <label class="col-sm-1 control-label col-form-label text-md-right text-md-end">
             <{$smarty.const._MD_TADBOOK3_VTT}>
         </label>
         <div class="col-sm-11">
@@ -99,7 +99,7 @@
 
     <{if $upform_pic|default:false}>
         <div class="form-group row mb-3">
-            <label class="col-sm-1 control-label col-form-label text-md-right">
+            <label class="col-sm-1 control-label col-form-label text-md-right text-md-end">
                 <{$smarty.const._MD_TADBOOK3_SCREENSHOT}>
             </label>
             <div class="col-sm-11">
@@ -109,7 +109,7 @@
     <{/if}>
 
     <div class="form-group row mb-3">
-        <label class="col-sm-1 control-label col-form-label text-md-right">
+        <label class="col-sm-1 control-label col-form-label text-md-right text-md-end">
             <{$smarty.const._MD_TADBOOK3_READ_GROUP}>
         </label>
         <div class="col-md-3">
@@ -141,7 +141,7 @@
     </div>
 
     <div class="form-group row mb-3">
-        <label class="col-sm-1 control-label col-form-label text-md-right">
+        <label class="col-sm-1 control-label col-form-label text-md-right text-md-end">
             <{$smarty.const._MD_TADBOOK3_VIDEO_GROUP}>
         </label>
         <div class="col-md-3">
@@ -173,7 +173,7 @@
     </div>
 
     <div class="form-group row mb-3">
-        <label class="col-sm-1 control-label col-form-label text-md-right">
+        <label class="col-sm-1 control-label col-form-label text-md-right text-md-end">
             <{$smarty.const._MD_TADBOOK3_ABOUT}>
         </label>
         <div class="col-md-10">

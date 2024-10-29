@@ -2,7 +2,7 @@
 
 <form action="main.php" method="post" id="myForm" enctype="multipart/form-data" role="form" class="form-horizontal">
     <div class="form-group row mb-3">
-        <label class="col-sm-2 control-label col-form-label text-md-right">
+        <label class="col-sm-2 control-label col-form-label text-md-right text-md-end">
             <{$smarty.const._MA_TADBOOK3_CATE_TITLE}>
         </label>
         <div class="col-sm-10">
@@ -11,7 +11,7 @@
     </div>
 
     <div class="form-group row mb-3">
-        <label class="col-sm-2 control-label col-form-label text-md-right">
+        <label class="col-sm-2 control-label col-form-label text-md-right text-md-end">
             <{$smarty.const._MA_TADBOOK3_CATE_DESCRIPTION}>
         </label>
         <div class="col-sm-10">

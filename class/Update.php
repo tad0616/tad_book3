@@ -238,39 +238,4 @@ class Update
         return true;
     }
 
-    //做縮圖
-    public static function thumbnail($filename = '', $thumb_name = '', $type = 'image/jpeg', $width = '120')
-    {
-        ini_set('memory_limit', '50M');
-        // Get new sizes
-        list($old_width, $old_height) = getimagesize($filename);
-
-        $percent = ($old_width > $old_height) ? round($width / $old_width, 2) : round($width / $old_height, 2);
-
-        $newwidth = ($old_width > $old_height) ? $width : $old_width * $percent;
-        $newheight = ($old_width > $old_height) ? $old_height * $percent : $width;
-
-        // Load
-        $thumb = imagecreatetruecolor($newwidth, $newheight);
-        if ('image/jpeg' === $type or 'image/jpg' === $type or 'image/pjpg' === $type or 'image/pjpeg' === $type) {
-            $source = imagecreatefromjpeg($filename);
-            $type = 'image/jpeg';
-        } elseif ('image/png' === $type) {
-            $source = imagecreatefrompng($filename);
-            $type = 'image/png';
-        } elseif ('image/gif' === $type) {
-            $source = imagecreatefromgif($filename);
-            $type = 'image/gif';
-        }
-
-        // Resize
-        imagecopyresampled($thumb, $source, 0, 0, 0, 0, $newwidth, $newheight, $old_width, $old_height);
-
-        header('Content-type: image/png');
-        imagepng($thumb, $thumb_name);
-
-        return;
-        exit;
-    }
-
 }
