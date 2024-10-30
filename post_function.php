@@ -11,7 +11,7 @@ require __DIR__ . '/vendor/autoload.php';
 //tad_book3_docs編輯表單
 function tad_book3_docs_form($tbdsn = '', $tbsn = '')
 {
-    global $xoopsDB, $xoopsUser, $xoopsModule, $xoopsModuleConfig, $xoopsTpl;
+    global $xoopsUser, $xoopsModule, $xoopsModuleConfig, $xoopsTpl;
     require_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
 
     if ($xoopsUser) {
