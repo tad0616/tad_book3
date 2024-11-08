@@ -5,7 +5,7 @@ use XoopsModules\Tad_book3\Tools;
 
 //判斷是否對該模組有管理權限
 if (!isset($_SESSION['tad_book3_adm'])) {
-    $_SESSION['tad_book3_adm'] = ($xoopsUser) ? $xoopsUser->isAdmin() : false;
+    $_SESSION['tad_book3_adm'] = isset($xoopsUser) && \is_object($xoopsUser) ? $xoopsUser->isAdmin() : false;
 }
 $interface_menu[_MD_TADBOOK3_HOMEPAGE] = 'index.php';
 $interface_icon[_MD_TADBOOK3_HOMEPAGE] = "fa-book";

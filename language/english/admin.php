@@ -1,5 +1,6 @@
 <?php
 xoops_loadLanguage('admin_common', 'tadtools');
+xoops_loadLanguage('main', 'tadtools');
 
 define('_MA_TADBOOK3_NEW_PCSN', 'Create a new sub-category from the category on left side:');
 define('_MA_INPUT_BOOK_FORM', 'Edit Book');
