@@ -75,9 +75,9 @@ $modversion['search'] = [
     'func' => 'tadbook3_search',
 ];
 
-//---區塊設定---//
+//---區塊設定 (索引為固定值，若欲刪除區塊記得補上索引，避免區塊重複)---//
 $modversion['blocks'] = [
-    [
+    1 => [
         'file' => 'tad_book3_random.php',
         'name' => _MI_TADBOOK3_BNAME1,
         'description' => _MI_TADBOOK3_BDESC1,
@@ -86,7 +86,7 @@ $modversion['blocks'] = [
         'edit_func' => 'tad_book3_random_edit',
         'options' => '1|1',
     ],
-    [
+    2 => [
         'file' => 'tad_book3_new_doc.php',
         'name' => _MI_TADBOOK3_BNAME2,
         'description' => _MI_TADBOOK3_BDESC2,
@@ -95,7 +95,7 @@ $modversion['blocks'] = [
         'edit_func' => 'tad_book3_new_doc_edit',
         'options' => '5',
     ],
-    [
+    3 => [
         'file' => 'tad_book3_list.php',
         'name' => _MI_TADBOOK3_BNAME3,
         'description' => _MI_TADBOOK3_BDESC3,
@@ -104,14 +104,14 @@ $modversion['blocks'] = [
         'edit_func' => 'tad_book3_list_edit',
         'options' => '5|create_date|desc||0',
     ],
-    [
+    4 => [
         'file' => 'tad_book3_index.php',
         'name' => _MI_TADBOOK3_BNAME4,
         'description' => _MI_TADBOOK3_BDESC4,
         'show_func' => 'tad_book3_index',
         'template' => 'tad_book3_block_index.tpl',
     ],
-    [
+    5 => [
         'file' => 'tad_book3_content.php',
         'name' => _MI_TADBOOK3_BNAME5,
         'description' => _MI_TADBOOK3_BDESC5,

@@ -67,6 +67,7 @@ switch ($op) {
 
 /*-----------秀出結果區--------------*/
 $xoopsTpl->assign("now_op", $op);
+$xoopsTpl->assign("tad_book3_adm", $tad_book3_adm);
 require_once __DIR__ . '/footer.php';
 
 /*-----------function區--------------*/

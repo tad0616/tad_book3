@@ -1,7 +1,7 @@
 <div id="save_msg"></div>
 <h1 class="sr-only visually-hidden">All Books</h1>
 <{foreach from=$cates key=id item=cate}>
-        <{if $smarty.session.tad_book3_adm|default:false}>
+        <{if $tad_book3_adm|default:false}>
             <script type="text/javascript">
                 $(document).ready(function(){
                     $('#books_sort_<{$id|default:''}>').sortable({ opacity: 0.6, cursor: 'move', update: function() {

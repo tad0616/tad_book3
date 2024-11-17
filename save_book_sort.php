@@ -2,8 +2,8 @@
 use Xmf\Request;
 use XoopsModules\Tadtools\Utility;
 /*-----------引入檔案區--------------*/
-require dirname(dirname(__DIR__)) . '/mainfile.php';
-if (!$_SESSION['tad_book3_adm']) {
+require dirname(dirname(__DIR__)) . '/header.php';
+if (!$tad_book3_adm) {
     exit;
 }
 // 關閉除錯訊息

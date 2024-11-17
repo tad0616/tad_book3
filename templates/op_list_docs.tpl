@@ -59,7 +59,7 @@
         </div>
         <div class="col-sm-5">
             <div class="text-right text-end">
-                <{if $smarty.session.tad_book3_adm|default:false}>
+                <{if $tad_book3_adm|default:false}>
                     <a href="page.php?tbsn=<{$tbsn|default:''}>&op=view_log" class="btn btn-sm btn-primary">
                         <i class="fa fa-pie-chart" aria-hidden="true"></i>
                         <{$smarty.const._MD_TADBOOK3_READING_STATUS}>
@@ -89,7 +89,7 @@
                 <tr id="doc<{$doc.tbdsn}>" <{if $doc.ttid|default:false}>data-tt-id="<{$doc.ttid}>"<{/if}> <{if $doc.doc_sort_parent|default:false}>data-tt-parent-id="<{$doc.doc_sort_parent}>"<{/if}>>
                     <td>
                         <span class="doc_sort_<{$doc.doc_sort_level}>">
-                            <{if $doc.doc_sort_main != $doc.new_sort.main && $smarty.session.tad_book3_adm}>
+                            <{if $doc.doc_sort_main != $doc.new_sort.main && $tad_book3_adm}>
                                 <span style="color:red;" title="<{$doc.doc_sort_main}>"><{$doc.new_sort.main}></span>
                                 <input type="hidden" name="update_sort[<{$doc.tbdsn}>]" value="<{$doc.new_sort.main}>">
                             <{else}>

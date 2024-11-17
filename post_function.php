@@ -11,21 +11,21 @@ require __DIR__ . '/vendor/autoload.php';
 //tad_book3_docs編輯表單
 function tad_book3_docs_form($tbdsn = '', $tbsn = '')
 {
-    global $xoopsUser, $xoopsModule, $xoopsModuleConfig, $xoopsTpl;
+    global $xoopsUser, $xoopsModule, $xoopsModuleConfig, $xoopsTpl, $tad_book3_adm;
     require_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
 
     if ($xoopsUser) {
         $module_id = $xoopsModule->mid();
-        $_SESSION['tad_book3_adm'] = $xoopsUser->isAdmin($module_id);
+        $tad_book3_adm = $xoopsUser->isAdmin($module_id);
     } else {
-        $_SESSION['tad_book3_adm'] = false;
+        $tad_book3_adm = false;
     }
 
     //抓取預設值
     $tbsn = !isset($DBV['tbsn']) ? $tbsn : $DBV['tbsn'];
 
     $book = get_tad_book3($tbsn);
-    if (!$_SESSION['tad_book3_adm']) {
+    if (!$tad_book3_adm) {
         if (!chk_edit_power($book['author'])) {
             header('location:index.php');
             exit;

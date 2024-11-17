@@ -167,12 +167,12 @@ class Tools
     //book陰影
     public static function book_shadow($books = [])
     {
-        global $xoopsUser;
+        global $xoopsUser, $tad_book3_adm;
 
         $uid = $xoopsUser ? $xoopsUser->uid() : 0;
 
         $authors = explode(',', $books['author']);
-        $tool = ((!empty($uid) && in_array($uid, $authors)) || $_SESSION['tad_book3_adm']) ? true : false;
+        $tool = ((!empty($uid) && in_array($uid, $authors)) || $tad_book3_adm) ? true : false;
         $books['tool'] = $tool;
 
         $pic = (empty($books['pic_name'])) ? XOOPS_URL . '/modules/tad_book3/images/blank.png' : XOOPS_URL . "/uploads/tad_book3/{$books['pic_name']}";

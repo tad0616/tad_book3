@@ -4,14 +4,14 @@ use XoopsModules\Tadtools\Utility;
 use XoopsModules\Tad_book3\Tools;
 
 //判斷是否對該模組有管理權限
-if (!isset($_SESSION['tad_book3_adm'])) {
-    $_SESSION['tad_book3_adm'] = isset($xoopsUser) && \is_object($xoopsUser) ? $xoopsUser->isAdmin() : false;
+if (!isset($tad_book3_adm)) {
+    $tad_book3_adm = isset($xoopsUser) && \is_object($xoopsUser) ? $xoopsUser->isAdmin() : false;
 }
 $interface_menu[_MD_TADBOOK3_HOMEPAGE] = 'index.php';
 $interface_icon[_MD_TADBOOK3_HOMEPAGE] = "fa-book";
 
 //管理員可以新增書籍
-if ($_SESSION['tad_book3_adm'] or $_SERVER['PHP_SELF'] == '/admin.php') {
+if ($tad_book3_adm or $_SERVER['PHP_SELF'] == '/admin.php') {
     $interface_menu[_MD_TADBOOK3_ADD_BOOK] = 'index.php?op=tad_book3_form';
     $interface_icon[_MD_TADBOOK3_ADD_BOOK] = "fa-plus-circle";
 }

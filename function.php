@@ -12,6 +12,10 @@ xoops_loadLanguage('main', 'tadtools');
 define('_TADBOOK3_BOOK_DIR', XOOPS_ROOT_PATH . '/uploads/tad_book3');
 define('_TADBOOK3_BOOK_URL', XOOPS_URL . '/uploads/tad_book3');
 
+//判斷是否對該模組有管理權限
+if (!isset($tad_book3_adm)) {
+    $tad_book3_adm = isset($xoopsUser) && \is_object($xoopsUser) ? $xoopsUser->isAdmin() : false;
+}
 //以流水號取得某筆tad_book3_cate資料
 function get_tad_book3_cate($tbcsn = '')
 {
@@ -68,13 +72,13 @@ function list_all_cate_book()
     $i = 0;
     $cates = [];
     $sql = 'SELECT * FROM `' . $xoopsDB->prefix('tad_book3_cate') . '` ORDER BY `sort`';
-    $result = Utility::query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+    $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
 
     while (false !== ($data = $xoopsDB->fetchArray($result))) {
         $cates[$i] = $data;
 
-        $sql = 'SELECT * FROM `' . $xoopsDB->prefix('tad_book3') . '` WHERE `tbcsn` = ? AND `enable` = 1 ORDER BY `sort`';
-        $result2 = Utility::query($sql, 'i', [$data['tbcsn']]) or Utility::web_error($sql, __FILE__, __LINE__);
+        $sql = 'SELECT * FROM `' . $xoopsDB->prefix('tad_book3') . '` WHERE `tbcsn` = ? AND `enable` = ? ORDER BY `sort`';
+        $result2 = Utility::query($sql, 'is', [$data['tbcsn'], '1']) or Utility::web_error($sql, __FILE__, __LINE__);
 
         $j = 0;
         $books = [];
@@ -88,7 +92,7 @@ function list_all_cate_book()
         $cates[$i]['books'] = $books;
         $i++;
     }
-    // Utility::dd($cates);
+    // // Utility::dd($cates);
     $xoopsTpl->assign('cates', $cates);
 
     $SweetAlert = new SweetAlert();
@@ -367,7 +371,7 @@ function get_video_start($tbdsn)
 //tad_book3編輯表單
 function tad_book3_form($tbsn = '', $tbcsn = '')
 {
-    global $xoopsDB, $xoopsUser, $xoopsTpl;
+    global $xoopsDB, $xoopsUser, $xoopsTpl, $tad_book3_adm;
     require_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
 
     //抓取預設值
@@ -377,7 +381,7 @@ function tad_book3_form($tbsn = '', $tbcsn = '')
         $DBV = [];
     }
 
-    if (!$_SESSION['tad_book3_adm']) {
+    if (!$tad_book3_adm) {
         if (!chk_edit_power($DBV['author'])) {
             header('location:index.php');
             exit;
@@ -531,8 +535,8 @@ function tad_book3_cate_max_sort()
 //更新tad_book3某一筆資料
 function update_tad_book3($tbsn = '')
 {
-    global $xoopsDB;
-    if (!$_SESSION['tad_book3_adm']) {
+    global $xoopsDB, $tad_book3_adm;
+    if (!$tad_book3_adm) {
         $book = get_tad_book3($tbsn);
         if (!chk_edit_power($book['author'])) {
             header('location:index.php');
@@ -585,8 +589,8 @@ function get_max_doc_sort($tbcsn = '')
 //縮圖上傳
 function mk_thumb($tbsn = '', $col_name = '', $width = 100)
 {
-    global $xoopsDB;
-    if (!$_SESSION['tad_book3_adm']) {
+    global $xoopsDB, $tad_book3_adm;
+    if (!$tad_book3_adm) {
         $book = get_tad_book3($tbsn);
         if (!chk_edit_power($book['author'])) {
             header('location:index.php');
@@ -719,12 +723,12 @@ function category_menu($num = '')
 //取得前後文章
 function near_docs($tbsn = '', $doc_sn = '')
 {
-    global $xoopsDB;
-    $and_enable = $_SESSION['tad_book3_adm'] ? '' : 'AND `enable`=?';
+    global $xoopsDB, $tad_book3_adm;
+    $and_enable = $tad_book3_adm ? '' : 'AND `enable`=?';
     $sql = 'SELECT `tbdsn`, `title`, `category`, `page`, `paragraph`, `sort` FROM `' . $xoopsDB->prefix('tad_book3_docs') . '` WHERE `tbsn`=? AND (`content` != \'\' OR `from_tbdsn` != 0) ' . $and_enable . ' ORDER BY `category`, `page`, `paragraph`, `sort`';
 
-    $params = $_SESSION['tad_book3_adm'] ? [$tbsn] : [$tbsn, 1];
-    $format = $_SESSION['tad_book3_adm'] ? 's' : 'ss';
+    $params = $tad_book3_adm ? [$tbsn] : [$tbsn, 1];
+    $format = $tad_book3_adm ? 's' : 'ss';
 
     $result = Utility::query($sql, $format, $params) or Utility::web_error($sql, __FILE__, __LINE__);
 
@@ -851,14 +855,14 @@ function delete_tad_book3_docs($tbdsn = '')
 //檢查是否有相同的章節數，若有其他章節往前移動（刪除之意）
 function check_update_cpps_del($tbdsn = 0)
 {
-    global $xoopsDB;
+    global $xoopsDB, $tad_book3_adm;
 
     $sql = 'SELECT `tbsn`, `category`, `page`, `paragraph`, `sort`, `uid` FROM `' . $xoopsDB->prefix('tad_book3_docs') . '` WHERE `tbdsn`=?';
     $result = Utility::query($sql, 'i', [$tbdsn]) or Utility::web_error($sql, __FILE__, __LINE__);
 
     list($tbsn, $category, $page, $paragraph, $sort, $uid) = $xoopsDB->fetchRow($result);
 
-    if (!$_SESSION['tad_book3_adm']) {
+    if (!$tad_book3_adm) {
         if (!chk_edit_power($uid)) {
             header('location:index.php');
             exit;
@@ -905,9 +909,9 @@ function check_update_cpps_del($tbdsn = 0)
 //刪除tad_book3 某筆資料資料
 function delete_tad_book3($tbsn = '')
 {
-    global $xoopsDB;
+    global $xoopsDB, $tad_book3_adm;
 
-    if (!$_SESSION['tad_book3_adm']) {
+    if (!$tad_book3_adm) {
         $book = get_tad_book3($tbsn);
         if (!chk_edit_power($book['author'])) {
             header('location:index.php');
