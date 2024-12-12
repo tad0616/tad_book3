@@ -33,9 +33,9 @@ if (!empty($tbdsn) or !empty($tbsn)) {
 
         if (chk_edit_power($author)) {
             $interface_menu[_MD_TADBOOK3_ADD_DOC] = "post.php?op=tad_book3_docs_form&tbsn={$tbsn}";
-            $interface_icon[_MD_TADBOOK3_ADD_DOC] = "fa-plus-square";
+            $interface_icon[_MD_TADBOOK3_ADD_DOC] = "fa-square-plus";
             $interface_menu[_MD_TADBOOK3_MODIFY_DOC] = "post.php?op=tad_book3_docs_form&tbsn={$tbsn}&tbdsn={$tbdsn}";
-            $interface_icon[_MD_TADBOOK3_MODIFY_DOC] = "fa-pencil-square-o";
+            $interface_icon[_MD_TADBOOK3_MODIFY_DOC] = "fa-pencil";
         }
 
         $category = Tools::mk_category($category, $page, $paragraph, $sort);

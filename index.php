@@ -194,12 +194,12 @@ function import_book($tbcsn)
     if (!empty($_POST['new_tbcsn'])) {
         $tbcsn = add_tad_book3_cate();
     } else {
-        $tbcsn = $_POST['tbcsn'];
+        $tbcsn = (int) $_POST['tbcsn'];
     }
 
     $tadbook3_dir = XOOPS_ROOT_PATH . '/uploads/tad_book3';
     if (!empty($_POST['author_str'])) {
-        $author = $_POST['author_str'];
+        $author = (string) $_POST['author_str'];
     } else {
         $author = implode(',', $_POST['author']);
     }

@@ -7,7 +7,7 @@
             <{$smarty.const._MD_TADBOOK3_TITLE}>
         </label>
         <div class="col-sm-5">
-            <select name="tbsn" class="form-select">
+            <select name="tbsn" class="form-control form-select">
                 <{$book_select|default:''}>
             </select>
         </div>
@@ -53,19 +53,19 @@
         <{$smarty.const._MD_TADBOOK3_CATEGORY}>
         </label>
         <div class="col-sm-5">
-            <select name="category" size=1 class="form-select" style="width: 23%; display: inline;">
+            <select name="category" size=1 class="form-control form-select" style="width: 23%; display: inline;">
                 <{$category_menu_category|default:''}>
             </select>
             <input type="hidden" name="category_old" value="<{$category|default:''}>">
-            <select name="page" size=1 class="form-select" style="width: 23%; display: inline;">
+            <select name="page" size=1 class="form-control form-select" style="width: 23%; display: inline;">
                 <{$category_menu_page|default:''}>
             </select>
             <input type="hidden" name="page_old" value="<{$page|default:''}>">
-            <select name="paragraph" size=1 class="form-select" style="width: 23%; display: inline;">
+            <select name="paragraph" size=1 class="form-control form-select" style="width: 23%; display: inline;">
                 <{$category_menu_paragraph|default:''}>
             </select>
             <input type="hidden" name="paragraph_old" value="<{$paragraph|default:''}>">
-            <select name="sort" size=1 class="form-select" style="width: 23%; display: inline;">
+            <select name="sort" size=1 class="form-control form-select" style="width: 23%; display: inline;">
                 <{$category_menu_sort|default:''}>
             </select>
             <input type="hidden" name="sort_old" value="<{$sort|default:''}>">
@@ -198,7 +198,7 @@
     <div class="bar">
         <input type="hidden" name="tbdsn" value="<{$tbdsn|default:''}>">
         <input type="hidden" name="op" value="<{$op|default:''}>">
-        <button type="submit" class="btn btn-primary"><i class="fa fa-floppy-o" aria-hidden="true"></i>  <{$smarty.const._TAD_SAVE}></button>
+        <button type="submit" class="btn btn-primary"><i class="fa fa-floppy-disk" aria-hidden="true"></i>  <{$smarty.const._TAD_SAVE}></button>
     </div>
 
 </form>

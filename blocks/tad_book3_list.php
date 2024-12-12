@@ -1,5 +1,8 @@
 <?php
 use XoopsModules\Tadtools\Utility;
+if (!class_exists('XoopsModules\Tadtools\Utility')) {
+    require XOOPS_ROOT_PATH . '/modules/tadtools/preloads/autoloader.php';
+}
 
 //區塊主函式 (把所有的書以文字列出)
 function tad_book3_list($options)

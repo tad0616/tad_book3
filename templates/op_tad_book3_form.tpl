@@ -3,7 +3,7 @@
     <div class="form-group row mb-3">
         <label class="col-sm-2 control-label col-form-label text-md-right text-md-end"><{$smarty.const._MD_TADBOOK3_TBCSN_MENU}></label>
         <div class="col-sm-3">
-            <select name="tbcsn" size=1 class="form-select">
+            <select name="tbcsn" size=1 class="form-control form-select">
             <{$cate_select|default:''}>
             </select>
         </div>
@@ -73,7 +73,7 @@
                 <input type="hidden" name="sort"  value="<{$sort|default:''}>">
                 <input type="hidden" name="tbsn" value="<{$tbsn|default:''}>">
                 <input type="hidden" name="op" value="<{$op|default:''}>">
-                <button type="submit" class="btn btn-primary"><i class="fa fa-floppy-o" aria-hidden="true"></i>  <{$smarty.const._TAD_SAVE}></button>
+                <button type="submit" class="btn btn-primary"><i class="fa fa-floppy-disk" aria-hidden="true"></i>  <{$smarty.const._TAD_SAVE}></button>
             </div>
         </div>
     </div>

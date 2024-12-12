@@ -45,7 +45,7 @@
                 <div class="input-group-append input-group-btn">
                     <input type="hidden" name="tbsn" value=<{$tbsn|default:''}>>
                     <input type="hidden" name="op" value="check_passwd">
-                    <button type="submit" class="btn btn-primary"><i class="fa fa-floppy-o" aria-hidden="true"></i>  <{$smarty.const._TAD_SUBMIT}></button>
+                    <button type="submit" class="btn btn-primary"><i class="fa fa-floppy-disk" aria-hidden="true"></i>  <{$smarty.const._TAD_SUBMIT}></button>
                 </div>
             </div>
         </form>
@@ -65,12 +65,12 @@
                         <{$smarty.const._MD_TADBOOK3_READING_STATUS}>
                     </a>
                 <{/if}>
-                <a href="#" onclick="jQuery('#content_tbl').treetable('expandAll'); return false;" class="btn btn-sm btn-info"><i class="fa fa-plus-square-o" aria-hidden="true"></i> <{$smarty.const._MD_TADBOOK3_EXPAND_ALL}></a>
-                <a href="#" onclick="jQuery('#content_tbl').treetable('collapseAll'); return false;" class="btn btn-sm btn-warning"><i class="fa fa-minus-square-o" aria-hidden="true"></i> <{$smarty.const._MD_TADBOOK3_CLOSED_ALL}></a>
+                <a href="#" onclick="jQuery('#content_tbl').treetable('expandAll'); return false;" class="btn btn-sm btn-info"><i class="fa fa-square-plus" aria-hidden="true"></i> <{$smarty.const._MD_TADBOOK3_EXPAND_ALL}></a>
+                <a href="#" onclick="jQuery('#content_tbl').treetable('collapseAll'); return false;" class="btn btn-sm btn-warning"><i class="fa fa-square-minus" aria-hidden="true"></i> <{$smarty.const._MD_TADBOOK3_CLOSED_ALL}></a>
                 <!--
                 <{if $total_time|default:false}><a href="page.php?op=view_log" target="_blank" class="btn btn-sm btn-primary"><i class="fa fa-pie-chart" aria-hidden="true"></i> <{$smarty.const._MD_TADBOOK3_READING_STATUS}></a><{/if}>-->
                 <a href="https://www.addtoany.com/add_to/printfriendly?linkurl=<{$xoops_url}>%2Fmodules%2Ftad_book3%2Fhtml_all.php%3Ftbsn%3D<{$tbsn|default:''}>&amp;linkname=" target="_blank" class="btn btn-sm btn-success">
-                    <i class="fa fa-file-pdf-o"></i>
+                    <i class="fa fa-file-pdf"></i>
                     <{$smarty.const._MD_TADBOOK3_DL_HTML}> &
                     <{$smarty.const._MD_TADBOOK3_DL_PDF}>
                 </a>
@@ -107,11 +107,11 @@
                             <{/if}>
                             <{if $doc.percentage|default:false}>
                                 <span style="padding:0px;color: <{if $doc.percentage==100}>#1800ba<{elseif $doc.percentage >= 75}>#00a8b7<{elseif $doc.percentage >= 50}>#b58100<{elseif $doc.percentage >= 25}>#b22f00<{else}>gray<{/if}>;">
-                                    <i class="fa fa-bar-chart-o" aria-hidden="true"></i>
+                                    <i class="fa fa-chart-column" aria-hidden="true"></i>
                                     <{$doc.percentage}>%
                                 </span>
                             <{/if}>
-                            <i class="fa fa-clock-o" aria-hidden="true"></i>
+                            <i class="fa fa-clock" aria-hidden="true"></i>
                             <{$doc.time}>
                         <{/if}>
                     </td>
@@ -123,7 +123,7 @@
 
                     <{if $my|default:false}>
                         <td style="white-space: nowrap;">
-                            <a href="<{$xoops_url}>/modules/tad_book3/post.php?op=tad_book3_docs_form&tbdsn=<{$doc.tbdsn}>" class="btn btn-sm btn-xs btn-warning"><i class="fa fa-pencil-square-o" aria-hidden="true"></i>  <{$smarty.const._TAD_EDIT}></a>
+                            <a href="<{$xoops_url}>/modules/tad_book3/post.php?op=tad_book3_docs_form&tbdsn=<{$doc.tbdsn}>" class="btn btn-sm btn-xs btn-warning"><i class="fa fa-pencil" aria-hidden="true"></i>  <{$smarty.const._TAD_EDIT}></a>
 
                             <{if $doc.enable=='1'}>
                                 <a href="<{$xoops_url}>/modules/tad_book3/index.php?op=change_enable&enable=0&tbdsn=<{$doc.tbdsn}>&tbsn=<{$tbsn|default:''}>" class="btn btn-sm btn-xs btn-secondary btn-default"><{$smarty.const._TAD_UNABLE}></a>

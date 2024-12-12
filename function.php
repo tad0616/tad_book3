@@ -472,17 +472,17 @@ function insert_tad_book3()
     }
 
     if (!empty($_POST['author_str'])) {
-        $author = $_POST['author_str'];
+        $author = (string) $_POST['author_str'];
     } else {
         $author = implode(',', $_POST['author']);
     }
 
-    $title = $_POST['title'];
-    $description = $_POST['description'];
+    $title = (string) $_POST['title'];
+    $description = (string) $_POST['description'];
     $description = Wcag::amend($description);
-    $passwd = $_POST['passwd'];
-    $enable = $_POST['enable'];
-    $pic_name = $_POST['pic_name'];
+    $passwd = (string) $_POST['passwd'];
+    $enable = (string) $_POST['enable'];
+    $pic_name = (string) $_POST['pic_name'];
     $sort = (int) $_POST['sort'];
 
     $read_group = (in_array('', $_POST['read_group'])) ? '' : implode(',', $_POST['read_group']);
@@ -510,7 +510,7 @@ function add_tad_book3_cate()
         return;
     }
 
-    $title = $_POST['new_tbcsn'];
+    $title = (string) $_POST['new_tbcsn'];
     $sort = tad_book3_cate_max_sort();
     $sql = 'INSERT INTO `' . $xoopsDB->prefix('tad_book3_cate') . '` (`of_tbsn`,`sort`,`title`) VALUES (?, ?, ?)';
     Utility::query($sql, 'iis', [0, $sort, $title]) or Utility::web_error($sql, __FILE__, __LINE__);
@@ -546,19 +546,19 @@ function update_tad_book3($tbsn = '')
     if (!empty($_POST['new_tbcsn'])) {
         $tbcsn = add_tad_book3_cate();
     } else {
-        $tbcsn = $_POST['tbcsn'];
+        $tbcsn = (int) $_POST['tbcsn'];
     }
 
     if (!empty($_POST['author_str'])) {
-        $author = $_POST['author_str'];
+        $author = (string) $_POST['author_str'];
     } else {
         $author = implode(',', $_POST['author']);
     }
-    $title = $_POST['title'];
-    $description = $_POST['description'];
+    $title = (string) $_POST['title'];
+    $description = (string) $_POST['description'];
     $description = Wcag::amend($description);
-    $passwd = $_POST['passwd'];
-    $enable = $_POST['enable'];
+    $passwd = (string) $_POST['passwd'];
+    $enable = (string) $_POST['enable'];
     $sort = (int) $_POST['sort'];
 
     $read_group = (in_array('', $_POST['read_group'])) ? '' : implode(',', $_POST['read_group']);

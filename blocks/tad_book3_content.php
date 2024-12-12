@@ -1,6 +1,12 @@
 <?php
 use XoopsModules\Tadtools\Utility;
+if (!class_exists('XoopsModules\Tadtools\Utility')) {
+    require XOOPS_ROOT_PATH . '/modules/tadtools/preloads/autoloader.php';
+}
 use XoopsModules\Tad_book3\Tools;
+if (!class_exists('XoopsModules\Tad_book3\Tools')) {
+    require XOOPS_ROOT_PATH . '/modules/tad_book3/preloads/autoloader.php';
+}
 
 //區塊主函式 (會自動偵測目前閱讀的書籍，並秀出該書目錄)
 function tad_book3_content($options)

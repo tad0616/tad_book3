@@ -12,7 +12,7 @@
                     <input type="hidden" name="tbsn" value=<{$tbsn|default:''}>>
                     <input type="hidden" name="op" value="check_passwd">
                     <button type="submit" class="btn btn-primary">
-                    <i class="fa fa-floppy-o" aria-hidden="true"></i>  <{$smarty.const._TAD_SUBMIT}>
+                    <i class="fa fa-floppy-disk" aria-hidden="true"></i>  <{$smarty.const._TAD_SUBMIT}>
                     </button>
                 </div>
             </div>
@@ -22,7 +22,7 @@
     <div class="row" style="background-image: url('images/relink_bg.gif'); padding: 10px 0px;">
         <div class="col-sm-4 text-left text-start"><{$p|default:''}></div>
         <div class="col-sm-4 text-center">
-            <select onChange="window.location.href='markdown.php?tbdsn='+this.value" class="form-select" title="Select Document">
+            <select onChange="window.location.href='markdown.php?tbdsn='+this.value" class="form-control form-select" title="Select Document">
             <{$doc_select|default:''}>
             </select>
         </div>

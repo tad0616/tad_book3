@@ -120,8 +120,8 @@ function insert_tad_book3_docs()
     $time = time();
     //$time=xoops_getUserTimestamp(time());
 
-    $title = $_POST['title'];
-    $content = $_POST['content'];
+    $title = (string) $_POST['title'];
+    $content = (string) $_POST['content'];
     $content = Wcag::amend($content);
     $from_tbdsn = (int) $_POST['from_tbdsn'];
 
@@ -182,8 +182,8 @@ function update_tad_book3_docs($tbdsn = '')
     global $xoopsDB, $xoopsUser, $xoopsModuleConfig;
     $time = time();
 
-    $title = $_POST['title'];
-    $content = $_POST['content'];
+    $title = (string) $_POST['title'];
+    $content = (string) $_POST['content'];
     $content = Wcag::amend($content);
     $from_tbdsn = (int) $_POST['from_tbdsn'];
 

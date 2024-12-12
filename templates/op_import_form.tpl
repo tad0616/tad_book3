@@ -10,7 +10,7 @@
                 <label>
                     <{$smarty.const._MD_TADBOOK3_TBCSN_MENU}>
                 </label>
-                <select name="tbcsn" size=1 class="form-select">
+                <select name="tbcsn" size=1 class="form-control form-select">
                     <{$cate_select|default:''}>
                 </select>
                 <input type="text" name="new_tbcsn" class="form-control" placeholder="<{$smarty.const._MD_TADBOOK3_NEW_PCSN}>">

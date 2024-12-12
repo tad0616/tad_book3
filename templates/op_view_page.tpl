@@ -11,7 +11,7 @@
                     <input type="hidden" name="tbsn" value=<{$tbsn|default:''}>>
                     <input type="hidden" name="op" value="check_passwd">
                     <button type="submit" class="btn btn-primary">
-                    <i class="fa fa-floppy-o" aria-hidden="true"></i>  <{$smarty.const._TAD_SUBMIT}>
+                    <i class="fa fa-floppy-disk" aria-hidden="true"></i>  <{$smarty.const._TAD_SUBMIT}>
                     </button>
                 </div>
             </div>
@@ -117,7 +117,7 @@
         <div class="col-sm-6" style="text-align:left;vertical-align:bottom;">
             <a href="https://www.addtoany.com/add_to/printfriendly?linkurl=<{$xoops_url}>%2Fmodules%2Ftad_book3%2Fhtml.php%3Ftbdsn%3D<{$tbdsn|default:''}>&amp;linkname="
                 target="_blank">
-                <i class="fa fa-file-pdf-o"></i>
+                <i class="fa fa-file-pdf"></i>
                 <{$smarty.const._MD_TADBOOK3_DL_HTML}> &
                 <{$smarty.const._MD_TADBOOK3_DL_PDF}>
             </a>

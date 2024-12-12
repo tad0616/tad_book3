@@ -7,6 +7,7 @@ if (!$tad_book3_adm) {
     exit;
 }
 // 關閉除錯訊息
+header('HTTP/1.1 200 OK');
 $xoopsLogger->activated = false;
 
 $updateRecordsArray = Request::getVar('book', [], null, 'array', 4);
