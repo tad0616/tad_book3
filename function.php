@@ -6,6 +6,9 @@ use XoopsModules\Tadtools\TreeTable;
 use XoopsModules\Tadtools\Utility;
 use XoopsModules\Tadtools\Wcag;
 use XoopsModules\Tad_book3\Tools;
+if (!class_exists('XoopsModules\Tad_book3\Tools')) {
+    require XOOPS_ROOT_PATH . '/modules/tad_book3/preloads/autoloader.php';
+}
 
 xoops_loadLanguage('main', 'tadtools');
 
@@ -24,10 +27,10 @@ function get_tad_book3_cate($tbcsn = '')
         return;
     }
     $counter = tad_book3_cate_count();
-    $sql = 'SELECT * FROM `' . $xoopsDB->prefix('tad_book3_cate') . '` WHERE `tbcsn`=?';
-    $result = Utility::query($sql, 'i', [$tbcsn]) or Utility::web_error($sql, __FILE__, __LINE__);
+    $sql     = 'SELECT * FROM `' . $xoopsDB->prefix('tad_book3_cate') . '` WHERE `tbcsn`=?';
+    $result  = Utility::query($sql, 'i', [$tbcsn]) or Utility::web_error($sql, __FILE__, __LINE__);
 
-    $data = $xoopsDB->fetchArray($result);
+    $data          = $xoopsDB->fetchArray($result);
     $data['count'] = isset($counter[$tbcsn]) ? $counter[$tbcsn] : 0;
 
     return $data;
@@ -37,8 +40,8 @@ function get_tad_book3_cate($tbcsn = '')
 function tad_book3_cate_count()
 {
     global $xoopsDB;
-    $all = [];
-    $sql = 'SELECT `tbcsn`, COUNT(*) FROM `' . $xoopsDB->prefix('tad_book3') . '` GROUP BY `tbcsn`';
+    $all    = [];
+    $sql    = 'SELECT `tbcsn`, COUNT(*) FROM `' . $xoopsDB->prefix('tad_book3') . '` GROUP BY `tbcsn`';
     $result = Utility::query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
 
     while (list($tbcsn, $count) = $xoopsDB->fetchRow($result)) {
@@ -56,7 +59,7 @@ function get_tad_book3_docs($tbdsn = '')
         return;
     }
 
-    $sql = 'SELECT * FROM `' . $xoopsDB->prefix('tad_book3_docs') . '` WHERE `tbdsn`=?';
+    $sql    = 'SELECT * FROM `' . $xoopsDB->prefix('tad_book3_docs') . '` WHERE `tbdsn`=?';
     $result = Utility::query($sql, 'i', [$tbdsn]) or Utility::web_error($sql, __FILE__, __LINE__);
 
     $data = $xoopsDB->fetchArray($result);
@@ -69,18 +72,18 @@ function list_all_cate_book()
 {
     global $xoopsDB, $xoopsTpl;
 
-    $i = 0;
-    $cates = [];
-    $sql = 'SELECT * FROM `' . $xoopsDB->prefix('tad_book3_cate') . '` ORDER BY `sort`';
+    $i      = 0;
+    $cates  = [];
+    $sql    = 'SELECT * FROM `' . $xoopsDB->prefix('tad_book3_cate') . '` ORDER BY `sort`';
     $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
 
     while (false !== ($data = $xoopsDB->fetchArray($result))) {
         $cates[$i] = $data;
 
-        $sql = 'SELECT * FROM `' . $xoopsDB->prefix('tad_book3') . '` WHERE `tbcsn` = ? AND `enable` = ? ORDER BY `sort`';
+        $sql     = 'SELECT * FROM `' . $xoopsDB->prefix('tad_book3') . '` WHERE `tbcsn` = ? AND `enable` = ? ORDER BY `sort`';
         $result2 = Utility::query($sql, 'is', [$data['tbcsn'], '1']) or Utility::web_error($sql, __FILE__, __LINE__);
 
-        $j = 0;
+        $j     = 0;
         $books = [];
         while (false !== ($data2 = $xoopsDB->fetchArray($result2))) {
             if (!Tools::chk_power($data2['read_group'])) {
@@ -121,7 +124,7 @@ function list_docs($def_tbsn = '')
 
     $all_cate = Tools::all_cate();
 
-    $sql = 'SELECT * FROM `' . $xoopsDB->prefix('tad_book3') . '` WHERE `tbsn` =? AND `enable`=?';
+    $sql    = 'SELECT * FROM `' . $xoopsDB->prefix('tad_book3') . '` WHERE `tbsn` =? AND `enable`=?';
     $result = Utility::query($sql, 'is', [$def_tbsn, 1]) or Utility::web_error($sql, __FILE__, __LINE__);
 
     $data = $xoopsDB->fetchArray($result);
@@ -140,19 +143,19 @@ function list_docs($def_tbsn = '')
 
     $enable_txt = ('1' == $enable) ? _MD_TADBOOK3_ENABLE : _MD_TADBOOK3_UNABLE;
 
-    $read_group = Utility::txt_to_group_name($read_group, _MD_TADBOOK3_ALL_OPEN);
+    $read_group  = Utility::txt_to_group_name($read_group, _MD_TADBOOK3_ALL_OPEN);
     $video_group = Utility::txt_to_group_name($video_group, _MD_TADBOOK3_ALL_OPEN);
 
     //共同編輯者
     $author_arr = explode(',', $author);
-    $my = in_array($uid, $author_arr);
+    $my         = in_array($uid, $author_arr);
     $xoopsTpl->assign('my', $my);
     foreach ($author_arr as $uid) {
-        $uidname = \XoopsUser::getUnameFromId($uid, 1);
-        $uidname = (empty($uidname)) ? XoopsUser::getUnameFromId($uid, 0) : $uidname;
+        $uidname    = \XoopsUser::getUnameFromId($uid, 1);
+        $uidname    = (empty($uidname)) ? XoopsUser::getUnameFromId($uid, 0) : $uidname;
         $uid_name[] = $uidname;
     }
-    $author = implode(' , ', $uid_name);
+    $author   = implode(' , ', $uid_name);
     $uid_name = '';
 
     $create_date = date('Y-m-d H:i:s', xoops_getUserTimestamp(strtotime($create_date)));
@@ -217,21 +220,21 @@ function get_docs($def_tbsn, $have_content = false, $my = true)
     global $xoopsDB;
 
     $lengths = get_video_lengths($def_tbsn);
-    $logs = get_user_logs($def_tbsn);
-    $docs = [];
-    $and = $have_content ? "AND `content` != ''" : '';
-    $sql = 'SELECT * FROM `' . $xoopsDB->prefix('tad_book3_docs') . '` WHERE `tbsn` = ? ' . $and . ' ORDER BY `category`, `page`, `paragraph`, `sort`';
-    $result = Utility::query($sql, 'i', [$def_tbsn]) or Utility::web_error($sql, __FILE__, __LINE__);
+    $logs    = get_user_logs($def_tbsn);
+    $docs    = [];
+    $and     = $have_content ? "AND `content` != ''" : '';
+    $sql     = 'SELECT * FROM `' . $xoopsDB->prefix('tad_book3_docs') . '` WHERE `tbsn` = ? ' . $and . ' ORDER BY `category`, `page`, `paragraph`, `sort`';
+    $result  = Utility::query($sql, 'i', [$def_tbsn]) or Utility::web_error($sql, __FILE__, __LINE__);
 
-    $i = $i1 = $i2 = $i3 = $i4 = $total_time = $total_view = 0;
+    $i            = $i1            = $i2            = $i3            = $i4            = $total_time            = $total_view            = 0;
     $new_category = $new_page = $new_paragraph = $new_sort = '';
     while (false !== ($data = $xoopsDB->fetchArray($result))) {
         foreach ($data as $k => $v) {
             $$k = $v;
         }
 
-        $doc_sort = Tools::mk_category($category, $page, $paragraph, $sort);
-        $have_sub = Tools::have_sub($def_tbsn, $category, $page, $paragraph, $sort);
+        $doc_sort         = Tools::mk_category($category, $page, $paragraph, $sort);
+        $have_sub         = Tools::have_sub($def_tbsn, $category, $page, $paragraph, $sort);
         $last_modify_date = date('Y-m-d H:i:s', xoops_getUserTimestamp($last_modify_date));
 
         if ('1' != $enable and !$my) {
@@ -240,26 +243,26 @@ function get_docs($def_tbsn, $have_content = false, $my = true)
 
         $enable_txt = ('1' == $enable) ? '' : '[' . _MD_TADBOOK3_UNABLE . '] ';
 
-        $docs[$i]['tbdsn'] = $tbdsn;
+        $docs[$i]['tbdsn']            = $tbdsn;
         $docs[$i]['last_modify_date'] = $last_modify_date;
-        $docs[$i]['doc_sort_level'] = $doc_sort['level'];
-        $docs[$i]['doc_sort_main'] = $doc_sort['main'];
-        $docs[$i]['ttid'] = $doc_sort['ttid'];
-        $docs[$i]['doc_sort_parent'] = $doc_sort['parent'];
-        $docs[$i]['title'] = $title;
-        $docs[$i]['category'] = $category;
-        $docs[$i]['page'] = $page;
-        $docs[$i]['paragraph'] = $paragraph;
-        $docs[$i]['sort'] = $sort;
-        $docs[$i]['content'] = $content;
-        $docs[$i]['count'] = $count;
-        $docs[$i]['enable'] = $enable;
-        $docs[$i]['enable_txt'] = $enable_txt;
-        $docs[$i]['have_sub'] = $have_sub;
-        $docs[$i]['from_tbdsn'] = $from_tbdsn;
+        $docs[$i]['doc_sort_level']   = $doc_sort['level'];
+        $docs[$i]['doc_sort_main']    = $doc_sort['main'];
+        $docs[$i]['ttid']             = $doc_sort['ttid'];
+        $docs[$i]['doc_sort_parent']  = $doc_sort['parent'];
+        $docs[$i]['title']            = $title;
+        $docs[$i]['category']         = $category;
+        $docs[$i]['page']             = $page;
+        $docs[$i]['paragraph']        = $paragraph;
+        $docs[$i]['sort']             = $sort;
+        $docs[$i]['content']          = $content;
+        $docs[$i]['count']            = $count;
+        $docs[$i]['enable']           = $enable;
+        $docs[$i]['enable_txt']       = $enable_txt;
+        $docs[$i]['have_sub']         = $have_sub;
+        $docs[$i]['from_tbdsn']       = $from_tbdsn;
         if (is_array($lengths) && isset($lengths[$tbdsn])) {
             $docs[$i]['lengths'] = $lengths[$tbdsn];
-            $docs[$i]['time'] = secondsToTime($lengths[$tbdsn]);
+            $docs[$i]['time']    = secondsToTime($lengths[$tbdsn]);
             $total_time += $lengths[$tbdsn];
             if ($logs[$tbdsn] && $lengths[$tbdsn]) {
                 $docs[$i]['percentage'] = round($logs[$tbdsn] / $lengths[$tbdsn], 2) * 100;
@@ -275,9 +278,9 @@ function get_docs($def_tbsn, $have_content = false, $my = true)
         } elseif ($new_category != $category) {
             $new_category = $category;
             $i1++;
-            $new_page = 0;
+            $new_page      = 0;
             $new_paragraph = 0;
-            $new_sort = 0;
+            $new_sort      = 0;
         }
 
         if (!empty($page)) {
@@ -288,7 +291,7 @@ function get_docs($def_tbsn, $have_content = false, $my = true)
                 $new_page = $page;
                 $i2++;
                 $new_paragraph = 0;
-                $new_sort = 0;
+                $new_sort      = 0;
             }
         } else {
             $i2 = 0;
@@ -330,7 +333,7 @@ function get_video_lengths($tbsn)
 {
     $TadDataCenter = new TadDataCenter('tad_book3');
     $TadDataCenter->set_col($tbsn);
-    $data = $TadDataCenter->getData('length');
+    $data    = $TadDataCenter->getData('length');
     $lengths = [];
     foreach ($data as $tbdsn => $value) {
         $lengths[$tbdsn] = $value[0];
@@ -345,7 +348,7 @@ function get_user_logs($tbsn, $uid = '')
     if (!$xoopsUser and empty($uid)) {
         return [];
     }
-    $uid = $uid ? $uid : $xoopsUser->uid();
+    $uid           = $uid ? $uid : $xoopsUser->uid();
     $TadDataCenter = new TadDataCenter('tad_book3');
     $TadDataCenter->set_col($uid);
     $data = $TadDataCenter->getData('currentTime');
@@ -362,7 +365,7 @@ function get_video_start($tbdsn)
     global $xoopsUser;
 
     $TadDataCenter = new TadDataCenter('tad_book3');
-    $uid = $xoopsUser ? $xoopsUser->uid() : 0;
+    $uid           = $xoopsUser ? $xoopsUser->uid() : 0;
     $TadDataCenter->set_col($uid, $tbdsn);
     $data = $TadDataCenter->getData('currentTime');
     return (float) $data['currentTime'][0];
@@ -389,18 +392,18 @@ function tad_book3_form($tbsn = '', $tbcsn = '')
     }
     //預設值設定
 
-    $tbsn = (!isset($DBV['tbsn'])) ? '' : $DBV['tbsn'];
-    $tbcsn = (!isset($DBV['tbcsn'])) ? $tbcsn : $DBV['tbcsn'];
-    $sort = (!isset($DBV['sort'])) ? get_max_doc_sort($tbcsn) : $DBV['sort'];
-    $title = (!isset($DBV['title'])) ? '' : $DBV['title'];
+    $tbsn        = (!isset($DBV['tbsn'])) ? '' : $DBV['tbsn'];
+    $tbcsn       = (!isset($DBV['tbcsn'])) ? $tbcsn : $DBV['tbcsn'];
+    $sort        = (!isset($DBV['sort'])) ? get_max_doc_sort($tbcsn) : $DBV['sort'];
+    $title       = (!isset($DBV['title'])) ? '' : $DBV['title'];
     $description = (!isset($DBV['description'])) ? '' : $DBV['description'];
-    $author = (!isset($DBV['author'])) ? '' : $DBV['author'];
-    $read_group = (!isset($DBV['read_group'])) ? '' : $DBV['read_group'];
+    $author      = (!isset($DBV['author'])) ? '' : $DBV['author'];
+    $read_group  = (!isset($DBV['read_group'])) ? '' : $DBV['read_group'];
     $video_group = (!isset($DBV['video_group'])) ? '' : $DBV['video_group'];
-    $passwd = (!isset($DBV['passwd'])) ? '' : $DBV['passwd'];
-    $enable = (!isset($DBV['enable'])) ? '1' : $DBV['enable'];
-    $pic_name = (!isset($DBV['pic_name'])) ? '' : $DBV['pic_name'];
-    $counter = (!isset($DBV['counter'])) ? '' : $DBV['counter'];
+    $passwd      = (!isset($DBV['passwd'])) ? '' : $DBV['passwd'];
+    $enable      = (!isset($DBV['enable'])) ? '1' : $DBV['enable'];
+    $pic_name    = (!isset($DBV['pic_name'])) ? '' : $DBV['pic_name'];
+    $counter     = (!isset($DBV['counter'])) ? '' : $DBV['counter'];
     $create_date = (!isset($DBV['create_date'])) ? '' : $DBV['create_date'];
 
     $ck = new CkEditor('tad_book3', 'description', $description);
@@ -412,13 +415,13 @@ function tad_book3_form($tbsn = '', $tbcsn = '')
     $cate_select = cate_select($tbcsn);
 
     $memberHandler = xoops_getHandler('member');
-    $usercount = $memberHandler->getUserCount(new \Criteria('level', 0, '>'));
+    $usercount     = $memberHandler->getUserCount(new \Criteria('level', 0, '>'));
 
     if ($usercount < 1000) {
         $select = new \XoopsFormSelect('', 'author', $author_arr, 5, true);
         $select->setExtra("class='form-control'");
         $memberHandler = xoops_getHandler('member');
-        $criteria = new \CriteriaCompo();
+        $criteria      = new \CriteriaCompo();
         $criteria->setSort('uname');
         $criteria->setOrder('ASC');
         $criteria->setLimit(1000);
@@ -431,14 +434,14 @@ function tad_book3_form($tbsn = '', $tbcsn = '')
     <div>user uid, ex:\"1,27,103\"</div>";
     }
 
-    $group_arr = (empty($read_group)) ? [''] : explode(',', $read_group);
+    $group_arr   = (empty($read_group)) ? [''] : explode(',', $read_group);
     $SelectGroup = new \XoopsFormSelectGroup('', 'read_group', false, $group_arr, 5, true);
     $SelectGroup->setExtra("class='form-control'");
     $SelectGroup->addOption('', _MD_TADBOOK3_ALL_OPEN, false);
     $group_menu = $SelectGroup->render();
 
     $video_group_arr = (empty($video_group)) ? [''] : explode(',', $video_group);
-    $SelectGroup = new \XoopsFormSelectGroup('', 'video_group', false, $video_group_arr, 5, true);
+    $SelectGroup     = new \XoopsFormSelectGroup('', 'video_group', false, $video_group_arr, 5, true);
     $SelectGroup->setExtra("class='form-control'");
     $SelectGroup->addOption('', _MD_TADBOOK3_ALL_OPEN, false);
     $video_group_menu = $SelectGroup->render();
@@ -477,15 +480,15 @@ function insert_tad_book3()
         $author = implode(',', $_POST['author']);
     }
 
-    $title = (string) $_POST['title'];
+    $title       = (string) $_POST['title'];
     $description = (string) $_POST['description'];
     $description = Wcag::amend($description);
-    $passwd = (string) $_POST['passwd'];
-    $enable = (string) $_POST['enable'];
-    $pic_name = (string) $_POST['pic_name'];
-    $sort = (int) $_POST['sort'];
+    $passwd      = (string) $_POST['passwd'];
+    $enable      = (string) $_POST['enable'];
+    $pic_name    = (string) $_POST['pic_name'];
+    $sort        = (int) $_POST['sort'];
 
-    $read_group = (in_array('', $_POST['read_group'])) ? '' : implode(',', $_POST['read_group']);
+    $read_group  = (in_array('', $_POST['read_group'])) ? '' : implode(',', $_POST['read_group']);
     $video_group = (in_array('', $_POST['video_group'])) ? '' : implode(',', $_POST['video_group']);
 
     $now = date('Y-m-d H:i:s', xoops_getUserTimestamp(time()));
@@ -511,8 +514,8 @@ function add_tad_book3_cate()
     }
 
     $title = (string) $_POST['new_tbcsn'];
-    $sort = tad_book3_cate_max_sort();
-    $sql = 'INSERT INTO `' . $xoopsDB->prefix('tad_book3_cate') . '` (`of_tbsn`,`sort`,`title`) VALUES (?, ?, ?)';
+    $sort  = tad_book3_cate_max_sort();
+    $sql   = 'INSERT INTO `' . $xoopsDB->prefix('tad_book3_cate') . '` (`of_tbsn`,`sort`,`title`) VALUES (?, ?, ?)';
     Utility::query($sql, 'iis', [0, $sort, $title]) or Utility::web_error($sql, __FILE__, __LINE__);
     //取得最後新增資料的流水編號
     $tbcsn = $xoopsDB->getInsertId();
@@ -524,7 +527,7 @@ function add_tad_book3_cate()
 function tad_book3_cate_max_sort()
 {
     global $xoopsDB;
-    $sql = 'SELECT MAX(`sort`) FROM `' . $xoopsDB->prefix('tad_book3_cate') . '` WHERE `of_tbsn`=?';
+    $sql    = 'SELECT MAX(`sort`) FROM `' . $xoopsDB->prefix('tad_book3_cate') . '` WHERE `of_tbsn`=?';
     $result = Utility::query($sql, 's', ['']) or Utility::web_error($sql, __FILE__, __LINE__);
 
     list($sort) = $xoopsDB->fetchRow($result);
@@ -554,14 +557,14 @@ function update_tad_book3($tbsn = '')
     } else {
         $author = implode(',', $_POST['author']);
     }
-    $title = (string) $_POST['title'];
+    $title       = (string) $_POST['title'];
     $description = (string) $_POST['description'];
     $description = Wcag::amend($description);
-    $passwd = (string) $_POST['passwd'];
-    $enable = (string) $_POST['enable'];
-    $sort = (int) $_POST['sort'];
+    $passwd      = (string) $_POST['passwd'];
+    $enable      = (string) $_POST['enable'];
+    $sort        = (int) $_POST['sort'];
 
-    $read_group = (in_array('', $_POST['read_group'])) ? '' : implode(',', $_POST['read_group']);
+    $read_group  = (in_array('', $_POST['read_group'])) ? '' : implode(',', $_POST['read_group']);
     $video_group = (in_array('', $_POST['video_group'])) ? '' : implode(',', $_POST['video_group']);
 
     $sql = 'UPDATE `' . $xoopsDB->prefix('tad_book3') . '` SET `tbcsn` = ?, `sort` = ?, `title` = ?, `description` = ?, `author` = ?, `read_group` = ?, `video_group` = ?, `passwd` = ?, `enable` = ? WHERE `tbsn` = ?';
@@ -578,7 +581,7 @@ function update_tad_book3($tbsn = '')
 function get_max_doc_sort($tbcsn = '')
 {
     global $xoopsDB;
-    $sql = 'SELECT MAX(`sort`) FROM `' . $xoopsDB->prefix('tad_book3') . '` WHERE `tbcsn`=?';
+    $sql    = 'SELECT MAX(`sort`) FROM `' . $xoopsDB->prefix('tad_book3') . '` WHERE `tbcsn`=?';
     $result = Utility::query($sql, 'i', [$tbcsn]) or Utility::web_error($sql, __FILE__, __LINE__);
 
     list($sort) = $xoopsDB->fetchRow($result);
@@ -607,11 +610,11 @@ function mk_thumb($tbsn = '', $col_name = '', $width = 100)
     $handle = new \Verot\Upload\Upload($_FILES[$col_name]);
     if ($handle->uploaded) {
         $handle->file_new_name_body = "book_{$tbsn}";
-        $handle->image_convert = 'png';
-        $handle->image_resize = true;
-        $handle->image_x = $width;
-        $handle->image_ratio_y = true;
-        $handle->file_overwrite = true;
+        $handle->image_convert      = 'png';
+        $handle->image_resize       = true;
+        $handle->image_x            = $width;
+        $handle->image_ratio_y      = true;
+        $handle->file_overwrite     = true;
         $handle->process(_TADBOOK3_BOOK_DIR);
         $handle->auto_create_dir = true;
         if ($handle->processed) {
@@ -625,7 +628,7 @@ function mk_thumb($tbsn = '', $col_name = '', $width = 100)
         }
 
         $handle->file_new_name_body = "fb_book_{$tbsn}";
-        $handle->image_x = 200;
+        $handle->image_x            = 200;
         $handle->process(_TADBOOK3_BOOK_DIR);
         if ($handle->processed) {
             $handle->clean();
@@ -642,7 +645,7 @@ function mk_thumb($tbsn = '', $col_name = '', $width = 100)
 function check_passwd($tbsn = '')
 {
     global $xoopsDB;
-    $sql = 'SELECT `passwd` FROM `' . $xoopsDB->prefix('tad_book3') . '` WHERE `tbsn` =?';
+    $sql    = 'SELECT `passwd` FROM `' . $xoopsDB->prefix('tad_book3') . '` WHERE `tbsn` =?';
     $result = Utility::query($sql, 'i', [$tbsn]) or Utility::web_error($sql, __FILE__, __LINE__);
 
     list($passwd) = $xoopsDB->fetchRow($result);
@@ -661,7 +664,7 @@ function get_tad_book3($tbsn = '')
         return;
     }
 
-    $sql = 'SELECT * FROM `' . $xoopsDB->prefix('tad_book3') . '` WHERE `tbsn` = ?';
+    $sql    = 'SELECT * FROM `' . $xoopsDB->prefix('tad_book3') . '` WHERE `tbsn` = ?';
     $result = Utility::query($sql, 'i', [$tbsn]) or Utility::web_error($sql, __FILE__, __LINE__);
 
     $data = $xoopsDB->fetchArray($result);
@@ -673,7 +676,7 @@ function get_tad_book3($tbsn = '')
 function cate_select($def_tbcsn = '')
 {
     $all_cate = Tools::all_cate();
-    $main = '';
+    $main     = '';
     foreach ($all_cate as $tbcsn => $title) {
         $selected = ($tbcsn == $def_tbcsn) ? 'selected' : '';
         $main .= "<option value='$tbcsn' $selected>$title</option>";
@@ -686,7 +689,7 @@ function cate_select($def_tbcsn = '')
 function all_books()
 {
     global $xoopsDB;
-    $sql = 'SELECT `tbsn`, `title` FROM `' . $xoopsDB->prefix('tad_book3') . '` ORDER BY `sort`';
+    $sql    = 'SELECT `tbsn`, `title` FROM `' . $xoopsDB->prefix('tad_book3') . '` ORDER BY `sort`';
     $result = Utility::query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
 
     while (list($tbsn, $title) = $xoopsDB->fetchRow($result)) {
@@ -725,7 +728,7 @@ function near_docs($tbsn = '', $doc_sn = '')
 {
     global $xoopsDB, $tad_book3_adm;
     $and_enable = $tad_book3_adm ? '' : 'AND `enable`=?';
-    $sql = 'SELECT `tbdsn`, `title`, `category`, `page`, `paragraph`, `sort` FROM `' . $xoopsDB->prefix('tad_book3_docs') . '` WHERE `tbsn`=? AND (`content` != \'\' OR `from_tbdsn` != 0) ' . $and_enable . ' ORDER BY `category`, `page`, `paragraph`, `sort`';
+    $sql        = 'SELECT `tbdsn`, `title`, `category`, `page`, `paragraph`, `sort` FROM `' . $xoopsDB->prefix('tad_book3_docs') . '` WHERE `tbsn`=? AND (`content` != \'\' OR `from_tbdsn` != 0) ' . $and_enable . ' ORDER BY `category`, `page`, `paragraph`, `sort`';
 
     $params = $tad_book3_adm ? [$tbsn] : [$tbsn, 1];
     $format = $tad_book3_adm ? 's' : 'ss';
@@ -737,7 +740,7 @@ function near_docs($tbsn = '', $doc_sn = '')
         $doc_sort = Tools::mk_category($category, $page, $paragraph, $sort);
         if ($doc_sn == $tbdsn) {
             $doc['main'] = "{$tbdsn};{$doc_sort['main']} {$title}";
-            $get_next = true;
+            $get_next    = true;
         } elseif ($get_next) {
             $doc['next'] = "{$tbdsn};{$doc_sort['main']} {$title}";
 
@@ -758,10 +761,10 @@ function doc_select($tbsn = '', $doc_sn = '')
 
     if (empty($xoopsUser)) {
         $andenable = "AND `enable` = '1'";
-        $now_uid = 0;
+        $now_uid   = 0;
     } else {
         $andenable = '';
-        $now_uid = $xoopsUser->uid();
+        $now_uid   = $xoopsUser->uid();
     }
 
     $sql = 'SELECT `tbdsn`, `title`, `category`, `page`, `paragraph`, `sort`, `enable`, `uid`
@@ -783,12 +786,14 @@ function doc_select($tbsn = '', $doc_sn = '')
                 continue;
             }
             $style = " style='color:gray;'";
-            $stat = '[' . _MD_TADBOOK3_UNABLE . '] ';
+            $stat  = '[' . _MD_TADBOOK3_UNABLE . '] ';
         } else {
             $style = " style='color:black;'";
         }
 
-        $main .= "<option value=$tbdsn $selected $style>" . str_repeat('&nbsp;', ($doc_sort['level'] - 1) * 2) . "{$doc_sort['main']} {$stat}{$title}</option>";
+        $times = (int) ($doc_sort['level'] - 1) * 2;
+        $space = $times > 0 ? str_repeat('&nbsp;', $times) : '';
+        $main .= "<option value=$tbdsn $selected $style>{$space}{$doc_sort['main']} {$stat}{$title}</option>";
     }
 
     return $main;
@@ -797,16 +802,16 @@ function doc_select($tbsn = '', $doc_sn = '')
 function decode_category($doc_sort = '')
 {
     if (mb_strpos($doc_sort, '-')) {
-        $doc_sort_arr = explode('-', $doc_sort);
-        $all['category'] = isset($doc_sort_arr[0]) ? $doc_sort_arr[0] : '';
-        $all['page'] = isset($doc_sort_arr[1]) ? $doc_sort_arr[1] : '';
+        $doc_sort_arr     = explode('-', $doc_sort);
+        $all['category']  = isset($doc_sort_arr[0]) ? $doc_sort_arr[0] : '';
+        $all['page']      = isset($doc_sort_arr[1]) ? $doc_sort_arr[1] : '';
         $all['paragraph'] = isset($doc_sort_arr[2]) ? $doc_sort_arr[2] : '';
-        $all['sort'] = isset($doc_sort_arr[3]) ? $doc_sort_arr[3] : '';
+        $all['sort']      = isset($doc_sort_arr[3]) ? $doc_sort_arr[3] : '';
     } else {
-        $all['category'] = str_replace('.', '', $doc_sort);
-        $all['page'] = '';
+        $all['category']  = str_replace('.', '', $doc_sort);
+        $all['page']      = '';
         $all['paragraph'] = '';
-        $all['sort'] = '';
+        $all['sort']      = '';
     }
 
     return $all;
@@ -857,7 +862,7 @@ function check_update_cpps_del($tbdsn = 0)
 {
     global $xoopsDB, $tad_book3_adm;
 
-    $sql = 'SELECT `tbsn`, `category`, `page`, `paragraph`, `sort`, `uid` FROM `' . $xoopsDB->prefix('tad_book3_docs') . '` WHERE `tbdsn`=?';
+    $sql    = 'SELECT `tbsn`, `category`, `page`, `paragraph`, `sort`, `uid` FROM `' . $xoopsDB->prefix('tad_book3_docs') . '` WHERE `tbdsn`=?';
     $result = Utility::query($sql, 'i', [$tbdsn]) or Utility::web_error($sql, __FILE__, __LINE__);
 
     list($tbsn, $category, $page, $paragraph, $sort, $uid) = $xoopsDB->fetchRow($result);
@@ -868,31 +873,31 @@ function check_update_cpps_del($tbdsn = 0)
             exit;
         }
     }
-    $updateField = '';
+    $updateField     = '';
     $whereConditions = ["`tbsn` = ?"];
-    $params = [$tbsn];
+    $params          = [$tbsn];
 
     if (!empty($category)) {
         if (!empty($page)) {
             if (!empty($paragraph)) {
                 if (!empty($sort)) {
-                    $updateField = '`sort` = `sort` - 1';
+                    $updateField       = '`sort` = `sort` - 1';
                     $whereConditions[] = "`category` = ? AND `page` = ? AND `paragraph` = ? AND `sort` > ?";
-                    $params = array_merge($params, [$category, $page, $paragraph, $sort]);
+                    $params            = array_merge($params, [$category, $page, $paragraph, $sort]);
                 } else {
-                    $updateField = '`paragraph` = `paragraph` - 1';
+                    $updateField       = '`paragraph` = `paragraph` - 1';
                     $whereConditions[] = "`category` = ? AND `page` = ? AND `paragraph` > ?";
-                    $params = array_merge($params, [$category, $page, $paragraph]);
+                    $params            = array_merge($params, [$category, $page, $paragraph]);
                 }
             } else {
-                $updateField = '`page` = `page` - 1';
+                $updateField       = '`page` = `page` - 1';
                 $whereConditions[] = "`category` = ? AND `page` > ?";
-                $params = array_merge($params, [$category, $page]);
+                $params            = array_merge($params, [$category, $page]);
             }
         } else {
-            $updateField = '`category` = `category` - 1';
+            $updateField       = '`category` = `category` - 1';
             $whereConditions[] = "`category` > ?";
-            $params[] = $category;
+            $params[]          = $category;
         }
     }
 

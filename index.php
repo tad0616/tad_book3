@@ -2,6 +2,7 @@
 use Xmf\Request;
 use XoopsModules\Tadtools\CkEditor;
 use XoopsModules\Tadtools\Utility;
+use XoopsModules\Tad_book3\Tools;
 
 /*-----------引入檔案區--------------*/
 require_once __DIR__ . '/header.php';
@@ -9,11 +10,11 @@ $xoopsOption['template_main'] = 'tadbook3_index.tpl';
 require_once XOOPS_ROOT_PATH . '/header.php';
 
 /*-----------執行動作判斷區----------*/
-$op = Request::getString('op');
-$tbsn = Request::getInt('tbsn');
-$tbdsn = Request::getInt('tbdsn');
-$enable = Request::getInt('enable');
-$tbcsn = Request::getInt('tbcsn');
+$op          = Request::getString('op');
+$tbsn        = Request::getInt('tbsn');
+$tbdsn       = Request::getInt('tbdsn');
+$enable      = Request::getInt('enable');
+$tbcsn       = Request::getInt('tbcsn');
 $update_sort = Request::getArray('update_sort');
 
 switch ($op) {
@@ -116,18 +117,18 @@ function import_form($tbsn = '')
 
     //預設值設定
 
-    $tbsn = (!isset($DBV['tbsn'])) ? '' : $DBV['tbsn'];
-    $tbcsn = (!isset($DBV['tbcsn'])) ? '' : $DBV['tbcsn'];
-    $sort = (!isset($DBV['sort'])) ? get_max_doc_sort($tbcsn) : $DBV['sort'];
-    $title = (!isset($DBV['title'])) ? '' : $DBV['title'];
+    $tbsn        = (!isset($DBV['tbsn'])) ? '' : $DBV['tbsn'];
+    $tbcsn       = (!isset($DBV['tbcsn'])) ? '' : $DBV['tbcsn'];
+    $sort        = (!isset($DBV['sort'])) ? get_max_doc_sort($tbcsn) : $DBV['sort'];
+    $title       = (!isset($DBV['title'])) ? '' : $DBV['title'];
     $description = (!isset($DBV['description'])) ? '' : $DBV['description'];
-    $author = (!isset($DBV['author'])) ? '' : $DBV['author'];
-    $read_group = (!isset($DBV['read_group'])) ? '' : $DBV['read_group'];
+    $author      = (!isset($DBV['author'])) ? '' : $DBV['author'];
+    $read_group  = (!isset($DBV['read_group'])) ? '' : $DBV['read_group'];
     $video_group = (!isset($DBV['video_group'])) ? '' : $DBV['video_group'];
-    $passwd = (!isset($DBV['passwd'])) ? '' : $DBV['passwd'];
-    $enable = (!isset($DBV['enable'])) ? '1' : $DBV['enable'];
-    $pic_name = (!isset($DBV['pic_name'])) ? '' : $DBV['pic_name'];
-    $counter = (!isset($DBV['counter'])) ? '' : $DBV['counter'];
+    $passwd      = (!isset($DBV['passwd'])) ? '' : $DBV['passwd'];
+    $enable      = (!isset($DBV['enable'])) ? '1' : $DBV['enable'];
+    $pic_name    = (!isset($DBV['pic_name'])) ? '' : $DBV['pic_name'];
+    $counter     = (!isset($DBV['counter'])) ? '' : $DBV['counter'];
     $create_date = (!isset($DBV['create_date'])) ? '' : $DBV['create_date'];
 
     $ck = new CkEditor('tad_book3', 'description', $description);
@@ -139,13 +140,13 @@ function import_form($tbsn = '')
     $cate_select = cate_select($tbcsn);
 
     $memberHandler = xoops_getHandler('member');
-    $usercount = $memberHandler->getUserCount(new \Criteria('level', 0, '>'));
+    $usercount     = $memberHandler->getUserCount(new \Criteria('level', 0, '>'));
 
     if ($usercount < 1000) {
         $select = new \XoopsFormSelect('', 'author', $author_arr, 5, true);
         $select->setExtra("class='form-control'");
         $memberHandler = xoops_getHandler('member');
-        $criteria = new \CriteriaCompo();
+        $criteria      = new \CriteriaCompo();
         $criteria->setSort('uname');
         $criteria->setOrder('ASC');
         $criteria->setLimit(1000);
@@ -158,14 +159,14 @@ function import_form($tbsn = '')
     <div>user uid, ex:\"1,27,103\"</div>";
     }
 
-    $group_arr = (empty($read_group)) ? [''] : explode(',', $read_group);
+    $group_arr   = (empty($read_group)) ? [''] : explode(',', $read_group);
     $SelectGroup = new \XoopsFormSelectGroup('', 'read_group', false, $group_arr, 5, true);
     $SelectGroup->addOption('', _MD_TADBOOK3_ALL_OPEN, false);
     $SelectGroup->setExtra("class='form-control'");
     $group_menu = $SelectGroup->render();
 
     $video_group_arr = (empty($video_group)) ? [''] : explode(',', $video_group);
-    $SelectGroup = new \XoopsFormSelectGroup('', 'video_group', false, $video_group_arr, 5, true);
+    $SelectGroup     = new \XoopsFormSelectGroup('', 'video_group', false, $video_group_arr, 5, true);
     $SelectGroup->setExtra("class='form-control'");
     $SelectGroup->addOption('', _MD_TADBOOK3_ALL_OPEN, false);
     $video_group_menu = $SelectGroup->render();
@@ -203,7 +204,7 @@ function import_book($tbcsn)
     } else {
         $author = implode(',', $_POST['author']);
     }
-    $read_group = (in_array('', $_POST['read_group'])) ? '' : implode(',', $_POST['read_group']);
+    $read_group  = (in_array('', $_POST['read_group'])) ? '' : implode(',', $_POST['read_group']);
     $video_group = (in_array('', $_POST['video_group'])) ? '' : implode(',', $_POST['video_group']);
 
     $book_sql = file_get_contents($_FILES['book']['tmp_name']);
@@ -217,7 +218,7 @@ function import_book($tbcsn)
     $tbsn = $xoopsDB->getInsertId();
 
     //取出亂數資料夾內容
-    $sql = 'SELECT `pic_name` FROM `' . $xoopsDB->prefix('tad_book3') . '` WHERE `tbsn`=?';
+    $sql    = 'SELECT `pic_name` FROM `' . $xoopsDB->prefix('tad_book3') . '` WHERE `tbsn`=?';
     $result = Utility::query($sql, 'i', [$tbsn]) or Utility::web_error($sql, __FILE__, __LINE__);
 
     list($rand) = $xoopsDB->fetchRow($result);
@@ -264,7 +265,7 @@ function tad_book3_export($tbsn = '')
     }
 
     //輸出書籍設定
-    $sql = 'SELECT * FROM `' . $xoopsDB->prefix('tad_book3') . '` WHERE `tbsn`=?';
+    $sql    = 'SELECT * FROM `' . $xoopsDB->prefix('tad_book3') . '` WHERE `tbsn`=?';
     $result = Utility::query($sql, 'i', [$tbsn]) or Utility::web_error($sql, __FILE__, __LINE__);
 
     $book = $xoopsDB->fetchArray($result);
@@ -277,14 +278,14 @@ function tad_book3_export($tbsn = '')
 
     $rand = Utility::randStr();
 
-    $tadbook3_dir = XOOPS_ROOT_PATH . '/uploads/tad_book3';
-    $import_dir = str_replace(['|', '%', ' ', '<', '>'], '', "{$tadbook3_dir}/import_{$tbsn}");
-    $from_file_dir = "{$tadbook3_dir}/file";
-    $from_image_dir = "{$tadbook3_dir}/image";
-    $import_file_dir = "{$import_dir}/file/{$rand}";
+    $tadbook3_dir     = XOOPS_ROOT_PATH . '/uploads/tad_book3';
+    $import_dir       = str_replace(['|', '%', ' ', '<', '>'], '', "{$tadbook3_dir}/import_{$tbsn}");
+    $from_file_dir    = "{$tadbook3_dir}/file";
+    $from_image_dir   = "{$tadbook3_dir}/image";
+    $import_file_dir  = "{$import_dir}/file/{$rand}";
     $import_image_dir = "{$import_dir}/image/{$rand}";
-    $bookfile = "{$import_dir}/1_book.sql";
-    $docsfile = "{$import_dir}/2_docs.sql";
+    $bookfile         = "{$import_dir}/1_book.sql";
+    $docsfile         = "{$import_dir}/2_docs.sql";
     Utility::rrmdir($import_dir);
     Utility::mk_dir($import_dir);
     Utility::mk_dir($import_dir . '/file');
@@ -314,16 +315,16 @@ function tad_book3_export($tbsn = '')
         $cols .= "`{$col}`, ";
         $vals .= "'{$val}', ";
     }
-    $cols = mb_substr($cols, 0, -2);
-    $vals = mb_substr($vals, 0, -2);
+    $cols    = mb_substr($cols, 0, -2);
+    $vals    = mb_substr($vals, 0, -2);
     $current = "insert into `tad_book3` ({$cols}) values({$vals});\n";
 
     file_put_contents($bookfile, $current);
 
     //輸出文章設定
     $current = '';
-    $sql = 'SELECT * FROM `' . $xoopsDB->prefix('tad_book3_docs') . '` WHERE `tbsn`=? ORDER BY `category`, `page`, `paragraph`, `sort`';
-    $result = Utility::query($sql, 'i', [$tbsn]) or Utility::web_error($sql, __FILE__, __LINE__);
+    $sql     = 'SELECT * FROM `' . $xoopsDB->prefix('tad_book3_docs') . '` WHERE `tbsn`=? ORDER BY `category`, `page`, `paragraph`, `sort`';
+    $result  = Utility::query($sql, 'i', [$tbsn]) or Utility::web_error($sql, __FILE__, __LINE__);
 
     $all = '';
     while (false !== ($doc = $xoopsDB->fetchArray($result))) {
@@ -346,9 +347,9 @@ function tad_book3_export($tbsn = '')
                             $val = str_replace($image_url, str_replace('tad_book3/image', "tad_book3/image/{$rand}", $image), $val);
 
                             $form_image = XOOPS_ROOT_PATH . $image;
-                            $new_image = XOOPS_ROOT_PATH . str_replace('tad_book3/image', "tad_book3/import_{$tbsn}/image/{$rand}", $image);
-                            $image_dir = mb_substr(dirname(str_replace($from_image_dir, '', $form_image)), 1);
-                            $dirs = explode('/', $image_dir);
+                            $new_image  = XOOPS_ROOT_PATH . str_replace('tad_book3/image', "tad_book3/import_{$tbsn}/image/{$rand}", $image);
+                            $image_dir  = mb_substr(dirname(str_replace($from_image_dir, '', $form_image)), 1);
+                            $dirs       = explode('/', $image_dir);
                             if (is_array($dirs)) {
                                 $new_import_image_dir = $import_image_dir;
                                 foreach ($dirs as $d) {
@@ -378,9 +379,9 @@ function tad_book3_export($tbsn = '')
                             $val = str_replace($file_url, str_replace('tad_book3/file', "tad_book3/file/{$rand}", $file), $val);
 
                             $form_file = XOOPS_ROOT_PATH . $file;
-                            $new_file = XOOPS_ROOT_PATH . str_replace('tad_book3/file', "tad_book3/import_{$tbsn}/file/{$rand}", $file);
-                            $file_dir = mb_substr(dirname(str_replace($from_file_dir, '', $form_file)), 1);
-                            $dirs = explode('/', $file_dir);
+                            $new_file  = XOOPS_ROOT_PATH . str_replace('tad_book3/file', "tad_book3/import_{$tbsn}/file/{$rand}", $file);
+                            $file_dir  = mb_substr(dirname(str_replace($from_file_dir, '', $form_file)), 1);
+                            $dirs      = explode('/', $file_dir);
                             if (is_array($dirs)) {
                                 $new_import_file_dir = $import_file_dir;
                                 foreach ($dirs as $d) {
@@ -424,7 +425,7 @@ function tad_book3_export($tbsn = '')
     } else {
         require_once __DIR__ . '/class/pclzip.lib.php';
         $zipfile = new PclZip($zip_name);
-        $v_list = $zipfile->create($import_dir, PCLZIP_OPT_REMOVE_PATH, XOOPS_ROOT_PATH . '/uploads/tad_book3');
+        $v_list  = $zipfile->create($import_dir, PCLZIP_OPT_REMOVE_PATH, XOOPS_ROOT_PATH . '/uploads/tad_book3');
 
         if (0 == $v_list) {
             die('Error : ' . $archive->errorInfo(true));
@@ -443,7 +444,7 @@ function update_docs_sort($update_sort = [])
     global $xoopsDB;
     foreach ($update_sort as $tbdsn => $doc_sort) {
         $doc_sort_arr = decode_category($doc_sort);
-        $sql = 'UPDATE `' . $xoopsDB->prefix('tad_book3_docs') . '` SET `category` = ?, `page` = ?, `paragraph` = ?, `sort` = ? WHERE `tbdsn` = ?';
+        $sql          = 'UPDATE `' . $xoopsDB->prefix('tad_book3_docs') . '` SET `category` = ?, `page` = ?, `paragraph` = ?, `sort` = ? WHERE `tbdsn` = ?';
         Utility::query($sql, 'iiiii', [$doc_sort_arr['category'], $doc_sort_arr['page'], $doc_sort_arr['paragraph'], $doc_sort_arr['sort'], $tbdsn]) or Utility::web_error($sql, __FILE__, __LINE__);
 
     }

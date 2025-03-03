@@ -13,9 +13,9 @@ require_once __DIR__ . '/header.php';
 require_once dirname(__DIR__) . '/function.php';
 
 /*-----------執行動作判斷區----------*/
-$op = Request::getString('op');
-$tbsn = Request::getInt('tbsn');
-$tbcsn = Request::getInt('tbcsn');
+$op      = Request::getString('op');
+$tbsn    = Request::getInt('tbsn');
+$tbcsn   = Request::getInt('tbcsn');
 $link_sn = Request::getInt('link_sn');
 
 switch ($op) {
@@ -129,7 +129,7 @@ function insert_tad_book3_cate()
     $sql = 'INSERT INTO `' . $xoopsDB->prefix('tad_book3_cate') . '`
     (`of_tbsn`, `title`, `sort`, `description`)
     VALUES (?, ?, ?, ?)';
-    Utility::query($sql, 'isis', [$_POST['of_tbsn'], $_POST['title'], $_POST['sort'], $_POST['description']]) or Utility::web_error($sql, __FILE__, __LINE__);
+    Utility::query($sql, 'isis', [(int) $_POST['of_tbsn'], $_POST['title'], (int) $_POST['sort'], $_POST['description']]) or Utility::web_error($sql, __FILE__, __LINE__);
 
     //取得最後新增資料的流水編號
     $tbcsn = $xoopsDB->getInsertId();
@@ -143,13 +143,13 @@ function update_tad_book3_cate($tbcsn = '')
     global $xoopsDB;
 
     $_POST['description'] = Wcag::amend($_POST['description']);
-    $sql = 'UPDATE `' . $xoopsDB->prefix('tad_book3_cate') . '` SET
+    $sql                  = 'UPDATE `' . $xoopsDB->prefix('tad_book3_cate') . '` SET
     `of_tbsn` = ? ,
     `title` = ? ,
     `sort` = ? ,
     `description` = ?
     WHERE `tbcsn` = ?';
-    Utility::query($sql, 'isisi', [$_POST['of_tbsn'], $_POST['title'], $_POST['sort'], $_POST['description'], $tbcsn]) or Utility::web_error($sql, __FILE__, __LINE__);
+    Utility::query($sql, 'isisi', [(int) $_POST['of_tbsn'], $_POST['title'], (int) $_POST['sort'], $_POST['description'], $tbcsn]) or Utility::web_error($sql, __FILE__, __LINE__);
 
     return $tbcsn;
 }
@@ -160,23 +160,23 @@ function list_tad_book3_cate_tree($show_tbcsn = 0)
     global $xoopsTpl, $xoopsDB;
 
     $categoryHelper = new CategoryHelper('tad_book3_cate', 'tbcsn', 'of_tbsn', 'title');
-    $path = $categoryHelper->getCategoryPath($show_tbcsn);
+    $path           = $categoryHelper->getCategoryPath($show_tbcsn);
 
     $path_arr = array_keys($path);
-    $sql = 'SELECT `tbcsn`, `of_tbsn`, `title` FROM `' . $xoopsDB->prefix('tad_book3_cate') . '` ORDER BY `sort`';
-    $result = Utility::query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+    $sql      = 'SELECT `tbcsn`, `of_tbsn`, `title` FROM `' . $xoopsDB->prefix('tad_book3_cate') . '` ORDER BY `sort`';
+    $result   = Utility::query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
 
-    $count = tad_book3_cate_count();
+    $count  = tad_book3_cate_count();
     $data[] = "{ id:0, pId:0, name:'All', url:'index.php', target:'_self', open:true}";
     while (list($tbcsn, $of_tbsn, $title) = $xoopsDB->fetchRow($result)) {
-        $font_style = $show_tbcsn == $tbcsn ? ", font:{'background-color':'yellow', 'color':'black'}" : '';
-        $open = in_array($tbcsn, $path_arr) ? 'true' : 'false';
+        $font_style      = $show_tbcsn == $tbcsn ? ", font:{'background-color':'yellow', 'color':'black'}" : '';
+        $open            = in_array($tbcsn, $path_arr) ? 'true' : 'false';
         $display_counter = empty($count[$tbcsn]) ? '' : " ({$count[$tbcsn]})";
-        $data[] = "{ id:{$tbcsn}, pId:{$of_tbsn}, name:'{$title}{$display_counter}', url:'main.php?tbcsn={$tbcsn}', target:'_self', open:{$open} {$font_style}}";
+        $data[]          = "{ id:{$tbcsn}, pId:{$of_tbsn}, name:'{$title}{$display_counter}', url:'main.php?tbcsn={$tbcsn}', target:'_self', open:{$open} {$font_style}}";
     }
     $json = implode(',', $data);
 
-    $Ztree = new Ztree('link_tree', $json, '', 'save_sort.php', 'of_tbsn', 'tbcsn');
+    $Ztree      = new Ztree('link_tree', $json, '', 'save_sort.php', 'of_tbsn', 'tbcsn');
     $ztree_code = $Ztree->render();
     $xoopsTpl->assign('ztree_code', $ztree_code);
 }
@@ -195,27 +195,27 @@ function list_tad_book3($tbcsn = '')
     $xoopsTpl->assign('tbcsn', $tbcsn);
 
     $and_tbcsn = !empty($tbcsn) ? "and `tbcsn`='{$tbcsn}'" : '';
-    $sql = 'select * from  ' . $xoopsDB->prefix('tad_book3') . " where 1 $and_tbcsn order by `sort`";
+    $sql       = 'select * from  ' . $xoopsDB->prefix('tad_book3') . " where 1 $and_tbcsn order by `sort`";
     //getPageBar($原sql語法, 每頁顯示幾筆資料, 最多顯示幾個頁數選項);
     $PageBar = Utility::getPageBar($sql, 10, 10);
-    $bar = $PageBar['bar'];
-    $sql = $PageBar['sql'];
-    $total = $PageBar['total'];
-    $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
-    $i = 0;
-    $books = [];
+    $bar     = $PageBar['bar'];
+    $sql     = $PageBar['sql'];
+    $total   = $PageBar['total'];
+    $result  = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+    $i       = 0;
+    $books   = [];
     while (false !== ($data = $xoopsDB->fetchArray($result))) {
-        $books[$i] = $data;
+        $books[$i]         = $data;
         $books[$i]['cate'] = get_tad_book3_cate($data['tbcsn']);
-        $uid_name = [];
-        $author_arr = explode(',', $data['author']);
+        $uid_name          = [];
+        $author_arr        = explode(',', $data['author']);
         foreach ($author_arr as $uid) {
-            $uidname = \XoopsUser::getUnameFromId($uid, 1);
-            $uidname = (empty($uidname)) ? XoopsUser::getUnameFromId($uid, 0) : $uidname;
+            $uidname    = \XoopsUser::getUnameFromId($uid, 1);
+            $uidname    = (empty($uidname)) ? XoopsUser::getUnameFromId($uid, 0) : $uidname;
             $uid_name[] = $uidname;
         }
-        $books[$i]['author'] = implode(' , ', $uid_name);
-        $books[$i]['read_groups'] = Utility::txt_to_group_name($data['read_group'], _MD_TADBOOK3_ALL_OPEN);
+        $books[$i]['author']       = implode(' , ', $uid_name);
+        $books[$i]['read_groups']  = Utility::txt_to_group_name($data['read_group'], _MD_TADBOOK3_ALL_OPEN);
         $books[$i]['video_groups'] = Utility::txt_to_group_name($data['video_group'], _MD_TADBOOK3_ALL_OPEN);
         $i++;
     }
