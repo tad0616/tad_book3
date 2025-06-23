@@ -11,8 +11,8 @@ $xoopsOption['template_main'] = 'tadbook3_index.tpl';
 require_once XOOPS_ROOT_PATH . '/header.php';
 
 /*-----------執行動作判斷區----------*/
-$op = Request::getString('op');
-$tbsn = Request::getInt('tbsn');
+$op    = Request::getString('op');
+$tbsn  = Request::getInt('tbsn');
 $tbdsn = Request::getInt('tbdsn');
 
 switch ($op) {
@@ -35,8 +35,8 @@ switch ($op) {
 $xoopsTpl->assign('toolbar', Utility::toolbar_bootstrap($interface_menu, false, $interface_icon));
 $xoopsTpl->assign("tad_book3_adm", $tad_book3_adm);
 $xoopsTpl->assign("now_op", $op);
-$xoTheme->addStylesheet('modules/tad_book3/css/reset.css');
-$xoTheme->addStylesheet('modules/tad_book3/css/module.css');
+$xoTheme->addStylesheet('modules/tad_book3/css/reset.css?time=' . time());
+$xoTheme->addStylesheet('modules/tad_book3/css/module.css?time=' . time());
 require_once XOOPS_ROOT_PATH . '/footer.php';
 
 /*-----------function區--------------*/
@@ -65,7 +65,7 @@ function view_page($tbdsn = '')
     if (!Tools::chk_power($book['read_group'], $read_group)) {
         redirect_header('index.php', 3, _MD_TADBOOK3_CANT_READ);
     } else {
-        $now = time();
+        $now      = time();
         $start_ts = Tools::get_start_ts($tbdsn, 'read', $read_group);
         if ($start_ts && $start_ts > $now) {
             $start_time = date('Y-m-d H:i:s', $start_ts);
@@ -79,9 +79,9 @@ function view_page($tbdsn = '')
     }
 
     $doc_select = doc_select($tbsn, $tbdsn);
-    $near_docs = near_docs($tbsn, $tbdsn);
-    $prev = explode(';', $near_docs['prev']);
-    $next = explode(';', $near_docs['next']);
+    $near_docs  = near_docs($tbsn, $tbdsn);
+    $prev       = explode(';', $near_docs['prev']);
+    $next       = explode(';', $near_docs['next']);
 
     $p = (empty($prev[1])) ? '' : "<a href='page.php?tbsn={$tbsn}&tbdsn={$prev[0]}' style='text-decoration: none;'><img src='images/arrow_left.png' alt='prev' title='Prev' border='0' align='absmiddle' hspace=4>{$prev[1]}</a>";
     $n = (empty($next[1])) ? '' : "<a href='page.php?tbsn={$tbsn}&tbdsn={$next[0]}' style='text-decoration: none;'>{$next[1]}<img src='images/arrow_right.png' alt='next' title='next' border='0' align='absmiddle' hspace=4></a>";
@@ -141,9 +141,9 @@ function view_page($tbdsn = '')
             $VideoJs->set_var('vtt', $video_vtt);
         }
         $length['col_name'] = $tbsn;
-        $length['col_sn'] = $tbdsn;
-        $log['col_name'] = $now_uid;
-        $log['col_sn'] = $tbdsn;
+        $length['col_sn']   = $tbdsn;
+        $log['col_name']    = $now_uid;
+        $log['col_sn']      = $tbdsn;
 
         $start_from = get_video_start($tbdsn);
         $VideoJs->set_var('start', $start_from);
@@ -179,16 +179,16 @@ function view_log($tbsn = '')
     // 找出可閱讀群組及使用者
     if ($book['video_group']) {
         $video_group_arr = explode(',', $book['video_group']);
-        $member_handler = xoops_gethandler('member');
-        $group_handler = xoops_getHandler('group');
-        $group_users = $logs = [];
+        $member_handler  = xoops_gethandler('member');
+        $group_handler   = xoops_getHandler('group');
+        $group_users     = $logs     = [];
         foreach ($video_group_arr as $group_id) {
-            $group = $group_handler->get($group_id);
+            $group      = $group_handler->get($group_id);
             $group_name = $group->name();
-            $users_uid = $member_handler->getUsersByGroup($group_id);
+            $users_uid  = $member_handler->getUsersByGroup($group_id);
             foreach ($users_uid as $uid) {
                 $group_users[$group_name][$uid]['name'] = $member_handler->getUser($uid)->name();
-                $group_users[$group_name][$uid]['log'] = $logs[$group_name][$uid] = get_user_logs($tbsn, $uid);
+                $group_users[$group_name][$uid]['log']  = $logs[$group_name][$uid]  = get_user_logs($tbsn, $uid);
             }
 
         }
@@ -210,24 +210,24 @@ function view_log($tbsn = '')
     }
 
     // 找出所本書所有單元
-    $category_log = [];
+    $category_log                         = [];
     list($docs, $total_time, $total_view) = get_docs($tbsn);
 
     $xoopsTpl->assign('docs', $docs);
     $level = $count1 = $count2 = [];
     foreach ($docs as $doc) {
-        $tbdsn = $doc['tbdsn'];
-        $category = $doc['category'];
-        $page = $doc['page'];
-        $paragraph = $doc['paragraph'];
-        $sort = $doc['sort'];
+        $tbdsn                                      = $doc['tbdsn'];
+        $category                                   = $doc['category'];
+        $page                                       = $doc['page'];
+        $paragraph                                  = $doc['paragraph'];
+        $sort                                       = $doc['sort'];
         $level[$category][$page][$paragraph][$sort] = $doc;
 
         if (!Tools::chk_power($book['read_group'], $doc['read_group'])) {
             // redirect_header('index.php', 3, _MD_TADBOOK3_CANT_READ);
             continue;
         } else {
-            $now = time();
+            $now      = time();
             $start_ts = Tools::get_start_ts($tbdsn, 'read', $doc['read_group']);
             if ($start_ts && $start_ts > $now) {
                 $start_time = date('Y-m-d H:i:s', $start_ts);

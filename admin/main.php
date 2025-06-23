@@ -160,7 +160,7 @@ function list_tad_book3_cate_tree($show_tbcsn = 0)
     global $xoopsTpl, $xoopsDB;
 
     $categoryHelper = new CategoryHelper('tad_book3_cate', 'tbcsn', 'of_tbsn', 'title');
-    $path           = $categoryHelper->getCategoryPath($show_tbcsn);
+    $path           = $categoryHelper->getCategoryPath($show_tbcsn, 'tad_book3');
 
     $path_arr = array_keys($path);
     $sql      = 'SELECT `tbcsn`, `of_tbsn`, `title` FROM `' . $xoopsDB->prefix('tad_book3_cate') . '` ORDER BY `sort`';

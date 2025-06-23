@@ -15,7 +15,7 @@ function tad_book3_docs_form($tbdsn = '', $tbsn = '')
     require_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
 
     if ($xoopsUser) {
-        $module_id = $xoopsModule->mid();
+        $module_id     = $xoopsModule->mid();
         $tad_book3_adm = $xoopsUser->isAdmin($module_id);
     } else {
         $tad_book3_adm = false;
@@ -33,16 +33,16 @@ function tad_book3_docs_form($tbdsn = '', $tbsn = '')
     }
 
     if (!empty($tbdsn)) {
-        $DBV = get_tad_book3_docs($tbdsn);
+        $DBV  = get_tad_book3_docs($tbdsn);
         $tbsn = $DBV['tbsn'];
     } else {
-        $DBV = [];
-        $DBV['read_group'] = $book['read_group'];
+        $DBV                = [];
+        $DBV['read_group']  = $book['read_group'];
         $DBV['video_group'] = $book['video_group'];
     }
 
-    $DBV['enable'] = !isset($DBV['enable']) ? '1' : $DBV['enable'];
-    $DBV['read_group_arr'] = explode(',', $DBV['read_group']);
+    $DBV['enable']          = !isset($DBV['enable']) ? '1' : $DBV['enable'];
+    $DBV['read_group_arr']  = explode(',', $DBV['read_group']);
     $DBV['video_group_arr'] = explode(',', $DBV['video_group']);
     foreach ($DBV as $name => $value) {
         $xoopsTpl->assign($name, $value);
@@ -51,8 +51,8 @@ function tad_book3_docs_form($tbdsn = '', $tbsn = '')
 
     $ck = new CkEditor('tad_book3', 'content', $content);
     $ck->setHeight(400);
-    $ck->setContentCss(XOOPS_URL . '/modules/tad_book3/css/reset.css');
-    $ck->setContentCss(XOOPS_URL . '/modules/tad_book3/css/modules.css');
+    $ck->setContentCss(XOOPS_URL . '/modules/tad_book3/css/reset.css?time=' . time());
+    $ck->setContentCss(XOOPS_URL . '/modules/tad_book3/css/modules.css?time=' . time());
     $editor = $ck->render();
 
     $op = (empty($tbdsn)) ? 'insert_tad_book3_docs' : 'update_tad_book3_docs';
@@ -120,20 +120,20 @@ function insert_tad_book3_docs()
     $time = time();
     //$time=xoops_getUserTimestamp(time());
 
-    $title = (string) $_POST['title'];
-    $content = (string) $_POST['content'];
-    $content = Wcag::amend($content);
+    $title      = (string) $_POST['title'];
+    $content    = (string) $_POST['content'];
+    $content    = Wcag::amend($content);
     $from_tbdsn = (int) $_POST['from_tbdsn'];
 
-    $category = (int) $_POST['category'];
-    $page = (int) $_POST['page'];
+    $category  = (int) $_POST['category'];
+    $page      = (int) $_POST['page'];
     $paragraph = (int) $_POST['paragraph'];
-    $sort = (int) $_POST['sort'];
-    $tbsn = (int) $_POST['tbsn'];
+    $sort      = (int) $_POST['sort'];
+    $tbsn      = (int) $_POST['tbsn'];
 
     check_update_cpps_add($tbsn, $category, $page, $paragraph, $sort);
 
-    $read_group = (in_array('', $_POST['read_group'])) ? '' : implode(',', $_POST['read_group']);
+    $read_group  = (in_array('', $_POST['read_group'])) ? '' : implode(',', $_POST['read_group']);
     $video_group = (in_array('', $_POST['video_group'])) ? '' : implode(',', $_POST['video_group']);
 
     $uid = $xoopsUser->uid();
@@ -182,19 +182,19 @@ function update_tad_book3_docs($tbdsn = '')
     global $xoopsDB, $xoopsUser, $xoopsModuleConfig;
     $time = time();
 
-    $title = (string) $_POST['title'];
-    $content = (string) $_POST['content'];
-    $content = Wcag::amend($content);
+    $title      = (string) $_POST['title'];
+    $content    = (string) $_POST['content'];
+    $content    = Wcag::amend($content);
     $from_tbdsn = (int) $_POST['from_tbdsn'];
 
-    $category = (int) $_POST['category'];
-    $page = (int) $_POST['page'];
-    $paragraph = (int) $_POST['paragraph'];
-    $sort = (int) $_POST['sort'];
-    $tbsn = (int) $_POST['tbsn'];
+    $category           = (int) $_POST['category'];
+    $page               = (int) $_POST['page'];
+    $paragraph          = (int) $_POST['paragraph'];
+    $sort               = (int) $_POST['sort'];
+    $tbsn               = (int) $_POST['tbsn'];
     $update_child_power = (int) $_POST['update_child_power'];
     check_update_cpps_add($tbsn, $category, $page, $paragraph, $sort, $tbdsn);
-    $read_group = (in_array('', $_POST['read_group'])) ? '' : implode(',', $_POST['read_group']);
+    $read_group  = (in_array('', $_POST['read_group'])) ? '' : implode(',', $_POST['read_group']);
     $video_group = (in_array('', $_POST['video_group'])) ? '' : implode(',', $_POST['video_group']);
 
     $sql = 'UPDATE `' . $xoopsDB->prefix('tad_book3_docs') . '` SET `tbsn` = ?, `category` = ?, `page` = ?, `paragraph` = ?, `sort` = ?, `title` = ?, `content` = ?, `last_modify_date` = ?, `enable` = ?, `read_group` = ?, `video_group` = ?, `from_tbdsn` = ? WHERE `tbdsn` = ?';
@@ -211,7 +211,7 @@ function update_tad_book3_docs($tbdsn = '')
         update_child_date($tbsn, $category, $page, $paragraph, $_POST['read_group_date'], $_POST['video_group_date']);
     }
 
-    $uid = $xoopsUser->uid();
+    $uid           = $xoopsUser->uid();
     $TadUpFilesMp4 = new TadUpFiles("tad_book3", "/$tbsn/$uid");
     $TadUpFilesMp4->set_col('mp4', $tbdsn);
     $TadUpFilesMp4->upload_file('video', null, null, null, $title, true, true);
@@ -250,38 +250,38 @@ function check_update_cpps_add($tbsn = 0, $category = 0, $page = 0, $paragraph =
 {
     global $xoopsDB;
     $and_tbdsn = $tbdsn ? 'AND `tbdsn` != ?' : '';
-    $sql = 'SELECT `tbdsn` FROM `' . $xoopsDB->prefix('tad_book3_docs') . '` WHERE `tbsn` = ? AND `category` = ? AND `page` = ? AND `paragraph` = ? AND `sort` = ? ' . $and_tbdsn;
-    $params = $tbdsn ? [$tbsn, $category, $page, $paragraph, $sort, $tbdsn] : [$tbsn, $category, $page, $paragraph, $sort];
-    $types = $tbdsn ? 'iiiiii' : 'iiiii'; // 根據 tbdsn 是否存在決定類型字串和參數数量
-    $result = Utility::query($sql, $types, $params) or Utility::web_error($sql, __FILE__, __LINE__);
+    $sql       = 'SELECT `tbdsn` FROM `' . $xoopsDB->prefix('tad_book3_docs') . '` WHERE `tbsn` = ? AND `category` = ? AND `page` = ? AND `paragraph` = ? AND `sort` = ? ' . $and_tbdsn;
+    $params    = $tbdsn ? [$tbsn, $category, $page, $paragraph, $sort, $tbdsn] : [$tbsn, $category, $page, $paragraph, $sort];
+    $types     = $tbdsn ? 'iiiiii' : 'iiiii'; // 根據 tbdsn 是否存在決定類型字串和參數数量
+    $result    = Utility::query($sql, $types, $params) or Utility::web_error($sql, __FILE__, __LINE__);
 
     list($tbdsn) = $xoopsDB->fetchRow($result);
 
     if (!empty($tbdsn)) {
-        $updateField = '';
+        $updateField     = '';
         $whereConditions = ["`tbsn` = ?"];
-        $params = [$tbsn];
+        $params          = [$tbsn];
 
         if (!empty($category)) {
             if (!empty($page)) {
                 if (!empty($paragraph)) {
-                    $updateField = '`sort` = `sort` + 1';
+                    $updateField       = '`sort` = `sort` + 1';
                     $whereConditions[] = "`category` = ? AND `page` = ? AND `paragraph` = ? AND `sort` >= ?";
-                    $params = array_merge($params, [$category, $page, $paragraph, $sort]);
+                    $params            = array_merge($params, [$category, $page, $paragraph, $sort]);
                 } else {
-                    $updateField = '`paragraph` = `paragraph` + 1';
+                    $updateField       = '`paragraph` = `paragraph` + 1';
                     $whereConditions[] = "`category` = ? AND `page` = ? AND `paragraph` >= ?";
-                    $params = array_merge($params, [$category, $page, $paragraph]);
+                    $params            = array_merge($params, [$category, $page, $paragraph]);
                 }
             } else {
-                $updateField = '`category` = `category` + 1';
+                $updateField       = '`category` = `category` + 1';
                 $whereConditions[] = "`category` >= ?";
-                $params[] = $category;
+                $params[]          = $category;
             }
         } else {
-            $updateField = '`page` = `page` + 1';
+            $updateField       = '`page` = `page` + 1';
             $whereConditions[] = "`page` >= ?";
-            $params[] = $page;
+            $params[]          = $page;
         }
 
         if ($updateField) {
@@ -300,24 +300,24 @@ function update_child_date($tbsn, $category, $page, $paragraph, $read_group_date
 {
     global $xoopsDB;
     $conditions = ["`tbsn` = ?"];
-    $params = [$tbsn];
+    $params     = [$tbsn];
 
     if (!empty($category)) {
         $conditions[] = "`category` = ?";
-        $params[] = $category;
+        $params[]     = $category;
 
         if (!empty($page)) {
             $conditions[] = "`page` = ?";
-            $params[] = $page;
+            $params[]     = $page;
 
             if (!empty($paragraph)) {
                 $conditions[] = "`paragraph` = ?";
-                $params[] = $paragraph;
+                $params[]     = $paragraph;
             }
         }
     }
 
-    $sql = 'SELECT `tbdsn` FROM `' . $xoopsDB->prefix('tad_book3_docs') . '` WHERE ' . implode(' AND ', $conditions);
+    $sql    = 'SELECT `tbdsn` FROM `' . $xoopsDB->prefix('tad_book3_docs') . '` WHERE ' . implode(' AND ', $conditions);
     $result = Utility::query($sql, str_repeat('i', count($params)), $params) or Utility::web_error($sql, __FILE__, __LINE__);
 
     while (list($tbdsn) = $xoopsDB->fetchRow($result)) {
@@ -348,24 +348,24 @@ function update_child_power($tbsn, $category, $page, $paragraph, $read_group, $v
 {
     global $xoopsDB;
     $conditions = ["`tbsn` = ?"];
-    $params = [$tbsn];
+    $params     = [$tbsn];
 
     if (!empty($category)) {
         $conditions[] = "`category` = ?";
-        $params[] = $category;
+        $params[]     = $category;
 
         if (!empty($page)) {
             $conditions[] = "`page` = ?";
-            $params[] = $page;
+            $params[]     = $page;
 
             if (!empty($paragraph)) {
                 $conditions[] = "`paragraph` = ?";
-                $params[] = $paragraph;
+                $params[]     = $paragraph;
             }
         }
     }
 
-    $sql = 'SELECT `tbdsn` FROM `' . $xoopsDB->prefix('tad_book3_docs') . '` WHERE ' . implode(' AND ', $conditions);
+    $sql    = 'SELECT `tbdsn` FROM `' . $xoopsDB->prefix('tad_book3_docs') . '` WHERE ' . implode(' AND ', $conditions);
     $result = Utility::query($sql, str_repeat('i', count($params)), $params) or Utility::web_error($sql, __FILE__, __LINE__);
 
     while (list($tbdsn) = $xoopsDB->fetchRow($result)) {
@@ -381,7 +381,7 @@ function check_update_child($tbsn, $category, $page, $paragraph, $category_old, 
 
     if ($category == $category_old && $page == $page_old && $paragraph != $paragraph_old) {
         // 2-5-4 改為 2-5-5（要把 2-5-4-1 改為 2-5-5-1）
-        $sql = 'SELECT `tbdsn` FROM `' . $xoopsDB->prefix('tad_book3_docs') . '` WHERE `tbsn`=? AND `category`=? AND `page`=? AND `paragraph`=?';
+        $sql    = 'SELECT `tbdsn` FROM `' . $xoopsDB->prefix('tad_book3_docs') . '` WHERE `tbsn`=? AND `category`=? AND `page`=? AND `paragraph`=?';
         $result = Utility::query($sql, 'iiii', [$tbsn, $category, $page, $paragraph_old]) or Utility::web_error($sql, __FILE__, __LINE__);
 
         while (list($tbdsn) = $xoopsDB->fetchRow($result)) {
@@ -391,7 +391,7 @@ function check_update_child($tbsn, $category, $page, $paragraph, $category_old, 
         }
     } elseif ($category == $category_old && $page != $page_old && $paragraph == $paragraph_old) {
         // 2-5-4 改為 2-6-4（要把 2-5-4-1 改為 2-6-4-1）
-        $sql = 'SELECT `tbdsn` FROM `' . $xoopsDB->prefix('tad_book3_docs') . '` WHERE `tbsn`=? AND `category`=? AND `page`=?';
+        $sql    = 'SELECT `tbdsn` FROM `' . $xoopsDB->prefix('tad_book3_docs') . '` WHERE `tbsn`=? AND `category`=? AND `page`=?';
         $result = Utility::query($sql, 'iii', [$tbsn, $category, $page_old]) or Utility::web_error($sql, __FILE__, __LINE__);
 
         while (list($tbdsn) = $xoopsDB->fetchRow($result)) {
@@ -401,7 +401,7 @@ function check_update_child($tbsn, $category, $page, $paragraph, $category_old, 
         }
     } elseif ($category != $category_old && $page == $page_old && $paragraph == $paragraph_old) {
         // 2-5-4 改為 3-5-4（要把 2-5-4-1 改為 3-5-4-1）
-        $sql = 'SELECT `tbdsn` FROM `' . $xoopsDB->prefix('tad_book3_docs') . '` WHERE `tbsn`=? AND `category`=?';
+        $sql    = 'SELECT `tbdsn` FROM `' . $xoopsDB->prefix('tad_book3_docs') . '` WHERE `tbsn`=? AND `category`=?';
         $result = Utility::query($sql, 'ii', [$tbsn, $category_old]) or Utility::web_error($sql, __FILE__, __LINE__);
 
         while (list($tbdsn) = $xoopsDB->fetchRow($result)) {
@@ -411,7 +411,7 @@ function check_update_child($tbsn, $category, $page, $paragraph, $category_old, 
         }
     } elseif ($category != $category_old && $page != $page_old && $paragraph == $paragraph_old) {
         // 2-5-4 改為 3-6-4（要把 2-5-4-1 改為 3-5-4-1）
-        $sql = 'SELECT `tbdsn` FROM `' . $xoopsDB->prefix('tad_book3_docs') . '` WHERE `tbsn`=? AND `category`=? AND `page`=?';
+        $sql    = 'SELECT `tbdsn` FROM `' . $xoopsDB->prefix('tad_book3_docs') . '` WHERE `tbsn`=? AND `category`=? AND `page`=?';
         $result = Utility::query($sql, 'iii', [$tbsn, $category_old, $page_old]) or Utility::web_error($sql, __FILE__, __LINE__);
 
         while (list($tbdsn) = $xoopsDB->fetchRow($result)) {
